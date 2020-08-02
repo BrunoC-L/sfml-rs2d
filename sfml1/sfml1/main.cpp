@@ -13,9 +13,9 @@ int main() {
     Vector2f x(measures.startingScreenSize.x, measures.startingScreenSize.y);
     RenderWindow window(VideoMode(x.x, x.y), "RS2D");
     measures.setGetWindowSize([&]() { return VPixel(window.getSize().x, window.getSize().y); });
-    VTile playerPos(18 * 64 + 20, 13 * 64 + 37, 0); // lumbridge 
+    VTile playerPos(18 * 64 + 20, 13 * 64 + 37, 0); // lumbridge
     Minimap minimap(window, playerPos, measures);
-    Map map(window, playerPos, measures, 1);
+    Map map(window, playerPos, measures, 5);
     RightBanner rightBanner(window, measures);
     BottomBanner bottomBanner(window, measures);
 
@@ -40,8 +40,8 @@ int main() {
                 }
             else if (event.type == Event::MouseButtonPressed) {
                 playerPos += VTile(
-                    event.mouseButton.x >= measures.getWindowSize().x * 2 / 3 ? 1 : event.mouseButton.x <= measures.getWindowSize().x / 3 ? -1 : 0,
-                    event.mouseButton.y >= measures.getWindowSize().y * 2 / 3 ? 1 : event.mouseButton.y <= measures.getWindowSize().y / 3 ? -1 : 0,
+                    event.mouseButton.x >= measures.getWindowSize().x * 2 / 3 ? 10 : event.mouseButton.x <= measures.getWindowSize().x / 3 ? -10 : 0,
+                    event.mouseButton.y >= measures.getWindowSize().y * 2 / 3 ? 10 : event.mouseButton.y <= measures.getWindowSize().y / 3 ? -10 : 0,
                     0
                 );
                 print(playerPos);
