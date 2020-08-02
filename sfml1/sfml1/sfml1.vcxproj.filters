@@ -33,6 +33,12 @@
     <ClCompile Include="debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rightBanner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bottomBanner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="minimap.h">
@@ -69,6 +75,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="units.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rightBanner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bottomBanner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -6,7 +6,6 @@
 
 using namespace sf;
 using namespace std;
-using RS = RenderStates;
 
 class Measures {
 public:
@@ -23,16 +22,13 @@ public:
 	
 	VTile getInnerWindowSizeTile() const { VPixel size = getWindowSize(); VPixel banners(rightBannerWidth, bottomBannerHeight); size -= banners; return VTile(size.x, size.y) / 32; }
 	VTile getWindowSizeTile()      const { VPixel size = getWindowSize();  return VTile((int)size.x / 32, (int)size.y / 32); }
-	VPixel getPixelsPerTile()      const { return VPixel(pixelsPerTile, pixelsPerTile) / VPixel(stretch.x, stretch.y); }
+	VPixel getPixelsPerTile()      const { return VPixel(pixelsPerTile, pixelsPerTile) /*/ VPixel(stretch.x, stretch.y)*/; }
 	
 	Vector2f getTileSize()         const { return Vector2f(pixelsPerTile / zoom.x, pixelsPerTile / zoom.y); }
 	Vector2f getScale()            const { return Vector2f(zoom); }
-	RS getRightBannerRS()          const { auto rs = RS(); rs.transform.scale(Vector2f(1 / stretch.x, 1)); return rs; }
-	RS getBottomBannerRS()         const { auto rs = RS(); rs.transform.scale(Vector2f(1, 1 / stretch.y)); return rs; }
 
 	float getRightBannerStartingX()   const { return startingScreenSize.x - banners.x; }
 	float getBottomBannerStartingY()  const { return startingScreenSize.y - banners.y; }
-	Vector2f getBannerSizes()	   const { return Vector2f(banners.x / stretch.x, banners.y/ stretch.y);}
 
 	VTile  startingInnerScreenSizeTile;
 	VPixel startingInnerScreenSize;

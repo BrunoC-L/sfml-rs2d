@@ -145,14 +145,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bottomBanner.cpp" />
     <ClCompile Include="chunk.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="minimap.cpp" />
+    <ClCompile Include="rightBanner.cpp" />
     <ClCompile Include="tile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bottomBanner.h" />
     <ClInclude Include="callback.h" />
     <ClInclude Include="chunk.h" />
     <ClInclude Include="debug.h" />
@@ -162,6 +165,7 @@
     <ClInclude Include="measures.h" />
     <ClInclude Include="minimap.h" />
     <ClInclude Include="NPC.h" />
+    <ClInclude Include="rightBanner.h" />
     <ClInclude Include="tile.h" />
     <ClInclude Include="Tilemap.h" />
     <ClInclude Include="units.h" />

@@ -4,6 +4,8 @@
 #include "measures.h"
 #include "debug.h"
 #include "units.h"
+#include "rightBanner.h"
+#include "bottomBanner.h"
 #include <thread>
 
 int main() {
@@ -14,17 +16,13 @@ int main() {
     VTile playerPos(18 * 64 + 20, 13 * 64 + 37, 0); // lumbridge 
     Minimap minimap(window, playerPos, measures);
     Map map(window, playerPos, measures, 1);
-    std::thread t(&Map::doUpdates, &map);
+    RightBanner rightBanner(window, measures);
+    BottomBanner bottomBanner(window, measures);
 
-    RectangleShape right, bottom;
+    std::thread t(&Map::doUpdates, &map);
     
     window.setFramerateLimit(60);
     while (window.isOpen()) {
-        right.setPosition(measures.getWindowSize().x - measures.rightBannerWidth, 0);
-        right.setSize(Vector2f(measures.rightBannerWidth, measures.getWindowSize().y));
-
-        bottom.setPosition(0, measures.getWindowSize().y - measures.bottomBannerHeight);
-        bottom.setSize(Vector2f(measures.getWindowSize().x, measures.bottomBannerHeight));
 
         map.shouldUpdate = true;
         Event event;
@@ -55,12 +53,17 @@ int main() {
                 measures.zoom = Vector2f(measures.zoom.x * (1 + (event.mouseWheel.delta + 0.3) * 0.1f), measures.zoom.y * (1 + (event.mouseWheel.delta + 0.3) * 0.1f));
 
         measures.update();
+        rightBanner.update();
+        bottomBanner.update();
         minimap.update();
+
         window.clear();
+
         map.draw();
-        window.draw(right, measures.getRightBannerRS());
-        window.draw(bottom, measures.getBottomBannerRS());
+        bottomBanner.draw();
+        rightBanner.draw();
         minimap.draw();
+
         window.display();
     }
     map.shouldStop = true;
