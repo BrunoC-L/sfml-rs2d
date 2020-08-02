@@ -41,12 +41,10 @@ public:
         return true;
     }
 
-    void draw(sf::RenderWindow& w, const sf::Vector2f& offset, const sf::Vector2f scale, const float& angle, const Vector2f& middleOfInnerWindow) const {
+    void draw(sf::RenderWindow& w, const sf::Transform& t) const {
         sf::RenderStates states = sf::RenderStates();
         states.texture = &m_tileset;
-        states.transform.rotate(angle, middleOfInnerWindow);
-        states.transform.translate(offset);
-        states.transform.scale(scale);
+        states.transform = t;
         w.draw(m_vertices, states);
     }
 
