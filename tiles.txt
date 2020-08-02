@@ -1,0 +1,35 @@
+tiles[x][y] = Tile(textureID, blocked, ...)
+x;
+y;
+Texture(switch texture id);
+Open(switch 16 possibilities);
+Items([id:timeToRespawn:orientation:[option:pos:callback]*]*);
+NPCs([id:timeToRespawn:orientation:[option:pos:callback]*]*);
+Objects([id:orientation:[option:callback]*]*);
+Callbacks([trigger:functionID[/info]*:param[/param]*]*);
+0;0;3(grass);13(0b1101 -> canWalkTo = east, north, !west, south);13:1000:4,7:100:0(item id 13 respawns there facing west 1000 ticks after being picked up, item id 7,100,east);(no NPCS);(noObjects);damage/$0/$1:[closestNPC/$0:randomAlly]/rand5,teleport/rand2/$0/$1
+
+random() -> [0,1[
+randint(a,b) -> [a, b[
+
+tick 0:
+click to move #NOTE: you might also want a pass type of event if you step over a trap maybe it should activate!
+..
+tick 1:
+start of tick -> tiles[player.x][player.y].callback(LEAVE);
+move
+end of tick -> tiles[player.x][player.y].callback(ENTER);
+
+tick 2:
+stand still
+end of tick -> tiles[player.x][player.y].callback(STAY);
+
+class tile:
++callback(TYPE) { 
+	for f in callbacks:
+		if f.type == TYPE:
+			params = [p() if p.isFunction else p for p in f.params]
+			f.call(params);
+}
+
+objectParam(id, name, valueInt, valueStr)

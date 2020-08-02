@@ -1,0 +1,6 @@
+sfml1/*
+SFML-2.5.1-windows-vc15-32-bit/*
+assets/chunks/*
+assets/textures/*
+!*.cpp
+!*.h
