@@ -1,6 +1,6 @@
 from PIL import Image
 
-reference = open(f"C:/Users/Bruno/Desktop/python scripts/mapcolors.txt","r")
+reference = open(f"mapcolors.txt","r")
 color = ""
 index = 0
 reverseColor = [0] * 18 * 18 * 18
