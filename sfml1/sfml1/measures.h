@@ -10,7 +10,7 @@ using namespace std;
 class Measures {
 public:
 	Measures() {
-		startingInnerScreenSizeTile = VTile(36, 24);
+		startingInnerScreenSizeTile = VTile(35, 23);
 		auto inpx = startingInnerScreenSizeTile * pixelsPerTile;
 		startingInnerScreenSize = VPixel(inpx.x, inpx.y);
 		banners = VPixel(rightBannerWidth, bottomBannerHeight);
@@ -19,13 +19,11 @@ public:
 
 	void setGetWindowSize(std::function<VPixel()> f) { getWindowSize = f; };
 	void update() { stretch = Vector2f(getWindowSize().x / startingScreenSize.x, getWindowSize().y / startingScreenSize.y); }
-	
+
 	VTile getInnerWindowSizeTile() const { VPixel size = getWindowSize(); VPixel banners(rightBannerWidth, bottomBannerHeight); size -= banners; return VTile(size.x, size.y) / 32; }
-	VTile getWindowSizeTile()      const { VPixel size = getWindowSize();  return VTile((int)size.x / 32, (int)size.y / 32); }
-	VPixel getPixelsPerTile()      const { return VPixel(pixelsPerTile, pixelsPerTile) /*/ VPixel(stretch.x, stretch.y)*/; }
+	VPixel getInnerWindowSize() const { VPixel size = getWindowSize(); VPixel banners(rightBannerWidth, bottomBannerHeight); return size - banners; }
 	
-	Vector2f getTileSize()         const { return Vector2f(pixelsPerTile / zoom.x, pixelsPerTile / zoom.y); }
-	Vector2f getScale()            const { return Vector2f(zoom); }
+	Vector2f getTileSize()         const { return Vector2f(pixelsPerTile, pixelsPerTile); }
 
 	float getRightBannerStartingX()   const { return startingScreenSize.x - banners.x; }
 	float getBottomBannerStartingY()  const { return startingScreenSize.y - banners.y; }
@@ -38,7 +36,7 @@ public:
 	float rightBannerWidth = 230;
 	float bottomBannerHeight = 180;
 	float angle = 0;
-	Vector2f zoom = Vector2f(0.3, 0.3);
+	float zoom = 1;
 	Vector2f stretch = Vector2f(1, 1);
 	float TilesPerChunk = 64;
 	float pixelsPerTileOnMap = 4;

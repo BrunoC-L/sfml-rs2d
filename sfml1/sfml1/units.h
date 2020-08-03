@@ -16,10 +16,13 @@ public:
 	VPixel operator/(const VBase& scale)  const { return VPixel(x / scale.x, y / scale.y); }
 	VPixel operator+(const VPixel& other) const { return VPixel(x + other.x, y + other.y); }
 	VPixel operator-(const VPixel& other) const { return VPixel(x - other.x, y - other.y); }
-	bool  operator==(const VPixel& other) const { return x == other.x && y == other.y && z == other.z; }
+	bool   operator==(const VPixel& other) const { return x == other.x && y == other.y && z == other.z; }
 	VPixel operator+=(const VPixel& other) { x += other.x; y += other.y; z += other.z; return *this; }
 	VPixel operator-=(const VPixel& other) { x -= other.x; y -= other.y; z -= other.z; return *this; }
 	VPixel operator*=(const VPixel& other) { x *= other.x; y *= other.y; z *= other.z; return *this; }
+	VPixel operator/=(const VPixel& other) { x /= other.x; y /= other.y; z /= other.z; return *this; }
+	VPixel operator*=(const float& scale) { x *= scale; y *= scale; z *= scale; return *this; }
+	VPixel operator/=(const float& scale) { x /= scale; y /= scale; z /= scale; return *this; }
 };
 
 class VTile : public VBase {
@@ -33,10 +36,13 @@ public:
 	VTile operator/(const VBase& scale)  const { return VTile(x / scale.x, y / scale.y); }
 	VTile operator+(const VTile& other) const { return VTile(x + other.x, y + other.y); }
 	VTile operator-(const VTile& other) const { return VTile(x - other.x, y - other.y); }
-	bool operator==(const VTile& other) const { return x == other.x && y == other.y && z == other.z; }
+	bool  operator==(const VTile& other) const { return x == other.x && y == other.y && z == other.z; }
 	VTile operator+=(const VTile& other) { x += other.x; y += other.y; z += other.z; return *this; }
 	VTile operator-=(const VTile& other) { x -= other.x; y -= other.y; z -= other.z; return *this; }
 	VTile operator*=(const VTile& other) { x *= other.x; y *= other.y; z *= other.z; return *this; }
+	VTile operator/=(const VTile& other) { x /= other.x; y /= other.y; z /= other.z; return *this; }
+	VTile operator*=(const float& scale) { x *= scale; y *= scale; z *= scale; return *this; }
+	VTile operator/=(const float& scale) { x /= scale; y /= scale; z /= scale; return *this; }
 };
 
 class VChunk : public VBase {
@@ -50,8 +56,11 @@ public:
 	VChunk operator/(const VBase& scale)  const { return VChunk(x / scale.x, y / scale.y); }
 	VChunk operator+(const VChunk& other) const { return VChunk(x + other.x, y + other.y); }
 	VChunk operator-(const VChunk& other) const { return VChunk(x - other.x, y - other.y); }
-	bool  operator==(const VChunk& other) const { return x == other.x && y == other.y && z == other.z; }
+	bool   operator==(const VChunk& other) const { return x == other.x && y == other.y && z == other.z; }
 	VChunk operator+=(const VChunk& other) { x += other.x; y += other.y; z += other.z; return *this; }
 	VChunk operator-=(const VChunk& other) { x -= other.x; y -= other.y; z -= other.z; return *this; }
 	VChunk operator*=(const VChunk& other) { x *= other.x; y *= other.y; z *= other.z; return *this; }
+	VChunk operator/=(const VChunk& other) { x /= other.x; y /= other.y; z /= other.z; return *this; }
+	VChunk operator*=(const float& scale) { x *= scale; y *= scale; z *= scale; return *this; }
+	VChunk operator/=(const float& scale) { x /= scale; y /= scale; z /= scale; return *this; }
 };

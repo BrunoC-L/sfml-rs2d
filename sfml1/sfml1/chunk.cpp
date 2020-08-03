@@ -58,18 +58,18 @@ Chunk::~Chunk() {
 }
 
 void Chunk::draw(RenderWindow& w, const VTile& relativePos, const VChunk& chunkOffset) const {
-    const Vector2f scale = measures.zoom;
-    const Vector2f offset = Vector2f(32 * (64 * chunkOffset.x - relativePos.x) * scale.x, 32 * (64 * chunkOffset.y - relativePos.y) * scale.y);
-    const VTile scalingDiff = measures.getInnerWindowSizeTile() * VTile(1 - scale.x, 1 - scale.y);
+    const float scale = measures.zoom;
+    const Vector2f offset = Vector2f(32 * (64 * chunkOffset.x - relativePos.x) * scale, 32 * (64 * chunkOffset.y - relativePos.y) * scale);
+    const VTile scalingDiff = measures.getInnerWindowSizeTile() * VTile(1 - scale, 1 - scale);
     const VPixel scalingDiffPx = VPixel(32 * scalingDiff.x, 32 * scalingDiff.y) / 2;
     const Vector2f finalOffset(offset.x + scalingDiffPx.x, offset.y + scalingDiffPx.y);
 
     Transform transform;
-    const Vector2f middleOfInnerWindow(measures.getInnerWindowSizeTile().x * measures.getPixelsPerTile().x / 2, measures.getInnerWindowSizeTile().y * measures.getPixelsPerTile().y / 2);
+    const Vector2f middleOfInnerWindow(measures.getInnerWindowSizeTile().x * measures.pixelsPerTile / 2, measures.getInnerWindowSizeTile().y * measures.pixelsPerTile / 2);
     transform.scale(Vector2f(1 / measures.stretch.x, 1 / measures.stretch.y));
     transform.rotate(measures.angle, middleOfInnerWindow);
     transform.translate(finalOffset);
-    transform.scale(scale);
+    transform.scale(scale, scale);
 
     tilemap.draw(w, transform);
 }
