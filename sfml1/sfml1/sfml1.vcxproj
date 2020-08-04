@@ -157,7 +157,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bottomBanner.h" />
-    <ClInclude Include="callback.h" />
     <ClInclude Include="chunk.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="groundItem.h" />
@@ -166,6 +165,7 @@
     <ClInclude Include="measures.h" />
     <ClInclude Include="minimap.h" />
     <ClInclude Include="NPC.h" />
+    <ClInclude Include="pathfinder.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="rightBanner.h" />
     <ClInclude Include="tile.h" />

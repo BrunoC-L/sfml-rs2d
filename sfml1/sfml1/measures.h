@@ -38,7 +38,7 @@ public:
 	float angle = 0;
 	float zoom = 1;
 	Vector2f stretch = Vector2f(1, 1);
-	float TilesPerChunk = 64;
+	static constexpr float TilesPerChunk = 64;
 	float pixelsPerTileOnMap = 4;
 	float minimapRadius = 100;
 	float pixelsPerTile = 32;

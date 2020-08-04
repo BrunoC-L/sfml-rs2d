@@ -17,6 +17,7 @@ public:
 	VPixel operator+(const VPixel& other) const { return VPixel(x + other.x, y + other.y); }
 	VPixel operator-(const VPixel& other) const { return VPixel(x - other.x, y - other.y); }
 	bool   operator==(const VPixel& other) const { return x == other.x && y == other.y && z == other.z; }
+	bool   operator!=(const VPixel& other) const { return x != other.x || y != other.y || z != other.z; }
 	VPixel operator+=(const VPixel& other) { x += other.x; y += other.y; z += other.z; return *this; }
 	VPixel operator-=(const VPixel& other) { x -= other.x; y -= other.y; z -= other.z; return *this; }
 	VPixel operator*=(const VPixel& other) { x *= other.x; y *= other.y; z *= other.z; return *this; }
@@ -30,13 +31,14 @@ public:
 	VTile() = default;
 	VTile(const float& x, const float& y) { this->x = x; this->y = y; }
 	VTile(const float& x, const float& y, const float& z) { this->x = x; this->y = y; this->z = z; }
-	VTile operator*(const float& scale) const { return VTile(scale * x, scale * y); }
-	VTile operator/(const float& scale)  const { return VTile(x / scale, y / scale); }
-	VTile operator*(const VBase& scale) const { return VTile(scale.x * x, scale.y * y); }
-	VTile operator/(const VBase& scale)  const { return VTile(x / scale.x, y / scale.y); }
-	VTile operator+(const VTile& other) const { return VTile(x + other.x, y + other.y); }
-	VTile operator-(const VTile& other) const { return VTile(x - other.x, y - other.y); }
+	VTile operator* (const float& scale) const { return VTile(scale * x, scale * y); }
+	VTile operator/ (const float& scale)  const { return VTile(x / scale, y / scale); }
+	VTile operator* (const VBase& scale) const { return VTile(scale.x * x, scale.y * y); }
+	VTile operator/ (const VBase& scale)  const { return VTile(x / scale.x, y / scale.y); }
+	VTile operator+ (const VTile& other) const { return VTile(x + other.x, y + other.y); }
+	VTile operator- (const VTile& other) const { return VTile(x - other.x, y - other.y); }
 	bool  operator==(const VTile& other) const { return x == other.x && y == other.y && z == other.z; }
+	bool  operator!=(const VTile& other) const { return x != other.x || y != other.y || z != other.z; }
 	VTile operator+=(const VTile& other) { x += other.x; y += other.y; z += other.z; return *this; }
 	VTile operator-=(const VTile& other) { x -= other.x; y -= other.y; z -= other.z; return *this; }
 	VTile operator*=(const VTile& other) { x *= other.x; y *= other.y; z *= other.z; return *this; }
@@ -57,10 +59,20 @@ public:
 	VChunk operator+(const VChunk& other) const { return VChunk(x + other.x, y + other.y); }
 	VChunk operator-(const VChunk& other) const { return VChunk(x - other.x, y - other.y); }
 	bool   operator==(const VChunk& other) const { return x == other.x && y == other.y && z == other.z; }
+	bool   operator!=(const VChunk& other) const { return x != other.x || y != other.y || z != other.z; }
 	VChunk operator+=(const VChunk& other) { x += other.x; y += other.y; z += other.z; return *this; }
 	VChunk operator-=(const VChunk& other) { x -= other.x; y -= other.y; z -= other.z; return *this; }
 	VChunk operator*=(const VChunk& other) { x *= other.x; y *= other.y; z *= other.z; return *this; }
 	VChunk operator/=(const VChunk& other) { x /= other.x; y /= other.y; z /= other.z; return *this; }
 	VChunk operator*=(const float& scale) { x *= scale; y *= scale; z *= scale; return *this; }
 	VChunk operator/=(const float& scale) { x /= scale; y /= scale; z /= scale; return *this; }
+};
+
+// custom hash can be a standalone function object:
+struct VTileHash
+{
+	std::size_t operator()(VTile const& t) const noexcept
+	{
+		return t.z + 10 * t.y + 16000 * t.x;
+	}
 };

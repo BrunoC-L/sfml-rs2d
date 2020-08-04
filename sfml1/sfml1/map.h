@@ -19,7 +19,6 @@ public:
     }
     bool shouldUpdate = false;
     bool shouldStop = false;
-private:
     const unsigned chunkRadius;
     Measures& measures;
     RenderWindow& w;

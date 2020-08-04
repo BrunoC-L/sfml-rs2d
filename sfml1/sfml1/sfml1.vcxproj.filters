@@ -59,9 +59,6 @@
     <ClInclude Include="NPC.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="callback.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="groundItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -87,6 +84,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pathfinder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

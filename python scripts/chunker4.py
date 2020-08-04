@@ -26,5 +26,5 @@ for cx in range(29):
         for x in range(64):
             for y in range(64):
                 colorIndex = classify(*pix[x + 64 * cx, y + 64 * cy])
-                f.write(f"{x};{y};{colorIndex};15;;;;;\n")
+                f.write(f"{x};{y};{colorIndex};0;;;;;\n")
         f.close()

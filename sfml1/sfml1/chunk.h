@@ -10,12 +10,12 @@ public:
 	void draw(RenderWindow& w, const VTile& pos, const VChunk& chunkOffset) const;
 	~Chunk();
 	vector<string> split(const string& s, const char c) const;
+	vector<vector<Tile*>> tiles;
 private:
 	Measures& measures;
 	string getTilesetFileName() const;
 	string getTexturesetFileName() const;
 	VChunk chunkpos;
-	vector<vector<Tile*>> tiles;
 	TileMap tilemap;
-	int level[64 * 64];
+	int level[int(Measures::TilesPerChunk * Measures::TilesPerChunk)];
 };

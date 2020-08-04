@@ -3,7 +3,7 @@
 #include "Tilemap.h"
 
 Chunk::Chunk(const VChunk& pos, Measures& measures) : measures(measures), chunkpos(pos) {
-    tiles = vector<vector<Tile*>>();//(64, vector<Tile*>(64, nullptr));
+    tiles = vector<vector<Tile*>>(Measures::TilesPerChunk, vector<Tile*>(Measures::TilesPerChunk, nullptr));
     string fileName = getTilesetFileName();
     ifstream file(fileName);
     string line;
@@ -17,12 +17,13 @@ Chunk::Chunk(const VChunk& pos, Measures& measures) : measures(measures), chunkp
         const int y = stoi(parameters[1]);
         const int textureIndex = stoi(parameters[2]);
         const int borders = stoi(parameters[3]);
-        level[x + 64 * y] = textureIndex;
-        // Tile* t = new Tile(borders, {}, {}, {}, {});
-        // tiles[x][y] = t;
+
+        level[int(x + Measures::TilesPerChunk * y)] = textureIndex;
+        delete tiles[x][y];
+        tiles[x][y] = new Tile(Measures::TilesPerChunk * chunkpos.x + x, Measures::TilesPerChunk * chunkpos.y + y, borders, {}, {}, {}, {});;
     }
     fileName = getTexturesetFileName();
-    tilemap.load(fileName, sf::Vector2u(32, 32), level, 64, 64);
+    tilemap.load(fileName, sf::Vector2u(32, 32), level, Measures::TilesPerChunk, Measures::TilesPerChunk);
     file.close();
 }
 
@@ -59,7 +60,7 @@ Chunk::~Chunk() {
 
 void Chunk::draw(RenderWindow& w, const VTile& relativePos, const VChunk& chunkOffset) const {
     const float scale = measures.zoom;
-    const Vector2f offset = Vector2f(32 * (64 * chunkOffset.x - relativePos.x) * scale, 32 * (64 * chunkOffset.y - relativePos.y) * scale);
+    const Vector2f offset = Vector2f(32 * (Measures::TilesPerChunk * chunkOffset.x - relativePos.x) * scale, 32 * (Measures::TilesPerChunk * chunkOffset.y - relativePos.y) * scale);
     const VTile scalingDiff = measures.getInnerWindowSizeTile() * VTile(1 - scale, 1 - scale);
     const VPixel scalingDiffPx = VPixel(32 * scalingDiff.x, 32 * scalingDiff.y) / 2;
     const Vector2f finalOffset(offset.x + scalingDiffPx.x, offset.y + scalingDiffPx.y);

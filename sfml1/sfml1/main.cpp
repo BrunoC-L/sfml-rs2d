@@ -10,13 +10,14 @@
 #include "rightBanner.h"
 #include "bottomBanner.h"
 #include "player.h"
+#include "pathfinder.h"
 
 int main() {
     Measures measures;
     Vector2f startingScreenSize(measures.startingScreenSize.x, measures.startingScreenSize.y);
     RenderWindow window(VideoMode(startingScreenSize.x, startingScreenSize.y), "RS2D");
     measures.setGetWindowSize([&]() { return VPixel(window.getSize().x, window.getSize().y); });
-    Player player(window, measures, VTile(18 * 64 + 20, 13 * 64 + 37, 0)); // lumbridge
+    Player player(window, measures, VTile(18 * Measures::TilesPerChunk + 20, 13 * Measures::TilesPerChunk + 37, 0)); // lumbridge
     VTile& playerPos = player.position;
     Minimap minimap(window, playerPos, measures);
     Map map(window, playerPos, measures, 1);
@@ -24,9 +25,29 @@ int main() {
     BottomBanner bottomBanner(window, measures);
 
     std::thread t(&Map::doUpdates, &map);
+
+    vector<VTile> path = {};
+
+    auto canMoveToLambda = [&](VTile a, VTile b) {
+        VChunk ca = VChunk(int(a.x / Measures::TilesPerChunk), int(a.y / Measures::TilesPerChunk));
+        VChunk cb = VChunk(int(b.x / Measures::TilesPerChunk), int(b.y / Measures::TilesPerChunk));
+        VChunk da = ca - map.centerChunk + VChunk(map.loaded.size() / 2, map.loaded.size() / 2);
+        VChunk db = cb - map.centerChunk + VChunk(map.loaded.size() / 2, map.loaded.size() / 2);
+        Chunk* tileAChunk = map.loaded[da.x][da.y];
+        Chunk* tileBChunk = map.loaded[db.x][db.y];
+        Tile* ta = tileAChunk->tiles[int(a.x) % int(Measures::TilesPerChunk)][int(a.y) % int(Measures::TilesPerChunk)];
+        Tile* tb = tileAChunk->tiles[int(b.x) % int(Measures::TilesPerChunk)][int(b.y) % int(Measures::TilesPerChunk)];
+        return ta->canMoveFrom(*tb);
+    };
     
     window.setFramerateLimit(60);
+    unsigned tick = 0;
     while (window.isOpen()) {
+        ++tick;
+        if (!(tick % 60) && path.size()) {
+            playerPos = path[0];
+            path.erase(path.begin());
+        }
         map.shouldUpdate = true;
         Event event;
         while (window.pollEvent(event))
@@ -46,13 +67,15 @@ int main() {
                 VPixel middle(measures.getInnerWindowSize() / 2);
                 VPixel delta = click - middle;
                 const float radius = pow(pow(delta.x, 2) + pow(delta.y, 2), 0.5f);
-                const float angle = (delta.x == 0 ? (delta.y > 0 ? 90 : -90) : (delta .x > 0 ? 0 : 3.1415926536f) + atan(delta.y / delta.x)) - measures.angle / 180 * 3.1415926536f;
+                const float angle = (delta.x == 0 ? (delta.y > 0 ? 90 : -90) : (delta.x > 0 ? 0 : 3.1415926536f) + atan(delta.y / delta.x)) - measures.angle / 180 * 3.1415926536f;
                 VPixel rotatedDelta = VPixel(cos(angle), sin(angle)) * radius;
                 VTile signs(rotatedDelta.x > 0 ? 1 : -1, rotatedDelta.y > 0 ? 1 : -1);
                 rotatedDelta *= VPixel(signs.x, signs.y);
                 rotatedDelta /= measures.zoom;
                 VTile deltaTilesFloat = VTile(rotatedDelta.x, rotatedDelta.y) / measures.pixelsPerTile + VTile(0.5, 0.5);
-                playerPos += VTile(int(deltaTilesFloat.x * signs.x), int(deltaTilesFloat.y * signs.y));
+                VTile tileClicked = playerPos + VTile(int(deltaTilesFloat.x * signs.x), int(deltaTilesFloat.y * signs.y));
+                // if click is in loaded chunk ...
+                path = Pathfinder::pathfind(playerPos, tileClicked, canMoveToLambda);
             }
             else if (event.type == Event::Resized)
                 measures.update();
