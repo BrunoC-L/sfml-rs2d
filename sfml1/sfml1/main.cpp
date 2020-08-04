@@ -1,5 +1,6 @@
 #include <iostream>
 #include <thread>
+#include <math.h>
 
 #include "minimap.h"
 #include "map.h"
@@ -44,10 +45,13 @@ int main() {
                 VPixel click(event.mouseButton.x, event.mouseButton.y);
                 VPixel middle(measures.getInnerWindowSize() / 2);
                 VPixel delta = click - middle;
-                VTile signs(delta.x > 0 ? 1 : -1, delta.y > 0 ? 1 : -1);
-                delta *= VPixel(signs.x, signs.y);
-                delta /= measures.zoom;
-                VTile deltaTilesFloat = VTile(delta.x, delta.y) / measures.pixelsPerTile + VTile(0.5, 0.5);
+                const float radius = pow(pow(delta.x, 2) + pow(delta.y, 2), 0.5f);
+                const float angle = (delta.x == 0 ? (delta.y > 0 ? 90 : -90) : (delta .x > 0 ? 0 : 3.1415926536f) + atan(delta.y / delta.x)) - measures.angle / 180 * 3.1415926536f;
+                VPixel rotatedDelta = VPixel(cos(angle), sin(angle)) * radius;
+                VTile signs(rotatedDelta.x > 0 ? 1 : -1, rotatedDelta.y > 0 ? 1 : -1);
+                rotatedDelta *= VPixel(signs.x, signs.y);
+                rotatedDelta /= measures.zoom;
+                VTile deltaTilesFloat = VTile(rotatedDelta.x, rotatedDelta.y) / measures.pixelsPerTile + VTile(0.5, 0.5);
                 playerPos += VTile(int(deltaTilesFloat.x * signs.x), int(deltaTilesFloat.y * signs.y));
             }
             else if (event.type == Event::Resized)

@@ -70,6 +70,5 @@ void Chunk::draw(RenderWindow& w, const VTile& relativePos, const VChunk& chunkO
     transform.rotate(measures.angle, middleOfInnerWindow);
     transform.translate(finalOffset);
     transform.scale(scale, scale);
-
     tilemap.draw(w, transform);
 }
