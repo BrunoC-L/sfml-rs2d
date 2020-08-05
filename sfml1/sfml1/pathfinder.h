@@ -13,12 +13,8 @@ public:
 		if (path.size() == 0)
 			return path;
 		reverse(begin(path), end(path));
-		vector<VTile> skipping = {};
-		for (int i = 2; i < path.size(); i += 2)
-			skipping.push_back(path[i]);
-		if (!(path.size() % 2))
-			skipping.push_back(path[path.size() - 1]);
-		return skipping;
+		path.erase(path.begin());
+		return path;
 	}
 private:
 	static vector<VTile> _pathfind(VTile a, VTile b, function<bool(VTile, VTile)> canMoveFromTo) {
@@ -28,16 +24,16 @@ private:
 		vector<VTile> queue = {a};
 		VTile current;
 		seen.insert(current);
-		while (queue.size() != index) {
+		while (queue.size() > index) {
 			current = queue[index++];
 			if (current == b)
 				break;
 			seen.insert(current);
 			auto nexts = {
 				current + VTile( 0,  1),
-				current + VTile( 1,  0),
-				current + VTile( 0, -1),
 				current + VTile(-1,  0),
+				current + VTile( 0, -1),
+				current + VTile( 1,  0),
 				current + VTile( 1,  1),
 				current + VTile(-1,  1),
 				current + VTile( 1, -1),
