@@ -46,7 +46,7 @@ int main() {
     unsigned tick = 0;
     while (window.isOpen()) {
         ++tick;
-        if (!(tick % 60) && path.size()) {
+        if (!(tick % 36) && path.size()) {
             playerPos = path[0];
             path.erase(path.begin());
         }
