@@ -1,6 +1,7 @@
 SFML-2.5.1-windows-vc15-32-bit/*
 assets/chunks/*
 assets/textures/*
+assets/walls/*
 sfml1/Debug/*
 sfml1/sfml1/Debug/*
 ## Ignore Visual Studio temporary files, build results, and
