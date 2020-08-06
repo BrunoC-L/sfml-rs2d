@@ -7,48 +7,117 @@ NORTH = 4
 WEST  = 2
 SOUTH = 1
 
-def hasDiagonalWall(x, y):
-    XYDiag = True
-    negXYDiag = True
-    for i in range(4):
-        if not XYDiag and not negXYDiag:
-            return False
-        if XYDiag:
-            r,g,b = pix[4 * x + i, 4 * y - i]
-            XYDiag = r > 100 and g > 100 and b > 100
-        if negXYDiag:
-            r,g,b = pix[4 * x + i, 4 * y + i]
-            negXYDiag = r > 100 and g > 100 and b > 100
-    return XYDiag or negXYDiag
+diagonals = [
+    [
+        (0, 0),
+        (1, 1),
+        (2, 2),
+        (3, 3),
+    ],
+    [
+        (0, 1),
+        (1, 2),
+        (2, 3),
+    ],
+    [
+        (1, 0),
+        (2, 1),
+        (3, 2),
+    ],
+    [
+        (0, 3),
+        (1, 2),
+        (2, 1),
+        (3, 0),
+    ],
+    [
+        (0, 2),
+        (1, 1),
+        (3, 0),
+    ],
+    [
+        (1, 3),
+        (2, 2),
+        (3, 1),
+    ],
+]
 
-def horizontalWalls(x, y):
-    walls = [True] * 4
-    for i in range(4):
-        if not walls.__contains__(True):
-            return False
-        for w in range(4):
-            if walls[w]:
-                r,g,b = pix[4 * x + i, 4 * y + w]
-                walls[w] = r > 100 and g > 100 and b > 100
-    return (1 if (walls[0] or walls[1]) else 0) + (4 if (walls[2] or walls[3]) else 0)
+northWalls = [
+    [
+        (0, 0),
+        (1, 0),
+        (2, 0),
+        (3, 0),
+    ],
+    [
+        (0, 1),
+        (1, 1),
+        (2, 1),
+        (3, 1),
+    ],
+]
 
-def verticalWalls(x, y):
-    walls = [True] * 4
-    for i in range(4):
-        if not walls.__contains__(True):
-            return False
-        for w in range(4):
-            if walls[w]:
-                r,g,b = pix[4 * x + w, 4 * y + i]
-                walls[w] = r > 100 and g > 100 and b > 100
-    return (8 if (walls[0] or walls[1]) else 0) + (2 if (walls[2] or walls[3]) else 0)
+southWalls = [
+    [
+        (0, 2),
+        (1, 2),
+        (2, 2),
+        (3, 2),
+    ],
+    [
+        (0, 3),
+        (1, 3),
+        (2, 3),
+        (3, 3),
+    ],
+]
+
+westWalls = [
+    [
+        (0, 0),
+        (0, 1),
+        (0, 2),
+        (0, 3),
+    ],
+    [
+        (1, 0),
+        (1, 1),
+        (1, 2),
+        (1, 3),
+    ],
+]
+
+eastWalls = [
+    [
+        (2, 0),
+        (2, 1),
+        (2, 2),
+        (2, 3),
+    ],
+    [
+        (3, 0),
+        (3, 1),
+        (3, 2),
+        (3, 3),
+    ],
+]
+
+def hasWall(tile, setOfWalls):
+    for possibleWall in setOfWalls:
+        if [tile[4 * x + y] for x, y in possibleWall].count(True) >= 3:
+            return True
+    return False
 
 def classify(x, y):
-    if hasDiagonalWall(x, y):
+    tile = [False not in [c > 100 for c in pix[4 * x + i, 4 * y + j]] for i in range(4) for j in range(4)]
+    if hasWall(tile, diagonals):
         return 15
-    h = horizontalWalls(x, y)
-    v = verticalWalls(x, y)
-    return h + v
+    walls = 0
+    if hasWall(tile,  eastWalls): walls |=  EAST
+    if hasWall(tile,  westWalls): walls |=  WEST
+    if hasWall(tile, southWalls): walls |= SOUTH
+    if hasWall(tile, northWalls): walls |= NORTH
+    return walls
 
 for cx in [18]:#range(29):
     for cy in [13]:#range(25):
@@ -62,9 +131,9 @@ for cx in [18]:#range(29):
         for x in range(64):
             for y in range(64):
                 w = walls[64 * x + y]
-                if x >  0 and walls[64 * (x-1) + y] &  EAST: w |=  WEST
-                if y >  0 and walls[64 * x + (y-1)] & SOUTH: w |= NORTH
-                if x < 63 and walls[64 * (x+1) + y] &  WEST: w |=  EAST
-                if y < 63 and walls[64 * x + (y+1)] & NORTH: w |= SOUTH
+                if x >  0 and walls[64 * (x - 1) + y] &  EAST: w |=  WEST
+                if y >  0 and walls[64 * x + (y - 1)] & SOUTH: w |= NORTH
+                if x < 63 and walls[64 * (x + 1) + y] &  WEST: w |=  EAST
+                if y < 63 and walls[64 * x + (y + 1)] & NORTH: w |= SOUTH
                 f.write(f"{w}\n")
         f.close()

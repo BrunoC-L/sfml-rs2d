@@ -78,6 +78,7 @@ int main() {
                 VTile tileClicked = playerPos + VTile(int(deltaTilesFloat.x * signs.x), int(deltaTilesFloat.y * signs.y));
                 // if click is in loaded chunk ...
                 path = Pathfinder::pathfind(playerPos, tileClicked, canMoveToLambda);
+                print(tileClicked - VTile(18 * 64, 13 * 64));
             }
             else if (event.type == Event::Resized)
                 measures.update();
