@@ -39,7 +39,7 @@ public:
 	float zoom = 1;
 	Vector2f stretch = Vector2f(1, 1);
 	static constexpr float TilesPerChunk = 64;
-	float pixelsPerTileOnMap = 4;
-	float minimapRadius = 100;
-	float pixelsPerTile = 32;
+	static constexpr float pixelsPerTileOnMap = 4;
+	static constexpr float minimapRadius = 100;
+	static constexpr float pixelsPerTile = 32;
 };

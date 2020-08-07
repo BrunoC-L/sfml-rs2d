@@ -11,8 +11,10 @@
 #include "bottomBanner.h"
 #include "player.h"
 #include "pathfinder.h"
+#include "Textures.h"
 
 int main() {
+    Textures textures;
     Measures measures;
     Vector2f startingScreenSize(measures.startingScreenSize.x, measures.startingScreenSize.y);
     RenderWindow window(VideoMode(startingScreenSize.x, startingScreenSize.y), "RS2D");
@@ -20,14 +22,11 @@ int main() {
     Player player(window, measures, VTile(18 * Measures::TilesPerChunk + 20, 13 * Measures::TilesPerChunk + 37, 0)); // lumbridge
     VTile& playerPos = player.position;
     Minimap minimap(window, playerPos, measures);
-    Map map(window, playerPos, measures, 1);
+    Map map(window, playerPos, measures, textures, 1);
     RightBanner rightBanner(window, measures);
     BottomBanner bottomBanner(window, measures);
-
     std::thread t(&Map::doUpdates, &map);
-
     vector<VTile> path = {};
-
     auto canMoveToLambda = [&](VTile a, VTile b) {
         VChunk ca = VChunk(int(a.x / Measures::TilesPerChunk), int(a.y / Measures::TilesPerChunk));
         VChunk cb = VChunk(int(b.x / Measures::TilesPerChunk), int(b.y / Measures::TilesPerChunk));
@@ -77,8 +76,10 @@ int main() {
                 VTile deltaTilesFloat = VTile(rotatedDelta.x, rotatedDelta.y) / measures.pixelsPerTile + VTile(0.5, 0.5);
                 VTile tileClicked = playerPos + VTile(int(deltaTilesFloat.x * signs.x), int(deltaTilesFloat.y * signs.y));
                 // if click is in loaded chunk ...
-                path = Pathfinder::pathfind(playerPos, tileClicked, canMoveToLambda);
-                print(tileClicked - VTile(18 * 64, 13 * 64));
+                if (!event.mouseButton.button)
+                    path = Pathfinder::pathfind(playerPos, tileClicked, canMoveToLambda);
+                else
+                    path = { tileClicked };
             }
             else if (event.type == Event::Resized)
                 measures.update();
@@ -96,10 +97,11 @@ int main() {
         window.clear();
 
         map.draw();
+        player.draw();
+
         bottomBanner.draw();
         rightBanner.draw();
         minimap.draw();
-        player.draw();
 
         window.display();
     }

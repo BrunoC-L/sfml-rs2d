@@ -1,7 +1,11 @@
 #include "tile.h"
 
-Tile::Tile(int x, int y, int borders, const vector<GroundItem> groundItems, const vector<GroundObject> groundObjects, const vector<NPC> NPCs, const function<void(void)> callback)
-	: position(x, y), borders(borders), groundItems(groundItems), groundObjects(groundObjects), NPCs(NPCs), callback(callback) {
+Tile::Tile(int x, int y, int borders, vector<GroundItem> groundItems, vector<GroundObject> groundObjects, vector<NPC> NPCs, function<void(void)> callback)
+	: position(x, y), borders(borders), groundItems(groundItems), NPCs(NPCs), callback(callback) {
+	if (groundObjects.size()) {
+		canDraw = true;
+		this->groundObjects = groundObjects;
+	}
 }
 
 bool Tile::canMoveFrom(Tile from) {
@@ -25,4 +29,9 @@ bool Tile::canMoveFrom(Tile from) {
 		default:
 			return false;
 	}
+}
+
+void Tile::draw(RenderWindow& w, Transform transform) const {
+	for (auto e : groundObjects)
+		e.draw(w, transform);
 }

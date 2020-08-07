@@ -7,7 +7,7 @@ NORTH = 4
 WEST  = 2
 SOUTH = 1
 
-diagonals = [
+diagonalsxy = [
     [
         (0, 0),
         (1, 1),
@@ -24,6 +24,9 @@ diagonals = [
         (2, 1),
         (3, 2),
     ],
+]
+
+diagonalsnegxy = [
     [
         (0, 3),
         (1, 2),
@@ -109,9 +112,11 @@ def hasWall(tile, setOfWalls):
     return False
 
 def classify(x, y):
-    tile = [False not in [c > 100 for c in pix[4 * x + i, 4 * y + j]] for i in range(4) for j in range(4)]
-    if hasWall(tile, diagonals):
-        return 15
+    tile = [False not in [c > 150 for c in pix[4 * x + i, 4 * y + j]] for i in range(4) for j in range(4)]
+    if hasWall(tile, diagonalsnegxy):
+        return 16
+    elif hasWall(tile, diagonalsxy):
+        return 17
     walls = 0
     if hasWall(tile,  eastWalls): walls |=  EAST
     if hasWall(tile,  westWalls): walls |=  WEST
@@ -119,8 +124,8 @@ def classify(x, y):
     if hasWall(tile, northWalls): walls |= NORTH
     return walls
 
-for cx in [18]:#range(29):
-    for cy in [13]:#range(25):
+for cx in range(29):
+    for cy in range(25):
         print(25 * cx + cy + 1, ' out of ', 25 * 29)
         walls = [0] * 64 * 64
         for x in range(64):

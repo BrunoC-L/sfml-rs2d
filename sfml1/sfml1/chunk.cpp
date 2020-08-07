@@ -2,7 +2,7 @@
 #include <fstream>
 #include "Tilemap.h"
 
-Chunk::Chunk(const VChunk& pos, Measures& measures) : measures(measures), chunkpos(pos) {
+Chunk::Chunk(const VChunk& pos, Measures& measures, Textures& textures) : measures(measures), chunkpos(pos) {
     tiles = vector<vector<Tile*>>(Measures::TilesPerChunk, vector<Tile*>(Measures::TilesPerChunk, nullptr));
     string fileName = getTilesetFileName();
     ifstream file(fileName);
@@ -18,11 +18,14 @@ Chunk::Chunk(const VChunk& pos, Measures& measures) : measures(measures), chunkp
         const int textureIndex = stoi(parameters[2]);
         const int borders = stoi(parameters[3]);
         level[int(x + Measures::TilesPerChunk * y)] = textureIndex;
+        walls[int(x + Measures::TilesPerChunk * y)] = borders;
         delete tiles[x][y];
-        tiles[x][y] = new Tile(Measures::TilesPerChunk * chunkpos.x + x, Measures::TilesPerChunk * chunkpos.y + y, borders, {}, {}, {}, {});
+        tiles[x][y] = new Tile(Measures::TilesPerChunk * chunkpos.x + x, Measures::TilesPerChunk * chunkpos.y + y, borders < 15 ? borders : 15, {}, {}, {}, {});
     }
     fileName = getTexturesetFileName();
     tilemap.load(fileName, sf::Vector2u(32, 32), level, Measures::TilesPerChunk, Measures::TilesPerChunk);
+    fileName = getWallsTexturesetFileName();
+    wallmap.load(fileName, sf::Vector2u(32, 32), walls, Measures::TilesPerChunk, Measures::TilesPerChunk);
     file.close();
 }
 
@@ -34,6 +37,10 @@ string Chunk::getTilesetFileName() const {
 string Chunk::getTexturesetFileName() const {
     return "../../assets/textures/" +
         to_string((int)chunkpos.x) + "-" + to_string((int)chunkpos.y) + "-" + to_string((int)chunkpos.z) + ".png";
+}
+
+string Chunk::getWallsTexturesetFileName() const {
+    return "../../assets/wallstextures.png";
 }
 
 vector<string> Chunk::split(const string& s, const char c) const {
@@ -58,10 +65,17 @@ Chunk::~Chunk() {
 }
 
 void Chunk::draw(RenderWindow& w, const VTile& relativePos, const VChunk& chunkOffset) const {
+    Transform transform = getTransform(relativePos, chunkOffset);
+    tilemap.draw(w, transform);
+    wallmap.draw(w, transform);
+}
+
+Transform Chunk::getTransform(const VTile& relativePos, const VChunk& chunkOffset) const {
     const float scale = measures.zoom;
-    const Vector2f offset = Vector2f(32 * (Measures::TilesPerChunk * chunkOffset.x - relativePos.x) * scale, 32 * (Measures::TilesPerChunk * chunkOffset.y - relativePos.y) * scale);
+    VTile offsetTiles = VTile(chunkOffset.x * Measures::TilesPerChunk, chunkOffset.y * Measures::TilesPerChunk) - relativePos;
+    const Vector2f offset = Vector2f(Measures::pixelsPerTile * offsetTiles.x * scale, Measures::pixelsPerTile * offsetTiles.y * scale);
     const VTile scalingDiff = measures.getInnerWindowSizeTile() * VTile(1 - scale, 1 - scale);
-    const VPixel scalingDiffPx = VPixel(32 * scalingDiff.x, 32 * scalingDiff.y) / 2;
+    const VPixel scalingDiffPx = VPixel(Measures::pixelsPerTile * scalingDiff.x, Measures::pixelsPerTile * scalingDiff.y) / 2;
     const Vector2f finalOffset(offset.x + scalingDiffPx.x, offset.y + scalingDiffPx.y);
 
     Transform transform;
@@ -70,5 +84,5 @@ void Chunk::draw(RenderWindow& w, const VTile& relativePos, const VChunk& chunkO
     transform.rotate(measures.angle, middleOfInnerWindow);
     transform.translate(finalOffset);
     transform.scale(scale, scale);
-    tilemap.draw(w, transform);
+    return transform;
 }

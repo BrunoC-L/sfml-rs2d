@@ -1,9 +1,9 @@
 from PIL import Image
 
-image = Image.open('../assets/mapnoraidsdiv4.jpg')
+image = Image.open('../assets/mapnoraidsdiv4v2.jpg')
 pix = image.load()
-for cx in [18]:#range(29):
-    for cy in [13]:#range(25):
+for cx in range(29):
+    for cy in range(25):
         print(25 * cx + cy + 1, ' out of ', 25 * 29)
         colorFile = open(f"mapcolors/{cx}-{cy}-0.txt","r")
         color = ""

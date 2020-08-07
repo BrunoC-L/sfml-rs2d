@@ -1,20 +1,28 @@
 #include "map.h"
 #include <iostream>
 
-Map::Map(RenderWindow& w, VTile& pos, Measures& measures, const unsigned chunkRadius) : w(w), pos(pos), centerChunk(VChunk(int(pos.x / Measures::TilesPerChunk), int(pos.y / Measures::TilesPerChunk), int(pos.z))), measures(measures), chunkRadius(chunkRadius) {
+Map::Map(RenderWindow& w, VTile& pos, Measures& measures, Textures& textures, const unsigned chunkRadius) : 
+	w(w),
+	pos(pos),
+	centerChunk(VChunk(int(pos.x / Measures::TilesPerChunk),
+	int(pos.y / Measures::TilesPerChunk), int(pos.z))),
+	measures(measures), textures(textures),
+	chunkRadius(chunkRadius) {
 	loaded = vector<vector<Chunk*>>(2 * chunkRadius + 1, vector<Chunk*>(2 * chunkRadius + 1, nullptr));
 	for (int i = 0; i < 2 * chunkRadius + 1; ++i)
 		for (int j = 0; j < 2 * chunkRadius + 1; ++j) {
 			VChunk chunkPos = centerChunk + VChunk(i, j) - VChunk(chunkRadius, chunkRadius);
-			loaded[i][j] = new Chunk(chunkPos, measures);
+			loaded[i][j] = new Chunk(chunkPos, measures, textures);
 		}
 }
 
-void Map::draw() const {
+void Map::draw() {
 	VTile relativePos(pos.x - centerChunk.x * Measures::TilesPerChunk - measures.getInnerWindowSizeTile().x / 2, pos.y - centerChunk.y * Measures::TilesPerChunk - measures.getInnerWindowSizeTile().y / 2);
+	mutex.lock();
 	for (int i = 0; i < 2 * chunkRadius + 1; ++i)
 		for (int j = 0; j < 2 * chunkRadius + 1; ++j)
 			loaded[i][j]->draw(w, relativePos + VTile(0.5, 0.5), VChunk(i, j) - VChunk(chunkRadius, chunkRadius));
+	mutex.unlock();
 }
 
 void Map::update() {
@@ -40,11 +48,13 @@ void Map::updateChunks(const VChunk& difference, const VChunk& tempCenter) {
 				reused[i + difference.x][j + difference.y] = true;
 			}
 			else
-				newChunks[i][j] = new Chunk(chunkPos, measures);
+				newChunks[i][j] = new Chunk(chunkPos, measures, textures);
 		}
+	mutex.lock();
 	for (int i = 0; i < 2 * chunkRadius + 1; ++i)
 		for (int j = 0; j < 2 * chunkRadius + 1; ++j)
 			if (!reused[i][j])
 				delete loaded[i][j];
 	loaded = newChunks;
+	mutex.unlock();
 }

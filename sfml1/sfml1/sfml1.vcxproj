@@ -168,6 +168,7 @@
     <ClInclude Include="pathfinder.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="rightBanner.h" />
+    <ClInclude Include="Textures.h" />
     <ClInclude Include="tile.h" />
     <ClInclude Include="Tilemap.h" />
     <ClInclude Include="units.h" />

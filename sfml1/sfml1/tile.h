@@ -16,10 +16,12 @@ public:
 	Tile(int x, int y, int borders, const vector<GroundItem> groundItems, const vector<GroundObject> groundObjects, const vector<NPC> NPCs, const function<void(void)> callback);
 	bool canMoveFrom(Tile from);
 	const int borders;
-private:
+	void draw(RenderWindow& w, Transform transform) const;
 	const VTile position;
-	const vector<GroundItem>& groundItems;
-	const vector<GroundObject>& groundObjects;
-	const vector<NPC>& NPCs;
-	const function<void(void)>& callback;
+	bool canDraw = false;
+private:
+	vector<GroundItem> groundItems = {};
+	vector<GroundObject> groundObjects = {};
+	vector<NPC> NPCs = {};
+	function<void(void)> callback = {};
 };

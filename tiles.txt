@@ -9,6 +9,8 @@ Objects([id:orientation:[option:callback]*]*);
 Callbacks([trigger:functionID[/info]*:param[/param]*]*);
 0;0;3(grass);13(0b1101 -> walls = east, north, !west, south);13:1000:4,7:100:0(item id 13 respawns there facing west 1000 ticks after being picked up, item id 7,100,east);(no NPCS);(noObjects);damage/$0/$1:[closestNPC/$0:randomAlly]/rand5,teleport/rand2/$0/$1
 
+0 to 15 indicates walls on sides of tile, 16 = x=3-y diagonal (tile is 4x4), 17 = x=y diagonal
+
 random() -> [0,1[
 randint(a,b) -> [a, b[
 
