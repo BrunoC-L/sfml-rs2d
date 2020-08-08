@@ -20,12 +20,12 @@ Chunk::Chunk(const VChunk& pos, Measures& measures, Textures& textures) : measur
         level[int(x + Measures::TilesPerChunk * y)] = textureIndex;
         walls[int(x + Measures::TilesPerChunk * y)] = borders & 0b11111;
         delete tiles[x][y];
-        tiles[x][y] = new Tile(Measures::TilesPerChunk * chunkpos.x + x, Measures::TilesPerChunk * chunkpos.y + y, (borders & 0b11111) | (borders >> 5), {}, {}, {}, {});
+        tiles[x][y] = new Tile(Measures::TilesPerChunk * chunkpos.x + x, Measures::TilesPerChunk * chunkpos.y + y, ((borders == 16 || borders == 17 ? 15 : borders) & 0b11111) | (borders >> 5), {}, {}, {}, {});
     }
     fileName = getTexturesetFileName();
-    tilemap.load(fileName, sf::Vector2u(32, 32), level, Measures::TilesPerChunk, Measures::TilesPerChunk);
+    tilemap.load(fileName, sf::Vector2u(Measures::pixelsPerTile, Measures::pixelsPerTile), level, Measures::TilesPerChunk, Measures::TilesPerChunk);
     fileName = getWallsTexturesetFileName();
-    wallmap.load(fileName, sf::Vector2u(32, 32), walls, Measures::TilesPerChunk, Measures::TilesPerChunk);
+    wallmap.load(fileName, sf::Vector2u(Measures::pixelsPerTile, Measures::pixelsPerTile), walls, Measures::TilesPerChunk, Measures::TilesPerChunk);
     file.close();
 }
 
@@ -79,7 +79,7 @@ Transform Chunk::getTransform(const VTile& relativePos, const VChunk& chunkOffse
     const Vector2f finalOffset(offset.x + scalingDiffPx.x, offset.y + scalingDiffPx.y);
 
     Transform transform;
-    const Vector2f middleOfInnerWindow(measures.getInnerWindowSizeTile().x * measures.pixelsPerTile / 2, measures.getInnerWindowSizeTile().y * measures.pixelsPerTile / 2);
+    const Vector2f middleOfInnerWindow(measures.getInnerWindowSizeTile().x * Measures::pixelsPerTile / 2, measures.getInnerWindowSizeTile().y * Measures::pixelsPerTile / 2);
     transform.scale(Vector2f(1 / measures.stretch.x, 1 / measures.stretch.y));
     transform.rotate(measures.angle, middleOfInnerWindow);
     transform.translate(finalOffset);
