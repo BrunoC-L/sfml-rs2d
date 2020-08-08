@@ -58,39 +58,31 @@ def classify(x, y):
     if hasWall(tile, northWalls): walls |= NORTH
     return walls
 
-def wall():
-    for cx in range(29):
-        print(cx + 1, ' out of ', 29)
-        for cy in range(25):
-            #print(25 * cx + cy + 1, ' out of ', 25 * 29)
-            walls = [0] * 64 * 64
-            for x in range(64):
-                for y in range(64):
-                    walls[64* x + y] = classify(x + 64 * cx, y + 64 * cy)
-
-            f = open(f"../assets/walls/{cx}-{cy}-0.txt","w+")
-            for x in range(64):
-                for y in range(64):
-                    w = walls[64 * x + y]
-                    if w < 15:
-                        if x >  0:
-                            otherw = walls[64 * (x - 1) + y]
-                            if otherw &  EAST or otherw >= 15:
-                                w |=  WEST << 5
-                        if y >  0:
-                            otherw = walls[64 * x + (y - 1)]
-                            if otherw & SOUTH or otherw >= 15:
-                                w |= NORTH << 5
-                        if x < 63:
-                            otherw = walls[64 * (x + 1) + y]
-                            if otherw &  WEST or otherw >= 15:
-                                w |=  EAST << 5
-                        if y < 63:
-                            otherw = walls[64 * x + (y + 1)]
-                            if otherw & NORTH or otherw >= 15:
-                                w |= SOUTH << 5
-                    f.write(f"{w}\n")
-            f.close()
-
-if __name__ == '__main__':
-    wall()
+def wall(cx, cy):
+    walls = [0] * 64 * 64
+    for x in range(64):
+        for y in range(64):
+            walls[64* x + y] = classify(x + 64 * cx, y + 64 * cy)
+    f = open(f"../assets/walls/{cx}-{cy}-0.txt","w+")
+    for x in range(64):
+        for y in range(64):
+            w = walls[64 * x + y]
+            if w < 15:
+                if x >  0:
+                    otherw = walls[64 * (x - 1) + y]
+                    if otherw &  EAST or otherw >= 15:
+                        w |=  WEST << 5
+                if y >  0:
+                    otherw = walls[64 * x + (y - 1)]
+                    if otherw & SOUTH or otherw >= 15:
+                        w |= NORTH << 5
+                if x < 63:
+                    otherw = walls[64 * (x + 1) + y]
+                    if otherw &  WEST or otherw >= 15:
+                        w |=  EAST << 5
+                if y < 63:
+                    otherw = walls[64 * x + (y + 1)]
+                    if otherw & NORTH or otherw >= 15:
+                        w |= SOUTH << 5
+            f.write(f"{w}\n")
+    f.close()
