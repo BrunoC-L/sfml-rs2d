@@ -16,23 +16,19 @@ for cx in range(29):
             reverseColor[int(color[:-1])] = index
             index += 1
         colorFile.close()
-        
-        wallsFile = open(f"../assets/walls/{cx}-{cy}-0.txt","r")
-        walls = [0] * 64 * 64
-        for x in range(64):
-            for y in range(64):
-                walls[64 * x + y] = wallsFile.readline()[:-1]
-        wallsFile.close()
 
         def classify(r, g, b, a = 0):
             color = 26 * 26 * ((r + 5) // 10) + 26 * ((g + 5) // 10) + (b + 5) // 10
             index = reverseColor[color]
             return index
-
+        
+        wallsFile = open(f"../assets/walls/{cx}-{cy}-0.txt","r")
         f = open(f"../assets/chunks/{cx}-{cy}-0.txt","w+")
+        
         for x in range(64):
             for y in range(64):
                 colorIndex = classify(*pix[x + 64 * cx, y + 64 * cy])
-                wall = walls[64 * x + y]
+                wall = wallsFile.readline()[:-1]
                 f.write(f"{x};{y};{colorIndex};{wall};;;;;\n")
         f.close()
+        wallsFile.close()

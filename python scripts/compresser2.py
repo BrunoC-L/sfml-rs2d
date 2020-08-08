@@ -1,6 +1,6 @@
 from PIL import Image
 
-image = Image.open('../assets/mapnoraidsdiv4.jpg')
+image = Image.open('../assets/mapnoraidsdiv4v2.jpg')
 pix = image.load()
 
 n = 10

@@ -10,8 +10,8 @@ public:
 		if (a == b)
 			return {};
 		auto path = _pathfind(a, b, canMoveFromTo);
-		if (path.size() == 0)
-			return path;
+		if (!path.size())
+			return {};
 		reverse(begin(path), end(path));
 		path.erase(path.begin());
 		return path;

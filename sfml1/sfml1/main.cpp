@@ -20,9 +20,9 @@ int main() {
     RenderWindow window(VideoMode(startingScreenSize.x, startingScreenSize.y), "RS2D");
     measures.setGetWindowSize([&]() { return VPixel(window.getSize().x, window.getSize().y); });
     Player player(window, measures, VTile(18 * Measures::TilesPerChunk + 20, 13 * Measures::TilesPerChunk + 37, 0)); // lumbridge
-    VTile& playerPos = player.position;
-    Minimap minimap(window, playerPos, measures);
-    Map map(window, playerPos, measures, textures, 1);
+    VTile  cameraPos = player.position;
+    Minimap minimap(window, cameraPos, measures);
+    Map map(window, cameraPos, measures, textures, 1);
     RightBanner rightBanner(window, measures);
     BottomBanner bottomBanner(window, measures);
     std::thread t(&Map::doUpdates, &map);
@@ -40,14 +40,26 @@ int main() {
         Tile* tb = tileBChunk->tiles[int(b.x - cb.x * Measures::TilesPerChunk)][int(b.y - cb.y * Measures::TilesPerChunk)];
         return ta->canMoveFrom(*tb);
     };
-    
+    VTile a(1169, 868), b(1168, 867);
+    VChunk ca = VChunk(int(a.x / Measures::TilesPerChunk), int(a.y / Measures::TilesPerChunk));
+    VChunk cb = VChunk(int(b.x / Measures::TilesPerChunk), int(b.y / Measures::TilesPerChunk));
+    VChunk da = ca - map.centerChunk + VChunk(map.loaded.size() / 2, map.loaded.size() / 2);
+    VChunk db = cb - map.centerChunk + VChunk(map.loaded.size() / 2, map.loaded.size() / 2);
+    if (da.x < 0 || db.x < 0 || da.x >= map.loaded.size() || db.x >= map.loaded.size() || da.y < 0 || db.y < 0 || da.y >= map.loaded.size() || db.y >= map.loaded.size())
+        return false;
+    Chunk* tileAChunk = map.loaded[da.x][da.y];
+    Chunk* tileBChunk = map.loaded[db.x][db.y];
+    Tile* ta = tileAChunk->tiles[int(a.x - ca.x * Measures::TilesPerChunk)][int(a.y - ca.y * Measures::TilesPerChunk)];
+    Tile* tb = tileBChunk->tiles[int(b.x - cb.x * Measures::TilesPerChunk)][int(b.y - cb.y * Measures::TilesPerChunk)];
+    bool c1 = ta->canMoveFrom(*tb), c2 = tb->canMoveFrom(*ta);
     window.setFramerateLimit(60);
     unsigned tick = 0;
+    unsigned tickmod = 0;
     while (window.isOpen()) {
         ++tick;
-        if (!(tick % 36) && path.size()) {
-            playerPos = path[0];
-            path.erase(path.begin());
+        tickmod = tick % 36;
+        if (!(tick % 36)) {
+            player.onGameTick(path);
         }
         map.shouldUpdate = true;
         Event event;
@@ -73,11 +85,14 @@ int main() {
                 VTile signs(rotatedDelta.x > 0 ? 1 : -1, rotatedDelta.y > 0 ? 1 : -1);
                 rotatedDelta *= VPixel(signs.x, signs.y);
                 rotatedDelta /= measures.zoom;
-                VTile deltaTilesFloat = VTile(rotatedDelta.x, rotatedDelta.y) / measures.pixelsPerTile + VTile(0.5, 0.5);
-                VTile tileClicked = playerPos + VTile(int(deltaTilesFloat.x * signs.x), int(deltaTilesFloat.y * signs.y));
+                VTile deltaTilesFloat = VTile(rotatedDelta.x, rotatedDelta.y) / measures.pixelsPerTile;
+                VTile tileClicked = cameraPos + VTile(deltaTilesFloat.x * signs.x, deltaTilesFloat.y * signs.y) + VTile(0.5, 0.5);
                 // if click is in loaded chunk ...
+                tileClicked = VTile(int(tileClicked.x), int(tileClicked.y));
+                print(tileClicked);
+                print(player.position);
                 if (!event.mouseButton.button)
-                    path = Pathfinder::pathfind(playerPos, tileClicked, canMoveToLambda);
+                    path = Pathfinder::pathfind(player.positionNextTick, tileClicked, canMoveToLambda);
                 else
                     path = { tileClicked };
             }
@@ -92,12 +107,13 @@ int main() {
         rightBanner.update();
         bottomBanner.update();
         minimap.update();
-        player.update();
+        player.update(tickmod);
+        cameraPos = player.position;
 
         window.clear();
 
         map.draw();
-        player.draw();
+        player.draw(cameraPos);
 
         bottomBanner.draw();
         rightBanner.draw();

@@ -18,9 +18,9 @@ Chunk::Chunk(const VChunk& pos, Measures& measures, Textures& textures) : measur
         const int textureIndex = stoi(parameters[2]);
         const int borders = stoi(parameters[3]);
         level[int(x + Measures::TilesPerChunk * y)] = textureIndex;
-        walls[int(x + Measures::TilesPerChunk * y)] = borders;
+        walls[int(x + Measures::TilesPerChunk * y)] = borders & 0b11111;
         delete tiles[x][y];
-        tiles[x][y] = new Tile(Measures::TilesPerChunk * chunkpos.x + x, Measures::TilesPerChunk * chunkpos.y + y, borders < 15 ? borders : 15, {}, {}, {}, {});
+        tiles[x][y] = new Tile(Measures::TilesPerChunk * chunkpos.x + x, Measures::TilesPerChunk * chunkpos.y + y, (borders & 0b11111) | (borders >> 5), {}, {}, {}, {});
     }
     fileName = getTexturesetFileName();
     tilemap.load(fileName, sf::Vector2u(32, 32), level, Measures::TilesPerChunk, Measures::TilesPerChunk);

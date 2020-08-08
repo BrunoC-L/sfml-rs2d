@@ -135,10 +135,26 @@ for cx in range(29):
         f = open(f"../assets/walls/{cx}-{cy}-0.txt","w+")
         for x in range(64):
             for y in range(64):
+                if 64 * 18 + x == 1168 and 64 * 13 + y == 867:
+                    efioergnj = 2
                 w = walls[64 * x + y]
-                if x >  0 and walls[64 * (x - 1) + y] &  EAST: w |=  WEST
-                if y >  0 and walls[64 * x + (y - 1)] & SOUTH: w |= NORTH
-                if x < 63 and walls[64 * (x + 1) + y] &  WEST: w |=  EAST
-                if y < 63 and walls[64 * x + (y + 1)] & NORTH: w |= SOUTH
+                if w < 15:
+                    otherw = 0
+                    if x >  0:
+                        otherw = walls[64 * (x - 1) + y]
+                        if otherw &  EAST or otherw >= 15:
+                            w |=  WEST << 5
+                    if y >  0:
+                        otherw = walls[64 * x + (y - 1)]
+                        if otherw & SOUTH or otherw >= 15:
+                            w |= NORTH << 5
+                    if x < 63:
+                        otherw = walls[64 * (x + 1) + y]
+                        if otherw &  WEST or otherw >= 15:
+                            w |=  EAST << 5
+                    if y < 63:
+                        otherw = walls[64 * x + (y + 1)]
+                        if otherw & NORTH or otherw >= 15:
+                            w |= SOUTH << 5
                 f.write(f"{w}\n")
         f.close()
