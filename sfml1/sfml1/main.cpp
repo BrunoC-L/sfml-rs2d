@@ -12,10 +12,12 @@
 #include "player.h"
 #include "pathfinder.h"
 #include "Textures.h"
+#include "taskManager.h"
 
 int main() {
     Textures textures;
     Measures measures;
+    TaskManager& taskManager = TaskManager::getInstance();
     Vector2f startingScreenSize(measures.startingScreenSize.x, measures.startingScreenSize.y);
     RenderWindow window(VideoMode(startingScreenSize.x, startingScreenSize.y), "RS2D");
     measures.setGetWindowSize([&]() { return VPixel(window.getSize().x, window.getSize().y); });
@@ -45,14 +47,18 @@ int main() {
     unsigned tick = 0;
     unsigned tickmod = 0;
     unsigned gameTick = 0;
+    bool isGameTick = false;
     while (window.isOpen()) {
         ++tick;
         gameTick = tick / 36;
         tickmod = tick % 36;
-        if (!(tick % 36)) {
+        isGameTick = !tickmod;
+        if (isGameTick) {
+            taskManager.executeAndRemove();
             player.onGameTick(path);
         }
         map.shouldUpdate = true;
+
         Event event;
         while (window.pollEvent(event))
             if (event.type == Event::Closed)
@@ -78,12 +84,23 @@ int main() {
                 rotatedDelta /= measures.zoom;
                 VTile deltaTilesFloat = VTile(rotatedDelta.x, rotatedDelta.y) / Measures::pixelsPerTile;
                 VTile tileClicked = cameraPos + VTile(deltaTilesFloat.x * signs.x, deltaTilesFloat.y * signs.y) + VTile(0.5, 0.5);
-                // if click is in loaded chunk ...
-                tileClicked = VTile(int(tileClicked.x), int(tileClicked.y));
-                if (!event.mouseButton.button)
-                    path = Pathfinder::pathfind(player.positionNextTick, tileClicked, canMoveToLambda);
-                else
-                    path = { tileClicked };
+
+                VChunk vc = VChunk(int(tileClicked.x / Measures::TilesPerChunk), int(tileClicked.y / Measures::TilesPerChunk));
+                VChunk deltaChunks = vc - map.centerChunk + VChunk(map.loaded.size() / 2, map.loaded.size() / 2);
+                Tile* t;
+                if (deltaChunks.x >= 0 && deltaChunks.x < map.loaded.size() && deltaChunks.y >= 0 && deltaChunks.y < map.loaded.size()) {
+                    Chunk* chunk = map.loaded[deltaChunks.x][deltaChunks.y];
+                    t = chunk->tiles[int(tileClicked.x - vc.x * Measures::TilesPerChunk)][int(tileClicked.y - vc.y * Measures::TilesPerChunk)];
+                    player.currentAction = t->click(event);
+                }
+
+                if (!player.currentAction.first) {
+                    tileClicked = VTile(int(tileClicked.x), int(tileClicked.y));
+                    if (!event.mouseButton.button)
+                        path = Pathfinder::pathfind(player.positionNextTick, tileClicked, canMoveToLambda);
+                    else
+                        path = { tileClicked };
+                }
             }
             else if (event.type == Event::Resized)
                 measures.update();

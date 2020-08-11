@@ -23,12 +23,14 @@ def chunker(cx, cy):
         return index
     
     wallsFile = open(f"../assets/walls/{cx}-{cy}-0.txt","r")
-    f = open(f"../assets/chunks/{cx}-{cy}-0.txt","w+")
+    objectsFile = open(f"../assets/objects/{cx}-{cy}-0.txt","r")
+    outFile = open(f"../assets/chunks/{cx}-{cy}-0.txt","w+")
     
     for x in range(64):
         for y in range(64):
             colorIndex = classify(*pix[x + 64 * cx, y + 64 * cy])
             wall = wallsFile.readline()[:-1]
-            f.write(f"{x};{y};{colorIndex};{wall};;;;;\n")
-    f.close()
+            objects = objectsFile.readline()[:-1]
+            outFile.write(f"{x};{y};{colorIndex};{wall};{objects};;;;\n")
+    outFile.close()
     wallsFile.close()

@@ -11,20 +11,20 @@ If the info above is wrong, let me know!
 
 TODO Long term:
 Multiplayer
-Instances? (inferno/fight caves/raids/quest bosses)
-Multiple Quests, monsters, NPCS, Shops
-Interfaces: shop/bank/misc. 
-Skills, xp, skill requirements, scaling (No construction probably)
-clue scrolls
+-Instances? (inferno/fight caves/raids/quest bosses)
+-Multiple Quests, monsters, NPCS, Shops
+-Interfaces: shop/bank/misc. 
+-Skills, xp, skill requirements, scaling (No construction probably)
+-clue scrolls
 
 TODO Short term:
-add an NPC (for dialogues)
-add a monster (for combat)
+-add an NPC (for dialogues)
+-add a monster (for combat)
 
 Not sure:
-diaries
-rest of the map
-non 07 mechanics (will likely try to make TOB though if i get there because it seems like a good challenge)
-My version of raids (how I imagined it before it was released)
-Different servers, some compatible and some like DMM that are separate
-Construction
+-diaries
+-rest of the map
+-non 07 mechanics (will likely try to make TOB though if i get there because it seems like a good challenge)
+-My version of raids (how I imagined it before it was released)
+-Different servers, some compatible and some like DMM that are separate
+-Construction

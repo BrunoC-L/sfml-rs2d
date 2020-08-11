@@ -1,9 +1,22 @@
 #include "chunk.h"
 #include <fstream>
 #include "Tilemap.h"
+#include <unordered_map>
+#include "GameObject.h"
+#include "tree.h"
 
 Chunk::Chunk(const VChunk& pos, Measures& measures, Textures& textures) : measures(measures), chunkpos(pos) {
+    objectmap.loadEmpty(getObjectsTexturesetFileName(), sf::Vector2u(Measures::pixelsPerTile, Measures::pixelsPerTile), objects, Measures::TilesPerChunk);
     tiles = vector<vector<Tile*>>(Measures::TilesPerChunk, vector<Tile*>(Measures::TilesPerChunk, nullptr));
+    unordered_map<VTile, vector<GameObject*>, VTileHash> gameObjects;
+    auto updateObjectTexture = [this](VTile position, int newTextureIndex) { this->objectmap.update(position, newTextureIndex); };
+    if (pos == VChunk(18, 13)) {
+        auto tree = new Tree(1, objects, VTile(1169, 864), updateObjectTexture);
+        gameObjects[VTile(1169, 864)] = { tree };
+        gameObjects[VTile(1170, 864)] = { tree };
+        gameObjects[VTile(1169, 865)] = { tree };
+        gameObjects[VTile(1170, 865)] = { tree };
+    }
     string fileName = getTilesetFileName();
     ifstream file(fileName);
     string line;
@@ -13,19 +26,26 @@ Chunk::Chunk(const VChunk& pos, Measures& measures, Textures& textures) : measur
         if (line[0] == '#')
             continue;
         vector<string> parameters = split(line, ';');
-        const int x = stoi(parameters[0]);
-        const int y = stoi(parameters[1]);
-        const int textureIndex = stoi(parameters[2]);
-        const int borders = stoi(parameters[3]);
-        level[int(x + Measures::TilesPerChunk * y)] = textureIndex;
-        walls[int(x + Measures::TilesPerChunk * y)] = borders & 0b11111;
+        const int x               = stoi(parameters[0]);
+        const int y               = stoi(parameters[1]);
+        const int textureIndex    = stoi(parameters[2]);
+        const int borders         = stoi(parameters[3]);
+
+        const int objectTextureIndex = 0;
+
+        int absx = Measures::TilesPerChunk * chunkpos.x + x;
+        int absy = Measures::TilesPerChunk * chunkpos.y + y;
+
+        level[int(Measures::TilesPerChunk * x + y)] = textureIndex;
+        walls[int(Measures::TilesPerChunk * x + y)] = borders & 0b11111;
         delete tiles[x][y];
-        tiles[x][y] = new Tile(Measures::TilesPerChunk * chunkpos.x + x, Measures::TilesPerChunk * chunkpos.y + y, ((borders == 16 || borders == 17 ? 15 : borders) & 0b11111) | (borders >> 5), {}, {}, {}, {});
+        auto list = gameObjects[VTile(absx, absy)];
+        tiles[x][y] = new Tile(absx, absy, ((borders == 16 || borders == 17 ? 15 : borders) & 0b11111) | (borders >> 5), {}, list, {}, {});
     }
-    fileName = getTexturesetFileName();
-    tilemap.load(fileName, sf::Vector2u(Measures::pixelsPerTile, Measures::pixelsPerTile), level, Measures::TilesPerChunk, Measures::TilesPerChunk);
+    fileName = getGroundTexturesetFileName();
+    tilemap  .load(fileName, sf::Vector2u(Measures::pixelsPerTile, Measures::pixelsPerTile), level, Measures::TilesPerChunk);
     fileName = getWallsTexturesetFileName();
-    wallmap.load(fileName, sf::Vector2u(Measures::pixelsPerTile, Measures::pixelsPerTile), walls, Measures::TilesPerChunk, Measures::TilesPerChunk);
+    wallmap  .load(fileName, sf::Vector2u(Measures::pixelsPerTile, Measures::pixelsPerTile), walls, Measures::TilesPerChunk);
     file.close();
 }
 
@@ -34,8 +54,14 @@ string Chunk::getTilesetFileName() const {
         to_string((int)chunkpos.x) + "-" + to_string((int)chunkpos.y) + "-" + to_string((int)chunkpos.z) + ".txt";
 }
 
-string Chunk::getTexturesetFileName() const {
+string Chunk::getGroundTexturesetFileName() const {
     return "../../assets/textures/" +
+        to_string((int)chunkpos.x) + "-" + to_string((int)chunkpos.y) + "-" + to_string((int)chunkpos.z) + ".png";
+}
+
+
+string Chunk::getObjectsTexturesetFileName() const {
+    return "../../assets/objectTextures/" +
         to_string((int)chunkpos.x) + "-" + to_string((int)chunkpos.y) + "-" + to_string((int)chunkpos.z) + ".png";
 }
 
@@ -64,10 +90,11 @@ Chunk::~Chunk() {
             delete tiles[i][j];
 }
 
-void Chunk::draw(RenderWindow& w, const VTile& relativePos, const VChunk& chunkOffset) const {
+void Chunk::draw(RenderWindow& w, const VTile& relativePos, const VChunk& chunkOffset) {
     Transform transform = getTransform(relativePos, chunkOffset);
-    tilemap.draw(w, transform);
-    wallmap.draw(w, transform);
+    tilemap  .draw(w, transform);
+    wallmap  .draw(w, transform);
+    objectmap.draw(w, transform);
 }
 
 Transform Chunk::getTransform(const VTile& relativePos, const VChunk& chunkOffset) const {

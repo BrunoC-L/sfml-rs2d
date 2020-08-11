@@ -7,6 +7,7 @@ Player::Player(RenderWindow& w, Measures& measures, VTile position) : w(w), meas
     currentMovement[1] = VTile();
     positionLastTick = position;
     positionNextTick = position;
+    currentAction = make_pair(false, []() { return true; });
 }
 
 void Player::update(unsigned tickmod) {
@@ -24,6 +25,8 @@ void Player::update(unsigned tickmod) {
 }
 
 void Player::onGameTick(vector<VTile>& path) {
+    if (currentAction.first && currentAction.second())
+        currentAction = make_pair(false, []() { return true; });
     positionLastTick = position;
     if (path.size()) {
         currentMovement[0] = path[0] - position;

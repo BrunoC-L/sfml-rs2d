@@ -16,6 +16,7 @@ public:
     VTile positionLastTick;
     VTile positionNextTick;
     VTile currentMovement[2];
+    pair<bool, function<bool()>> currentAction;
 private:
     Texture t;
     Measures& measures;

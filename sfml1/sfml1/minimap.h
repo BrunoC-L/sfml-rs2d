@@ -11,6 +11,7 @@ public:
     void draw() const;
     void update();
 private:
+    CircleShape playerCircle;
     Measures& measures;
     RenderWindow& w;
     VTile& pos;
