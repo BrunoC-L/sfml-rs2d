@@ -2,13 +2,19 @@
 #include <SFML/Graphics.hpp>
 #include "units.h"
 #include "measures.h"
+#include "getRenderWindow.h"
 
 using namespace std;
 using namespace sf;
 
 class Player {
 public:
-    Player(RenderWindow& w, Measures& measures, VTile position);
+    Player(const Player& other) = delete;
+    Player operator=(const Player& other) = delete;
+    static Player& getInstance() {
+        static Player instance;
+        return instance;
+    }
     void draw(VTile cameraPosition) const;
     void update(unsigned tick);
     void onGameTick(vector<VTile>& path);
@@ -18,8 +24,7 @@ public:
     VTile currentMovement[2];
     pair<bool, function<bool()>> currentAction;
 private:
+    Player();
     Texture t;
-    Measures& measures;
-    RenderWindow& w;
     Sprite player;
 };

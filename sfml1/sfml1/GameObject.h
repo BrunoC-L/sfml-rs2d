@@ -3,6 +3,7 @@
 #include "groundObject.h"
 #include "measures.h"
 #include "units.h"
+#include "player.h"
 
 using namespace sf;
 using namespace std;

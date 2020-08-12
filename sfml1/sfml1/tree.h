@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "taskManager.h"
 #include <stdlib.h>
+#include "debug.h"
 
 class Tree : public GameObject {
 public:

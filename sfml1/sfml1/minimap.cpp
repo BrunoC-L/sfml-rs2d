@@ -1,6 +1,7 @@
 #include "minimap.h"
 
-Minimap::Minimap(RenderWindow& w, VTile& pos, Measures& measures) : w(w), pos(pos), lastPos(-1, -1), measures(measures) {
+Minimap::Minimap() {
+    Measures& measures = Measures::getInstance();
     shape = CircleShape(Measures::minimapRadius);
     shape.setPosition(measures.getRightBannerStartingX() + (measures.banners.x - 2 * Measures::minimapRadius / measures.stretch.x) / 2, 0);
     minimap.loadFromFile("../../assets/mapnoraids.jpg");
@@ -11,6 +12,7 @@ Minimap::Minimap(RenderWindow& w, VTile& pos, Measures& measures) : w(w), pos(po
 }
 
 void Minimap::update() {
+    VTile& pos = Player::getInstance().position;
     if (pos == lastPos)
         return;
     lastPos = pos;
@@ -19,9 +21,14 @@ void Minimap::update() {
 }
 
 void Minimap::draw() const {
+    Measures& measures = Measures::getInstance();
+    RenderWindow& w = RenderWindowSingleton::getInstance();
     const auto scale = measures.stretch;
     auto transform = Transform();
-    transform.rotate(measures.angle, Vector2f(shape.getPosition().x + Measures::minimapRadius, shape.getPosition().y + Measures::minimapRadius)).scale(Vector2f(1 / scale.x, 1 / scale.y)).translate(measures.getWindowSize().x - measures.startingScreenSize.x, 0);
+    transform
+        .scale(Vector2f(1 / scale.x, 1 / scale.y))
+        .translate(measures.getWindowSize().x - measures.startingScreenSize.x, 0)
+        .rotate(measures.angle, Vector2f(shape.getPosition().x + Measures::minimapRadius, shape.getPosition().y + Measures::minimapRadius));
     w.draw(shape, transform);
     w.draw(playerCircle, transform);
 }

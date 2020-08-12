@@ -13,22 +13,29 @@
 #include "pathfinder.h"
 #include "Textures.h"
 #include "taskManager.h"
+#include "getRenderWindow.h"
+#include "camera.h"
 
 int main() {
-    Textures textures;
-    Measures measures;
+    Textures& textures = Textures::getInstance();
+    Measures& measures = Measures::getInstance();
+    RenderWindow& window = RenderWindowSingleton::getInstance();
     TaskManager& taskManager = TaskManager::getInstance();
-    Vector2f startingScreenSize(measures.startingScreenSize.x, measures.startingScreenSize.y);
-    RenderWindow window(VideoMode(startingScreenSize.x, startingScreenSize.y), "RS2D");
     measures.setGetWindowSize([&]() { return VPixel(window.getSize().x, window.getSize().y); });
-    Player player(window, measures, VTile(18 * Measures::TilesPerChunk + 20, 13 * Measures::TilesPerChunk + 37, 0)); // lumbridge
-    VTile  cameraPos = player.position;
-    Minimap minimap(window, cameraPos, measures);
-    Map map(window, cameraPos, measures, textures, 1);
-    RightBanner rightBanner(window, measures);
-    BottomBanner bottomBanner(window, measures);
+    Player& player = Player::getInstance();
+    player.position = VTile(18 * Measures::TilesPerChunk + 20, 13 * Measures::TilesPerChunk + 37, 0); // lumbridge
+    Camera& camera = Camera::getInstance();
+    camera.setPosition(&player.position);
+    Map& map = Map::getInstance();
+    map.chunkRadius = 1;
+    map.load();
+    Minimap minimap;
+    RightBanner rightBanner;
+    BottomBanner bottomBanner;
+
     std::thread t(&Map::doUpdates, &map);
     vector<VTile> path = {};
+
     auto canMoveToLambda = [&](VTile a, VTile b) {
         VChunk ca = VChunk(int(a.x / Measures::TilesPerChunk), int(a.y / Measures::TilesPerChunk));
         VChunk cb = VChunk(int(b.x / Measures::TilesPerChunk), int(b.y / Measures::TilesPerChunk));
@@ -83,11 +90,12 @@ int main() {
                 rotatedDelta *= VPixel(signs.x, signs.y);
                 rotatedDelta /= measures.zoom;
                 VTile deltaTilesFloat = VTile(rotatedDelta.x, rotatedDelta.y) / Measures::pixelsPerTile;
-                VTile tileClicked = cameraPos + VTile(deltaTilesFloat.x * signs.x, deltaTilesFloat.y * signs.y) + VTile(0.5, 0.5);
+                VTile tileClicked = camera.getPosition() + VTile(deltaTilesFloat.x * signs.x, deltaTilesFloat.y * signs.y) + VTile(0.5, 0.5);
 
                 VChunk vc = VChunk(int(tileClicked.x / Measures::TilesPerChunk), int(tileClicked.y / Measures::TilesPerChunk));
                 VChunk deltaChunks = vc - map.centerChunk + VChunk(map.loaded.size() / 2, map.loaded.size() / 2);
                 Tile* t;
+
                 if (deltaChunks.x >= 0 && deltaChunks.x < map.loaded.size() && deltaChunks.y >= 0 && deltaChunks.y < map.loaded.size()) {
                     Chunk* chunk = map.loaded[deltaChunks.x][deltaChunks.y];
                     t = chunk->tiles[int(tileClicked.x - vc.x * Measures::TilesPerChunk)][int(tileClicked.y - vc.y * Measures::TilesPerChunk)];
@@ -114,12 +122,11 @@ int main() {
         bottomBanner.update();
         minimap.update();
         player.update(tickmod);
-        cameraPos = player.position;
 
         window.clear();
 
         map.draw();
-        player.draw(cameraPos);
+        player.draw(camera.getPosition());
 
         bottomBanner.draw();
         rightBanner.draw();

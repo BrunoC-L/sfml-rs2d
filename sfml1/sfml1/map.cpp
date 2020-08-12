@@ -1,22 +1,29 @@
 #include "map.h"
 #include <iostream>
 
-Map::Map(RenderWindow& w, VTile& pos, Measures& measures, Textures& textures, const unsigned chunkRadius) : 
-	w(w),
-	pos(pos),
-	centerChunk(VChunk(int(pos.x / Measures::TilesPerChunk),
-	int(pos.y / Measures::TilesPerChunk), int(pos.z))),
-	measures(measures), textures(textures),
-	chunkRadius(chunkRadius) {
+Map::Map() {
+	VTile& pos = Camera::getPosition();
+	centerChunk = VChunk(int(pos.x / Measures::TilesPerChunk), int(pos.y / Measures::TilesPerChunk), int(pos.z));
+}
+
+void Map::load() {
+	Measures& measures = Measures::getInstance();
+	Textures& textures = Textures::getInstance();
 	loaded = vector<vector<Chunk*>>(2 * chunkRadius + 1, vector<Chunk*>(2 * chunkRadius + 1, nullptr));
+	mutex.lock();
 	for (int i = 0; i < 2 * chunkRadius + 1; ++i)
 		for (int j = 0; j < 2 * chunkRadius + 1; ++j) {
 			VChunk chunkPos = centerChunk + VChunk(i, j) - VChunk(chunkRadius, chunkRadius);
+			delete loaded[i][j];
 			loaded[i][j] = new Chunk(chunkPos, measures, textures);
 		}
+	mutex.unlock();
 }
 
 void Map::draw() {
+	Measures& measures = Measures::getInstance();
+	RenderWindow& w = RenderWindowSingleton::getInstance();
+	VTile& pos = Player::getInstance().position;
 	VTile relativePos(pos.x - centerChunk.x * Measures::TilesPerChunk - measures.getInnerWindowSizeTile().x / 2, pos.y - centerChunk.y * Measures::TilesPerChunk - measures.getInnerWindowSizeTile().y / 2);
 	mutex.lock();
 	for (int i = 0; i < 2 * chunkRadius + 1; ++i)
@@ -28,6 +35,7 @@ void Map::draw() {
 void Map::update() {
 	if (!shouldUpdate)
 		return;
+	VTile& pos = Camera::getPosition();
 	shouldUpdate = false;
 	const VChunk newChunk(int(pos.x / Measures::TilesPerChunk), int(pos.y / Measures::TilesPerChunk), int(pos.z));
 	const VChunk difference = newChunk - centerChunk;
@@ -38,6 +46,8 @@ void Map::update() {
 }
 
 void Map::updateChunks(const VChunk& difference, const VChunk& tempCenter) {
+	Measures& measures = Measures::getInstance();
+	Textures& textures = Textures::getInstance();
 	vector<vector<Chunk*>> newChunks(2 * chunkRadius + 1, vector<Chunk*>(2 * chunkRadius + 1, nullptr));
 	vector<vector<bool>> reused(2 * chunkRadius + 1, vector<bool>(2 * chunkRadius + 1, false));
 	for (int i = 0; i < 2 * chunkRadius + 1; ++i)

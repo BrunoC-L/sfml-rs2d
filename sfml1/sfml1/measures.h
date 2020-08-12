@@ -8,7 +8,6 @@ using namespace sf;
 using namespace std;
 
 class Measures {
-public:
 	Measures() {
 		startingInnerScreenSizeTile = VTile(35, 23);
 		auto inpx = startingInnerScreenSizeTile * pixelsPerTile;
@@ -16,7 +15,13 @@ public:
 		banners = VPixel(rightBannerWidth, bottomBannerHeight);
 		startingScreenSize = VPixel(startingInnerScreenSizeTile.x * pixelsPerTile, startingInnerScreenSizeTile.y * pixelsPerTile) + banners;
 	}
-
+public:
+	Measures(const Measures& other) = delete;
+	Measures operator=(const Measures& other) = delete;
+	static Measures& getInstance() {
+		static Measures instance;
+		return instance;
+	}
 	void setGetWindowSize(std::function<VPixel()> f) { getWindowSize = f; };
 	void update() { stretch = Vector2f(getWindowSize().x / startingScreenSize.x, getWindowSize().y / startingScreenSize.y); }
 

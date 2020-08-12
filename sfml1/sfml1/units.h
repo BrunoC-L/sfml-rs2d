@@ -70,7 +70,7 @@ public:
 
 struct VTileHash
 {
-	std::size_t operator()(VTile const& t) const noexcept
+	size_t operator()(VTile const& t) const noexcept
 	{
 		return t.z + 10 * t.y + 16000 * t.x;
 	}

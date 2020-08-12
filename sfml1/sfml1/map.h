@@ -3,13 +3,23 @@
 #include "chunk.h"
 #include "measures.h"
 #include "Textures.h"
+#include "getRenderWindow.h"
+#include "player.h"
+#include "camera.h"
 
 using namespace std;
 using namespace sf;
 
 class Map {
+    Map();
 public:
-    Map(RenderWindow& w, VTile& pos, Measures& measures, Textures& textures, const unsigned chunkRadius);
+    Map(const Map& other) = delete;
+    Map operator=(const Map& other) = delete;
+    static Map& getInstance() {
+        static Map instance;
+        return instance;
+    }
+    void load();
     void draw();
     void update();
     void updateChunks(const VChunk& difference, const VChunk& tempCenter);
@@ -21,12 +31,8 @@ public:
     }
     bool shouldUpdate = false;
     bool shouldStop = false;
-    const unsigned chunkRadius;
-    Measures& measures;
-    RenderWindow& w;
-    VTile& pos;
+    unsigned chunkRadius = 0;
     VChunk centerChunk;
     vector<vector<Chunk*>> loaded;
-    Textures& textures;
     Mutex mutex;
 };

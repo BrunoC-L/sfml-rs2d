@@ -5,7 +5,7 @@ Tree::Tree(int id, int* tilemapPtr, VTile position, function<void(VTile, int)> u
 	interactions = {
 		make_pair(
 			"Chop Down",
-			[this]() { cout << "chop\n"; chop(); return true; }
+			[this]() { print(Player::getInstance().position); chop(); return true; }
 		),
 		make_pair(
 			"Examine",

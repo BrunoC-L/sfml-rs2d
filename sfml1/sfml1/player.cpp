@@ -1,10 +1,11 @@
 #include "player.h"
 
-Player::Player(RenderWindow& w, Measures& measures, VTile position) : w(w), measures(measures), position(position) {
+Player::Player() {
     t.loadFromFile("../../assets/player.png");
     player = Sprite(t);
     currentMovement[0] = VTile();
     currentMovement[1] = VTile();
+    position = VTile();
     positionLastTick = position;
     positionNextTick = position;
     currentAction = make_pair(false, []() { return true; });
@@ -47,9 +48,10 @@ void Player::onGameTick(vector<VTile>& path) {
 }
 
 void Player::draw(VTile cameraPos) const {
+    Measures& measures = Measures::getInstance();
     const auto zoomScale = measures.zoom;
     const auto scale = measures.stretch;
-    w.draw(
+    RenderWindowSingleton::getInstance().draw(
         player,
         RenderStates().transform
             .scale(1 / scale.x, 1 / scale.y)

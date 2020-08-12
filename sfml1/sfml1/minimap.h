@@ -2,19 +2,18 @@
 #include <SFML/Graphics.hpp>
 #include "units.h"
 #include "measures.h"
+#include "getRenderWindow.h"
+#include "player.h"
 using namespace std;
 using namespace sf;
 
 class Minimap {
 public:
-    Minimap(RenderWindow& w, VTile& pos, Measures& measures);
+    Minimap();
     void draw() const;
     void update();
 private:
     CircleShape playerCircle;
-    Measures& measures;
-    RenderWindow& w;
-    VTile& pos;
     VTile lastPos;
     CircleShape shape;
     Texture minimap;
