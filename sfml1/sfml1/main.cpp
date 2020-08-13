@@ -15,6 +15,8 @@
 #include "taskManager.h"
 #include "getRenderWindow.h"
 #include "camera.h"
+#include "movingPredicate.h"
+#include "gameTick.h"
 
 int main() {
     Textures& textures = Textures::getInstance();
@@ -34,35 +36,19 @@ int main() {
     BottomBanner bottomBanner;
 
     std::thread t(&Map::doUpdates, &map);
-    vector<VTile> path = {};
-
-    auto canMoveToLambda = [&](VTile a, VTile b) {
-        VChunk ca = VChunk(int(a.x / Measures::TilesPerChunk), int(a.y / Measures::TilesPerChunk));
-        VChunk cb = VChunk(int(b.x / Measures::TilesPerChunk), int(b.y / Measures::TilesPerChunk));
-        VChunk da = ca - map.centerChunk + VChunk(map.loaded.size() / 2, map.loaded.size() / 2);
-        VChunk db = cb - map.centerChunk + VChunk(map.loaded.size() / 2, map.loaded.size() / 2);
-        if (da.x < 0 || db.x < 0 || da.x >= map.loaded.size() || db.x >= map.loaded.size() || da.y < 0 || db.y < 0 || da.y >= map.loaded.size() || db.y >= map.loaded.size())
-            return false;
-        Chunk* tileAChunk = map.loaded[da.x][da.y];
-        Chunk* tileBChunk = map.loaded[db.x][db.y];
-        Tile* ta = tileAChunk->tiles[int(a.x - ca.x * Measures::TilesPerChunk)][int(a.y - ca.y * Measures::TilesPerChunk)];
-        Tile* tb = tileBChunk->tiles[int(b.x - cb.x * Measures::TilesPerChunk)][int(b.y - cb.y * Measures::TilesPerChunk)];
-        return ta->canMoveFrom(*tb);
-    };
     
     window.setFramerateLimit(60);
     unsigned tick = 0;
     unsigned tickmod = 0;
-    unsigned gameTick = 0;
     bool isGameTick = false;
     while (window.isOpen()) {
         ++tick;
-        gameTick = tick / 36;
         tickmod = tick % 36;
         isGameTick = !tickmod;
         if (isGameTick) {
+            GameTick::tick();
             taskManager.executeAndRemove();
-            player.onGameTick(path);
+            player.onGameTick();
         }
         map.shouldUpdate = true;
 
@@ -105,9 +91,9 @@ int main() {
                 if (!player.currentAction.first) {
                     tileClicked = VTile(int(tileClicked.x), int(tileClicked.y));
                     if (!event.mouseButton.button)
-                        path = Pathfinder::pathfind(player.positionNextTick, tileClicked, canMoveToLambda);
+                        player.path = Pathfinder::pathfind(player.positionNextTick, { tileClicked }, false);
                     else
-                        path = { tileClicked };
+                        player.path = { tileClicked };
                 }
             }
             else if (event.type == Event::Resized)

@@ -5,14 +5,15 @@ void TaskManager::executeAndRemove() {
 		return;
 	for (auto task : tasksPerTick[0]) {
 		try {
-			task();
+			if (task())
+				scheduleTaskInTicks(task, 1);
 		}
 		catch (...) { }
 	}
 	tasksPerTick.erase(tasksPerTick.begin());
 }
 
-void TaskManager::scheduleTaskInTicks(function<void()> task, unsigned ticksUntilCall) {
+void TaskManager::scheduleTaskInTicks(function<bool()> task, unsigned ticksUntilCall) {
 	while (tasksPerTick.size() < ticksUntilCall + 1)
 		tasksPerTick.push_back({});
 	tasksPerTick[ticksUntilCall].push_back(task);

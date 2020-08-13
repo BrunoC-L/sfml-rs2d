@@ -25,7 +25,7 @@ void Player::update(unsigned tickmod) {
     position = positionLastTick + currentMovement[0] + currentMovement[1] * ((tickmod % 18 + 1) / 18.f);
 }
 
-void Player::onGameTick(vector<VTile>& path) {
+void Player::onGameTick() {
     if (currentAction.first && currentAction.second())
         currentAction = make_pair(false, []() { return true; });
     positionLastTick = position;

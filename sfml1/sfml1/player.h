@@ -17,12 +17,13 @@ public:
     }
     void draw(VTile cameraPosition) const;
     void update(unsigned tick);
-    void onGameTick(vector<VTile>& path);
+    void onGameTick();
     VTile position;
     VTile positionLastTick;
     VTile positionNextTick;
     VTile currentMovement[2];
     pair<bool, function<bool()>> currentAction;
+    vector<VTile> path = {};
 private:
     Player();
     Texture t;

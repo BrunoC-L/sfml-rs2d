@@ -3,6 +3,7 @@
 #include "taskManager.h"
 #include <stdlib.h>
 #include "debug.h"
+#include "pathfinder.h"
 
 class Tree : public GameObject {
 public:
@@ -10,7 +11,7 @@ public:
 	virtual vector<pair<string, function<bool()>>> getInteractions();
 	void showTree();
 	void showStump();
-	void chop();
-	const VTile position;
+	bool chop();
+	void sendPlayerToStartCuttingTree();
 	bool treeIsUp;
 };

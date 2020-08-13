@@ -4,6 +4,7 @@
 #include "measures.h"
 #include "units.h"
 #include "player.h"
+#include "gameTick.h"
 
 using namespace sf;
 using namespace std;
@@ -18,4 +19,5 @@ public:
 	vector<GroundObject> groundObjects;
 	bool hasRedClickAction;
 	vector<pair<string, function<bool()>>> interactions;
+	vector<VTile> positions;
 };

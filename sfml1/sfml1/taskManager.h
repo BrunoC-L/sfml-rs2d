@@ -13,10 +13,10 @@ public:
 		return instance;
 	}
 	void executeAndRemove();
-	void scheduleTaskInTicks(function<void()> task, unsigned ticksUntilCall);
+	void scheduleTaskInTicks(function<bool()> task, unsigned ticksUntilCall);
 private:
 	TaskManager() {
-		tasksPerTick = vector<vector<function<void()>>>();
+		tasksPerTick = vector<vector<function<bool()>>>();
 	};
-	vector<vector<function<void()>>> tasksPerTick;
+	vector<vector<function<bool()>>> tasksPerTick;
 };

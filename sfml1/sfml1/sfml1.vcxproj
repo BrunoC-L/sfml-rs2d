@@ -166,12 +166,14 @@
     <ClInclude Include="chunk.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="gameTick.h" />
     <ClInclude Include="getRenderWindow.h" />
     <ClInclude Include="groundItem.h" />
     <ClInclude Include="groundObject.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="measures.h" />
     <ClInclude Include="minimap.h" />
+    <ClInclude Include="movingPredicate.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="pathfinder.h" />
     <ClInclude Include="player.h" />
