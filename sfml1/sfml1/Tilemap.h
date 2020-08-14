@@ -27,19 +27,17 @@ public:
         m_vertices.resize(size * size * 4);
 
         for (unsigned int i = 0; i < size; ++i)
-            for (unsigned int j = 0; j < size; ++j)
-            {
-                int tileNumber = tiles[size * i + j];
-
-                int tu = tileNumber % (m_tileset.getSize().x / tileSize.x);
-                int tv = tileNumber / (m_tileset.getSize().x / tileSize.x);
-
+            for (unsigned int j = 0; j < size; ++j) {
                 sf::Vertex* quad = &m_vertices[(i + j * size) * 4];
 
                 quad[0].position = sf::Vector2f( i      * tileSize.x,  j      * tileSize.y);
                 quad[1].position = sf::Vector2f((i + 1) * tileSize.x,  j      * tileSize.y);
                 quad[2].position = sf::Vector2f((i + 1) * tileSize.x, (j + 1) * tileSize.y);
                 quad[3].position = sf::Vector2f( i      * tileSize.x, (j + 1) * tileSize.y);
+
+                int textureNumber = tiles[size * i + j];
+                int tu = textureNumber % (m_tileset.getSize().x / tileSize.x);
+                int tv = textureNumber / (m_tileset.getSize().x / tileSize.x);
 
                 quad[0].texCoords = sf::Vector2f( tu      * tileSize.x,  tv      * tileSize.y);
                 quad[1].texCoords = sf::Vector2f((tu + 1) * tileSize.x,  tv      * tileSize.y);

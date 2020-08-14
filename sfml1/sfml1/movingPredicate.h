@@ -3,8 +3,6 @@
 #include "measures.h"
 #include "map.h"
 
-
-
 class MovingPredicate {
 public:
     static bool canMoveFromTo(VTile a, VTile b) {

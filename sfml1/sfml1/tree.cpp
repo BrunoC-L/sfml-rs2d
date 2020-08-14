@@ -51,6 +51,9 @@ void Tree::sendPlayerToStartCuttingTree() {
 }
 
 bool Tree::chop() {
+	auto nextToTree = MovingPredicate::getNextTo(positions);
+	if (!MovingPredicate::tileIsInVector(Player::getInstance().position, nextToTree))
+		return true;
 	if (rand() % 100 > 90) {
 		showStump();
 		TaskManager::getInstance().scheduleTaskInTicks([&]() { this->showTree(); return false; }, rand() % 20);
