@@ -3,6 +3,7 @@
 #include "units.h"
 #include "measures.h"
 #include "getRenderWindow.h"
+#include "inventory.h"
 
 using namespace std;
 using namespace sf;
@@ -24,6 +25,7 @@ public:
     VTile currentMovement[2];
     pair<bool, function<bool()>> currentAction;
     vector<VTile> path = {};
+    Inventory inventory;
 private:
     Player();
     Texture t;

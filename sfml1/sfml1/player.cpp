@@ -1,6 +1,6 @@
 #include "player.h"
 
-Player::Player() {
+Player::Player() : inventory(Inventory(28, {})) {
     t.loadFromFile("../../assets/player.png");
     player = Sprite(t);
     currentMovement[0] = VTile();

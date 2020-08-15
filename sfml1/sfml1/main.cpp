@@ -41,6 +41,7 @@ int main() {
     unsigned tick = 0;
     unsigned tickmod = 0;
     bool isGameTick = false;
+
     while (window.isOpen()) {
         ++tick;
         tickmod = tick % 36;

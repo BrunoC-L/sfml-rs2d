@@ -1,6 +1,6 @@
 #include "GameObject.h"
 
-GameObject::GameObject(int id, int* const tilemapPtr, function<void(VTile, int)> updateObjectTexture) : id(id), tilemapPtr(tilemapPtr), updateObjectTexture(updateObjectTexture) {
+GameObject::GameObject(int id, function<void(VTile, int)> updateObjectTexture) : id(id), updateObjectTexture(updateObjectTexture) {
 	hasRedClickAction = true;
 }
 

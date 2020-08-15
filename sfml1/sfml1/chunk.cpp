@@ -6,12 +6,15 @@
 #include "tree.h"
 
 Chunk::Chunk(const VChunk& pos, Measures& measures, Textures& textures) : measures(measures), chunkpos(pos) {
+    int* walls = new int[Measures::TilesPerChunk * Measures::TilesPerChunk];
+    int* level = new int[Measures::TilesPerChunk * Measures::TilesPerChunk];
+    int* objects = new int[Measures::TilesPerChunk * Measures::TilesPerChunk];
     objectmap.loadEmpty(getObjectsTexturesetFileName(), sf::Vector2u(Measures::pixelsPerTile, Measures::pixelsPerTile), objects, Measures::TilesPerChunk);
     tiles = vector<vector<Tile*>>(Measures::TilesPerChunk, vector<Tile*>(Measures::TilesPerChunk, nullptr));
     unordered_map<VTile, vector<GameObject*>, VTileHash> gameObjects;
     auto updateObjectTexture = [this](VTile position, int newTextureIndex) { this->objectmap.update(position, newTextureIndex); };
     if (pos == VChunk(18, 13)) {
-        auto tree = new Tree(1, objects, VTile(1169, 864), updateObjectTexture);
+        auto tree = new Tree(1, VTile(1169, 864), updateObjectTexture);
         gameObjects[VTile(1169, 864)] = { tree };
         gameObjects[VTile(1170, 864)] = { tree };
         gameObjects[VTile(1169, 865)] = { tree };
@@ -67,21 +70,6 @@ string Chunk::getObjectsTexturesetFileName() const {
 
 string Chunk::getWallsTexturesetFileName() const {
     return "../../assets/wallstextures.png";
-}
-
-vector<string> Chunk::split(const string& s, const char c) const {
-    vector<string> v = {};
-    string buffer = "";
-    for (int i = 0; i < s.length(); ++i) {
-        char t = s[i];
-        if (t == c) {
-            v.push_back(buffer);
-            buffer = "";
-        }
-        else
-            buffer += t;
-    }
-    return v;
 }
 
 Chunk::~Chunk() {

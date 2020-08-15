@@ -1,17 +1,7 @@
 #pragma once
-#include "GameObject.h"
-#include "taskManager.h"
-#include <stdlib.h>
-#include "debug.h"
-#include "pathfinder.h"
+#include "gameRessourceObject.h"
 
-class Tree : public GameObject {
+class Tree : public GameRessourceObject {
 public:
-	Tree(int id, int* tilemapPtr, VTile position, function<void(VTile, int)> updateObjectTexture);
-	virtual vector<pair<string, function<bool()>>> getInteractions();
-	void showTree();
-	void showStump();
-	bool chop();
-	void sendPlayerToStartCuttingTree();
-	bool treeIsUp;
+	Tree(int id, VTile position, function<void(VTile, int)> updateObjectTexture);
 };

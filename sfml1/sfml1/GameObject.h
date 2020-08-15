@@ -11,10 +11,9 @@ using namespace std;
 
 class GameObject {
 public:
-	GameObject(int id, int* tilemapPtr, function<void(VTile, int)> updateObjectTexture);
+	GameObject(int id, function<void(VTile, int)> updateObjectTexture);
 	virtual vector<pair<string, function<bool()>>> getInteractions() = 0;
 	int id;
-	int* tilemapPtr;
 	function<void(VTile, int)> updateObjectTexture;
 	vector<GroundObject> groundObjects;
 	bool hasRedClickAction;
