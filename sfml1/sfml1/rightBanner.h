@@ -10,7 +10,6 @@ class RightBanner {
 public:
     RightBanner();
     void draw() const;
-    void update();
 private:
     RectangleShape banner;
 };

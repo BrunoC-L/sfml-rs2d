@@ -47,4 +47,5 @@ public:
 	static constexpr float pixelsPerTileOnMap = 4;
 	static constexpr float minimapRadius = 100;
 	static constexpr float pixelsPerTile = 32;
+	static constexpr float framesPerTick = 12;
 };

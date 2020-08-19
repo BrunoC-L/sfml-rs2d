@@ -15,6 +15,6 @@ public:
 	bool remove(vector<pair<Item, unsigned>> items);
 	unsigned space();
 	bool has(Item item, unsigned quantity);
-	bool add(Item item);
+	bool add(Item item, unsigned quantity);
 	bool remove(Item item);
 };

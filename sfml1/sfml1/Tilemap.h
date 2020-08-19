@@ -49,7 +49,7 @@ public:
 
     void update(VTile position, int newTextureIndex) {
         int i = (int)position.x % (int)Measures::TilesPerChunk, j = (int)position.y % (int)Measures::TilesPerChunk;
-        int index = i + size * j; // wtf
+        int index = i + size * j;
         tiles[index] = newTextureIndex;
 
         int tileNumber = tiles[index];
@@ -59,10 +59,10 @@ public:
 
         sf::Vertex* quad = &m_vertices[index * 4];
 
-        quad[0].position = sf::Vector2f( i      * tileSize.x,  j      * tileSize.y);
-        quad[1].position = sf::Vector2f((i + 1) * tileSize.x,  j      * tileSize.y);
-        quad[2].position = sf::Vector2f((i + 1) * tileSize.x, (j + 1) * tileSize.y);
-        quad[3].position = sf::Vector2f( i      * tileSize.x, (j + 1) * tileSize.y);
+        quad[0].position  = sf::Vector2f( i       * tileSize.x,  j       * tileSize.y);
+        quad[1].position  = sf::Vector2f((i + 1)  * tileSize.x,  j       * tileSize.y);
+        quad[2].position  = sf::Vector2f((i + 1)  * tileSize.x, (j + 1)  * tileSize.y);
+        quad[3].position  = sf::Vector2f( i       * tileSize.x, (j + 1)  * tileSize.y);
 
         quad[0].texCoords = sf::Vector2f( tu      * tileSize.x,  tv      * tileSize.y);
         quad[1].texCoords = sf::Vector2f((tu + 1) * tileSize.x,  tv      * tileSize.y);

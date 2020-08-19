@@ -25,17 +25,22 @@ private:
 		static Pathfinder instance;
 		unordered_map<VTile, VTile, VTileHash> parents;
 		unordered_set<VTile, VTileHash> seen;
-		unsigned index = 0;
 		vector<VTile> queue = {a};
-		VTile current;
-		seen.insert(current);
-		bool currentIsValid = false;
-		while (queue.size() > index) {
-			current = queue[index++];
-			if (MovingPredicate::tileIsInVector(current, b)) {
-				currentIsValid = true;
-				break;
+		VTile current, best;
+		float bestDistance = 1000;
+
+		while (queue.size()) {
+			current = queue[0];
+			queue.erase(queue.begin());
+			for (auto target : b) {
+				auto distance = MovingPredicate::distance(current, target);
+				if (distance < bestDistance) {
+					bestDistance = distance;
+					best = current;
+				}
 			}
+			if (bestDistance == 0)
+				break;
 			seen.insert(current);
 			auto nexts = {
 				current + VTile( 0,  1),
@@ -55,12 +60,10 @@ private:
 				queue.push_back(next);
 			}
 		}
-		if (!currentIsValid)
-			return {};
-		vector<VTile> path = {current};
-		while (parents.count(current)) {
-			current = parents[current];
-			path.push_back(current);
+		vector<VTile> path = { best };
+		while (parents.count(best)) {
+			best = parents[best];
+			path.push_back(best);
 		}
 		return path;
 	}	

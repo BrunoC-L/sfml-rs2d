@@ -1,17 +1,16 @@
 #include "splitString.h"
 
-vector<string> split(const string& s, const char c) {
+vector<string> split(const string& s, const string& divider) {
+    if (divider.length() == 0)
+        throw new exception("Tried splitting with empty divider");
+    string remainder = s;
     vector<string> v = {};
-    string buffer = "";
-    for (int i = 0; i < s.length(); ++i) {
-        char t = s[i];
-        if (t == c) {
-            v.push_back(buffer);
-            buffer = "";
-        }
-        else
-            buffer += t;
+    int index = 0;
+    while ((index = remainder.find(divider)) != -1) {
+        v.push_back(remainder.substr(0, index));
+        remainder = remainder.substr(index + divider.length());
     }
-    v.push_back(buffer);
+    if (remainder.length())
+        v.push_back(remainder);
     return v;
 }

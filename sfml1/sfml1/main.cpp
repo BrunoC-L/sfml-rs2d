@@ -11,15 +11,15 @@
 #include "bottomBanner.h"
 #include "player.h"
 #include "pathfinder.h"
-#include "Textures.h"
 #include "taskManager.h"
 #include "getRenderWindow.h"
 #include "camera.h"
 #include "movingPredicate.h"
 #include "gameTick.h"
+#include "rightClickInterface.h"
+#include "mouseEvent.h"
 
 int main() {
-    Textures& textures = Textures::getInstance();
     Measures& measures = Measures::getInstance();
     RenderWindow& window = RenderWindowSingleton::getInstance();
     TaskManager& taskManager = TaskManager::getInstance();
@@ -34,17 +34,27 @@ int main() {
     Minimap minimap;
     RightBanner rightBanner;
     BottomBanner bottomBanner;
+    RightClickInterface& rightClickInterface = RightClickInterface::getInstance();
 
     std::thread t(&Map::doUpdates, &map);
+
+    VPixelToVTileConverter& converter = VPixelToVTileConverter::getInstance();
+
+    converter.getPositionInGame(VPixel());
     
     window.setFramerateLimit(60);
-    unsigned tick = 0;
+    unsigned frame = 0;
     unsigned tickmod = 0;
     bool isGameTick = false;
+    Clock clock;
 
     while (window.isOpen()) {
-        ++tick;
-        tickmod = tick % 36;
+        auto dt = clock.getElapsedTime().asMilliseconds();
+        if (dt > 20)
+            cout << dt << endl;
+        clock.restart();
+        ++frame;
+        tickmod = frame % unsigned(Measures::framesPerTick);
         isGameTick = !tickmod;
         if (isGameTick) {
             GameTick::tick();
@@ -53,7 +63,9 @@ int main() {
         }
         map.shouldUpdate = true;
 
+        shared_ptr<MouseEvent> mouseEvent = nullptr;
         Event event;
+
         while (window.pollEvent(event))
             if (event.type == Event::Closed)
                 window.close();
@@ -67,35 +79,30 @@ int main() {
                     break;
                 }
             else if (event.type == Event::MouseButtonPressed) {
-                VPixel click(event.mouseButton.x, event.mouseButton.y);
-                VPixel middle(measures.getInnerWindowSize() / 2);
-                VPixel delta = click - middle;
-                const float radius = pow(pow(delta.x, 2) + pow(delta.y, 2), 0.5f);
-                const float angle = (delta.x == 0 ? (delta.y > 0 ? 90 : -90) : (delta.x > 0 ? 0 : 3.1415926536f) + atan(delta.y / delta.x)) - measures.angle / 180 * 3.1415926536f;
-                VPixel rotatedDelta = VPixel(cos(angle), sin(angle)) * radius;
-                VTile signs(rotatedDelta.x > 0 ? 1 : -1, rotatedDelta.y > 0 ? 1 : -1);
-                rotatedDelta *= VPixel(signs.x, signs.y);
-                rotatedDelta /= measures.zoom;
-                VTile deltaTilesFloat = VTile(rotatedDelta.x, rotatedDelta.y) / Measures::pixelsPerTile;
-                VTile tileClicked = camera.getPosition() + VTile(deltaTilesFloat.x * signs.x, deltaTilesFloat.y * signs.y) + VTile(0.5, 0.5);
-
-                VChunk vc = VChunk(int(tileClicked.x / Measures::TilesPerChunk), int(tileClicked.y / Measures::TilesPerChunk));
-                VChunk deltaChunks = vc - map.centerChunk + VChunk(map.loaded.size() / 2, map.loaded.size() / 2);
-                Tile* t;
-
-                if (deltaChunks.x >= 0 && deltaChunks.x < map.loaded.size() && deltaChunks.y >= 0 && deltaChunks.y < map.loaded.size()) {
-                    Chunk* chunk = map.loaded[deltaChunks.x][deltaChunks.y];
-                    t = chunk->tiles[int(tileClicked.x - vc.x * Measures::TilesPerChunk)][int(tileClicked.y - vc.y * Measures::TilesPerChunk)];
-                    player.currentAction = t->click(event);
+                switch (event.mouseButton.button) {
+                    default:
+                    case Left:
+                        mouseEvent = make_shared<MouseLeftClickEvent>(event);
+                        // if you click on a tile or click in inv on an item or on minimap
+                        player.clearActionIfNotBusy();
+                        if (rightClickInterface.mouseIsInRect(mouseEvent))
+                            rightClickInterface.click(mouseEvent);
+                        break;
+                    case Right:
+                        mouseEvent = make_shared<MouseRightClickEvent>(event);
+                        if (!rightClickInterface.mouseIsInRect(mouseEvent))
+                            rightClickInterface.setPosition(VPixel(event.mouseButton.x, event.mouseButton.y));
+                        break;
+                    case Middle:
+                        mouseEvent = make_shared<MouseMiddleClickEvent>(event);
+                        player.clearActionIfNotBusy();
+                        break;
                 }
 
-                if (!player.currentAction.first) {
-                    tileClicked = VTile(int(tileClicked.x), int(tileClicked.y));
-                    if (!event.mouseButton.button)
-                        player.path = Pathfinder::pathfind(player.positionNextTick, { tileClicked }, false);
-                    else
-                        player.path = { tileClicked };
-                }
+                VTile tileClicked = converter.getPositionInGame(mouseEvent->position);
+                Tile* t = map.getTileFromVTile(tileClicked);
+                if (t)
+                    mouseEvent->accept(t);
             }
             else if (event.type == Event::Resized)
                 measures.update();
@@ -104,12 +111,16 @@ int main() {
                     measures.zoom = measures.zoom * (1 + (event.mouseWheel.delta + 0.3) * 0.1f);
                 else
                     measures.zoom = measures.zoom / (1 + (-event.mouseWheel.delta + 0.3) * 0.1f);
+            else if (event.type == Event::MouseMoved) {
+                mouseEvent = make_shared<MouseMoveEvent>(event);
+                // add top left indicator of what your mouse is over + left click option + options.length
+                if (!rightClickInterface.mouseIsInRect(mouseEvent))
+                    rightClickInterface.active = false;
+                //make a mousemove event
+            }
 
-        rightBanner.update();
-        bottomBanner.update();
         minimap.update();
         player.update(tickmod);
-
         window.clear();
 
         map.draw();
@@ -118,6 +129,7 @@ int main() {
         bottomBanner.draw();
         rightBanner.draw();
         minimap.draw();
+        rightClickInterface.draw();
 
         window.display();
     }

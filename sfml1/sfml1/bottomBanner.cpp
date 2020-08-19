@@ -6,9 +6,6 @@ BottomBanner::BottomBanner() {
     banner.setPosition(0, measures.getBottomBannerStartingY());
 }
 
-void BottomBanner::update() {
-}
-
 void BottomBanner::draw() const {
     Measures& measures = Measures::getInstance();
     RenderWindow& w = RenderWindowSingleton::getInstance();

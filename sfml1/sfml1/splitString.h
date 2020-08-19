@@ -4,4 +4,4 @@
 
 using namespace std;
 
-vector<string> split(const string& s, const char c);
+vector<string> split(const string& s, const string& divider);

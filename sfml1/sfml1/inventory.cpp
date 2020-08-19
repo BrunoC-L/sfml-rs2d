@@ -13,11 +13,18 @@ Inventory::Inventory(unsigned size, vector<Item> items) : size(size), items(item
 bool Inventory::has(Item item, unsigned quantity) {
 	for (auto i = 0; i < size && quantity; ++i)
 		if (items[i] == item)
-			quantity -= 1;
+			if (item.stackable)
+				return items[i].quantity >= quantity;
+			else
+				quantity -= 1;
 	return !quantity;
 }
 
 bool Inventory::has(vector<pair<Item, unsigned>> items) {
+	for (auto i = 0; i < items.size(); ++i)
+		for (auto j = i + 1; j < items.size(); ++j)
+			if (items[i].first == items[j].first)
+				throw new exception("vector for inventory::has has duplicates");
 	for (auto p : items)
 		if (!has(p.first,  p.second))
 			return false;
@@ -32,7 +39,7 @@ bool Inventory::add(vector<pair<Item, unsigned>> items) {
 		return false;
 	for (auto p : items)
 		for (auto i = 0; i < p.second; ++i)
-			if (!add(p.first))
+			if (!add(p.first, p.second))
 				throw new exception("Failed to add item");
 	return true;
 }
@@ -52,8 +59,14 @@ unsigned Inventory::space() {
 	return _space;
 }
 
-bool Inventory::add(Item item) {
+bool Inventory::add(Item item, unsigned quantity) {
 	_ASSERT(item.id);
+	if (item.stackable && has(item, 1))
+		for (auto i = 0; i < size; ++i)
+			if (items[i].id == item.id) {
+				items[i]. quantity += quantity;
+				return true;
+			}
 	if (_space == 0)
 		return false;
 	for (auto i = 0; i < size; ++i)
@@ -69,9 +82,14 @@ bool Inventory::remove(Item item) {
 	_ASSERT(item.id);
 	for (auto i = 0; i < size; ++i)
 		if (items[i] == item) {
-			items.erase(items.begin() + i);
-			items.insert(items.begin() + i, Item());
-			_space += 1;
+			if (item.stackable) {
+				_ASSERT(items[i].quantity >= item.quantity);
+				items[i].quantity -= item.quantity;
+			}
+			if (!item.stackable || items[i].quantity == 0) {
+				items[i] = Item();
+				_space += 1;
+			}
 			return true;
 		}
 	return false;

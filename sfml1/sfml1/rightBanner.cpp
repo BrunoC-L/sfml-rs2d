@@ -6,9 +6,6 @@ RightBanner::RightBanner() {
     banner.setPosition(measures.getRightBannerStartingX(), 0);
 }
 
-void RightBanner::update() {
-}
-
 void RightBanner::draw() const {
     Measures& measures = Measures::getInstance();
     RenderWindow& w = RenderWindowSingleton::getInstance();

@@ -1,4 +1,5 @@
 #include "tile.h"
+#include "pathfinder.h"
 
 Tile::Tile(int x, int y, int borders, vector<GroundItem> groundItems, vector<GameObject*> gameObjects, vector<NPC> NPCs, function<void()> callback)
 	: position(x, y), borders(borders), groundItems(groundItems), NPCs(NPCs), callback(callback) {
@@ -10,6 +11,7 @@ Tile::Tile(int x, int y, int borders, vector<GroundItem> groundItems, vector<Gam
 					groundObjects.push_back(groundObject);
 				}
 	}
+	walkable = borders != 0b1111;
 }
 
 bool Tile::canMoveFrom(Tile from) {
@@ -35,16 +37,56 @@ bool Tile::canMoveFrom(Tile from) {
 	}
 }
 
-pair<bool, function<bool()>> Tile::click(Event event) {
-	int x = event.mouseButton.x;
-	int y = event.mouseButton.y;
+function<bool()> Tile::onLeftClick(MouseLeftClickEvent event) {
+	auto& player = Player::getInstance();
+	RightClickInterface& rightClickInterface = RightClickInterface::getInstance();
+	bool redClick = false;
+	for (int i = 0; !redClick && i < groundObjects.size(); ++i) {
+		auto groundObject = groundObjects[i];
+		auto gameObject = gameObjects[i];
+		string name = gameObject->getName();
+		if (groundObject.isVisible && gameObject->hasRedClickAction && groundObject.isOverObject(1, 1)) {
+			auto interactions = gameObject->getInteractions();
+			if (interactions.size())
+				if (interactions[0].first != "Examine") {
+					player.currentAction = interactions[0].second;
+					redClick = true;
+				}
+		}
+	}
+	if (!redClick)
+		player.path = Pathfinder::pathfind(player.positionNextTick, { position }, false);
+	return []() { return false; };
+}
+
+function<bool()> Tile::onRightClick(MouseRightClickEvent event) {
+	auto& player = Player::getInstance();
+	RightClickInterface& rightClickInterface = RightClickInterface::getInstance();
+	rightClickInterface.active = true;
+	rightClickInterface.resetText();
 	for (int i = 0; i < groundObjects.size(); ++i) {
 		auto groundObject = groundObjects[i];
 		auto gameObject = gameObjects[i];
-		if (groundObject.isVisible && gameObject->hasRedClickAction && groundObject.isOverObject(x, y)) {
-			auto interactions = gameObject->getInteractions();
-			return make_pair(true, interactions[0].second);
-		}
+		string name = gameObject->getName();
+		if (groundObject.isVisible && gameObject->hasRedClickAction && groundObject.isOverObject(1, 1))
+			for (auto interactions : gameObject->getInteractions()) {
+				rightClickInterface.setText(gameObject->getName() + '\t' + interactions.first);
+			}
 	}
-	return make_pair(false, []() { return true; });
+	return []() { return false; };
+}
+
+function<bool()> Tile::onMiddleClick(MouseMiddleClickEvent event) {
+	auto& player = Player::getInstance();
+	player.path = { position };
+	return []() { return false; };
+}
+
+Tile::~Tile() {
+	/*for (const auto& obj : gameObjects)
+		delete obj;*/
+}
+
+function<bool()> Tile::onMove(MouseMoveEvent event) {
+	return []() { return false; };
 }

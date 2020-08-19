@@ -19,4 +19,6 @@ public:
 	bool hasRedClickAction;
 	vector<pair<string, function<bool()>>> interactions;
 	vector<VTile> positions;
+	string name;
+	virtual string getName();
 };

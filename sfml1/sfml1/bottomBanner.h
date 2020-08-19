@@ -10,7 +10,6 @@ class BottomBanner {
 public:
     BottomBanner();
     void draw() const;
-    void update();
 private:
     RectangleShape banner;
 };

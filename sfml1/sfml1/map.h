@@ -29,6 +29,7 @@ public:
             update();
         }
     }
+    Tile* getTileFromVTile(VTile tilePosition);
     bool shouldUpdate = false;
     bool shouldStop = false;
     unsigned chunkRadius = 0;

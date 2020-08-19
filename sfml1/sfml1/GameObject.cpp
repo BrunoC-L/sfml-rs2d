@@ -7,3 +7,7 @@ GameObject::GameObject(int id, function<void(VTile, int)> updateObjectTexture) :
 vector<pair<string, function<bool()>>> GameObject::getInteractions() {
 	return vector<pair<string, function<bool()>>>();
 }
+
+string GameObject::getName() {
+	return name;
+}

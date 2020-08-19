@@ -2,76 +2,81 @@
 
 class VBase {
 public:
-	float x, y, z = 0;
+	float x = 0, y = 0, z = 0;
 };
 
 class VPixel : public VBase {
 public:
 	VPixel() = default;
-	VPixel(const float& x, const float& y) { this->x = x; this->y = y; }
-	VPixel(const float& x, const float& y, const float& z) { this->x = x; this->y = y; this->z = z; }
-	VPixel operator*(const float& scale)   const { return VPixel(scale * x, scale * y); }
-	VPixel operator/(const float& scale)   const { return VPixel(x / scale, y / scale); }
-	VPixel operator*(const VBase& scale)   const { return VPixel(scale.x * x, scale.y * y); }
-	VPixel operator/(const VBase& scale)   const { return VPixel(x / scale.x, y / scale.y); }
-	VPixel operator+(const VPixel& other)  const { return VPixel(x + other.x, y + other.y); }
-	VPixel operator-(const VPixel& other)  const { return VPixel(x - other.x, y - other.y); }
-	bool   operator==(const VPixel& other) const { return x == other.x && y == other.y && z == other.z; }
-	bool   operator!=(const VPixel& other) const { return x != other.x || y != other.y || z != other.z; }
-	VPixel operator+=(const VPixel& other) { x += other.x; y += other.y; z += other.z; return *this; }
-	VPixel operator-=(const VPixel& other) { x -= other.x; y -= other.y; z -= other.z; return *this; }
-	VPixel operator*=(const VPixel& other) { x *= other.x; y *= other.y; z *= other.z; return *this; }
-	VPixel operator/=(const VPixel& other) { x /= other.x; y /= other.y; z /= other.z; return *this; }
-	VPixel operator*=(const float& scale)  { x *= scale; y *= scale; z *= scale; return *this; }
-	VPixel operator/=(const float& scale)  { x /= scale; y /= scale; z /= scale; return *this; }
+	VPixel(const float& x, const float& y);
+	VPixel(const float& x, const float& y, const float& z);
+	VPixel operator*(const float& scale)   const;
+	VPixel operator/(const float& scale)   const;
+	VPixel operator*(const VBase& scale)   const;
+	VPixel operator/(const VBase& scale)   const;
+	VPixel operator+(const VPixel& other)  const;
+	VPixel operator-(const VPixel& other)  const;
+	bool   operator==(const VPixel& other) const;
+	bool   operator!=(const VPixel& other) const;
+	VPixel operator+=(const VPixel& other);
+	VPixel operator-=(const VPixel& other);
+	VPixel operator*=(const VPixel& other);
+	VPixel operator/=(const VPixel& other);
+	VPixel operator*=(const float& scale);
+	VPixel operator/=(const float& scale);
 };
 
 class VTile : public VBase {
 public:
 	VTile() = default;
-	VTile(const float& x, const float& y) { this->x = x; this->y = y; }
-	VTile(const float& x, const float& y, const float& z) { this->x = x; this->y = y; this->z = z; }
-	VTile operator* (const float& scale) const { return VTile(scale * x, scale * y); }
-	VTile operator/ (const float& scale) const { return VTile(x / scale, y / scale); }
-	VTile operator* (const VBase& scale) const { return VTile(scale.x * x, scale.y * y); }
-	VTile operator/ (const VBase& scale) const { return VTile(x / scale.x, y / scale.y); }
-	VTile operator+ (const VTile& other) const { return VTile(x + other.x, y + other.y); }
-	VTile operator- (const VTile& other) const { return VTile(x - other.x, y - other.y); }
-	bool  operator==(const VTile& other) const { return x == other.x && y == other.y && z == other.z; }
-	bool  operator!=(const VTile& other) const { return x != other.x || y != other.y || z != other.z; }
-	VTile operator+=(const VTile& other) { x += other.x; y += other.y; z += other.z; return *this; }
-	VTile operator-=(const VTile& other) { x -= other.x; y -= other.y; z -= other.z; return *this; }
-	VTile operator*=(const VTile& other) { x *= other.x; y *= other.y; z *= other.z; return *this; }
-	VTile operator/=(const VTile& other) { x /= other.x; y /= other.y; z /= other.z; return *this; }
-	VTile operator*=(const float& scale) { x *= scale; y *= scale; z *= scale; return *this; }
-	VTile operator/=(const float& scale) { x /= scale; y /= scale; z /= scale; return *this; }
+	VTile(const float& x, const float& y);
+	VTile(const float& x, const float& y, const float& z);
+	VTile operator* (const float& scale) const;
+	VTile operator/ (const float& scale) const;
+	VTile operator* (const VBase& scale) const;
+	VTile operator/ (const VBase& scale) const;
+	VTile operator+ (const VTile& other) const;
+	VTile operator- (const VTile& other) const;
+	bool  operator==(const VTile& other) const;
+	bool  operator!=(const VTile& other) const;
+	VTile operator+=(const VTile& other);
+	VTile operator-=(const VTile& other);
+	VTile operator*=(const VTile& other);
+	VTile operator/=(const VTile& other);
+	VTile operator*=(const float& scale);
+	VTile operator/=(const float& scale);
 };
 
 class VChunk : public VBase {
 public:
 	VChunk() = default;
-	VChunk(const float& x, const float& y) { this->x = x; this->y = y; }
-	VChunk(const float& x, const float& y, const float& z) { this->x = x; this->y = y; this->z = z; }
-	VChunk operator*(const float& scale)   const { return VChunk(scale * x, scale * y); }
-	VChunk operator/(const float& scale)   const { return VChunk(x / scale, y / scale); }
-	VChunk operator*(const VBase& scale)   const { return VChunk(scale.x * x, scale.y * y); }
-	VChunk operator/(const VBase& scale)   const { return VChunk(x / scale.x, y / scale.y); }
-	VChunk operator+(const VChunk& other)  const { return VChunk(x + other.x, y + other.y); }
-	VChunk operator-(const VChunk& other)  const { return VChunk(x - other.x, y - other.y); }
-	bool   operator==(const VChunk& other) const { return x == other.x && y == other.y && z == other.z; }
-	bool   operator!=(const VChunk& other) const { return x != other.x || y != other.y || z != other.z; }
-	VChunk operator+=(const VChunk& other) { x += other.x; y += other.y; z += other.z; return *this; }
-	VChunk operator-=(const VChunk& other) { x -= other.x; y -= other.y; z -= other.z; return *this; }
-	VChunk operator*=(const VChunk& other) { x *= other.x; y *= other.y; z *= other.z; return *this; }
-	VChunk operator/=(const VChunk& other) { x /= other.x; y /= other.y; z /= other.z; return *this; }
-	VChunk operator*=(const float& scale)  { x *= scale; y *= scale; z *= scale; return *this; }
-	VChunk operator/=(const float& scale)  { x /= scale; y /= scale; z /= scale; return *this; }
+	VChunk(const float& x, const float& y);
+	VChunk(const float& x, const float& y, const float& z);
+	VChunk operator*(const float& scale)   const;
+	VChunk operator/(const float& scale)   const;
+	VChunk operator*(const VBase& scale)   const;
+	VChunk operator/(const VBase& scale)   const;
+	VChunk operator+(const VChunk& other)  const;
+	VChunk operator-(const VChunk& other)  const;
+	bool   operator==(const VChunk& other) const;
+	bool   operator!=(const VChunk& other) const;
+	VChunk operator+=(const VChunk& other);
+	VChunk operator-=(const VChunk& other);
+	VChunk operator*=(const VChunk& other);
+	VChunk operator/=(const VChunk& other);
+	VChunk operator*=(const float& scale);
+	VChunk operator/=(const float& scale);
 };
 
 struct VTileHash
 {
-	size_t operator()(VTile const& t) const noexcept
-	{
-		return t.z + 10 * t.y + 16000 * t.x;
-	}
+	size_t operator()(VTile const& t) const noexcept;
 };
+
+//struct VTileHash
+//{
+//	size_t operator()(VTile const& t) const noexcept
+//	{
+//		return t.z + 10 * t.y + 16000 * t.x;
+//	}
+//};

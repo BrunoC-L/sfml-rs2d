@@ -8,26 +8,26 @@ Player::Player() : inventory(Inventory(28, {})) {
     position = VTile();
     positionLastTick = position;
     positionNextTick = position;
-    currentAction = make_pair(false, []() { return true; });
+    currentAction = []() { return false; };
 }
 
 void Player::update(unsigned tickmod) {
     if (currentMovement[0] == VTile())
         return;
     if (currentMovement[1] == VTile()) {
-        position = positionLastTick + currentMovement[0] * ((tickmod + 1) / 36.f);
+        position = positionLastTick + currentMovement[0] * ((tickmod + 1) / Measures::framesPerTick);
         return;
     }
-    if (tickmod < 18) {
-        position = positionLastTick + currentMovement[0] * ((tickmod + 1) / 18.f);
+    if (tickmod * 2 < Measures::framesPerTick ) {
+        position = positionLastTick + currentMovement[0] * 2 * ((tickmod + 1) / Measures::framesPerTick);
         return;
     }
-    position = positionLastTick + currentMovement[0] + currentMovement[1] * ((tickmod % 18 + 1) / 18.f);
+    position = positionLastTick + currentMovement[0] + currentMovement[1] * ((2 * tickmod) % unsigned(Measures::framesPerTick) + 2) / Measures::framesPerTick;
 }
 
 void Player::onGameTick() {
-    if (currentAction.first && currentAction.second())
-        currentAction = make_pair(false, []() { return true; });
+    if (!currentAction())
+        currentAction =[]() { return false; };
     positionLastTick = position;
     if (path.size()) {
         currentMovement[0] = path[0] - position;
@@ -36,9 +36,8 @@ void Player::onGameTick() {
             currentMovement[1] = path[0] - (position + currentMovement[0]);
             path.erase(path.begin());
         }
-        else {
+        else
             currentMovement[1] = VTile();
-        }
     }
     else {
         currentMovement[0] = VTile();
@@ -60,4 +59,9 @@ void Player::draw(VTile cameraPos) const {
             .translate(-(17.f/16) * measures.getTileSize().x, - 1.5 * measures.getTileSize().y)
             .translate(position.x - cameraPos.x, position.y - cameraPos.y)
     );
+}
+
+void Player::clearActionIfNotBusy() {
+    if (!isBusy)
+        currentAction = []() {return true; };
 }

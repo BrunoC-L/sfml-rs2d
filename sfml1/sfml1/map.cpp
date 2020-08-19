@@ -15,7 +15,7 @@ void Map::load() {
 		for (int j = 0; j < 2 * chunkRadius + 1; ++j) {
 			VChunk chunkPos = centerChunk + VChunk(i, j) - VChunk(chunkRadius, chunkRadius);
 			delete loaded[i][j];
-			loaded[i][j] = new Chunk(chunkPos, measures, textures);
+			loaded[i][j] = new Chunk(chunkPos);
 		}
 	mutex.unlock();
 }
@@ -58,7 +58,7 @@ void Map::updateChunks(const VChunk& difference, const VChunk& tempCenter) {
 				reused[i + difference.x][j + difference.y] = true;
 			}
 			else
-				newChunks[i][j] = new Chunk(chunkPos, measures, textures);
+				newChunks[i][j] = new Chunk(chunkPos);
 		}
 	mutex.lock();
 	for (int i = 0; i < 2 * chunkRadius + 1; ++i)
@@ -67,4 +67,16 @@ void Map::updateChunks(const VChunk& difference, const VChunk& tempCenter) {
 				delete loaded[i][j];
 	loaded = newChunks;
 	mutex.unlock();
+}
+
+Tile* Map::getTileFromVTile(VTile tilePosition) {
+	VChunk chunkOfTileClicked = VChunk(int(tilePosition.x / Measures::TilesPerChunk), int(tilePosition.y / Measures::TilesPerChunk));
+	VChunk deltaChunkOffsetWithMiddleChunk = chunkOfTileClicked - centerChunk + VChunk(loaded.size() / 2, loaded.size() / 2);
+	Tile* t = nullptr;
+	if (deltaChunkOffsetWithMiddleChunk.x >= 0 && deltaChunkOffsetWithMiddleChunk.x < loaded.size() &&
+		deltaChunkOffsetWithMiddleChunk.y >= 0 && deltaChunkOffsetWithMiddleChunk.y < loaded.size()) {
+		Chunk* chunk = loaded[deltaChunkOffsetWithMiddleChunk.x][deltaChunkOffsetWithMiddleChunk.y];
+		t = chunk->tiles[int(tilePosition.x - chunkOfTileClicked.x * Measures::TilesPerChunk)][int(tilePosition.y - chunkOfTileClicked.y * Measures::TilesPerChunk)];
+	}
+	return t;
 }
