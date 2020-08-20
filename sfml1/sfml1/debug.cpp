@@ -1,5 +1,4 @@
 #include "debug.h"
-#include <iostream>
 
 void print(const Vector3f v) {
 	cout << v.x << ", " << v.y << ", " << v.z << std::endl;

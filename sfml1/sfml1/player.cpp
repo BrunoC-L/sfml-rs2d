@@ -63,5 +63,10 @@ void Player::draw(VTile cameraPos) const {
 
 void Player::clearActionIfNotBusy() {
     if (!isBusy)
-        currentAction = []() {return true; };
+        currentAction = []() { return true; };
+}
+
+void Player::setActionIfNotBusy(function<bool()> action) {
+    if (!isBusy)
+        currentAction = action;
 }

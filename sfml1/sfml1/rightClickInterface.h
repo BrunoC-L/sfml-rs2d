@@ -21,10 +21,13 @@ public:
     bool active;
     void setPosition(VPixel pos);
     bool mouseIsInRect(shared_ptr<MouseEvent> mouseEvent);
-    void setText(string text);
+    VPixel getDeltaClick(shared_ptr<MouseEvent> mouseEvent);
+    void addText(string text);
     void resetText();
     void click(shared_ptr<MouseEvent> mouseEvent);
+    void addInteractions(string objectName, vector<pair<string, function<bool()>>> interactions);
 private:
+    vector<pair<string,function<bool()>>> interactions;
     Text text;
     Font font;
     RightClickInterface();

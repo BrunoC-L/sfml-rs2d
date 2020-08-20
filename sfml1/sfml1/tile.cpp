@@ -60,8 +60,9 @@ function<bool()> Tile::onLeftClick(MouseLeftClickEvent event) {
 }
 
 function<bool()> Tile::onRightClick(MouseRightClickEvent event) {
-	auto& player = Player::getInstance();
 	RightClickInterface& rightClickInterface = RightClickInterface::getInstance();
+	if (rightClickInterface.active)
+		return []() { return false; };
 	rightClickInterface.active = true;
 	rightClickInterface.resetText();
 	for (int i = 0; i < groundObjects.size(); ++i) {
@@ -69,9 +70,7 @@ function<bool()> Tile::onRightClick(MouseRightClickEvent event) {
 		auto gameObject = gameObjects[i];
 		string name = gameObject->getName();
 		if (groundObject.isVisible && gameObject->hasRedClickAction && groundObject.isOverObject(1, 1))
-			for (auto interactions : gameObject->getInteractions()) {
-				rightClickInterface.setText(gameObject->getName() + '\t' + interactions.first);
-			}
+			rightClickInterface.addInteractions(gameObject->getName(), gameObject->getInteractions());
 	}
 	return []() { return false; };
 }
@@ -80,11 +79,6 @@ function<bool()> Tile::onMiddleClick(MouseMiddleClickEvent event) {
 	auto& player = Player::getInstance();
 	player.path = { position };
 	return []() { return false; };
-}
-
-Tile::~Tile() {
-	/*for (const auto& obj : gameObjects)
-		delete obj;*/
 }
 
 function<bool()> Tile::onMove(MouseMoveEvent event) {

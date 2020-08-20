@@ -28,6 +28,7 @@ public:
     Inventory inventory;
     bool isBusy;
     void clearActionIfNotBusy();
+    void setActionIfNotBusy(function<bool()> action);
 private:
     Player();
     Texture t;

@@ -26,7 +26,6 @@ public:
 	virtual function<bool()> onMiddleClick(MouseMiddleClickEvent event);
 	virtual function<bool()> onMove(MouseMoveEvent event);
 	bool walkable;
-	~Tile();
 private:
 	vector<GameObject*> gameObjects;
 	vector<GroundObject> groundObjects;

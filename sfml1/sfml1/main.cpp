@@ -60,23 +60,24 @@ int main() {
             GameTick::tick();
             taskManager.executeAndRemove();
             player.onGameTick();
+            map.shouldUpdate = true;
         }
-        map.shouldUpdate = true;
 
         shared_ptr<MouseEvent> mouseEvent = nullptr;
         Event event;
+        bool clickedOnInterface = false;
 
         while (window.pollEvent(event))
             if (event.type == Event::Closed)
                 window.close();
             else if (event.type == Event::KeyPressed)
                 switch (event.text.unicode) {
-                case 71:
-                    measures.angle -= 5;
-                    break;
-                case 72:
-                    measures.angle += 5;
-                    break;
+                    case 71:
+                        measures.angle -= 5;
+                        break;
+                    case 72:
+                        measures.angle += 5;
+                        break;
                 }
             else if (event.type == Event::MouseButtonPressed) {
                 switch (event.mouseButton.button) {
@@ -85,12 +86,14 @@ int main() {
                         mouseEvent = make_shared<MouseLeftClickEvent>(event);
                         // if you click on a tile or click in inv on an item or on minimap
                         player.clearActionIfNotBusy();
-                        if (rightClickInterface.mouseIsInRect(mouseEvent))
-                            rightClickInterface.click(mouseEvent);
+                        if (!rightClickInterface.mouseIsInRect(mouseEvent))
+                            break;
+                        rightClickInterface.click(mouseEvent);
+                        clickedOnInterface = true;
                         break;
                     case Right:
                         mouseEvent = make_shared<MouseRightClickEvent>(event);
-                        if (!rightClickInterface.mouseIsInRect(mouseEvent))
+                        if (!rightClickInterface.mouseIsInRect(mouseEvent) || !rightClickInterface.active)
                             rightClickInterface.setPosition(VPixel(event.mouseButton.x, event.mouseButton.y));
                         break;
                     case Middle:
@@ -98,19 +101,17 @@ int main() {
                         player.clearActionIfNotBusy();
                         break;
                 }
-
-                VTile tileClicked = converter.getPositionInGame(mouseEvent->position);
-                Tile* t = map.getTileFromVTile(tileClicked);
-                if (t)
-                    mouseEvent->accept(t);
+                if (!clickedOnInterface) {
+                    VTile tileClicked = converter.getPositionInGame(mouseEvent->position);
+                    Tile* t = map.getTileFromVTile(tileClicked);
+                    if (t)
+                        mouseEvent->accept(t);
+                }
             }
             else if (event.type == Event::Resized)
                 measures.update();
             else if (event.type == Event::MouseWheelMoved)
-                if (event.mouseWheel.delta > 0)
-                    measures.zoom = measures.zoom * (1 + (event.mouseWheel.delta + 0.3) * 0.1f);
-                else
-                    measures.zoom = measures.zoom / (1 + (-event.mouseWheel.delta + 0.3) * 0.1f);
+                measures.zoom = measures.zoom * (1 + (0.3 + event.mouseWheel.delta) * 0.1f);
             else if (event.type == Event::MouseMoved) {
                 mouseEvent = make_shared<MouseMoveEvent>(event);
                 // add top left indicator of what your mouse is over + left click option + options.length
