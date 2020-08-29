@@ -44,11 +44,9 @@ sites = [
     'https://oldschool.runescape.wiki/w/Category:Detailed_item_images?filefrom=Wise+old+man%27s+santa+hat+detail.png#mw-category-media',
     'https://oldschool.runescape.wiki/w/Category:Detailed_item_images?filefrom=Zombie+head+detail.png#mw-category-media',
 ]
-start = 0
-end = 39
 
-for i, site in enumerate(sites[start:end + 1]):
-    print(f'{i} out of {end - start + 1}')
+for i, site in enumerate(sites):
+    print(f'{i} out of {len(sites)}')
     response = requests.get(site)
     soup = BeautifulSoup(response.text, 'html.parser')
     img_tags = soup.find_all('img')
@@ -61,4 +59,3 @@ for i, site in enumerate(sites[start:end + 1]):
         with open(f'../assets/items/{filename}', 'wb') as f:
             response = requests.get(f'https://oldschool.runescape.wiki{url}')
             f.write(response.content)
-print(f'{end - start + 1} out of {end - start + 1}')
