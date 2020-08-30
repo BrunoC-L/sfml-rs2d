@@ -22,6 +22,10 @@ Chunk::Chunk(const VChunk& pos) : chunkpos(pos) {
         const int borders         =  stoi(parameters[3]);
         const auto items          = split(parameters[4], "////");
         const auto NPCs           = split(parameters[5], "////");
+        if (parameters.size() < 6)
+            const int wetrrt = 2;
+        if (parameters[6].length())
+            const int rtert = 34;
         const auto objects        = split(parameters[6], "////");
         const auto callbacks      = split(parameters[7], "////");
 

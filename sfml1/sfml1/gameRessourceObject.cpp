@@ -21,19 +21,30 @@ GameRessourceObject::GameRessourceObject(function<void(VTile, int)> updateObject
 			groundObjects.push_back(GroundObject(id, positions.back(), firstTextureIndex + dx + size * dy + size * size, updateObjectTexture, false));
 		}
 	isUp = true;
+	string collectOption  = objectPart[9];
 	string examineOptions = objectPart[8];
 	auto examines = split(examineOptions, "|");
-	string collectOption  = objectPart[9];
 	interactions = {
 		make_pair(
 			collectOption,
-			[this]() { sendPlayerToStartCollecting(); return true; }
+			[this]() { sendPlayerToCollect(); return true; }
 		),
 		make_pair(
 			"Examine",
 			[this, examines]() { cout << examines[isUp ? 0 : 1] << endl; return false; }
 		),
 	};
+	if (objectPart.size() > 10) {
+		auto parts = split(objectPart[10], "|");
+		string option = parts[0];
+		if (option == "Prospect") {
+			string whatsInside = parts[1];
+			interactions.insert(interactions.begin() + 1, make_pair(
+				"Prospect",
+				[this, whatsInside]() { sendPlayerToProspect(whatsInside); return true; }
+			));
+		}
+	}
 }
 
 void GameRessourceObject::show() {
@@ -48,39 +59,66 @@ void GameRessourceObject::showDepleted() {
 		groundObjects[i].show();
 }
 
-void GameRessourceObject::sendPlayerToStartCollecting() {
+void GameRessourceObject::sendPlayerToCollect() {
 	Player& player = Player::getInstance();
 	player.path = Pathfinder::pathfind(player.positionNextTick, positions, true);
 	unsigned tick = GameTick::get();
-	player.currentAction = [&, tick]() {
-		auto nextToTree = MovingPredicate::getNextTo(positions);
-		if (MovingPredicate::tileIsInVector(player.positionNextTick, nextToTree)) {
-			player.currentAction = [&]() { return collect(); };
+	player.setActionIfNotBusy([&, tick]() {
+		auto nextToRessource = MovingPredicate::getNextTo(positions);
+		if (MovingPredicate::tileIsInVector(player.positionNextTick, nextToRessource)) {
+			player.setActionIfNotBusy([&]() { return collect(); });
 			return true;
 		}
-		return player.path.size() && MovingPredicate::tileIsInVector(player.path.back(), nextToTree);
-	};
+		return player.path.size() && MovingPredicate::tileIsInVector(player.path.back(), nextToRessource);
+	});
 }
 
 bool GameRessourceObject::collect() {
-	auto nextToTree = MovingPredicate::getNextTo(positions);
+	auto nextToRessource = MovingPredicate::getNextTo(positions);
 	Player& player = Player::getInstance();
-	if (!MovingPredicate::tileIsInVector(player.position, nextToTree))
+	if (!MovingPredicate::tileIsInVector(player.position, nextToRessource))
 		return false;
 	if (!player.inventory.space() && !item.stackable || item.stackable && player.inventory.has(item, 1))
 		return false;
+	if (rand() % 100 >= 10)
+		return true;
+	if (maxItem - minItem)
+		player.inventory.add(item, rand() % (maxItem - minItem) + minItem);
+	else
+		player.inventory.add(item, minItem);
 	if (rand() % 100 < 10) {
-		if (maxItem - minItem)
-			player.inventory.add(item, rand() % (maxItem - minItem) + minItem);
-		else
-			player.inventory.add(item, minItem);
-		if (rand() % 100 < 10) {
-			showDepleted();
-			TaskManager::getInstance().scheduleTaskInTicks([&]() { this->show(); return false; }, rand() % 20);
-			return false;
-		}
+		showDepleted();
+		TaskManager::getInstance().scheduleTaskInTicks([&]() { this->show(); return false; }, rand() % 20);
+		return false;
 	}
 	return true;
+}
+
+void GameRessourceObject::sendPlayerToProspect(string oreType) {
+	Player& player = Player::getInstance();
+	player.path = Pathfinder::pathfind(player.positionNextTick, positions, true);
+	player.setActionIfNotBusy([&, oreType]() {
+		auto nextToRessource = MovingPredicate::getNextTo(positions);
+		if (MovingPredicate::tileIsInVector(player.positionNextTick, nextToRessource)) {
+			player.setActionIfNotBusy([&, oreType]() { return prospect(oreType); });
+			return true;
+		}
+		return player.path.size() && MovingPredicate::tileIsInVector(player.path.back(), nextToRessource);
+	});
+}
+
+bool GameRessourceObject::prospect(string oreType) {
+	auto nextToRessource = MovingPredicate::getNextTo(positions);
+	Player& player = Player::getInstance();
+	if (!MovingPredicate::tileIsInVector(player.position, nextToRessource))
+		return false;
+	if (rand() % 100 >= 10)
+		return true;
+	if (rand() % 100 >= 70)
+		cout << "You fail to identify the ore :(" << endl;
+	else
+		cout << oreType << endl;
+	return false;
 }
 
 vector<pair<string, function<bool()>>> GameRessourceObject::getInteractions() {

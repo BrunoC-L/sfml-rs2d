@@ -72,11 +72,3 @@ struct VTileHash
 {
 	size_t operator()(VTile const& t) const noexcept;
 };
-
-//struct VTileHash
-//{
-//	size_t operator()(VTile const& t) const noexcept
-//	{
-//		return t.z + 10 * t.y + 16000 * t.x;
-//	}
-//};

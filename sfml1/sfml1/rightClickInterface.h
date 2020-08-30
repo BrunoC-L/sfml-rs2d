@@ -3,7 +3,6 @@
 #include "units.h"
 #include "measures.h"
 #include "getRenderWindow.h"
-#include "debug.h"
 #include "mouseEvent.h"
 
 using namespace std;

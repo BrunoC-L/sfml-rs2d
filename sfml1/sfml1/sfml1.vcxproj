@@ -148,7 +148,6 @@
     <ClCompile Include="bottomBanner.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="chunk.cpp" />
-    <ClCompile Include="debug.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="gameRessourceObject.cpp" />
     <ClCompile Include="groundObject.cpp" />
@@ -170,7 +169,6 @@
     <ClInclude Include="bottomBanner.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="chunk.h" />
-    <ClInclude Include="debug.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="gameRessourceObject.h" />
     <ClInclude Include="gameTick.h" />

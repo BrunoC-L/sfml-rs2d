@@ -43,10 +43,10 @@ private:
 				break;
 			seen.insert(current);
 			auto nexts = {
-				current + VTile( 0,  1),
-				current + VTile(-1,  0),
-				current + VTile( 0, -1),
 				current + VTile( 1,  0),
+				current + VTile(-1,  0),
+				current + VTile( 0,  1),
+				current + VTile( 0, -1),
 				current + VTile( 1,  1),
 				current + VTile(-1,  1),
 				current + VTile( 1, -1),

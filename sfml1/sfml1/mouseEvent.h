@@ -15,7 +15,6 @@ public:
 	}
 	VTile getPositionInGame(VPixel mousePos) {
 		Measures& measures = Measures::getInstance();
-		Camera& camera = Camera::getInstance();
 		VPixel middle(measures.getInnerWindowSize() / 2);
 		VPixel delta = mousePos - middle;
 		const float radius = pow(pow(delta.x, 2) + pow(delta.y, 2), 0.5f);
@@ -25,7 +24,7 @@ public:
 		rotatedDelta *= VPixel(signs.x, signs.y);
 		rotatedDelta /= measures.zoom;
 		VTile deltaTilesFloat = VTile(rotatedDelta.x, rotatedDelta.y) / Measures::pixelsPerTile;
-		VTile tileClicked = camera.getPosition() + VTile(deltaTilesFloat.x * signs.x, deltaTilesFloat.y * signs.y) + VTile(0.5, 0.5);
+		VTile tileClicked = Camera::getInstance().getPosition() + VTile(deltaTilesFloat.x * signs.x, deltaTilesFloat.y * signs.y) + VTile(0.5, 0.5);
 		return tileClicked;
 	}
 private:

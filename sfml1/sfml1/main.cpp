@@ -1,11 +1,7 @@
-#include <iostream>
 #include <thread>
-#include <math.h>
 
-#include "minimap.h"
 #include "map.h"
 #include "measures.h"
-#include "debug.h"
 #include "units.h"
 #include "rightBanner.h"
 #include "bottomBanner.h"
@@ -25,15 +21,15 @@ int main() {
     TaskManager& taskManager = TaskManager::getInstance();
     measures.setGetWindowSize([&]() { return VPixel(window.getSize().x, window.getSize().y); });
     Player& player = Player::getInstance();
-    player.position = VTile(18 * Measures::TilesPerChunk + 20, 13 * Measures::TilesPerChunk + 37, 0); // lumbridge
+    VTile lumbridge(18 * Measures::TilesPerChunk + 20, 13 * Measures::TilesPerChunk + 37, 0);
+    player.position = lumbridge;
     Camera& camera = Camera::getInstance();
     camera.setPosition(&player.position);
     Map& map = Map::getInstance();
     map.chunkRadius = 1;
     map.load();
-    Minimap minimap;
-    RightBanner rightBanner;
-    BottomBanner bottomBanner;
+    RightBanner& rightBanner = RightBanner::getInstance();
+    BottomBanner& bottomBanner = BottomBanner::getInstance();
     RightClickInterface& rightClickInterface = RightClickInterface::getInstance();
 
     std::thread t(&Map::doUpdates, &map);
@@ -50,8 +46,8 @@ int main() {
 
     while (window.isOpen()) {
         auto dt = clock.getElapsedTime().asMilliseconds();
-        if (dt > 20)
-            cout << dt << endl;
+        if (dt > 1100.f/60)
+            cout << "frame took " << dt << " ms" << endl;
         clock.restart();
         ++frame;
         tickmod = frame % unsigned(Measures::framesPerTick);
@@ -63,9 +59,13 @@ int main() {
             map.shouldUpdate = true;
         }
 
+        bool clickedOnRightClickInterface = false;
+        bool clickedOnRightBanner = false;
+        bool clickedOnBottomBanner = false;
+        bool clickedOnWorld = true;
+
         shared_ptr<MouseEvent> mouseEvent = nullptr;
         Event event;
-        bool clickedOnInterface = false;
 
         while (window.pollEvent(event))
             if (event.type == Event::Closed)
@@ -84,12 +84,16 @@ int main() {
                     default:
                     case Left:
                         mouseEvent = make_shared<MouseLeftClickEvent>(event);
-                        // if you click on a tile or click in inv on an item or on minimap
-                        player.clearActionIfNotBusy();
-                        if (!rightClickInterface.mouseIsInRect(mouseEvent))
-                            break;
-                        rightClickInterface.click(mouseEvent);
-                        clickedOnInterface = true;
+                        clickedOnRightClickInterface = rightClickInterface.active && rightClickInterface.mouseIsInRect(mouseEvent);
+                        if (clickedOnRightClickInterface) {
+                            clickedOnWorld = false;
+                            rightClickInterface.click(mouseEvent);
+                        }
+                        clickedOnRightBanner = rightBanner.mouseIsInRect(mouseEvent);
+                        if (clickedOnRightBanner) {
+                            clickedOnWorld = false;
+                            rightBanner.click(mouseEvent);
+                        }
                         break;
                     case Right:
                         mouseEvent = make_shared<MouseRightClickEvent>(event);
@@ -101,7 +105,7 @@ int main() {
                         player.clearActionIfNotBusy();
                         break;
                 }
-                if (!clickedOnInterface) {
+                if (clickedOnWorld) {
                     VTile tileClicked = converter.getPositionInGame(mouseEvent->position);
                     Tile* t = map.getTileFromVTile(tileClicked);
                     if (t)
@@ -117,10 +121,9 @@ int main() {
                 // add top left indicator of what your mouse is over + left click option + options.length
                 if (!rightClickInterface.mouseIsInRect(mouseEvent))
                     rightClickInterface.active = false;
-                //make a mousemove event
             }
 
-        minimap.update();
+        rightBanner.update();
         player.update(tickmod);
         window.clear();
 
@@ -129,7 +132,6 @@ int main() {
 
         bottomBanner.draw();
         rightBanner.draw();
-        minimap.draw();
         rightClickInterface.draw();
 
         window.display();

@@ -1,0 +1,3 @@
+-farming plants/patches
+-floors (height levels)
+-not 1x1 mobs pathfinding

@@ -23,13 +23,13 @@ public:
     VTile positionLastTick;
     VTile positionNextTick;
     VTile currentMovement[2];
-    function<bool()> currentAction;
     vector<VTile> path = {};
     Inventory inventory;
     bool isBusy;
     void clearActionIfNotBusy();
     void setActionIfNotBusy(function<bool()> action);
 private:
+    function<bool()> currentAction;
     Player();
     Texture t;
     Sprite player;

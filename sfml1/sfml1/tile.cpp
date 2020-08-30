@@ -49,7 +49,7 @@ function<bool()> Tile::onLeftClick(MouseLeftClickEvent event) {
 			auto interactions = gameObject->getInteractions();
 			if (interactions.size())
 				if (interactions[0].first != "Examine") {
-					player.currentAction = interactions[0].second;
+					player.setActionIfNotBusy(interactions[0].second);
 					redClick = true;
 				}
 		}

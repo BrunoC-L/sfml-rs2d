@@ -1,7 +1,7 @@
 #include "item.h"
 #include <string>
 
-Item::Item() : id(0), name(""), textureIndex(0), stackable(true), weight(0) { }
+Item::Item() : id(0), name(""), textureIndex(0), stackable(true), weight(0), quantity(0) { }
 
 Item Item::fromString(string s, string divider) {
 	auto arr = split(s, divider);

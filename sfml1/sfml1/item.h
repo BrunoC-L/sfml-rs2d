@@ -20,5 +20,6 @@ public:
 		quantity(quantity)
 	{ }
 	Item();
-	bool operator==(const Item& other) { return id == other.id; }
+	bool isSameType(const Item& other) { return id == other.id; }
+	bool isSameTypeAndQty(const Item& other) { return id == other.id && quantity == other.quantity; }
 };

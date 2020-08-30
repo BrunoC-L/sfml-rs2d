@@ -2,7 +2,6 @@
 #include "GameObject.h"
 #include "taskManager.h"
 #include <stdlib.h>
-#include "debug.h"
 #include "pathfinder.h"
 
 class GameRessourceObject : public GameObject {
@@ -11,8 +10,10 @@ public:
 	virtual vector<pair<string, function<bool()>>> getInteractions();
 	void show();
 	void showDepleted();
+	void sendPlayerToCollect();
 	bool collect();
-	void sendPlayerToStartCollecting();
+	void sendPlayerToProspect(string oreType);
+	bool prospect(string oreType);
 	virtual string getName();
 	bool isUp;
 	unsigned size;

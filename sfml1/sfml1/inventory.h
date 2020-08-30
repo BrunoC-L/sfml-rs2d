@@ -17,4 +17,5 @@ public:
 	bool has(Item item, unsigned quantity);
 	bool add(Item item, unsigned quantity);
 	bool remove(Item item);
+	vector<Item> getItems();
 };

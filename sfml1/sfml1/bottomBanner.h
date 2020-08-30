@@ -8,8 +8,14 @@ using namespace sf;
 
 class BottomBanner {
 public:
-    BottomBanner();
+    BottomBanner(BottomBanner& other) = delete;
+    BottomBanner operator=(const BottomBanner& other) = delete;
+    static BottomBanner& getInstance() {
+        static BottomBanner instance;
+        return instance;
+    }
     void draw() const;
 private:
+    BottomBanner();
     RectangleShape banner;
 };
