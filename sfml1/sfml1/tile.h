@@ -10,12 +10,15 @@
 #include "player.h"
 #include "rightClickInterface.h"
 #include "mouseEvent.h"
-#include "MouseEventVisitor.h"
+#include "mouseMiddleClickEvent.h"
+#include "mouseLeftClickEvent.h"
+#include "mouseRightClickEvent.h"
+#include "mouseMoveEvent.h"
 
 using namespace std;
 using namespace sf;
 
-class Tile : public MouseEventVisitor {
+class Tile {
 public:
 	Tile(int x, int y, int borders, const vector<GroundItem> groundItems, const vector<GameObject*> groundObjects, const vector<NPC> NPCs, const function<void()> callback);
 	bool canMoveFrom(Tile from);

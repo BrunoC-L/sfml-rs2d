@@ -25,14 +25,14 @@ void RightClickInterface::resetText() {
     text.setString("Choose Option");
 }
 
-bool RightClickInterface::mouseIsInRect(shared_ptr<MouseEvent> mouseEvent) {
-    auto delta = getDeltaClick(mouseEvent);
+bool RightClickInterface::mouseIsInRect(MouseEvent* ev) {
+    auto delta = getDeltaClick(ev);
     return delta.x < rect.getSize().x && delta.y < rect.getSize().y && delta.x >= 0 && delta.y >= 0;
 }
 
-VPixel RightClickInterface::getDeltaClick(shared_ptr<MouseEvent> mouseEvent) {
+VPixel RightClickInterface::getDeltaClick(MouseEvent* ev) {
     auto rectPos = rect.getPosition();
-    return VPixel(mouseEvent->position.x - rectPos.x, mouseEvent->position.y - rectPos.y);
+    return VPixel(ev->pos.x - rectPos.x, ev->pos.y - rectPos.y);
 }
 
 void RightClickInterface::draw() {
@@ -48,12 +48,12 @@ void RightClickInterface::draw() {
     w.draw(text, transform);
 }
 
-void RightClickInterface::click(shared_ptr<MouseEvent> mouseEvent) {
+void RightClickInterface::click(MouseEvent* ev) {
     active = false;
     if (!interactions.size())
         return;
     Player& player = Player::getInstance();
-    auto dy = getDeltaClick(mouseEvent).y - 16;
+    auto dy = getDeltaClick(ev).y - 16;
     int interactionIndex = dy / 16;
     if (dy < 0 || interactionIndex >= interactions.size())
         return;

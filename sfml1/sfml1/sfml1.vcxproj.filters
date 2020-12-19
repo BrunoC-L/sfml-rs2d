@@ -13,150 +13,315 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\other">
+      <UniqueIdentifier>{e2a64deb-81b0-4149-8ec8-a05c64f95223}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\interfaces">
+      <UniqueIdentifier>{683cf63d-44c7-4754-be4d-cdca67bfdd8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\interfaces\minimap">
+      <UniqueIdentifier>{4b0fdbaa-bc7b-407f-8489-5f8583235d12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\interfaces\rightClick">
+      <UniqueIdentifier>{b2ccdf36-8a63-4aa1-8dd7-9657d7ccddee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\interfaces\bottomBanner">
+      <UniqueIdentifier>{309e4a76-c125-499b-8021-f2e53645787a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\interfaces\rightBanner">
+      <UniqueIdentifier>{2068df6d-9878-4803-8f45-be126994b191}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\camera">
+      <UniqueIdentifier>{e28ea3a4-1dd7-4856-93a9-244a223c3fdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\chat">
+      <UniqueIdentifier>{25d713cd-03e2-4617-bf6b-278b8c1562f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\map">
+      <UniqueIdentifier>{b4fb5c8a-670f-47fe-a80a-7a97a6428a94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\map\map">
+      <UniqueIdentifier>{98c7eaa9-8153-411d-80c6-3fc49baaf9df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\map\chunk">
+      <UniqueIdentifier>{b70d0cf3-cc82-4d90-bba9-626907211ba2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\map\tile">
+      <UniqueIdentifier>{e7048d16-c4d4-46c5-b0f8-5bc8ca0a7397}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\other\splitString">
+      <UniqueIdentifier>{254faa92-08e8-46d0-91ed-ad35f7788d57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gameObjects">
+      <UniqueIdentifier>{af222c45-fd5b-4964-b6b3-fa8c63041cd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gameObjects\gameObject">
+      <UniqueIdentifier>{38e2bee9-a5fe-4c9c-8573-cdcaefd9b46c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gameObjects\gameRessourceObject">
+      <UniqueIdentifier>{205bc76d-16d5-4520-ae93-e197621c3e16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\items">
+      <UniqueIdentifier>{34587fa7-8dc8-47a0-ac28-cbc4fb2ca3fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\other\units">
+      <UniqueIdentifier>{c10661a6-dd86-42f1-96d8-e9755b9cd7b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\events">
+      <UniqueIdentifier>{832c2064-3cb7-4486-8281-4639e83f55b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\events\mouseEvents">
+      <UniqueIdentifier>{b4afbbf4-3754-4eec-9ddd-280e1defd6f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\inventory">
+      <UniqueIdentifier>{c19b38ef-bdd7-46ce-857d-762270efa39e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\groundObjects">
+      <UniqueIdentifier>{4ca20271-42ea-4d5b-8a0c-8e86759596af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\groundObjects\groundObject">
+      <UniqueIdentifier>{688c5335-df56-4d93-a47f-587c62afba70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\taskManager">
+      <UniqueIdentifier>{f097d345-0f60-4f8f-a58c-c30941e271e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\player">
+      <UniqueIdentifier>{f3060943-5e90-4aee-a89b-d6fbc1e31b10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\other\pathfinder">
+      <UniqueIdentifier>{b95881d0-89cb-44bc-b75d-697b65c17af5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\groundItems">
+      <UniqueIdentifier>{a9041b27-1086-47ad-ac72-c4be59269ebd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\groundItems\groundItem">
+      <UniqueIdentifier>{8dacd649-01f4-4f56-a712-22d89f902d73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\NPCs">
+      <UniqueIdentifier>{c124622a-0bb7-479a-8cd2-485e2d5ed2db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\NPCs\NPC">
+      <UniqueIdentifier>{b482c58a-4b15-4636-a4db-3f77427a0c6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\events\mouseEvents\mouseWheelEvent">
+      <UniqueIdentifier>{6e6f43db-25d7-4896-910d-4169c3e7dffa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\events\mouseEvents\mouseLeftClickEvent">
+      <UniqueIdentifier>{f26bc4fe-c690-4b73-abec-36cfc4908b52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\events\mouseEvents\mouseRightClickEvent">
+      <UniqueIdentifier>{f183603b-beeb-492a-9d9f-d659be0a0206}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\events\mouseEvents\mouseMoveEvent">
+      <UniqueIdentifier>{fa7be59f-1699-4e73-8701-5a7a80e18537}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\events\mouseEvents\mouseEvent">
+      <UniqueIdentifier>{37b377d2-31fe-4289-8990-0f70b0aa6636}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\events\mouseEvents\mouseMiddleClickEvent">
+      <UniqueIdentifier>{27369f7f-506b-4975-9e75-b3d21a1dd95d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="minimap.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="map.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="chunk.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="tile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="rightBanner.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\interfaces\minimap</Filter>
     </ClCompile>
     <ClCompile Include="bottomBanner.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\interfaces\bottomBanner</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="groundObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="taskManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="inventory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="gameRessourceObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="item.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="splitString.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="rightBanner.cpp">
+      <Filter>Source Files\interfaces\rightBanner</Filter>
     </ClCompile>
     <ClCompile Include="rightClickInterface.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\interfaces\rightClick</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>Source Files\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="chat.cpp">
+      <Filter>Source Files\chat</Filter>
+    </ClCompile>
+    <ClCompile Include="map.cpp">
+      <Filter>Source Files\map\map</Filter>
+    </ClCompile>
+    <ClCompile Include="chunk.cpp">
+      <Filter>Source Files\map\chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="tile.cpp">
+      <Filter>Source Files\map\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="splitString.cpp">
+      <Filter>Source Files\other\splitString</Filter>
     </ClCompile>
     <ClCompile Include="units.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\other\units</Filter>
     </ClCompile>
-    <ClCompile Include="mouseEvent.cpp">
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\gameObjects\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="gameRessourceObject.cpp">
+      <Filter>Source Files\gameObjects\gameRessourceObject</Filter>
+    </ClCompile>
+    <ClCompile Include="item.cpp">
+      <Filter>Source Files\items</Filter>
+    </ClCompile>
+    <ClCompile Include="inventory.cpp">
+      <Filter>Source Files\inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="groundObject.cpp">
+      <Filter>Source Files\groundObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="taskManager.cpp">
+      <Filter>Source Files\taskManager</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>Source Files\player</Filter>
+    </ClCompile>
+    <ClCompile Include="eventEmitter.cpp">
+      <Filter>Source Files\events</Filter>
+    </ClCompile>
+    <ClCompile Include="eventObserver.cpp">
+      <Filter>Source Files\events</Filter>
+    </ClCompile>
+    <ClCompile Include="mouseWheelEvent.cpp">
+      <Filter>Source Files\events\mouseEvents\mouseWheelEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="mouseLeftClickEvent.cpp">
+      <Filter>Source Files\events\mouseEvents\mouseLeftClickEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="mouseRightClickEvent.cpp">
+      <Filter>Source Files\events\mouseEvents\mouseRightClickEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="mouseMoveEvent.cpp">
+      <Filter>Source Files\events\mouseEvents\mouseMoveEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="mouseMiddleClickEvencpp.cpp">
+      <Filter>Source Files\events\mouseEvents\mouseMiddleClickEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="app.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="minimap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="map.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="chunk.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="tile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NPC.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="groundItem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="groundObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Tilemap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="measures.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="units.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rightBanner.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="bottomBanner.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="pathfinder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Textures.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="taskManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="getRenderWindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="movingPredicate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gameTick.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inventory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="item.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gameRessourceObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="splitString.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\interfaces\minimap</Filter>
     </ClInclude>
     <ClInclude Include="rightClickInterface.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\interfaces\rightClick</Filter>
+    </ClInclude>
+    <ClInclude Include="bottomBanner.h">
+      <Filter>Source Files\interfaces\bottomBanner</Filter>
+    </ClInclude>
+    <ClInclude Include="rightBanner.h">
+      <Filter>Source Files\interfaces\rightBanner</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>Source Files\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="chat.h">
+      <Filter>Source Files\chat</Filter>
+    </ClInclude>
+    <ClInclude Include="map.h">
+      <Filter>Source Files\map\map</Filter>
+    </ClInclude>
+    <ClInclude Include="chunk.h">
+      <Filter>Source Files\map\chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="tile.h">
+      <Filter>Source Files\map\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="splitString.h">
+      <Filter>Source Files\other\splitString</Filter>
+    </ClInclude>
+    <ClInclude Include="units.h">
+      <Filter>Source Files\other\units</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Source Files\gameObjects\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="gameRessourceObject.h">
+      <Filter>Source Files\gameObjects\gameRessourceObject</Filter>
+    </ClInclude>
+    <ClInclude Include="item.h">
+      <Filter>Source Files\items</Filter>
+    </ClInclude>
+    <ClInclude Include="inventory.h">
+      <Filter>Source Files\inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="groundObject.h">
+      <Filter>Source Files\groundObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="measures.h">
+      <Filter>Source Files\other</Filter>
+    </ClInclude>
+    <ClInclude Include="taskManager.h">
+      <Filter>Source Files\taskManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Tilemap.h">
+      <Filter>Source Files\map</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures.h">
+      <Filter>Source Files\other</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>Source Files\player</Filter>
+    </ClInclude>
+    <ClInclude Include="gameTick.h">
+      <Filter>Source Files\other</Filter>
+    </ClInclude>
+    <ClInclude Include="getRenderWindow.h">
+      <Filter>Source Files\other</Filter>
+    </ClInclude>
+    <ClInclude Include="movingPredicate.h">
+      <Filter>Source Files\other\pathfinder</Filter>
+    </ClInclude>
+    <ClInclude Include="pathfinder.h">
+      <Filter>Source Files\other\pathfinder</Filter>
+    </ClInclude>
+    <ClInclude Include="groundItem.h">
+      <Filter>Source Files\groundItems\groundItem</Filter>
+    </ClInclude>
+    <ClInclude Include="chatMessage.h">
+      <Filter>Source Files\chat</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC.h">
+      <Filter>Source Files\NPCs\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="eventEmitter.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="eventObserver.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="mouseWheelEvent.h">
+      <Filter>Source Files\events\mouseEvents\mouseWheelEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="VPixelToVTileConverter.h">
+      <Filter>Source Files\other</Filter>
+    </ClInclude>
+    <ClInclude Include="mouseLeftClickEvent.h">
+      <Filter>Source Files\events\mouseEvents\mouseLeftClickEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="mouseRightClickEvent.h">
+      <Filter>Source Files\events\mouseEvents\mouseRightClickEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="mouseMoveEvent.h">
+      <Filter>Source Files\events\mouseEvents\mouseMoveEvent</Filter>
     </ClInclude>
     <ClInclude Include="mouseEvent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\events\mouseEvents\mouseEvent</Filter>
     </ClInclude>
-    <ClInclude Include="MouseEventVisitor.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="mouseMiddleClickEvent.h">
+      <Filter>Source Files\events\mouseEvents\mouseMiddleClickEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="app.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="eventClassMacro.h">
+      <Filter>Source Files\events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

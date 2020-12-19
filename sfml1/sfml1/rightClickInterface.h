@@ -4,6 +4,7 @@
 #include "measures.h"
 #include "getRenderWindow.h"
 #include "mouseEvent.h"
+#include "player.h"
 
 using namespace std;
 using namespace sf;
@@ -19,11 +20,11 @@ public:
     void draw();
     bool active;
     void setPosition(VPixel pos);
-    bool mouseIsInRect(shared_ptr<MouseEvent> mouseEvent);
-    VPixel getDeltaClick(shared_ptr<MouseEvent> mouseEvent);
+    bool mouseIsInRect(MouseEvent* ev);
+    VPixel getDeltaClick(MouseEvent* ev);
     void addText(string text);
     void resetText();
-    void click(shared_ptr<MouseEvent> mouseEvent);
+    void click(MouseEvent* ev);
     void addInteractions(string objectName, vector<pair<string, function<bool()>>> interactions);
 private:
     vector<pair<string,function<bool()>>> interactions;

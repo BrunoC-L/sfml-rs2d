@@ -20,8 +20,8 @@ public:
         return instance;
     }
     void draw();
-    bool mouseIsInRect(shared_ptr<MouseEvent> mouseEvent);
-    void click(shared_ptr<MouseEvent> mouseEvent);
+    bool mouseIsInRect(MouseEvent* ev);
+    void click(MouseEvent* ev);
     void update();
 private:
     Minimap minimap;
