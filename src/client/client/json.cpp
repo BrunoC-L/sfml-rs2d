@@ -72,6 +72,7 @@ std::string JSON::asString() const {
 			return objectAsString();
 		case Primitives::STRING:
 		case Primitives::NUMBER:
+		default:
 			return self;
 	}
 }
