@@ -1,3 +1,4 @@
 -farming plants/patches
 -floors (height levels)
 -not 1x1 mobs pathfinding
+-sending tick info to 2000 players 6000 times/h
