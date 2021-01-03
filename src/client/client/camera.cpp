@@ -1,11 +1,11 @@
 #pragma once
 #include "camera.h"
 
-Camera::Camera(AbstractServiceProvider* provider) {
-	REGISTER(Camera);
+Camera::Camera(AbstractServiceProvider* provider) : Service(provider) {
+	provider->set("Camera", this);
 }
 void Camera::init() {
-	ACQUIRE;
+	acquire();
 	setPosition(&(player->position));
 }
 void Camera::setPosition(VTile* pos) {

@@ -1,8 +1,9 @@
 #pragma once
 #include "SFML/Graphics.hpp"
 #include "abstractServices.h"
+#include "service.h"
 
-class SFRenderWindow : public AbstractRenderWindow {
+class SFRenderWindow : public AbstractRenderWindow, public Service {
 public:
 	AbstractServiceProvider* provider;
 	SFRenderWindow(AbstractServiceProvider* provider);

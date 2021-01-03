@@ -1,12 +1,10 @@
 #pragma once
-#include "abstractServiceMacro.h"
 #include <functional>
 #include <SFML/Graphics.hpp>
+#include "abstractService.h"
 
-SERVICES
-
-class AbstractPlayer : public Service {
-    SERVICE_MEMBERS;
+class AbstractPlayer : public AbstractService {
+public:
     virtual void draw() const = 0;
     virtual void update(unsigned tick) = 0;
     virtual void onGameTick() = 0;

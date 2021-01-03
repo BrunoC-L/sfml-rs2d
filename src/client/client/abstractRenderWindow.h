@@ -1,12 +1,10 @@
 #pragma once
-#include "abstractServiceMacro.h"
+#include "abstractService.h"
 #include "mouseWheelEvent.h"
 #include "units.h"
 
-SERVICES
-
-class AbstractRenderWindow : public Service {
-	SERVICE_MEMBERS;
+class AbstractRenderWindow : public AbstractService {
+public:
 	virtual VPixel getSize() = 0;
 	virtual void setFramerateLimit(int limit) = 0;
 	virtual bool isOpen() = 0;

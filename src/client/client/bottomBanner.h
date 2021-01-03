@@ -1,13 +1,12 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "units.h"
-#include "abstractServices.h"
+#include "service.h"
 #include "abstractServiceProvider.h"
 using namespace std;
 
-class BottomBanner {
+class BottomBanner : public Service {
 public:
-    SERVICE_MEMBERS;
     BottomBanner(AbstractServiceProvider* provider);
     void draw() const;
 private:

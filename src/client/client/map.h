@@ -3,10 +3,11 @@
 #include "units.h"
 #include "item.h"
 #include "abstractServices.h"
+#include "service.h"
 
 using namespace std;
 
-class Map: public AbstractMap {
+class Map: public AbstractMap, public Service {
 public:
     Map(AbstractServiceProvider* provider);
     void init();

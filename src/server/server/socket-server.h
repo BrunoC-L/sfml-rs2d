@@ -7,6 +7,8 @@
 #include <iostream>
 #include <functional>
 
+const std::string messageEnd = "|END|";
+
 struct SocketTuple {
     sf::TcpSocket* socket;
     std::string buffer;
@@ -22,9 +24,9 @@ private:
     std::thread connectionThread;
     std::thread communicationThread;
     bool stopped = true;
-    std::string messageEnd;
     std::function<void(sf::TcpSocket*, std::string)> onMessage;
     std::function<void(sf::TcpSocket*)> onDisconnect;
+    std::function<void(sf::TcpSocket*)> onConnect;
 
     bool receive(SocketTuple* socket) {
         socket->mutex.lock();
@@ -47,12 +49,8 @@ private:
     }
 public:
     std::vector<SocketTuple*> sockets;
-    SocketServer(unsigned port, std::string messageEnd, std::function<void(sf::TcpSocket*, std::string)> onMessage, std::function<void(sf::TcpSocket*)> onDisconnect) {
-        this->port = port;
-        this->messageEnd = messageEnd;
-        this->onMessage = onMessage;
-        this->onDisconnect = onDisconnect;
-    }
+    SocketServer(unsigned port, std::function<void(sf::TcpSocket*, std::string)> onMessage, std::function<void(sf::TcpSocket*)> onConnect, std::function<void(sf::TcpSocket*)> onDisconnect) :
+    port(port), onMessage(onMessage), onConnect(onConnect), onDisconnect(onDisconnect) { }
 
     void start() {
         stopped = false;
@@ -68,14 +66,15 @@ public:
                         delete client;
                         continue;
                     }
-                    std::string str = "{'type':'hello', 'data':" + std::to_string(id++) + "}";
-                    client->send(str.c_str(), str.length());
+                    //std::string str = "{'type':'hello', 'data':" + std::to_string(id++) + "}";
+                    //client->send(str.c_str(), str.length());
                     selectorMutex.lock();
                     SocketTuple* st = new SocketTuple;
                     st->socket = client;
                     st->buffer = "";
                     sockets.push_back(st);
                     selector.add(*client);
+                    onConnect(st->socket);
                     selectorMutex.unlock();
                 }
             }

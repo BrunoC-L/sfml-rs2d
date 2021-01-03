@@ -3,12 +3,12 @@
 #include "units.h"
 #include "abstractServiceProvider.h"
 #include "abstractServices.h"
+#include "service.h"
 
 using namespace std;
 
-class Minimap {
+class Minimap : public Service {
 public:
-    SERVICE_MEMBERS;
     Minimap(AbstractServiceProvider* provider);
     void draw() const;
     void update();

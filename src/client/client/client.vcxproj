@@ -149,7 +149,6 @@
     <ClInclude Include="abstractMeasures.h" />
     <ClInclude Include="abstractPlayer.h" />
     <ClInclude Include="abstractRenderWindow.h" />
-    <ClInclude Include="abstractServiceMacro.h" />
     <ClInclude Include="abstractServiceProvider.h" />
     <ClInclude Include="abstractServices.h" />
     <ClInclude Include="abstractTaskManager.h" />
@@ -188,6 +187,7 @@
     <ClInclude Include="rightBanner.h" />
     <ClInclude Include="rightClickInterface.h" />
     <ClInclude Include="rightClickTileEvent.h" />
+    <ClInclude Include="abstractService.h" />
     <ClInclude Include="service.h" />
     <ClInclude Include="sfRenderWindow.h" />
     <ClInclude Include="splitString.h" />
@@ -217,7 +217,7 @@
     <ClCompile Include="map.cpp" />
     <ClCompile Include="minimap.cpp" />
     <ClCompile Include="mouseLeftClickEvent.cpp" />
-    <ClCompile Include="mouseMiddleClickEvencpp.cpp" />
+    <ClCompile Include="mouseMiddleClickEventcpp.cpp" />
     <ClCompile Include="mouseMoveEvent.cpp" />
     <ClCompile Include="mouseRightClickEvent.cpp" />
     <ClCompile Include="mouseWheelEvent.cpp" />

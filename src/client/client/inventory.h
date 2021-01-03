@@ -3,17 +3,18 @@
 #include <vector>
 #include <algorithm>
 #include "abstractServices.h"
+#include "service.h"
 
-class Inventory : public AbstractInventory {
+class Inventory : public AbstractInventory, public Service {
 public:
-	Inventory(AbstractServiceProvider* provider) {
-		REGISTER(Inventory);
+	Inventory(AbstractServiceProvider* provider) : Service(provider) {
+		provider->set("Inventory", this);
 		size = 28;
 		_space = size;
 		items = vector<Item>(28, Item());
 	}
 	void init() {
-		ACQUIRE
+		acquire();
 	}
 	virtual bool has(vector<pair<Item, unsigned>> items);
 	virtual bool add(vector<pair<Item, unsigned>> items);

@@ -1,7 +1,7 @@
 #include "player.h"
 
-Player::Player(AbstractServiceProvider* provider) {
-    REGISTER(Player);
+Player::Player(AbstractServiceProvider* provider): Service(provider) {
+    provider->set("Player", this);
     t.loadFromFile("../../../assets/player.png");
     playerSprite = sf::Sprite(t);
     currentMovement[0] = VTile();
@@ -13,7 +13,7 @@ Player::Player(AbstractServiceProvider* provider) {
 }
 
 void Player::init() {
-    ACQUIRE;
+    acquire();
     VTile lumbridge(18 * AbstractMeasures::TilesPerChunk + 20, 13 * AbstractMeasures::TilesPerChunk + 37, 0);
     position = lumbridge;
     subscribeToTeleport();

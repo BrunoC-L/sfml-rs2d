@@ -3,9 +3,8 @@
 #include "abstractPlayer.h"
 #include "abstractRenderWindow.h"
 
-Minimap::Minimap(AbstractServiceProvider* provider) {
-    this->provider = provider;
-    ACQUIRE;
+Minimap::Minimap(AbstractServiceProvider* provider) : Service(provider) {
+    acquire();
     shape = sf::CircleShape(AbstractMeasures::minimapRadius);
     shape.setPosition(measures->getRightBannerStartingX() + (AbstractMeasures::banners().x - 2 * AbstractMeasures::minimapRadius / measures->stretch.x) / 2, 0);
     minimap.loadFromFile("../../../assets/mapnoraids.jpg");

@@ -90,7 +90,7 @@ public:
                             int y = data["y"].asDouble();
                             positions[otherid] = VTile(x, y);
                         } else if (json["type"].asString() == "hello") {
-                            id = json["data"].asInt();
+                            // id = json["data"].asInt();
                         }
                         buffer = buffer.substr(index + messageEnd.length());
                     }

@@ -15,13 +15,11 @@ public:
 	sf::Mutex queueMutex;
 	std::thread logicThread;
 	bool stopped = false;
-	std::function<void(std::exception, QueueMessage)> onError;
+	std::function<void(std::exception&, QueueMessage)> onError;
 
-	JsonSocketServer(unsigned port, std::string endMessage, std::function<void(std::exception, QueueMessage)> onError, std::function<void(sf::TcpSocket*)> onDisconnect) :
-		server(port, endMessage, [&](sf::TcpSocket* socket, std::string msg) { queue(socket, msg); }, onDisconnect)
-	{
-		this->onError = onError;
-	}
+	JsonSocketServer(unsigned port, std::function<void(std::exception&, QueueMessage)> onError, std::function<void(sf::TcpSocket*)> onConnect, std::function<void(sf::TcpSocket*)> onDisconnect) :
+		server(port, [&](sf::TcpSocket* socket, std::string msg) { queue(socket, msg); }, onConnect, onDisconnect), onError(onError)
+	{ }
 
 	void on(std::string msgType, std::function<void(sf::TcpSocket*, JSON)> callback) {
 		callbacks[msgType].push_back(callback);

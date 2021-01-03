@@ -1,14 +1,12 @@
 #pragma once
-#include "abstractServiceMacro.h"
+#include "abstractService.h"
 #include "units.h"
 #include <vector>
 #include "chunk.h"
 using namespace std;
 
-SERVICES;
-
-class AbstractMap : public Service {
-	SERVICE_MEMBERS;
+class AbstractMap : public AbstractService {
+public:
     virtual void load() = 0;
     virtual void draw() = 0;
     virtual void update() = 0;

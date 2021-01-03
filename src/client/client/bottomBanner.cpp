@@ -1,8 +1,7 @@
 #include "bottomBanner.h"
 
-BottomBanner::BottomBanner(AbstractServiceProvider* provider) {
-    this->provider = provider;
-    ACQUIRE;
+BottomBanner::BottomBanner(AbstractServiceProvider* provider) : Service(provider) {
+    acquire();
     banner = sf::RectangleShape(sf::Vector2f(measures->getWindowSize().x, measures->bottomBannerHeight));
     banner.setPosition(0, measures->getBottomBannerStartingY());
 }

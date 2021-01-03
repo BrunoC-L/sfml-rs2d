@@ -6,16 +6,17 @@
 #include "abstractServices.h"
 #include "keyPressedEvent.h"
 #include "resizeEvent.h"
+#include "service.h"
 
 using namespace std;
 
-class Measures : public AbstractMeasures {
+class Measures : public AbstractMeasures, public Service {
 public:
-	Measures(AbstractServiceProvider* provider) {
-		REGISTER(Measures);
+	Measures(AbstractServiceProvider* provider) : Service(provider) {
+		provider->set("Measures", this);
 	}
 	void init() {
-		ACQUIRE;
+		acquire();
 		setGetWindowSize([&]() { return VPixel(renderWindow->getSize().x, renderWindow->getSize().y); });
 		LeftArrowKeyPressedEvent::subscribe(new EventObserver<LeftArrowKeyPressedEvent>([&](LeftArrowKeyPressedEvent* ev) {
 			angle -= 5;

@@ -27,6 +27,7 @@
     <ClInclude Include="json-parser.h" />
     <ClInclude Include="json-socket-server.h" />
     <ClInclude Include="json.h" />
+    <ClInclude Include="jsonSocket.h" />
     <ClInclude Include="socket-server.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

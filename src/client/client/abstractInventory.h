@@ -1,11 +1,9 @@
 #pragma once
-#include "abstractServiceMacro.h"
+#include "abstractService.h"
 #include "item.h"
 
-SERVICES;
-
-class AbstractInventory : public Service {
-	SERVICE_MEMBERS;
+class AbstractInventory : public AbstractService {
+public:
 	unsigned _space;
 	unsigned size;
 	vector<Item> items;

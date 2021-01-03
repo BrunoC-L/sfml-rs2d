@@ -1,18 +1,16 @@
 #pragma once
-#include "abstractServiceMacro.h"
 #include "SFML/Graphics.hpp"
 #include "units.h"
 #include "item.h"
 #include <functional>
+#include "abstractService.h"
 
 using namespace std;
 
-SERVICES;
-
 enum MouseClickType { Left, Right, Middle };
 
-class AbstractMeasures : public Service {
-	SERVICE_MEMBERS;
+class AbstractMeasures : public AbstractService {
+public:
 	virtual void setGetWindowSize(function<VPixel()> f) = 0;
 	virtual void update() = 0;
 

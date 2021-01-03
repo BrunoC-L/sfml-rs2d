@@ -1,12 +1,12 @@
 #include "map.h"
 #include <iostream>
 
-Map::Map(AbstractServiceProvider* provider) {
-	REGISTER(Map);
+Map::Map(AbstractServiceProvider* provider) : Service(provider) {
+	provider->set("Map", this);
 };
 
 void Map::init() {
-	ACQUIRE;
+	acquire();
 	VTile& pos = camera->getPosition();
 	centerChunk = VChunk(int(pos.x / AbstractMeasures::TilesPerChunk), int(pos.y / AbstractMeasures::TilesPerChunk), int(pos.z));
 	chunkRadius = 1;

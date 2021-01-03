@@ -7,12 +7,12 @@
 #include "minimap.h"
 #include "pathfinder.h"
 #include "item.h"
+#include "service.h"
 
 using namespace std;
 
-class RightBanner {
+class RightBanner : public Service {
 public:
-    SERVICE_MEMBERS;
     RightBanner(AbstractServiceProvider* provider);
     void draw();
     bool mouseIsInRect(MouseEvent* ev);

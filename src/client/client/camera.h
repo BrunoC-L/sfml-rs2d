@@ -1,8 +1,9 @@
 #pragma once
 #include "units.h"
 #include "abstractServices.h"
+#include "service.h"
 
-class Camera : public AbstractCamera {
+class Camera : public AbstractCamera, public Service {
 public:
 	Camera(AbstractServiceProvider* provider);
 	void init();

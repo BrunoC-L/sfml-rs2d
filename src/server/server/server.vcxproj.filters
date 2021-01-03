@@ -44,5 +44,8 @@
     <ClInclude Include="socket-server.h">
       <Filter>Source Files\socket-server</Filter>
     </ClInclude>
+    <ClInclude Include="jsonSocket.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

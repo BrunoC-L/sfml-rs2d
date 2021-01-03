@@ -1,18 +1,18 @@
 #pragma once
-#include "service.h"
+#include "abstractService.h"
 #include <string>
 #include <unordered_map>
 using namespace std;
 
 class AbstractServiceProvider {
 public:
-	unordered_map<string, Service*> services;
+	unordered_map<string, AbstractService*> services;
 
-	void set(string name, Service* service) {
+	void set(string name, AbstractService* service) {
 		this->services[name] = service;
 	}
 
-	Service* get(string name) {
+	AbstractService* get(string name) {
 		return this->services[name];
 	}
 

@@ -1,16 +1,17 @@
 #pragma once
 #include "chatMessage.h"
 #include "abstractServices.h"
+#include "service.h"
 
 using namespace std;
 
-class Chat : public AbstractChat {
+class Chat : public AbstractChat, public Service {
 public:
-	Chat(AbstractServiceProvider* provider) {
-		REGISTER(Chat);
+	Chat(AbstractServiceProvider* provider) : Service(provider) {
+		provider->set("Chat", this);
 	}
 	void init() {
-		ACQUIRE
+		acquire();
 	}
 	Chat() = default;
 	void draw();

@@ -1,8 +1,5 @@
 #pragma once
-#include "abstractServiceMacro.h"
+#include "abstractService.h"
 
-SERVICES;
-
-class AbstractChat : public Service {
-	SERVICE_MEMBERS;
+class AbstractChat : public AbstractService {
 };

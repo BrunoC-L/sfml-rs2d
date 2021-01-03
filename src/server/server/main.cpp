@@ -1,4 +1,5 @@
 #include "json-socket-server.h"
+#include <sstream>
 #include <chrono>
 
 void createClientAndSendMessageOverSocket(unsigned port) {
@@ -19,8 +20,11 @@ void createClientAndSendMessageOverSocket(unsigned port) {
         std::cout << "Client received \"" << data << "\" on connection\n";
 
     std::string str1("{'type':'hello', 'data': 'Hello server this is client'}|E");
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
     std::string str2("ND|");
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
     std::string str3("{'type':'hello', 'dat");
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
     std::string str4("a': 'Hello server this is client'}|END|");
 
     std::string badJson("a': 'Hello server this is client'}|END|");
@@ -58,14 +62,24 @@ void createClientAndSendMessageOverSocket(unsigned port) {
 
 int main() {
     unsigned port = 38838;
-    auto onError = [&](std::exception e, QueueMessage qm) {
+    auto onError = [&](std::exception& e, QueueMessage qm) {
         std::cout << e.what();
     };
     auto onDisconnect = [&](sf::TcpSocket* socket) {
         std::cout << socket << " disconnected\n";
     };
 
-    JsonSocketServer socketServer(port, "|END|", onError, onDisconnect);
+    auto onConnect = [&](sf::TcpSocket* socket) {
+        std::string hello = "Hello " + (std::stringstream() << socket).str() + " please authentify with username and password";
+        JSON json;
+        json["type"] = "'hello'";
+        json["data"] = "'" + hello + "'";
+        std::string msg = json.asString();
+        socket->send(msg.c_str(), msg.length());
+        std::cout << socket << " connected\n";
+    };
+
+    JsonSocketServer socketServer(port, onError, onConnect, onDisconnect);
 
     auto onHello = [&](sf::TcpSocket* socket, JSON json) {
         std::cout <<"Server received \"" << json.asString() << "\"\n";

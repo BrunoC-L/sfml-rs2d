@@ -4,13 +4,12 @@
 #include "SFML/Graphics.hpp"
 #include "abstractCamera.h"
 #include "abstractServices.h"
+#include "service.h"
 
-class VPixelToVTileConverter {
+class VPixelToVTileConverter : public Service {
 public:
-	SERVICE_MEMBERS
-	VPixelToVTileConverter(AbstractServiceProvider* provider) {
-		this->provider = provider;
-		ACQUIRE;
+	VPixelToVTileConverter(AbstractServiceProvider* provider) : Service(provider) {
+		acquire();
 	}
 	 VTile getPositionInGame(VPixel mousePos) {
 		VPixel middle(measures->getInnerWindowSize() / 2);

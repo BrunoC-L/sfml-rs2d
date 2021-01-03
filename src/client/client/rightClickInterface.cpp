@@ -1,9 +1,8 @@
 #include "rightClickInterface.h"
 #include "abstractRenderWindow.h"
 
-RightClickInterface::RightClickInterface(AbstractServiceProvider* provider) {
-    this->provider = provider;
-    ACQUIRE;
+RightClickInterface::RightClickInterface(AbstractServiceProvider* provider) : Service(provider) {
+    acquire();
     active = false;
     AbstractMeasures& measures = *(AbstractMeasures*)nullptr;
     rect = sf::RectangleShape(sf::Vector2f(100, 100));

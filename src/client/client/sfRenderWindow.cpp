@@ -2,12 +2,12 @@
 #include "keyPressedEvent.h"
 #include "resizeEvent.h"
 
-SFRenderWindow::SFRenderWindow(AbstractServiceProvider* provider) {
-	REGISTER(RenderWindow);
+SFRenderWindow::SFRenderWindow(AbstractServiceProvider* provider) : Service(provider) {
+	provider->set("RenderWindow", this);
 }
 
 void SFRenderWindow::init() {
-	ACQUIRE;
+	acquire();
 }
 
 void SFRenderWindow::draw(sf::VertexArray v, sf::RenderStates s) {

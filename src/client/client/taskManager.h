@@ -2,18 +2,19 @@
 #include <functional>
 #include <vector>
 #include "abstractServices.h"
+#include "service.h"
 
 using namespace std;
 
-class TaskManager : public AbstractTaskManager {
-	SERVICE_MEMBERS;
-	TaskManager(AbstractServiceProvider* provider) {
-		REGISTER(TaskManager);
+class TaskManager : public AbstractTaskManager, public Service {
+public:
+	TaskManager(AbstractServiceProvider* provider) : Service(provider) {
+		provider->set("TaskManager", this);
 		tasksPerTick = vector<vector<function<bool()>>>();
 	}
-	void init() {
-		ACQUIRE;
+	virtual void init() {
+		acquire();
 	}
-	void executeAndRemove();
-	void scheduleTaskInTicks(function<bool()> task, unsigned ticksUntilCall);
+	virtual void executeAndRemove();
+	virtual void scheduleTaskInTicks(function<bool()> task, unsigned ticksUntilCall);
 };

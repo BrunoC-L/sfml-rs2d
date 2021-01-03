@@ -7,10 +7,11 @@
 #include "abstractRenderWindow.h"
 #include "interactionClickEvent.h"
 #include "pathfinder.h"
+#include "service.h"
 
 using namespace std;
 
-class Player : public AbstractPlayer {
+class Player : public AbstractPlayer, public Service {
 public:
     Player(AbstractServiceProvider* provider);
     void init();

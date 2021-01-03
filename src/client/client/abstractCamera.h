@@ -1,11 +1,9 @@
 #pragma once
-#include "abstractServiceMacro.h"
 #include "units.h"
+#include "abstractService.h"
 
-SERVICES;
-
-class AbstractCamera : public Service {
-	SERVICE_MEMBERS;
+class AbstractCamera : public AbstractService {
+public:
 	VTile* position;
 	virtual void setPosition(VTile* pos) = 0;
 	virtual VTile& getPosition() = 0;

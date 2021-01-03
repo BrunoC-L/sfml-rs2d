@@ -5,12 +5,12 @@
 #include "abstractServices.h"
 #include "abstractServiceProvider.h"
 #include "rightClickTileEvent.h"
+#include "service.h"
 
 using namespace std;
 
-class RightClickInterface {
+class RightClickInterface : public Service {
 public:
-    SERVICE_MEMBERS;
     RightClickInterface(AbstractServiceProvider* provider);
     void draw();
     bool active;
