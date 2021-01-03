@@ -5,10 +5,10 @@ https://www.youtube.com/user/thelatestartosrs/videos
 To run the game you must:
 1. run "python scripts/main.py" (changed chunks to reduce loaded area if you dont want to way 2 hours)
 2. setup projects (server/client) like so https://www.sfml-dev.org/tutorials/2.5/start-vc.php
-2.1. add the additional include directory in C/C++ settings
-2.2. add the additional libraries in linker settings
-2.3. add additional dependencies in input settings
-2.4. copy the SFML DLLs to the debug folder with the .exe created when compiling (go in visual studio, try to debug, it will crash because of missing DLLs and create the debug folders and executable)
+   - add the additional include directory in C/C++ settings
+   - add the additional libraries in linker settings
+   - add additional dependencies in input settings
+   - copy the SFML DLLs to the debug folder with the .exe created when compiling (go in visual studio, try to debug, it will crash because of missing DLLs and create the debug folders and executable)
 3. run the server
 4. run clients
 
