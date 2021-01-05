@@ -1,8 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "units.h"
+#include "../../common/units.h"
 #include "service.h"
-#include "abstractServiceProvider.h"
+#include "../../common/abstractServiceProvider.h"
 using namespace std;
 
 class BottomBanner : public Service {

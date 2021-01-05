@@ -3,36 +3,31 @@
 
 #include "../../common/json.h"
 
-#include "units.h"
-#include "pathfinder.h"
+#include "../../common/units.h"
 #include "taskManager.h"
-#include "movingPredicate.h"
 #include "mouseWheelEvent.h"
 #include "event.h"
 #include "VPixelToVTileConverter.h"
 #include "mouseLeftClickEvent.h"
 #include "mouseRightClickEvent.h"
 #include "mouseMoveEvent.h"
-#include "abstractServiceProvider.h"
+#include "../../common/abstractServiceProvider.h"
 #include "rightBanner.h"
 #include "bottomBanner.h"
 #include "rightClickInterface.h"
 #include <SFML/Network.hpp>
 
-#define TEMPLATES \
-<\
- typename Measures\
-,typename RenderWindow\
-,typename TaskManager\
-,typename Player\
-,typename Camera\
-,typename Map\
-,typename Chat\
-,typename Inventory\
-,typename Socket\
->\
-
-template TEMPLATES
+template <
+    typename Measures,
+    typename RenderWindow,
+    typename TaskManager,
+    typename Player,
+    typename Camera,
+    typename Map,
+    typename Chat,
+    typename Inventory,
+    typename Socket
+>
 class App : public AbstractServiceProvider {
     Measures* measures;
     Map* map;
@@ -56,8 +51,8 @@ public:
         socket = new Socket(this);
     }
 
+    std::vector<VTile> positions = std::vector<VTile>(10);
 	void start() {
-        std::vector<VTile> positions(10);
 
         RightBanner rightBanner = RightBanner(this);
         BottomBanner bottomBanner = BottomBanner(this);
@@ -141,26 +136,6 @@ public:
             });
         MouseMoveEvent::subscribe(x5);
 
-        socket->on("hello",
-            [&](JSON data) {
-                player->id = data.asInt();
-            }
-        );
-        socket->on("position",
-            [&](JSON data) {
-                int otherid = data["id"].asInt();
-                int x = data["x"].asDouble();
-                int y = data["y"].asDouble();
-                if (otherid == player->id) {
-                    player->position.x = x;
-                    player->position.y = y;
-                }
-                else {
-                    positions[otherid] = VTile(x, y);
-                }
-            }
-        );
-
         while (renderWindow->isOpen()) {
             auto dt = clock.getElapsedTime().asMilliseconds();
             if (dt > 1100.f / 60)
@@ -218,6 +193,31 @@ public:
         this->get("Chat")->init();
         this->get("Inventory")->init();
         this->get("RenderWindow")->init();
+
+        socket->on("hello",
+            [&](JSON data) {
+                player->id = data.asInt();
+                player->walk(player->position);
+            }
+        );
+
+        socket->on("positions",
+            [&](JSON json) {
+                auto _positions = json.children;
+                for (auto data : _positions) {
+                    int otherid = data["id"].asInt();
+                    int x = data["x"].asDouble();
+                    int y = data["y"].asDouble();
+                    if (otherid == player->id) {
+                        player->position.x = x;
+                        player->position.y = y;
+                    }
+                    else {
+                        positions[otherid] = VTile(x, y);
+                    }
+                }
+            }
+        );
         this->get("Socket")->init();
     }
 };

@@ -119,5 +119,5 @@ void Player::walk(VTile pos) {
     json["x"] = std::to_string(pos.x);
     json["y"] = std::to_string(pos.y);
     json["id"] = std::to_string(id);
-    socket->emit("position", json);
+    socket->emit("walk", json);
 }

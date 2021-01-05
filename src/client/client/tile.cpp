@@ -1,5 +1,4 @@
 #include "tile.h"
-#include "pathfinder.h"
 
 Tile::Tile(int x, int y, int borders, vector<GroundItem> groundItems, vector<GameObject*> gameObjects, vector<NPC> NPCs, function<void()> callback)
 	: position(x, y), borders(borders), groundItems(groundItems), NPCs(NPCs), callback(callback) {

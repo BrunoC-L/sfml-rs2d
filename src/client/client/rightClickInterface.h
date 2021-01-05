@@ -1,9 +1,9 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "units.h"
+#include "../../common/units.h"
 #include "mouseEvent.h"
 #include "abstractServices.h"
-#include "abstractServiceProvider.h"
+#include "../../common/abstractServiceProvider.h"
 #include "rightClickTileEvent.h"
 #include "service.h"
 

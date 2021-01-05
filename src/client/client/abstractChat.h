@@ -1,5 +1,5 @@
 #pragma once
-#include "abstractService.h"
+#include "../../common/abstractService.h"
 
 class AbstractChat : public AbstractService {
 };

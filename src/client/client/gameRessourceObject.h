@@ -2,10 +2,9 @@
 #include "GameObject.h"
 #include "abstractTaskManager.h"
 #include <stdlib.h>
-#include "pathfinder.h"
 #include "item.h"
 #include "abstractInventory.h"
-#include "abstractServiceProvider.h"
+#include "../../common/abstractServiceProvider.h"
 #include "abstractPlayer.h"
 
 class GameRessourceObject : public GameObject {

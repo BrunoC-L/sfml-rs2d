@@ -1,11 +1,10 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "units.h"
+#include "../../common/units.h"
 #include "abstractMeasures.h"
 #include "abstractPlayer.h"
 #include "mouseEvent.h"
 #include "minimap.h"
-#include "pathfinder.h"
 #include "item.h"
 #include "service.h"
 

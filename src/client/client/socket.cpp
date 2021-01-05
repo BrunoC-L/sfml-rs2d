@@ -7,7 +7,6 @@ Socket::Socket(AbstractServiceProvider* provider) : Service(provider) {
 void Socket::init() {
 	acquire();
 	socket.connect("127.0.0.1", 38838);
-    player->walk(player->position);
 	listener = std::thread(
 		[&]() {
             std::string buffer = "";

@@ -1,7 +1,7 @@
 #pragma once
 #include <functional>
 #include <SFML/Graphics.hpp>
-#include "abstractService.h"
+#include "../../common/abstractService.h"
 
 class AbstractPlayer : public AbstractService {
 public:

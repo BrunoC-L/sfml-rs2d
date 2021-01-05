@@ -19,6 +19,33 @@
     <Filter Include="Source Files\socket-server">
       <UniqueIdentifier>{994a0ad4-f184-4762-bf31-c0cb35e9cd6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\services">
+      <UniqueIdentifier>{0860c354-1f45-4599-9a49-38dbe38934ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\services\base">
+      <UniqueIdentifier>{fccd450e-8de5-49bd-954b-ac58b2c058c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\services\map">
+      <UniqueIdentifier>{36a46d94-5ec4-4bcd-ba38-bd83fea0fda2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\other">
+      <UniqueIdentifier>{f25136fc-4f53-4f50-8775-ff0bfdaeb11f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\other\units">
+      <UniqueIdentifier>{80b7b8ab-e17c-4c7d-b7f0-3c46e95c2eb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\chunk">
+      <UniqueIdentifier>{77b83036-42ca-4a99-8d41-a451bd77e7c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tile">
+      <UniqueIdentifier>{0766b1d8-82a2-44d5-b7e9-b4a88edbd463}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\other\pathfind">
+      <UniqueIdentifier>{0dc3378c-f3ad-4db8-bb27-b83e9833c843}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\other\splitString">
+      <UniqueIdentifier>{2cbf9935-fc21-4fe9-b387-267dc2370c0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -29,6 +56,24 @@
     </ClCompile>
     <ClCompile Include="..\..\common\json-parser.cpp">
       <Filter>Source Files\json</Filter>
+    </ClCompile>
+    <ClCompile Include="map.cpp">
+      <Filter>Source Files\services\map</Filter>
+    </ClCompile>
+    <ClCompile Include="service.h">
+      <Filter>Source Files\services\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\units.cpp">
+      <Filter>Source Files\other\units</Filter>
+    </ClCompile>
+    <ClCompile Include="tile.cpp">
+      <Filter>Source Files\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="chunk.cpp">
+      <Filter>Source Files\chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\splitString.cpp">
+      <Filter>Source Files\other\pathfind</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -44,8 +89,41 @@
     <ClInclude Include="..\..\common\json-parser.h">
       <Filter>Source Files\json</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\common\jsonSocket.h">
+    <ClInclude Include="abstractMap.h">
+      <Filter>Source Files\services\map</Filter>
+    </ClInclude>
+    <ClInclude Include="map.h">
+      <Filter>Source Files\services\map</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\abstractService.h">
+      <Filter>Source Files\services\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\abstractServiceProvider.h">
+      <Filter>Source Files\services\base</Filter>
+    </ClInclude>
+    <ClInclude Include="abstractServices.h">
+      <Filter>Source Files\services\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\units.h">
+      <Filter>Source Files\other\units</Filter>
+    </ClInclude>
+    <ClInclude Include="tile.h">
+      <Filter>Source Files\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="chunk.h">
+      <Filter>Source Files\chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="movingPredicate.h">
+      <Filter>Source Files\other\pathfind</Filter>
+    </ClInclude>
+    <ClInclude Include="app.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\splitString.h">
+      <Filter>Source Files\other\pathfind</Filter>
+    </ClInclude>
+    <ClInclude Include="pathfinder.h">
+      <Filter>Source Files\other\splitString</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

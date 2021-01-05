@@ -1,12 +1,11 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "units.h"
+#include "../../common/units.h"
 #include "abstractServices.h"
 #include "teleportEvent.h"
 #include "event.h"
 #include "abstractRenderWindow.h"
 #include "interactionClickEvent.h"
-#include "pathfinder.h"
 #include "service.h"
 
 using namespace std;

@@ -1,9 +1,9 @@
 #pragma once
 #include "SFML/Graphics.hpp"
-#include "units.h"
+#include "../../common/units.h"
 #include "item.h"
 #include <functional>
-#include "abstractService.h"
+#include "../../common/abstractService.h"
 
 using namespace std;
 

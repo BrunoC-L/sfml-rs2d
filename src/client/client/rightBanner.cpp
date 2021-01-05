@@ -72,7 +72,7 @@ void RightBanner::click(MouseEvent* ev) {
         int px = player->position.x + vpxFromMiddleOfMinimap.x / AbstractMeasures::pixelsPerTileOnMap;
         int py = player->position.y + vpxFromMiddleOfMinimap.y / AbstractMeasures::pixelsPerTileOnMap;
         VTile position(px, py);
-        player->path = Pathfinder::pathfind(player->positionNextTick, { position }, false, map);
+        // player->path = Pathfinder::pathfind(player->positionNextTick, { position }, false, map);
     }
     bool clickIsOnInnerInterfaceOptions = false;
     bool clickIsInInnerInterface = false;

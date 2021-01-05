@@ -1,22 +1,21 @@
 #pragma once
-#include "units.h"
+#include "../../common/units.h"
 #include "abstractMeasures.h"
 #include "chunk.h"
 #include "abstractMap.h"
 
+
 class MovingPredicate {
 public:
     static bool canMoveFromTo(VTile a, VTile b, AbstractMap* map) {
-        VChunk ca = VChunk(int(a.x / AbstractMeasures::TilesPerChunk), int(a.y / AbstractMeasures::TilesPerChunk));
-        VChunk cb = VChunk(int(b.x / AbstractMeasures::TilesPerChunk), int(b.y / AbstractMeasures::TilesPerChunk));
-        VChunk da = ca - map->centerChunk + VChunk(map->loaded.size() / 2, map->loaded.size() / 2);
-        VChunk db = cb - map->centerChunk + VChunk(map->loaded.size() / 2, map->loaded.size() / 2);
-        if (da.x < 0 || db.x < 0 || da.x >= map->loaded.size() || db.x >= map->loaded.size() || da.y < 0 || db.y < 0 || da.y >= map->loaded.size() || db.y >= map->loaded.size())
-           return false;
-        Chunk* tileAChunk = map->loaded[da.x][da.y];
-        Chunk* tileBChunk = map->loaded[db.x][db.y];
-        Tile* ta = tileAChunk->tiles[int(a.x - ca.x * AbstractMeasures::TilesPerChunk)][int(a.y - ca.y * AbstractMeasures::TilesPerChunk)];
-        Tile* tb = tileBChunk->tiles[int(b.x - cb.x * AbstractMeasures::TilesPerChunk)][int(b.y - cb.y * AbstractMeasures::TilesPerChunk)];
+        VChunk ca = VChunk(int(a.x / Chunk::TilesPerChunk), int(a.y / Chunk::TilesPerChunk));
+        VChunk cb = VChunk(int(b.x / Chunk::TilesPerChunk), int(b.y / Chunk::TilesPerChunk));
+        Chunk* tileAChunk = map->getChunk(ca);
+        Chunk* tileBChunk = map->getChunk(cb);
+        if (!tileAChunk || !tileBChunk)
+            return false;
+        Tile* ta = tileAChunk->tiles[int(a.x - ca.x * Chunk::TilesPerChunk)][int(a.y - ca.y * Chunk::TilesPerChunk)];
+        Tile* tb = tileBChunk->tiles[int(b.x - cb.x * Chunk::TilesPerChunk)][int(b.y - cb.y * Chunk::TilesPerChunk)];
         return ta->canMoveFrom(*tb);
     }
 

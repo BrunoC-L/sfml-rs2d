@@ -142,9 +142,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\common\abstractService.h" />
+    <ClInclude Include="..\..\common\abstractServiceProvider.h" />
     <ClInclude Include="..\..\common\json-parser.h" />
     <ClInclude Include="..\..\common\json.h" />
-    <ClInclude Include="..\..\common\jsonSocket.h" />
+    <ClInclude Include="..\..\common\splitString.h" />
+    <ClInclude Include="..\..\common\units.h" />
     <ClInclude Include="abstractCamera.h" />
     <ClInclude Include="abstractChat.h" />
     <ClInclude Include="abstractInventory.h" />
@@ -152,7 +155,6 @@
     <ClInclude Include="abstractMeasures.h" />
     <ClInclude Include="abstractPlayer.h" />
     <ClInclude Include="abstractRenderWindow.h" />
-    <ClInclude Include="abstractServiceProvider.h" />
     <ClInclude Include="abstractServices.h" />
     <ClInclude Include="abstractSocket.h" />
     <ClInclude Include="abstractTaskManager.h" />
@@ -170,6 +172,7 @@
     <ClInclude Include="interactionClickEvent.h" />
     <ClInclude Include="inventory.h" />
     <ClInclude Include="item.h" />
+    <ClInclude Include="jsonSocket.h" />
     <ClInclude Include="keyPressedEvent.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="measures.h" />
@@ -180,30 +183,27 @@
     <ClInclude Include="mouseMoveEvent.h" />
     <ClInclude Include="mouseRightClickEvent.h" />
     <ClInclude Include="mouseWheelEvent.h" />
-    <ClInclude Include="movingPredicate.h" />
     <ClInclude Include="NPC.h" />
-    <ClInclude Include="pathfinder.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="resizeEvent.h" />
     <ClInclude Include="rightBanner.h" />
     <ClInclude Include="rightClickInterface.h" />
     <ClInclude Include="rightClickTileEvent.h" />
-    <ClInclude Include="abstractService.h" />
     <ClInclude Include="service.h" />
     <ClInclude Include="sfRenderWindow.h" />
     <ClInclude Include="socket.h" />
-    <ClInclude Include="splitString.h" />
     <ClInclude Include="taskManager.h" />
     <ClInclude Include="teleportEvent.h" />
     <ClInclude Include="tile.h" />
     <ClInclude Include="Tilemap.h" />
-    <ClInclude Include="units.h" />
     <ClInclude Include="VPixelToVTileConverter.h" />
     <ClInclude Include="walkClickEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\common\json-parser.cpp" />
     <ClCompile Include="..\..\common\json.cpp" />
+    <ClCompile Include="..\..\common\splitString.cpp" />
+    <ClCompile Include="..\..\common\units.cpp" />
     <ClCompile Include="bottomBanner.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="chat.cpp" />
@@ -230,11 +230,9 @@
     <ClCompile Include="rightClickTileEvent.cpp" />
     <ClCompile Include="sfRenderWindow.cpp" />
     <ClCompile Include="socket.cpp" />
-    <ClCompile Include="splitString.cpp" />
     <ClCompile Include="taskManager.cpp" />
     <ClCompile Include="teleportEvent.cpp" />
     <ClCompile Include="tile.cpp" />
-    <ClCompile Include="units.cpp" />
     <ClCompile Include="walkClickEvent.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

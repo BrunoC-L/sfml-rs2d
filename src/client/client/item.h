@@ -1,5 +1,5 @@
 #pragma once
-#include "splitString.h"
+#include "../../common/splitstring.h"
 using namespace std;
 
 class Item {

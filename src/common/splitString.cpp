@@ -1,4 +1,4 @@
-#include "splitString.h"
+#include "splitstring.h"
 
 vector<string> split(const string& s, const string& divider) {
     if (divider.length() == 0)

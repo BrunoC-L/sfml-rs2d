@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Network.hpp>
-#include "json.h"
+#include "../../common/json.h"
 
 const std::string messageEnd = "|END|";
 

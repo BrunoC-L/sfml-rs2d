@@ -58,9 +58,6 @@
     <Filter Include="Source Files\other">
       <UniqueIdentifier>{6ee96341-c772-46a3-9838-9f29652eff7c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\other\pathfinding">
-      <UniqueIdentifier>{2efe8be4-58e7-4124-bc70-4c3bb67a861b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\gameObjects">
       <UniqueIdentifier>{00c01f03-dc72-4ee7-b3c6-4677d3a75393}</UniqueIdentifier>
     </Filter>
@@ -162,9 +159,6 @@
     <ClInclude Include="abstractServices.h">
       <Filter>Source Files\services\base</Filter>
     </ClInclude>
-    <ClInclude Include="abstractServiceProvider.h">
-      <Filter>Source Files\services\base</Filter>
-    </ClInclude>
     <ClInclude Include="abstractChat.h">
       <Filter>Source Files\services\chat</Filter>
     </ClInclude>
@@ -189,12 +183,6 @@
     <ClInclude Include="taskManager.h">
       <Filter>Source Files\services\taskManager</Filter>
     </ClInclude>
-    <ClInclude Include="pathfinder.h">
-      <Filter>Source Files\other\pathfinding</Filter>
-    </ClInclude>
-    <ClInclude Include="movingPredicate.h">
-      <Filter>Source Files\other\pathfinding</Filter>
-    </ClInclude>
     <ClInclude Include="gameRessourceObject.h">
       <Filter>Source Files\gameObjects</Filter>
     </ClInclude>
@@ -210,9 +198,6 @@
     <ClInclude Include="VPixelToVTileConverter.h">
       <Filter>Source Files\other</Filter>
     </ClInclude>
-    <ClInclude Include="units.h">
-      <Filter>Source Files\other\units</Filter>
-    </ClInclude>
     <ClInclude Include="tile.h">
       <Filter>Source Files\tile</Filter>
     </ClInclude>
@@ -224,9 +209,6 @@
     </ClInclude>
     <ClInclude Include="rightBanner.h">
       <Filter>Source Files\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="splitString.h">
-      <Filter>Source Files\other</Filter>
     </ClInclude>
     <ClInclude Include="Tilemap.h">
       <Filter>Source Files\UI</Filter>
@@ -273,14 +255,8 @@
     <ClInclude Include="walkClickEvent.h">
       <Filter>Source Files\events\walkClickEvent</Filter>
     </ClInclude>
-    <ClInclude Include="abstractService.h">
-      <Filter>Source Files\services\base</Filter>
-    </ClInclude>
     <ClInclude Include="service.h">
       <Filter>Source Files\services\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\jsonSocket.h">
-      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\common\json.h">
       <Filter>Source Files\json</Filter>
@@ -293,6 +269,21 @@
     </ClInclude>
     <ClInclude Include="socket.h">
       <Filter>Source Files\services\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\abstractServiceProvider.h">
+      <Filter>Source Files\services\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\abstractService.h">
+      <Filter>Source Files\services\base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\units.h">
+      <Filter>Source Files\other\units</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\splitString.h">
+      <Filter>Source Files\other</Filter>
+    </ClInclude>
+    <ClInclude Include="jsonSocket.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -338,9 +329,6 @@
     <ClCompile Include="groundObject.cpp">
       <Filter>Source Files\gameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="units.cpp">
-      <Filter>Source Files\other\units</Filter>
-    </ClCompile>
     <ClCompile Include="tile.cpp">
       <Filter>Source Files\tile</Filter>
     </ClCompile>
@@ -352,9 +340,6 @@
     </ClCompile>
     <ClCompile Include="rightBanner.cpp">
       <Filter>Source Files\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="splitString.cpp">
-      <Filter>Source Files\other</Filter>
     </ClCompile>
     <ClCompile Include="interactionClickEvent.cpp">
       <Filter>Source Files\events\interactionClickEvent</Filter>
@@ -397,6 +382,12 @@
     </ClCompile>
     <ClCompile Include="socket.cpp">
       <Filter>Source Files\services\socket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\units.cpp">
+      <Filter>Source Files\other\units</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\splitString.cpp">
+      <Filter>Source Files\other</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

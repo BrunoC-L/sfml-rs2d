@@ -21,14 +21,31 @@
   <ItemGroup>
     <ClCompile Include="..\..\common\json-parser.cpp" />
     <ClCompile Include="..\..\common\json.cpp" />
+    <ClCompile Include="..\..\common\splitString.cpp" />
+    <ClCompile Include="..\..\common\units.cpp" />
+    <ClCompile Include="chunk.cpp" />
+    <ClCompile Include="map.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="service.h" />
+    <ClCompile Include="tile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\common\abstractService.h" />
+    <ClInclude Include="..\..\common\abstractServiceProvider.h" />
     <ClInclude Include="..\..\common\json-parser.h" />
     <ClInclude Include="..\..\common\json.h" />
-    <ClInclude Include="..\..\common\jsonSocket.h" />
+    <ClInclude Include="..\..\common\splitString.h" />
+    <ClInclude Include="..\..\common\units.h" />
+    <ClInclude Include="abstractMap.h" />
+    <ClInclude Include="abstractServices.h" />
+    <ClInclude Include="app.h" />
+    <ClInclude Include="chunk.h" />
     <ClInclude Include="json-socket-server.h" />
+    <ClInclude Include="map.h" />
+    <ClInclude Include="movingPredicate.h" />
+    <ClInclude Include="pathfinder.h" />
     <ClInclude Include="socket-server.h" />
+    <ClInclude Include="tile.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
