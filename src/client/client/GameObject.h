@@ -4,7 +4,6 @@
 #include "abstractMeasures.h"
 #include "units.h"
 #include "abstractPlayer.h"
-#include "gameTick.h"
 
 using namespace std;
 

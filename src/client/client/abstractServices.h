@@ -7,3 +7,4 @@
 #include "abstractPlayer.h"
 #include "abstractTaskManager.h"
 #include "abstractRenderWindow.h"
+#include "abstractSocket.h"

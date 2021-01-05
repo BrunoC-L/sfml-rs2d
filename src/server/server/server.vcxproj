@@ -19,15 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="json-parser.cpp" />
-    <ClCompile Include="json.cpp" />
+    <ClCompile Include="..\..\common\json-parser.cpp" />
+    <ClCompile Include="..\..\common\json.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="json-parser.h" />
+    <ClInclude Include="..\..\common\json-parser.h" />
+    <ClInclude Include="..\..\common\json.h" />
+    <ClInclude Include="..\..\common\jsonSocket.h" />
     <ClInclude Include="json-socket-server.h" />
-    <ClInclude Include="json.h" />
-    <ClInclude Include="jsonSocket.h" />
     <ClInclude Include="socket-server.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

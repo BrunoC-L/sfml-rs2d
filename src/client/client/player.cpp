@@ -114,5 +114,10 @@ void Player::subscribeToWalkClick() {
 }
 
 void Player::walk(VTile pos) {
-    path = Pathfinder::pathfind(player->positionNextTick, { pos }, false, map);
+    // path = Pathfinder::pathfind(player->positionNextTick, { pos }, false, map);
+    JSON json;
+    json["x"] = std::to_string(pos.x);
+    json["y"] = std::to_string(pos.y);
+    json["id"] = std::to_string(id);
+    socket->emit("position", json);
 }

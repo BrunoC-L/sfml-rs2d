@@ -13,6 +13,7 @@ protected:
 	AbstractPlayer* player;
 	AbstractRenderWindow* renderWindow;
 	AbstractTaskManager* taskManager;
+	AbstractSocket* socket;
 public:
 	Service(AbstractServiceProvider* provider) : provider(provider) { }
 
@@ -25,5 +26,6 @@ public:
 		player = (AbstractPlayer*)provider->get("Player");
 		renderWindow = (AbstractRenderWindow*)provider->get("RenderWindow");
 		taskManager = (AbstractTaskManager*)provider->get("TaskManager");
+		socket = (AbstractSocket*)provider->get("Socket");
 	}
 };

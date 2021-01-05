@@ -10,6 +10,7 @@
 #include "chat.h"
 #include "inventory.h"
 #include "sfRenderWindow.h"
+#include "socket.h"
 
 int main() {
     App<
@@ -20,7 +21,8 @@ int main() {
         Camera,
         Map,
         Chat,
-        Inventory
+        Inventory,
+        Socket
     > app;
     app.init();
     app.start();

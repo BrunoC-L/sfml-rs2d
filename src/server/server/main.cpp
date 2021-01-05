@@ -60,17 +60,24 @@ void createClientAndSendMessageOverSocket(unsigned port) {
     socket.disconnect();
 }
 
+struct position {
+    double x;
+    double y;
+};
+
 int main() {
     unsigned port = 38838;
+
     auto onError = [&](std::exception& e, QueueMessage qm) {
         std::cout << e.what();
     };
+
     auto onDisconnect = [&](sf::TcpSocket* socket) {
         std::cout << socket << " disconnected\n";
     };
-
+    int id = 0;
     auto onConnect = [&](sf::TcpSocket* socket) {
-        std::string hello = "Hello " + (std::stringstream() << socket).str() + " please authentify with username and password";
+        std::string hello = std::to_string(id++);
         JSON json;
         json["type"] = "'hello'";
         json["data"] = "'" + hello + "'";
@@ -91,22 +98,41 @@ int main() {
         else
             std::cout << "An imposter is trying to hack into the mainframe, sir!\n";
     };
+    std::vector<position> positions(10);
 
-    auto onPosition = [&](sf::TcpSocket* socket, JSON json) {
-        for (int i = 0; i < socketServer.server.sockets.size(); ++i) {
-            const auto& socket = *socketServer.server.sockets[i];
-            JSON msg;
-            msg["type"] = "position";
-            msg["data"] = json;
-            std::string str = msg.asString() + "|END|";
-            socket.socket->send(str.c_str(), str.length());
-        }
+    auto onPosition = [&](sf::TcpSocket* socket, JSON data) {
+        positions[data["id"].asInt()] = { data["x"].asDouble(), data["y"].asDouble() };
     };
 
     socketServer.on("hello", onHello);
     socketServer.on("login", onLogin);
     socketServer.on("position", onPosition);
     socketServer.start();
+
+    bool stop = false;
+    std::thread gameTicks(
+        [&]() {
+            sf::Clock clock;
+            while (!stop) {
+                if (clock.getElapsedTime().asMilliseconds() < 600)
+                    continue;
+                clock.restart();
+                for (int i = 0; i < positions.size(); ++i) {
+                    JSON msg;
+                    msg["type"] = "'position'";
+                    msg["data"] = JSON();
+                    msg["data"]["x"] = std::to_string(positions[i].x);
+                    msg["data"]["y"] = std::to_string(positions[i].y);
+                    msg["data"]["id"] = std::to_string(i);
+                    std::string str = msg.asString() + messageEnd;
+                    for (int j = 0; j < socketServer.server.sockets.size(); ++j) {
+                        const auto& socket = *socketServer.server.sockets[j];
+                        socket.socket->send(str.c_str(), str.length());
+                    }
+                }
+            }
+        }
+    );
 
     std::thread client = std::thread(
         [&]() {
@@ -115,7 +141,6 @@ int main() {
         }
     );
 
-    bool stop = false;
     while (!stop) {
         std::string action;
         std::cin >> action;
@@ -123,5 +148,6 @@ int main() {
             stop = true;
     }
     socketServer.stop();
+    gameTicks.join();
     client.join();
 }

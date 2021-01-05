@@ -1,13 +1,12 @@
 #pragma once
 #include <thread>
 
-#include "json.h"
+#include "../../common/json.h"
 
 #include "units.h"
 #include "pathfinder.h"
 #include "taskManager.h"
 #include "movingPredicate.h"
-#include "gameTick.h"
 #include "mouseWheelEvent.h"
 #include "event.h"
 #include "VPixelToVTileConverter.h"
@@ -30,6 +29,7 @@
 ,typename Map\
 ,typename Chat\
 ,typename Inventory\
+,typename Socket\
 >\
 
 template TEMPLATES
@@ -42,6 +42,7 @@ class App : public AbstractServiceProvider {
     Chat* chat;
     Inventory* inventory;
     RenderWindow* renderWindow;
+    Socket* socket;
 public:
     App() {
         measures = new Measures(this);
@@ -52,51 +53,12 @@ public:
         chat = new Chat(this);
         inventory = new Inventory(this);
         renderWindow = new RenderWindow(this);
+        socket = new Socket(this);
     }
 
 	void start() {
-        int id = 0;
         std::vector<VTile> positions(10);
-        sf::TcpSocket socket;
-        std::thread tt(
-            [&]() {
-                const std::string ip = "127.0.0.1";
-                const unsigned port = 38838;
-                sf::Socket::Status status = socket.connect(ip, 38838);
-                if (status != sf::Socket::Done)
-                    throw std::exception(std::string("Could not connect to " + ip + ':' + std::to_string(port) + '\n').c_str());
-                else
-                    cout << "Connected to " + ip + ':' + std::to_string(port) + '\n';
 
-                std::string buffer = "";
-                std::string messageEnd = "|END|";
-
-                while (true) {
-                    char data[100] = { 0 };
-                    std::size_t received;
-                    if (socket.receive(data, 100, received) != sf::Socket::Done)
-                        continue;
-
-                    buffer += std::string(data).substr(0, received);
-                    int index = 0;
-
-                    while ((index = buffer.find(messageEnd)) != -1) {
-                        std::string str(buffer.substr(0, index));
-                        JSON json(str);
-                        if (json["type"].asString() == "position") {
-                            auto data = json["data"];
-                            int otherid = data["id"].asInt();
-                            int x = data["x"].asDouble();
-                            int y = data["y"].asDouble();
-                            positions[otherid] = VTile(x, y);
-                        } else if (json["type"].asString() == "hello") {
-                            // id = json["data"].asInt();
-                        }
-                        buffer = buffer.substr(index + messageEnd.length());
-                    }
-                }
-            }
-        );
         RightBanner rightBanner = RightBanner(this);
         BottomBanner bottomBanner = BottomBanner(this);
         RightClickInterface rightClickInterface = RightClickInterface(this);
@@ -179,16 +141,27 @@ public:
             });
         MouseMoveEvent::subscribe(x5);
 
+        socket->on("hello",
+            [&](JSON data) {
+                player->id = data.asInt();
+            }
+        );
+        socket->on("position",
+            [&](JSON data) {
+                int otherid = data["id"].asInt();
+                int x = data["x"].asDouble();
+                int y = data["y"].asDouble();
+                if (otherid == player->id) {
+                    player->position.x = x;
+                    player->position.y = y;
+                }
+                else {
+                    positions[otherid] = VTile(x, y);
+                }
+            }
+        );
+
         while (renderWindow->isOpen()) {
-            JSON positionUpdate;
-            positionUpdate["type"] = "position";
-            JSON data;
-            data["id"] = to_string(id);
-            data["x"] = to_string(player->position.x);
-            data["y"] = to_string(player->position.y);
-            positionUpdate["data"] = data;
-            std::string msg = positionUpdate.asString() + "|END|";
-            socket.send(msg.c_str(), msg.length());
             auto dt = clock.getElapsedTime().asMilliseconds();
             if (dt > 1100.f / 60)
                 cout << "frame took " << dt << " ms" << endl;
@@ -197,9 +170,6 @@ public:
             tickmod = frame % unsigned(Measures::framesPerTick);
             isGameTick = !tickmod;
             if (isGameTick) {
-                GameTick::tick();
-                taskManager->executeAndRemove();
-                player->onGameTick();
                 map->shouldUpdate = true;
             }
 
@@ -219,7 +189,7 @@ public:
             player->draw();
 
             for (int i = 0; i < positions.size(); ++i) {
-                if (i == id)
+                if (i == player->id)
                     continue;
                 auto pos = positions[i];
                 if (!pos.x && !pos.y)
@@ -248,5 +218,6 @@ public:
         this->get("Chat")->init();
         this->get("Inventory")->init();
         this->get("RenderWindow")->init();
+        this->get("Socket")->init();
     }
 };

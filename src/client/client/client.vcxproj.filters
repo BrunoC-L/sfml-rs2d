@@ -115,6 +115,9 @@
     <Filter Include="Source Files\services\base">
       <UniqueIdentifier>{1b96a7bb-141f-4d02-aced-772828a104fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\services\socket">
+      <UniqueIdentifier>{b608cd00-48d9-47fd-8771-eb99e3db882e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="app.h">
@@ -128,12 +131,6 @@
     </ClInclude>
     <ClInclude Include="item.h">
       <Filter>Source Files\item</Filter>
-    </ClInclude>
-    <ClInclude Include="json.h">
-      <Filter>Source Files\json</Filter>
-    </ClInclude>
-    <ClInclude Include="json-parser.h">
-      <Filter>Source Files\json</Filter>
     </ClInclude>
     <ClInclude Include="map.h">
       <Filter>Source Files\services\map</Filter>
@@ -234,9 +231,6 @@
     <ClInclude Include="Tilemap.h">
       <Filter>Source Files\UI</Filter>
     </ClInclude>
-    <ClInclude Include="gameTick.h">
-      <Filter>Source Files\other</Filter>
-    </ClInclude>
     <ClInclude Include="chatMessage.h">
       <Filter>Source Files\other</Filter>
     </ClInclude>
@@ -285,6 +279,21 @@
     <ClInclude Include="service.h">
       <Filter>Source Files\services\base</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\common\jsonSocket.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\json.h">
+      <Filter>Source Files\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\json-parser.h">
+      <Filter>Source Files\json</Filter>
+    </ClInclude>
+    <ClInclude Include="abstractSocket.h">
+      <Filter>Source Files\services\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="socket.h">
+      <Filter>Source Files\services\socket</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -295,12 +304,6 @@
     </ClCompile>
     <ClCompile Include="item.cpp">
       <Filter>Source Files\item</Filter>
-    </ClCompile>
-    <ClCompile Include="json.cpp">
-      <Filter>Source Files\json</Filter>
-    </ClCompile>
-    <ClCompile Include="json-parser.cpp">
-      <Filter>Source Files\json</Filter>
     </ClCompile>
     <ClCompile Include="map.cpp">
       <Filter>Source Files\services\map</Filter>
@@ -385,6 +388,15 @@
     </ClCompile>
     <ClCompile Include="walkClickEvent.cpp">
       <Filter>Source Files\events\walkClickEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\json.cpp">
+      <Filter>Source Files\json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\json-parser.cpp">
+      <Filter>Source Files\json</Filter>
+    </ClCompile>
+    <ClCompile Include="socket.cpp">
+      <Filter>Source Files\services\socket</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

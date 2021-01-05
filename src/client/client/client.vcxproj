@@ -142,6 +142,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\common\json-parser.h" />
+    <ClInclude Include="..\..\common\json.h" />
+    <ClInclude Include="..\..\common\jsonSocket.h" />
     <ClInclude Include="abstractCamera.h" />
     <ClInclude Include="abstractChat.h" />
     <ClInclude Include="abstractInventory.h" />
@@ -151,6 +154,7 @@
     <ClInclude Include="abstractRenderWindow.h" />
     <ClInclude Include="abstractServiceProvider.h" />
     <ClInclude Include="abstractServices.h" />
+    <ClInclude Include="abstractSocket.h" />
     <ClInclude Include="abstractTaskManager.h" />
     <ClInclude Include="app.h" />
     <ClInclude Include="bottomBanner.h" />
@@ -161,14 +165,11 @@
     <ClInclude Include="event.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="gameRessourceObject.h" />
-    <ClInclude Include="gameTick.h" />
     <ClInclude Include="groundItem.h" />
     <ClInclude Include="groundObject.h" />
     <ClInclude Include="interactionClickEvent.h" />
     <ClInclude Include="inventory.h" />
     <ClInclude Include="item.h" />
-    <ClInclude Include="json-parser.h" />
-    <ClInclude Include="json.h" />
     <ClInclude Include="keyPressedEvent.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="measures.h" />
@@ -190,6 +191,7 @@
     <ClInclude Include="abstractService.h" />
     <ClInclude Include="service.h" />
     <ClInclude Include="sfRenderWindow.h" />
+    <ClInclude Include="socket.h" />
     <ClInclude Include="splitString.h" />
     <ClInclude Include="taskManager.h" />
     <ClInclude Include="teleportEvent.h" />
@@ -200,6 +202,8 @@
     <ClInclude Include="walkClickEvent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\common\json-parser.cpp" />
+    <ClCompile Include="..\..\common\json.cpp" />
     <ClCompile Include="bottomBanner.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="chat.cpp" />
@@ -210,8 +214,6 @@
     <ClCompile Include="interactionClickEvent.cpp" />
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="item.cpp" />
-    <ClCompile Include="json-parser.cpp" />
-    <ClCompile Include="json.cpp" />
     <ClCompile Include="keyPressedEvent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
@@ -227,6 +229,7 @@
     <ClCompile Include="rightClickInterface.cpp" />
     <ClCompile Include="rightClickTileEvent.cpp" />
     <ClCompile Include="sfRenderWindow.cpp" />
+    <ClCompile Include="socket.cpp" />
     <ClCompile Include="splitString.cpp" />
     <ClCompile Include="taskManager.cpp" />
     <ClCompile Include="teleportEvent.cpp" />

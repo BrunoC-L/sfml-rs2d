@@ -21,30 +21,30 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="json.cpp">
-      <Filter>Source Files\json</Filter>
-    </ClCompile>
-    <ClCompile Include="json-parser.cpp">
-      <Filter>Source Files\json</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\common\json.cpp">
+      <Filter>Source Files\json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\json-parser.cpp">
+      <Filter>Source Files\json</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="json-parser.h">
-      <Filter>Source Files\json</Filter>
-    </ClInclude>
-    <ClInclude Include="json.h">
-      <Filter>Source Files\json</Filter>
-    </ClInclude>
     <ClInclude Include="json-socket-server.h">
       <Filter>Source Files\socket-server</Filter>
     </ClInclude>
     <ClInclude Include="socket-server.h">
       <Filter>Source Files\socket-server</Filter>
     </ClInclude>
-    <ClInclude Include="jsonSocket.h">
+    <ClInclude Include="..\..\common\json.h">
+      <Filter>Source Files\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\json-parser.h">
+      <Filter>Source Files\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\jsonSocket.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

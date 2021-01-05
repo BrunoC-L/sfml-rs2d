@@ -69,8 +69,7 @@ void GameRessourceObject::showDepleted() {
 
 void GameRessourceObject::sendPlayerToCollect() {
 	player->path = Pathfinder::pathfind(player->positionNextTick, positions, true, (AbstractMap*)provider->get("Map"));
-	unsigned tick = GameTick::get();
-	player->setActionIfNotBusy([&, tick]() {
+	player->setActionIfNotBusy([&]() {
 		auto nextToRessource = MovingPredicate::getNextTo(positions);
 		if (MovingPredicate::tileIsInVector(player->positionNextTick, nextToRessource)) {
 			player->setActionIfNotBusy([&]() { return collect(); });
