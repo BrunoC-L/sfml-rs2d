@@ -18,4 +18,5 @@ public:
 	virtual void init();
 	virtual void receive(std::string, JSON);
 	virtual void emit(std::string, JSON);
+	virtual void login();
 };

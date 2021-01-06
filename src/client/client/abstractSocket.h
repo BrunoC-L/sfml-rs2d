@@ -12,4 +12,5 @@ public:
 	virtual void on(std::string type, std::function<void(JSON)>) = 0;
 	virtual void emit(std::string, JSON) = 0;
 	virtual void receive(std::string, JSON) = 0;
+	virtual void login() = 0;
 };

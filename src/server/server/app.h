@@ -3,6 +3,7 @@
 
 #include "../../common/json.h"
 #include "../../common/units.h"
+#include "odbc.h"
 
 void createClientAndSendMessageOverSocket(unsigned port) {
     sf::TcpSocket socket;
@@ -10,7 +11,6 @@ void createClientAndSendMessageOverSocket(unsigned port) {
     if (status != sf::Socket::Done)
         throw std::exception("Could not connect to the server\n");
     std::cout << "Connected\n";
-
     char data[100] = { 0 };
     std::size_t received;
     sf::Socket::Status socketStatus = socket.receive(data, 100, received);
@@ -20,45 +20,6 @@ void createClientAndSendMessageOverSocket(unsigned port) {
         std::cout << "Error receiving data\n";
     else
         std::cout << "Client received \"" << data << "\" on connection\n";
-
-    std::string str1("{'type':'hello', 'data': 'Hello server this is client'}|E");
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    std::string str2("ND|");
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    std::string str3("{'type':'hello', 'dat");
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    std::string str4("a': 'Hello server this is client'}|END|");
-
-    std::string badJson("a': 'Hello server this is client'}|END|");
-    socket.send(badJson.c_str(), badJson.length());
-
-    for (int i = 0; i < 5; ++i) {
-        socket.send(str1.c_str(), str1.length());
-        socket.send(str2.c_str(), str2.length());
-        socket.send(str3.c_str(), str3.length());
-        socket.send(str4.c_str(), str4.length());
-    }
-
-    JSON json;
-    json["type"] = "login";
-    JSON jsondata;
-    jsondata["username"] = "'Bruno'";
-    jsondata["password"] = "1234";
-    json["data"] = jsondata;
-    std::string login1(json.asString() + "|END|");
-    jsondata["password"] = " 1324";
-    json["data"] = jsondata;
-    std::string login2(json.asString() + "|END|");
-    jsondata["password"] = "1234";
-    jsondata["username"] = "'Russian Spy!'";
-    json["data"] = jsondata;
-    std::string login3(json.asString() + "|END|");
-
-    socket.send(login1.c_str(), login1.length());
-    socket.send(login2.c_str(), login2.length());
-    socket.send(login3.c_str(), login3.length());
-
-    std::this_thread::sleep_for(std::chrono::seconds(1));
     socket.disconnect();
 }
 
@@ -78,6 +39,25 @@ public:
     }
 
     void start() {
+        std::mutex mutex;
+        std::vector<Query> queries;
+
+        WCHAR* connectionString = (WCHAR*)L"DRIVER=SQL Server Native Client 11.0;SERVER=DESKTOP-FJJ4HB5\\SQLEXPRESS;DATABASE=rs2d;Trusted_Connection=Yes;";
+        
+        std::thread t([&]() { db(connectionString, queries, mutex); });
+        
+        queries.push_back(
+            std::make_pair(
+                "select * from Player\n",
+                [&](QueryResult qr) {
+                    for (auto r : qr) {
+                        for (auto v : r)
+                            std::cout << v << ", ";
+                        std::cout << std::endl;
+                    }
+                }
+            )
+        );
         unsigned port = 38838;
 
         auto onError = [&](std::exception& e, QueueMessage qm) {
@@ -104,14 +84,31 @@ public:
             std::cout << "Server received \"" << json.asString() << "\"\n";
         };
 
-        auto onLogin = [&](sf::TcpSocket* socket, JSON json) {
-            if (json["username"].asString() == "Bruno" && json["password"].asString() == "1234")
-                std::cout << "Bruno logged in!\n";
-            else
-                std::cout << "An imposter is trying to hack into the mainframe, sir!\n";
-        };
+        std::unordered_map<sf::TcpSocket*, std::string> socketToPlayerName;
+        std::vector<sf::TcpSocket*> sockets(10, nullptr);
+        
+
         std::vector<std::vector<VTile>> paths(10);
         std::vector<VTile> positions(10, VTile());
+
+        auto onLogin = [&](sf::TcpSocket* socket, JSON json) {
+            std::string username = json["username"].asString();
+            int id = json["id"].asInt();
+            socketToPlayerName[socket] = username;
+            queries.push_back(
+                std::make_pair(
+                    "select * from Player where username = '" + username + "'\n",
+                    [&, id, socket](QueryResult qr) {
+                        auto res = qr[0];
+                        int posx = atoi(res[4].c_str());
+                        int posy = atoi(res[5].c_str());
+                        positions[id] = VTile(posx, posy);
+                        sockets[id] = socket;
+                    }
+                )
+            );
+        };
+
 
         auto onWalk = [&](sf::TcpSocket* socket, JSON data) {
             int id = data["id"].asInt();
@@ -154,6 +151,17 @@ public:
                             continue;
                         positions[i] = paths[i][0];
                         paths[i].erase(paths[i].begin());
+                        std::string q = "update Player set posx = " +
+                            std::to_string(positions[i].x) +
+                            ", posy = " +
+                            std::to_string(positions[i].y) +
+                            " where username = '" + socketToPlayerName[sockets[i]] + "'\n";
+                        queries.push_back(
+                            std::make_pair(
+                                q,
+                                [](QueryResult qr) { }
+                            )
+                        );
                     }
 
                     for (int i = 0; i < positions.size(); ++i) {
@@ -173,12 +181,12 @@ public:
             }
         );
 
-        std::thread client = std::thread(
-            [&]() {
-                std::this_thread::sleep_for(std::chrono::seconds(1));
-                createClientAndSendMessageOverSocket(port);
-            }
-        );
+        //std::thread client = std::thread(
+        //    [&]() {
+        //        std::this_thread::sleep_for(std::chrono::seconds(1));
+        //        createClientAndSendMessageOverSocket(port);
+        //    }
+        //);
 
         while (!stop) {
             std::string action;
@@ -188,12 +196,12 @@ public:
         }
         socketServer.stop();
         gameTicks.join();
-        client.join();
+        //client.join();
     }
 
     void stop() {}
 
     void init() {
-        this->get("Map")->init();
+         this->get("Map")->init();
     }
 };

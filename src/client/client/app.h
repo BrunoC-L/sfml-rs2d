@@ -197,7 +197,8 @@ public:
         socket->on("hello",
             [&](JSON data) {
                 player->id = data.asInt();
-                player->walk(player->position);
+                socket->login();
+                // player->walk(player->position);
             }
         );
 
@@ -218,6 +219,7 @@ public:
                 }
             }
         );
+
         this->get("Socket")->init();
     }
 };

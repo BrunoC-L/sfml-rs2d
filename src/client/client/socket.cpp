@@ -14,7 +14,7 @@ void Socket::init() {
                 char data[1024] = { 0 };
                 std::size_t received;
                 if (socket.socket->receive(data, 1024, received) != sf::Socket::Done)
-                    continue;
+                    throw std::exception("Server did not reply on connection");
 
                 buffer += std::string(data).substr(0, received);
                 int index = 0;
@@ -50,13 +50,26 @@ void Socket::receive(std::string type, JSON data) {
 }
 
 void Socket::emit(std::string type, JSON data) {
-    this->socket.send("{'type':'" + type + "', 'data':" + data.asString() + "}" + messageEnd);
+    JSON json;
+    json["type"] = "'" + type + "'";
+    json["data"] = data.asString();
+    send(json);
 }
 
 void Socket::send(JSON json) {
-	socket.send(json.asString());
+	socket.send(json.asString() + messageEnd);
 }
 
 void Socket::on(std::string type, std::function<void(JSON)> callback) {
 	callbacks[type].push_back(callback);
+}
+
+void Socket::login() {
+    JSON logindata;
+    std::string username;
+    std::cout << "Enter username: ";
+    std::cin >> username;
+    logindata["username"] = "'" + username + "'";
+    logindata["id"] = std::to_string(player->id);
+    emit("login", logindata);
 }
