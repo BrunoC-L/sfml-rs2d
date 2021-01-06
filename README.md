@@ -9,8 +9,9 @@ To run the game you must:
    - add the additional libraries in linker settings
    - add additional dependencies in input settings
    - copy the SFML DLLs to the debug folder with the .exe created when compiling (go in visual studio, try to debug, it will crash because of missing DLLs and create the debug folders and executable)
-3. run the server
-4. run clients
+3. run an sql server, change the odbc connection string to match the db, link odbc in visual c++ settings
+4. run the server
+5. run clients
 
 If the info above is wrong, let me know!
 
