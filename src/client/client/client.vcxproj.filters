@@ -123,9 +123,6 @@
     <ClInclude Include="chunk.h">
       <Filter>Source Files\chunk</Filter>
     </ClInclude>
-    <ClInclude Include="event.h">
-      <Filter>Source Files\events</Filter>
-    </ClInclude>
     <ClInclude Include="item.h">
       <Filter>Source Files\item</Filter>
     </ClInclude>
@@ -284,6 +281,9 @@
     </ClInclude>
     <ClInclude Include="jsonSocket.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\event.h">
+      <Filter>Source Files\events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

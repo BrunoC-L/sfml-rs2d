@@ -6,7 +6,7 @@
 #include "../../common/units.h"
 #include "taskManager.h"
 #include "mouseWheelEvent.h"
-#include "event.h"
+#include "../../common/event.h"
 #include "VPixelToVTileConverter.h"
 #include "mouseLeftClickEvent.h"
 #include "mouseRightClickEvent.h"

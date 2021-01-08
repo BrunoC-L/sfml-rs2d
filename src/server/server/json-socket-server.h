@@ -17,7 +17,12 @@ public:
 	bool stopped = false;
 	std::function<void(std::exception&, QueueMessage)> onError;
 
-	JsonSocketServer(unsigned port, std::function<void(std::exception&, QueueMessage)> onError, std::function<void(sf::TcpSocket*)> onConnect, std::function<void(sf::TcpSocket*)> onDisconnect) :
+	JsonSocketServer(
+		unsigned port,
+		std::function<void(std::exception&, QueueMessage)> onError,
+		std::function<void(sf::TcpSocket*)> onConnect,
+		std::function<void(sf::TcpSocket*)> onDisconnect
+	) :
 		server(port, [&](sf::TcpSocket* socket, std::string msg) { queue(socket, msg); }, onConnect, onDisconnect), onError(onError)
 	{ }
 

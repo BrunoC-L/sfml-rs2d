@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\common\abstractService.h" />
     <ClInclude Include="..\..\common\abstractServiceProvider.h" />
+    <ClInclude Include="..\..\common\event.h" />
     <ClInclude Include="..\..\common\json-parser.h" />
     <ClInclude Include="..\..\common\json.h" />
     <ClInclude Include="..\..\common\splitString.h" />
@@ -164,7 +165,6 @@
     <ClInclude Include="chat.h" />
     <ClInclude Include="chatMessage.h" />
     <ClInclude Include="chunk.h" />
-    <ClInclude Include="event.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="gameRessourceObject.h" />
     <ClInclude Include="groundItem.h" />

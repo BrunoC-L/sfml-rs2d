@@ -46,6 +46,30 @@
     <Filter Include="Source Files\other\splitString">
       <UniqueIdentifier>{2cbf9935-fc21-4fe9-b387-267dc2370c0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\services\db">
+      <UniqueIdentifier>{293f5319-1162-41ab-827e-e7177cac9c31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\services\users">
+      <UniqueIdentifier>{1b58e273-84dc-4120-b1f8-0dd7f795ee57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\user">
+      <UniqueIdentifier>{5a841c06-9f00-4bab-948a-4d59fb72a980}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\services\socketServer">
+      <UniqueIdentifier>{a1d6b553-3af2-4a90-8595-2503304b231c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\services\playerAction">
+      <UniqueIdentifier>{a097a5fa-d699-4171-a6e8-03ae2e90c8f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\playerAction">
+      <UniqueIdentifier>{2502088d-6b1b-4795-bb03-c113df4af2f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\playerAction\playerWalkAction">
+      <UniqueIdentifier>{c83825f5-6c85-44d5-9c05-36bc949288ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\events">
+      <UniqueIdentifier>{e1626e18-a119-45ad-8dc0-14c67168fff9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -74,6 +98,27 @@
     </ClCompile>
     <ClCompile Include="..\..\common\splitString.cpp">
       <Filter>Source Files\other\pathfind</Filter>
+    </ClCompile>
+    <ClCompile Include="db.cpp">
+      <Filter>Source Files\services\db</Filter>
+    </ClCompile>
+    <ClCompile Include="odbc.cpp">
+      <Filter>Source Files\services\db</Filter>
+    </ClCompile>
+    <ClCompile Include="userService.cpp">
+      <Filter>Source Files\services\users</Filter>
+    </ClCompile>
+    <ClCompile Include="user.cpp">
+      <Filter>Source Files\user</Filter>
+    </ClCompile>
+    <ClCompile Include="socketServer.cpp">
+      <Filter>Source Files\services\socketServer</Filter>
+    </ClCompile>
+    <ClCompile Include="playerActionService.cpp">
+      <Filter>Source Files\services\playerAction</Filter>
+    </ClCompile>
+    <ClCompile Include="playerWalkAction.cpp">
+      <Filter>Source Files\playerAction\playerWalkAction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -125,8 +170,44 @@
     <ClInclude Include="pathfinder.h">
       <Filter>Source Files\other\splitString</Filter>
     </ClInclude>
+    <ClInclude Include="abstractDB.h">
+      <Filter>Source Files\services\db</Filter>
+    </ClInclude>
+    <ClInclude Include="db.h">
+      <Filter>Source Files\services\db</Filter>
+    </ClInclude>
     <ClInclude Include="odbc.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\services\db</Filter>
+    </ClInclude>
+    <ClInclude Include="abstractUserService.h">
+      <Filter>Source Files\services\users</Filter>
+    </ClInclude>
+    <ClInclude Include="userService.h">
+      <Filter>Source Files\services\users</Filter>
+    </ClInclude>
+    <ClInclude Include="user.h">
+      <Filter>Source Files\user</Filter>
+    </ClInclude>
+    <ClInclude Include="abstractSocketServer.h">
+      <Filter>Source Files\services\socketServer</Filter>
+    </ClInclude>
+    <ClInclude Include="socketServer.h">
+      <Filter>Source Files\services\socketServer</Filter>
+    </ClInclude>
+    <ClInclude Include="abstractPlayerActionService.h">
+      <Filter>Source Files\services\playerAction</Filter>
+    </ClInclude>
+    <ClInclude Include="playerActionService.h">
+      <Filter>Source Files\services\playerAction</Filter>
+    </ClInclude>
+    <ClInclude Include="playerAction.h">
+      <Filter>Source Files\playerAction</Filter>
+    </ClInclude>
+    <ClInclude Include="playerWalkAction.h">
+      <Filter>Source Files\playerAction\playerWalkAction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\event.h">
+      <Filter>Source Files\events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

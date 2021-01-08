@@ -8,11 +8,6 @@ public:
 	virtual void emit() = 0;
 };
 
-class EventVisitor {
-public:
-	virtual void visit(Event* ev) = 0;
-};
-
 template <class T>
 class EventObserver {
 public:
