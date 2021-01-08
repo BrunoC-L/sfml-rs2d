@@ -9,12 +9,13 @@ void Socket::init() {
 	socket.connect("127.0.0.1", 38838);
 	listener = std::thread(
 		[&]() {
+            login();
             std::string buffer = "";
             while (true) {
                 char data[1024] = { 0 };
                 std::size_t received;
                 if (socket.socket->receive(data, 1024, received) != sf::Socket::Done)
-                    throw std::exception("Server did not reply on connection");
+                    throw std::exception();
 
                 buffer += std::string(data).substr(0, received);
                 int index = 0;
@@ -70,6 +71,5 @@ void Socket::login() {
     std::cout << "Enter username: ";
     std::cin >> username;
     logindata["username"] = "'" + username + "'";
-    logindata["id"] = std::to_string(player->id);
     emit("login", logindata);
 }

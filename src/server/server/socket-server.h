@@ -66,8 +66,6 @@ public:
                         delete client;
                         continue;
                     }
-                    //std::string str = "{'type':'hello', 'data':" + std::to_string(id++) + "}";
-                    //client->send(str.c_str(), str.length());
                     selectorMutex.lock();
                     SocketTuple* st = new SocketTuple;
                     st->socket = client;

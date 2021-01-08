@@ -9,17 +9,19 @@ void UserService::init() {
 
     auto onLogin = [&](std::shared_ptr<User> user, JSON json) {
         std::string username = json["username"].asString();
-        int id = json["id"].asInt();
         user->ign = username;
-        user->id = id;
         dbService->queryPlayerByUsernameEquals(
             username,
             [&, user](QueryResult qr) {
                 auto res = qr[0];
                 int posx = atoi(res[4].c_str());
                 int posy = atoi(res[5].c_str());
+                user->id = atoi(res[0].c_str());
                 user->position = VTile(posx, posy);
                 // emit user authentified
+                JSON data = "'" + res[0] + "'";
+                server->send(user, "hello", data);
+                return;
             }
         );
     };

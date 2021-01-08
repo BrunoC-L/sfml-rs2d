@@ -197,7 +197,6 @@ public:
         socket->on("hello",
             [&](JSON data) {
                 player->id = data.asInt();
-                socket->login();
                 // player->walk(player->position);
             }
         );

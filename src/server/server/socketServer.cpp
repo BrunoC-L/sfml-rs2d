@@ -10,21 +10,12 @@ SocketServerService::SocketServerService(AbstractServiceProvider* provider, unsi
         std::cout << socket << " disconnected\n";
     };
 
-    int* id = new int;
-    *id = 0;
-    auto onConnect = [&, id](sf::TcpSocket* socket) {
-        std::string hello = std::to_string(*id);
-        JSON json;
-        json["type"] = "'hello'";
-        json["data"] = "'" + hello + "'";
-        std::string msg = json.asString() + messageEnd;
-        socket->send(msg.c_str(), msg.length());
+    auto onConnect = [&](sf::TcpSocket* socket) {
         std::cout << socket << " connected\n";
-        auto user = std::make_shared<User>(*id);
+        auto user = std::make_shared<User>(-1);
         socketToUser[socket] = user;
         userToSocket[user] = socket;
         users.push_back(user);
-        ++*id;
     };
 
     server = new JsonSocketServer(port, onError, onConnect, onDisconnect);
@@ -54,9 +45,5 @@ void SocketServerService::send(std::shared_ptr<User> user, std::string type, JSO
 
 void SocketServerService::init() {
     acquire();
-    auto onHello = [&](std::shared_ptr<User>, JSON json) {
-        std::cout << "Server received \"" << json.asString() << "\"\n";
-    };
-    on("hello", onHello);
     server->start();
 }
