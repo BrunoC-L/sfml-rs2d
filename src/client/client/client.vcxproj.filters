@@ -115,6 +115,9 @@
     <Filter Include="Source Files\services\socket">
       <UniqueIdentifier>{b608cd00-48d9-47fd-8771-eb99e3db882e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\services\gameData">
+      <UniqueIdentifier>{e730577c-017a-4ddf-a587-b45b51334195}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="app.h">
@@ -285,6 +288,12 @@
     <ClInclude Include="..\..\common\event.h">
       <Filter>Source Files\events</Filter>
     </ClInclude>
+    <ClInclude Include="abstractGameDataService.h">
+      <Filter>Source Files\services\gameData</Filter>
+    </ClInclude>
+    <ClInclude Include="gameDataService.h">
+      <Filter>Source Files\services\gameData</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -388,6 +397,9 @@
     </ClCompile>
     <ClCompile Include="..\..\common\splitString.cpp">
       <Filter>Source Files\other</Filter>
+    </ClCompile>
+    <ClCompile Include="gameDataService.cpp">
+      <Filter>Source Files\services\gameData</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -14,7 +14,11 @@ void Socket::init() {
             while (true) {
                 char data[1024] = { 0 };
                 std::size_t received;
-                if (socket.socket->receive(data, 1024, received) != sf::Socket::Done)
+                sf::Socket::Status status;
+                status = socket.socket->receive(data, 1024, received);
+                if (status == sf::Socket::Status::Disconnected)
+                     throw std::exception();
+                if (!status == sf::Socket::Status::Done)
                     throw std::exception();
 
                 buffer += std::string(data).substr(0, received);
@@ -25,16 +29,6 @@ void Socket::init() {
                     try {
                         JSON json(str);
                         receive(json["type"].asString(), json["data"]);
-                        //if (json["type"].asString() == "position") {
-                        //    auto data = json["data"];
-                        //    int otherid = data["id"].asInt();
-                        //    int x = data["x"].asDouble();
-                        //    int y = data["y"].asDouble();
-                        //    positions[otherid] = VTile(x, y);
-                        //}
-                        //else if (json["type"].asString() == "hello") {
-                        //    id = json["data"].asInt();
-                        //}
                     } catch (...) { }
                     buffer = buffer.substr(index + messageEnd.length());
                 }
@@ -44,10 +38,8 @@ void Socket::init() {
 }
 
 void Socket::receive(std::string type, JSON data) {
-    const auto lambdas = callbacks[type];
-    for (int i = 0; i < lambdas.size(); ++i) {
-        lambdas[i](data);
-    }
+    for (auto lambda : callbacks[type])
+        lambda(data);
 }
 
 void Socket::emit(std::string type, JSON data) {

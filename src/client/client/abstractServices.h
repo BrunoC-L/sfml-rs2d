@@ -8,3 +8,4 @@
 #include "abstractTaskManager.h"
 #include "abstractRenderWindow.h"
 #include "abstractSocket.h"
+#include "abstractGameDataService.h"

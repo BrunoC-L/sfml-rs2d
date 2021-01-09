@@ -17,7 +17,6 @@ public:
 	}
 	void init() {
 		acquire();
-		setGetWindowSize([&]() { return VPixel(renderWindow->getSize().x, renderWindow->getSize().y); });
 		LeftArrowKeyPressedEvent::subscribe(new EventObserver<LeftArrowKeyPressedEvent>([&](LeftArrowKeyPressedEvent* ev) {
 			angle -= 5;
 			}));
@@ -27,8 +26,10 @@ public:
 		ResizeEvent::subscribe(new EventObserver<ResizeEvent>([&](ResizeEvent* ev) {
 			update();
 		}));
+		MouseWheelEvent::subscribe(new EventObserver<MouseWheelEvent>([&](MouseWheelEvent* ev) {
+			measures->zoom = measures->zoom * (1 + (0.3 + ev->delta) * 0.1f);
+		}));
 	}
-	virtual void setGetWindowSize(function<VPixel()> f) { getWindowSize = f; };
 	virtual void update() { stretch = sf::Vector2f(getWindowSize().x / AbstractMeasures::startingScreenSize().x, getWindowSize().y / AbstractMeasures::startingScreenSize().y); }
 
 	virtual VTile getInnerWindowSizeTile() const {
@@ -48,4 +49,5 @@ public:
 	}
 	virtual float getRightBannerStartingX()  const { return AbstractMeasures::startingScreenSize().x - AbstractMeasures::banners().x; }
 	virtual float getBottomBannerStartingY() const { return AbstractMeasures::startingScreenSize().y - AbstractMeasures::banners().y; }
+	virtual VPixel getWindowSize() const { return VPixel(renderWindow->getSize().x, renderWindow->getSize().y); }
 };

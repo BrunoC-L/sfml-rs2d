@@ -12,6 +12,7 @@ public:
     virtual void update() = 0;
     virtual void updateChunks(const VChunk& difference, const VChunk& tempCenter) = 0;
     virtual void doUpdates() = 0;
+    virtual void stopUpdates() = 0;
     virtual Tile* getTileFromVTile(VTile tilePosition) = 0;
     bool shouldUpdate = false;
     bool shouldStop = false;

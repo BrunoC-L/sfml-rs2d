@@ -151,6 +151,7 @@
     <ClInclude Include="..\..\common\units.h" />
     <ClInclude Include="abstractCamera.h" />
     <ClInclude Include="abstractChat.h" />
+    <ClInclude Include="abstractGameDataService.h" />
     <ClInclude Include="abstractInventory.h" />
     <ClInclude Include="abstractMap.h" />
     <ClInclude Include="abstractMeasures.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="chat.h" />
     <ClInclude Include="chatMessage.h" />
     <ClInclude Include="chunk.h" />
+    <ClInclude Include="gameDataService.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="gameRessourceObject.h" />
     <ClInclude Include="groundItem.h" />
@@ -208,6 +210,7 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="chat.cpp" />
     <ClCompile Include="chunk.cpp" />
+    <ClCompile Include="gameDataService.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="gameRessourceObject.cpp" />
     <ClCompile Include="groundObject.cpp" />

@@ -19,6 +19,12 @@ void Player::init() {
     subscribeToTeleport();
     subscribeToInteractionClick();
     subscribeToWalkClick();
+
+    socket->on("hello",
+        [&](JSON data) {
+            player->id = data.asInt();
+        }
+    );
 }
 
 void Player::update(unsigned tickmod) {

@@ -11,6 +11,7 @@ void Map::init() {
 	centerChunk = VChunk(int(pos.x / AbstractMeasures::TilesPerChunk), int(pos.y / AbstractMeasures::TilesPerChunk), int(pos.z));
 	chunkRadius = 1;
 	load();
+	doUpdates();
 }
 
 void Map::load() {
@@ -73,6 +74,18 @@ void Map::updateChunks(const VChunk& difference, const VChunk& tempCenter) {
 	mutex.unlock();
 }
 
+void Map::doUpdates() {
+	updateThread = std::thread(
+		[&]() {
+			while (true) {
+				if (shouldStop)
+					return;
+				update();
+			}
+		}
+	);
+}
+
 Tile* Map::getTileFromVTile(VTile tilePosition) {
 	VChunk chunkOfTileClicked = VChunk(int(tilePosition.x / AbstractMeasures::TilesPerChunk), int(tilePosition.y / AbstractMeasures::TilesPerChunk));
 	VChunk deltaChunkOffsetWithMiddleChunk = chunkOfTileClicked - centerChunk + VChunk(loaded.size() / 2, loaded.size() / 2);
@@ -83,4 +96,9 @@ Tile* Map::getTileFromVTile(VTile tilePosition) {
 		t = chunk->tiles[int(tilePosition.x - chunkOfTileClicked.x * AbstractMeasures::TilesPerChunk)][int(tilePosition.y - chunkOfTileClicked.y * AbstractMeasures::TilesPerChunk)];
 	}
 	return t;
+}
+
+void Map::stopUpdates() {
+	this->shouldStop = true;
+	updateThread.join();
 }

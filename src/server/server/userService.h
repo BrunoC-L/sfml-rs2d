@@ -5,7 +5,6 @@
 
 class UserService : public AbstractUserService, public Service {
 public:
-	std::vector<std::shared_ptr<User>> users;
 	UserService(AbstractServiceProvider* provider);
 	virtual void init();
 	virtual void saveUserPosition(User user);

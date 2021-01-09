@@ -14,6 +14,7 @@ protected:
 	AbstractRenderWindow* renderWindow;
 	AbstractTaskManager* taskManager;
 	AbstractSocket* socket;
+	AbstractGameDataService* gameData;
 public:
 	Service(AbstractServiceProvider* provider) : provider(provider) { }
 
@@ -27,5 +28,6 @@ public:
 		renderWindow = (AbstractRenderWindow*)provider->get("RenderWindow");
 		taskManager = (AbstractTaskManager*)provider->get("TaskManager");
 		socket = (AbstractSocket*)provider->get("Socket");
+		gameData = (AbstractGameDataService*)provider->get("GameData");
 	}
 };

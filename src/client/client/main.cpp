@@ -10,6 +10,7 @@
 #include "chat.h"
 #include "inventory.h"
 #include "sfRenderWindow.h"
+#include "gameDataService.h"
 #include "socket.h"
 
 int main() {
@@ -22,7 +23,8 @@ int main() {
         Map,
         Chat,
         Inventory,
-        Socket
+        Socket,
+        GameDataService
     > app;
     app.init();
     app.start();

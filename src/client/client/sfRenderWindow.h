@@ -2,10 +2,17 @@
 #include "SFML/Graphics.hpp"
 #include "abstractServices.h"
 #include "service.h"
+#include "rightBanner.h"
+#include "bottomBanner.h"
+#include "rightClickInterface.h"
+#include "VPixelToVTileConverter.h"
 
 class SFRenderWindow : public AbstractRenderWindow, public Service {
 public:
-	AbstractServiceProvider* provider;
+	VPixelToVTileConverter converter;
+	RightBanner* rightBanner;
+	BottomBanner* bottomBanner;
+	RightClickInterface* rightClickInterface;
 	SFRenderWindow(AbstractServiceProvider* provider);
 	static sf::RenderWindow& getInstance() {
 		static sf::RenderWindow window(
@@ -30,4 +37,6 @@ public:
 	virtual void clear();
 	virtual void display();
 	virtual void events();
+	virtual void draw();
+	virtual void update();
 };

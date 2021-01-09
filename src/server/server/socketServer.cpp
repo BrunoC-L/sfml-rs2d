@@ -15,18 +15,20 @@ SocketServerService::SocketServerService(AbstractServiceProvider* provider, unsi
         auto user = std::make_shared<User>(-1);
         socketToUser[socket] = user;
         userToSocket[user] = socket;
-        users.push_back(user);
     };
 
     server = new JsonSocketServer(port, onError, onConnect, onDisconnect);
 }
 
-void SocketServerService::on(std::string msgType, std::function<void(std::shared_ptr<User>, JSON)> callback) {
+void SocketServerService::on(std::string msgType, std::function<void(std::shared_ptr<User>, JSON)> callback, bool loggedInRequired) {
     server->on(
         msgType,
-        [&, callback](sf::TcpSocket* socket, JSON json) {
+        [&, callback, loggedInRequired](sf::TcpSocket* socket, JSON json) {
             auto user = socketToUser[socket];
-            callback(user, json);
+            if (user->isLoggedIn && loggedInRequired || !loggedInRequired)
+                callback(user, json);
+            else
+                socket->disconnect();
         }
     );
 }

@@ -6,6 +6,7 @@
 
 class AbstractUserService : public AbstractService {
 public:
+	std::vector<std::shared_ptr<User>> users;
 	AbstractUserService() { }
 	virtual void saveUserPosition(User user) = 0;
 	virtual void login(std::string username, std::function<void(std::shared_ptr<User>)> onSuccess) = 0;

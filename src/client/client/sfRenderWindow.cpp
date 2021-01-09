@@ -2,12 +2,70 @@
 #include "keyPressedEvent.h"
 #include "resizeEvent.h"
 
-SFRenderWindow::SFRenderWindow(AbstractServiceProvider* provider) : Service(provider) {
+SFRenderWindow::SFRenderWindow(AbstractServiceProvider* provider) : Service(provider), converter(provider) {
 	provider->set("RenderWindow", this);
 }
 
 void SFRenderWindow::init() {
 	acquire();
+
+	setFramerateLimit(60);
+
+	rightBanner = new RightBanner(provider);
+	bottomBanner = new BottomBanner(provider);
+	rightClickInterface = new RightClickInterface(provider);
+
+	MouseLeftClickEvent::subscribe(new EventObserver<MouseLeftClickEvent>([&](MouseLeftClickEvent* ev) {
+		bool clickedOnRightClickInterface = false;
+		bool clickedOnRightBanner = false;
+		bool clickedOnWorld = true;
+		clickedOnRightClickInterface = rightClickInterface->active && rightClickInterface->mouseIsInRect(ev);
+		if (clickedOnRightClickInterface) {
+			clickedOnWorld = false;
+			rightClickInterface->click(ev);
+		}
+		clickedOnRightBanner = rightBanner->mouseIsInRect(ev);
+		if (clickedOnRightBanner) {
+			clickedOnWorld = false;
+			rightBanner->click(ev);
+		}
+		if (clickedOnWorld) {
+			VTile tileClicked = converter.getPositionInGame(ev->pos);
+			Tile* t = map->getTileFromVTile(tileClicked);
+			if (t)
+				t->onLeftClick(*ev);
+		}
+	}));
+
+	MouseRightClickEvent::subscribe(new EventObserver<MouseRightClickEvent>([&](MouseRightClickEvent* ev) {
+		if (!rightClickInterface->active || !rightClickInterface->mouseIsInRect(ev)) {
+			rightClickInterface->setPosition(ev->pos);
+			VTile tileClicked = converter.getPositionInGame(ev->pos);
+			Tile* t = map->getTileFromVTile(tileClicked);
+			if (t)
+				t->onRightClick(*ev);
+		}
+	}));
+
+	MouseMiddleClickEvent::subscribe(new EventObserver<MouseMiddleClickEvent>([&](MouseMiddleClickEvent* ev) {
+		auto clickedOnRightClickInterface = rightClickInterface->active && rightClickInterface->mouseIsInRect(ev);
+		if (clickedOnRightClickInterface)
+			return;
+		auto clickedOnRightBanner = rightBanner->mouseIsInRect(ev);
+		if (clickedOnRightBanner)
+			return;
+		VTile tileClicked = converter.getPositionInGame(ev->pos);
+		Tile* t = map->getTileFromVTile(tileClicked);
+		if (t)
+			t->onMiddleClick(*ev);
+	}));
+
+	MouseMoveEvent::subscribe(new EventObserver<MouseMoveEvent>([&](MouseMoveEvent* ev) {
+		// add top left indicator of what your mouse is over + left click option + options.length
+		if (rightClickInterface->active && !rightClickInterface->mouseIsInRect(ev)) {
+			rightClickInterface->active = false;
+		}
+	}));
 }
 
 void SFRenderWindow::draw(sf::VertexArray v, sf::RenderStates s) {
@@ -111,4 +169,14 @@ void SFRenderWindow::events() {
 			MouseWheelEvent(VPixel(event.mouseWheel.x, event.mouseWheel.y), event.mouseWheel.delta).emit();
 		else if (event.type == sf::Event::MouseMoved)
 			MouseMoveEvent(VPixel(event.mouseMove.x, event.mouseMove.y)).emit();
+}
+
+void SFRenderWindow::draw() {
+	bottomBanner->draw();
+	rightBanner->draw();
+	rightClickInterface->draw();
+}
+
+void SFRenderWindow::update() {
+	rightBanner->update();
 }

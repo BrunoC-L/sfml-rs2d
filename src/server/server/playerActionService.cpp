@@ -20,7 +20,7 @@ void PlayerActionService::onGameTick() {
     msg["type"] = "'positions'";
     msg["data"] = "[]";
 
-    for (auto user : server->users) {
+    for (auto user : userService->users) {
         if (paths[user].size()) {
             user->position = paths[user][0];
             paths[user].erase(paths[user].begin());
@@ -41,7 +41,7 @@ void PlayerActionService::onGameTick() {
     //    msg["data"].push(pos);
     //}
 
-    for (auto user : server->users)
+    for (auto user : userService->users)
         server->send(user, msg);
 }
 
@@ -59,5 +59,5 @@ void PlayerActionService::init() {
         paths[user] = Pathfinder::pathfind(VTile(p1.x, p1.y), { VTile(x2, y2) }, false, map);
     };
 
-    server->on("walk", onWalk);
+    server->on("walk", onWalk, true);
 }

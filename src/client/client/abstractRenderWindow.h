@@ -17,4 +17,6 @@ public:
 	virtual void draw(const sf::Text text, sf::Transform t) = 0;
 	virtual void events() = 0;
 	virtual void draw(VTile pos, double angle, sf::Sprite s) = 0;
+	virtual void draw() = 0;
+	virtual void update() = 0;
 };
