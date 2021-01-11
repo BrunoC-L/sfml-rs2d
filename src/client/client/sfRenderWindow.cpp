@@ -175,6 +175,7 @@ void SFRenderWindow::events() {
 
 void SFRenderWindow::draw() {
 	VTile pos = *camera->position;
+	cout << pos.x << ' ' << pos.y << '\n';
 	VTile relativePos(
 		pos.x - map->centerChunk.x * AbstractMeasures::TilesPerChunk - measures->getInnerWindowSizeTile().x / 2,
 		pos.y - map->centerChunk.y * AbstractMeasures::TilesPerChunk - measures->getInnerWindowSizeTile().y / 2

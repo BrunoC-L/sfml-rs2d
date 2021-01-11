@@ -7,8 +7,8 @@ PlayerActionService::PlayerActionService(AbstractServiceProvider* provider) : Se
 }
 
 void PlayerActionService::onGameTick() {
-	for (auto action : actions)
-		return;
+    for (auto action : actions)
+        break;
 
     // for every chunk
     //   store chunk data to send

@@ -38,7 +38,8 @@ JSON& JSON::operator[](std::string propertyName) {
 	if (type != OBJECT)
 		throw JSONException("this JSON is either an array, string or number");
 	try {
-		return this->operator[](indices.at(propertyName));
+		auto index = indices.at(propertyName);
+		return children[index];
 	}
 	catch (...) {
 		children.push_back(getInactive(propertyName));
