@@ -62,20 +62,6 @@ void Player::onGameTick() {
     positionNextTick = positionLastTick + currentMovement[0] + currentMovement[1];
 }
 
-void Player::draw() const {
-    renderWindow->draw(position, 0, playerSprite);
-    // renderWindow->draw(position + VTile(1,1), 0, playerSprite);
-    // renderWindow->draw(
-    //    playerSprite,
-    //    sf::RenderStates().transform
-    //        .scale(1 / scale.x, 1 / scale.y)
-    //        .translate(measures->getInnerWindowSizeTile().x * AbstractMeasures::pixelsPerTile / 2, measures->getInnerWindowSizeTile().y * AbstractMeasures::pixelsPerTile / 2)
-    //        .scale(zoomScale, zoomScale)
-    //        .translate(-(17.f/16) * measures->getTileSize().x, - 1.5 * measures->getTileSize().y)
-    //        .translate(position.x - cameraPos.x, position.y - cameraPos.y)
-    //);
-}
-
 void Player::clearActionIfNotBusy() {
     if (!isBusy)
         currentAction = []() { return true; };
@@ -120,7 +106,6 @@ void Player::subscribeToWalkClick() {
 }
 
 void Player::walk(VTile pos) {
-    // path = Pathfinder::pathfind(player->positionNextTick, { pos }, false, map);
     JSON json;
     json["x"] = std::to_string(pos.x);
     json["y"] = std::to_string(pos.y);

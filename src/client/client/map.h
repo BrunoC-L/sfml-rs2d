@@ -14,7 +14,6 @@ public:
     Map(AbstractServiceProvider* provider);
     void init();
     virtual void load();
-    virtual void draw();
     virtual void update();
     virtual void updateChunks(const VChunk& difference, const VChunk& tempCenter);
     virtual void doUpdates();

@@ -3,7 +3,7 @@
 #include "abstractPlayer.h"
 #include "abstractRenderWindow.h"
 
-Minimap::Minimap(AbstractServiceProvider* provider) : Service(provider) {
+Minimap::Minimap(AbstractServiceProvider* provider, AbstractRenderWindow* window) : Service(provider), window(window) {
     acquire();
     shape = sf::CircleShape(AbstractMeasures::minimapRadius);
     shape.setPosition(measures->getRightBannerStartingX() + (AbstractMeasures::banners().x - 2 * AbstractMeasures::minimapRadius / measures->stretch.x) / 2, 0);
@@ -28,8 +28,8 @@ void Minimap::draw() const {
     auto transform = sf::Transform();
     transform
         .scale(sf::Vector2f(1 / scale.x, 1 / scale.y))
-        .translate(measures->getWindowSize().x - AbstractMeasures::startingScreenSize().x, 0)
+        .translate(measures->windowSize.x - AbstractMeasures::startingScreenSize().x, 0)
         .rotate(measures->angle, sf::Vector2f(shape.getPosition().x + AbstractMeasures::minimapRadius, shape.getPosition().y + AbstractMeasures::minimapRadius));
-    renderWindow->draw(&shape, transform);
-    renderWindow->draw(&playerCircle, transform);
+    window->draw(&shape, transform);
+    window->draw(&playerCircle, transform);
 }

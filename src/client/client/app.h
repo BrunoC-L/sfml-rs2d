@@ -27,6 +27,7 @@ template <
     typename GameData
 >
 class App : public AbstractServiceProvider, public Service {
+    AbstractRenderWindow* renderWindow;
 public:
     App() : Service(this) {
         measures = new Measures(this);
@@ -36,9 +37,9 @@ public:
         camera = new Camera(this);
         chat = new Chat(this);
         inventory = new Inventory(this);
-        renderWindow = new RenderWindow(this);
         gameData = new GameData(this);
         socket = new Socket(this);
+        renderWindow = new RenderWindow(this);
     }
 
     void init() {
@@ -49,9 +50,9 @@ public:
         taskManager->init();
         chat->init();
         inventory->init();
-        renderWindow->init();
         gameData->init();
         socket->init();
+        renderWindow->init();
     }
 
     void stop() {
@@ -60,32 +61,13 @@ public:
 
 	void start() {
         unsigned frame = 0;
-        unsigned tickmod = 0;
-        // bool isGameTick = false;
-        sf::Clock clock;
-
         while (renderWindow->isOpen()) {
-            auto dt = clock.getElapsedTime().asMilliseconds();
-            if (dt > 1100.f / 60)
-                cout << "frame took " << dt << " ms" << endl;
-            clock.restart();
             ++frame;
-            tickmod = frame % unsigned(Measures::framesPerTick);
-            // isGameTick = !tickmod;
 
             renderWindow->events();
             renderWindow->update();
-            player->update(tickmod);
+            player->update(frame % 60);
             renderWindow->clear();
-            map->draw();
-            player->draw();
-
-            for (int i = 0; i < gameData->playerPositions.size(); ++i) {
-                if (i == player->id)
-                    continue;
-                auto pos = gameData->playerPositions[i];
-                renderWindow->draw(pos, 0, player->playerSprite);
-            }
 
             renderWindow->draw();
             renderWindow->display();

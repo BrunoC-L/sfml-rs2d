@@ -11,8 +11,6 @@ enum MouseClickType { Left, Right, Middle };
 
 class AbstractMeasures : public AbstractService {
 public:
-	virtual void update() = 0;
-
 	virtual VTile getInnerWindowSizeTile() const = 0;
 	virtual VPixel getInnerWindowSize() const = 0;
 
@@ -24,7 +22,6 @@ public:
 	static VPixel startingInnerScreenSize() { return VPixel(startingInnerScreenSizeTile() * pixelsPerTile); }
 	static VPixel banners() { return VPixel(rightBannerWidth, bottomBannerHeight); }
 	static VPixel startingScreenSize() { return VPixel(startingInnerScreenSizeTile().x * pixelsPerTile, startingInnerScreenSizeTile().y * pixelsPerTile) + banners(); }
-	virtual VPixel getWindowSize() const = 0;
 	sf::Vector2f stretch = sf::Vector2f(1, 1);
 	float angle = 0;
 	float zoom = 1;
@@ -37,4 +34,5 @@ public:
 	static constexpr float framesPerTick = 60;
 	static constexpr float itemsSizePx = 128;
 	static constexpr float itemsSizeInInventory = 55;
+	VPixel windowSize;
 };

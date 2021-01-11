@@ -26,19 +26,6 @@ void Map::load() {
 	mutex.unlock();
 }
 
-void Map::draw() {
-	VTile& pos = player->position;
-	VTile relativePos(
-		pos.x - centerChunk.x * AbstractMeasures::TilesPerChunk - measures->getInnerWindowSizeTile().x / 2,
-		pos.y - centerChunk.y * AbstractMeasures::TilesPerChunk - measures->getInnerWindowSizeTile().y / 2
-	);
-	mutex.lock();
-	for (int i = 0; i < 2 * chunkRadius + 1; ++i)
-		for (int j = 0; j < 2 * chunkRadius + 1; ++j)
-			loaded[i][j]->draw(*renderWindow, relativePos + VTile(0.5, 0.5), VChunk(i, j) - VChunk(chunkRadius, chunkRadius));
-	mutex.unlock();
-}
-
 void Map::update() {
 	if (!shouldUpdate)
 		return;

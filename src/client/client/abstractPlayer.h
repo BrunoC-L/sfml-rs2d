@@ -6,7 +6,6 @@
 class AbstractPlayer : public AbstractService {
 public:
     int id = 0;
-    virtual void draw() const = 0;
     virtual void update(unsigned tick) = 0;
     virtual void onGameTick() = 0;
     virtual void clearActionIfNotBusy() = 0;

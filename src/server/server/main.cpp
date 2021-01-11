@@ -6,7 +6,7 @@
 #include "app.h"
 
 int main() {
-	App<Map, DB, UserService, SocketServerService, PlayerActionService> app;
+	App<Map, DB, UserService, PlayerActionService, SocketServerService> app;
 	app.init();
 	app.start();
 	app.stop();

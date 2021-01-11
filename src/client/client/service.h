@@ -11,7 +11,6 @@ protected:
 	AbstractMap* map;
 	AbstractMeasures* measures;
 	AbstractPlayer* player;
-	AbstractRenderWindow* renderWindow;
 	AbstractTaskManager* taskManager;
 	AbstractSocket* socket;
 	AbstractGameDataService* gameData;
@@ -25,7 +24,6 @@ public:
 		map = (AbstractMap*)provider->get("Map");
 		measures = (AbstractMeasures*)provider->get("Measures");
 		player = (AbstractPlayer*)provider->get("Player");
-		renderWindow = (AbstractRenderWindow*)provider->get("RenderWindow");
 		taskManager = (AbstractTaskManager*)provider->get("TaskManager");
 		socket = (AbstractSocket*)provider->get("Socket");
 		gameData = (AbstractGameDataService*)provider->get("GameData");

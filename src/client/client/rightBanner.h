@@ -12,12 +12,13 @@ using namespace std;
 
 class RightBanner : public Service {
 public:
-    RightBanner(AbstractServiceProvider* provider);
+    RightBanner(AbstractServiceProvider* provider, AbstractRenderWindow* window);
     void draw();
     bool mouseIsInRect(MouseEvent* ev);
     void click(MouseEvent* ev);
     void update();
 private:
+    AbstractRenderWindow* window;
     Minimap minimap;
     RightBanner();
     sf::RectangleShape banner;

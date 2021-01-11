@@ -8,7 +8,6 @@ using namespace std;
 class AbstractMap : public AbstractService {
 public:
     virtual void load() = 0;
-    virtual void draw() = 0;
     virtual void update() = 0;
     virtual void updateChunks(const VChunk& difference, const VChunk& tempCenter) = 0;
     virtual void doUpdates() = 0;

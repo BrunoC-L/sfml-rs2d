@@ -2,39 +2,32 @@
 #include "keyPressedEvent.h"
 #include "resizeEvent.h"
 
-SFRenderWindow::SFRenderWindow(AbstractServiceProvider* provider) : Service(provider), converter(provider) {
-	provider->set("RenderWindow", this);
-}
+SFRenderWindow::SFRenderWindow(AbstractServiceProvider* provider) : Service(provider), converter(provider) { }
 
 void SFRenderWindow::init() {
 	acquire();
 
 	setFramerateLimit(60);
 
-	rightBanner = new RightBanner(provider);
-	bottomBanner = new BottomBanner(provider);
-	rightClickInterface = new RightClickInterface(provider);
+	rightBanner = new RightBanner(provider, this);
+	bottomBanner = new BottomBanner(provider, this);
+	rightClickInterface = new RightClickInterface(provider, this);
 
 	MouseLeftClickEvent::subscribe(new EventObserver<MouseLeftClickEvent>([&](MouseLeftClickEvent* ev) {
-		bool clickedOnRightClickInterface = false;
-		bool clickedOnRightBanner = false;
-		bool clickedOnWorld = true;
-		clickedOnRightClickInterface = rightClickInterface->active && rightClickInterface->mouseIsInRect(ev);
+		bool clickedOnRightClickInterface = rightClickInterface->active && rightClickInterface->mouseIsInRect(ev);
 		if (clickedOnRightClickInterface) {
-			clickedOnWorld = false;
 			rightClickInterface->click(ev);
+			return;
 		}
-		clickedOnRightBanner = rightBanner->mouseIsInRect(ev);
+		bool clickedOnRightBanner = rightBanner->mouseIsInRect(ev);
 		if (clickedOnRightBanner) {
-			clickedOnWorld = false;
 			rightBanner->click(ev);
+			return;
 		}
-		if (clickedOnWorld) {
-			VTile tileClicked = converter.getPositionInGame(ev->pos);
-			Tile* t = map->getTileFromVTile(tileClicked);
-			if (t)
-				t->onLeftClick(*ev);
-		}
+		VTile tileClicked = converter.getPositionInGame(ev->pos);
+		Tile* t = map->getTileFromVTile(tileClicked);
+		if (t)
+			t->onLeftClick(*ev);
 	}));
 
 	MouseRightClickEvent::subscribe(new EventObserver<MouseRightClickEvent>([&](MouseRightClickEvent* ev) {
@@ -66,6 +59,15 @@ void SFRenderWindow::init() {
 			rightClickInterface->active = false;
 		}
 	}));
+
+	ResizeEvent::subscribe(new EventObserver<ResizeEvent>([&](ResizeEvent* ev) {
+		auto size = getSize();
+		measures->windowSize = size;
+		measures->stretch = sf::Vector2f(size.x / AbstractMeasures::startingScreenSize().x, size.y / AbstractMeasures::startingScreenSize().y);
+	}));
+	auto size = getSize();
+	measures->windowSize = size;
+	measures->stretch = sf::Vector2f(size.x / AbstractMeasures::startingScreenSize().x, size.y / AbstractMeasures::startingScreenSize().y);
 }
 
 void SFRenderWindow::draw(sf::VertexArray v, sf::RenderStates s) {
@@ -102,7 +104,7 @@ void SFRenderWindow::draw(VTile pos, double angle, sf::Sprite s) {
 		.translate(delta.x, delta.y)
 		.rotate(-measures->angle)
 		.translate(-(17.f / 16) * measures->getTileSize().x, -1.5 * measures->getTileSize().y);
-	renderWindow->draw(s, transform);
+	draw(s, transform);
 }
 
 VPixel SFRenderWindow::getSize() {
@@ -172,6 +174,25 @@ void SFRenderWindow::events() {
 }
 
 void SFRenderWindow::draw() {
+	VTile pos = *camera->position;
+	VTile relativePos(
+		pos.x - map->centerChunk.x * AbstractMeasures::TilesPerChunk - measures->getInnerWindowSizeTile().x / 2,
+		pos.y - map->centerChunk.y * AbstractMeasures::TilesPerChunk - measures->getInnerWindowSizeTile().y / 2
+	);
+	map->mutex.lock();
+	for (int i = 0; i < 2 * map->chunkRadius + 1; ++i)
+		for (int j = 0; j < 2 * map->chunkRadius + 1; ++j)
+			map->loaded[i][j]->draw(*this, relativePos + VTile(0.5, 0.5), VChunk(i, j) - VChunk(map->chunkRadius, map->chunkRadius));
+	map->mutex.unlock();
+	draw(player->position, 0, player->playerSprite);
+
+	for (int i = 0; i < gameData->playerPositions.size(); ++i) {
+		if (i == player->id)
+			continue;
+		auto pos = gameData->playerPositions[i];
+		draw(pos, 0, player->playerSprite);
+	}
+
 	bottomBanner->draw();
 	rightBanner->draw();
 	rightClickInterface->draw();

@@ -1,9 +1,5 @@
 #include "chat.h"
 
-void Chat::draw() {
-
-}
-
 void Chat::addMessage(ChatMessage m) {
 	messages.push_back(m);
 }

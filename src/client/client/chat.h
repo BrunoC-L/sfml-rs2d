@@ -14,7 +14,6 @@ public:
 		acquire();
 	}
 	Chat() = default;
-	void draw();
 	void addMessage(ChatMessage message);
 	vector<ChatMessage> messages;
 	vector<ChatMessage> getFilteredMessagesList(int filter);

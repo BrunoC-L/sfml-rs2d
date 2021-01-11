@@ -4,17 +4,12 @@
 #include "../../common/json.h"
 #include "../../common/units.h"
 
-struct position {
-    int x;
-    int y;
-};
-
 template <
     typename Map,
     typename DB,
     typename UserService,
-    typename SocketServerService,
-    typename PlayerActionService
+    typename PlayerActionService,
+    typename SocketServerService
 >
 class App : public AbstractServiceProvider, private Service {
     std::thread gameTicks;

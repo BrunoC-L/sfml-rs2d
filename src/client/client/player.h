@@ -14,7 +14,6 @@ class Player : public AbstractPlayer, public Service {
 public:
     Player(AbstractServiceProvider* provider);
     void init();
-    void draw() const;
     void update(unsigned tick);
     void onGameTick();
     void clearActionIfNotBusy();

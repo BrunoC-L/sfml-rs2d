@@ -31,9 +31,6 @@
     <Filter Include="Source Files\services\map">
       <UniqueIdentifier>{3c553b28-29e6-48b1-8640-a942de6bb79a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\minimap">
-      <UniqueIdentifier>{fda9d176-d832-4bfc-a159-9e0eae3f3068}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\services\measures">
       <UniqueIdentifier>{432315eb-9c44-48ff-a0a8-0061becf1b77}</UniqueIdentifier>
     </Filter>
@@ -48,9 +45,6 @@
     </Filter>
     <Filter Include="Source Files\services\camera">
       <UniqueIdentifier>{9340c107-0c1e-4f12-9766-0404435dd668}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\services\renderWindow">
-      <UniqueIdentifier>{b273d6be-1734-4551-8d38-21de1a6d29dd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\services\taskManager">
       <UniqueIdentifier>{4924561d-1a3a-4f6a-bce2-bc163c296edc}</UniqueIdentifier>
@@ -118,6 +112,12 @@
     <Filter Include="Source Files\services\gameData">
       <UniqueIdentifier>{e730577c-017a-4ddf-a587-b45b51334195}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\renderWindow">
+      <UniqueIdentifier>{b273d6be-1734-4551-8d38-21de1a6d29dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\minimap">
+      <UniqueIdentifier>{fda9d176-d832-4bfc-a159-9e0eae3f3068}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="app.h">
@@ -133,7 +133,7 @@
       <Filter>Source Files\services\map</Filter>
     </ClInclude>
     <ClInclude Include="minimap.h">
-      <Filter>Source Files\minimap</Filter>
+      <Filter>Source Files\UI\minimap</Filter>
     </ClInclude>
     <ClInclude Include="measures.h">
       <Filter>Source Files\services\measures</Filter>
@@ -172,10 +172,10 @@
       <Filter>Source Files\services\camera</Filter>
     </ClInclude>
     <ClInclude Include="abstractRenderWindow.h">
-      <Filter>Source Files\services\renderWindow</Filter>
+      <Filter>Source Files\renderWindow</Filter>
     </ClInclude>
     <ClInclude Include="sfRenderWindow.h">
-      <Filter>Source Files\services\renderWindow</Filter>
+      <Filter>Source Files\renderWindow</Filter>
     </ClInclude>
     <ClInclude Include="abstractTaskManager.h">
       <Filter>Source Files\services\taskManager</Filter>
@@ -309,7 +309,7 @@
       <Filter>Source Files\services\map</Filter>
     </ClCompile>
     <ClCompile Include="minimap.cpp">
-      <Filter>Source Files\minimap</Filter>
+      <Filter>Source Files\UI\minimap</Filter>
     </ClCompile>
     <ClCompile Include="inventory.cpp">
       <Filter>Source Files\services\inventory</Filter>
@@ -324,7 +324,7 @@
       <Filter>Source Files\services\camera</Filter>
     </ClCompile>
     <ClCompile Include="sfRenderWindow.cpp">
-      <Filter>Source Files\services\renderWindow</Filter>
+      <Filter>Source Files\renderWindow</Filter>
     </ClCompile>
     <ClCompile Include="taskManager.cpp">
       <Filter>Source Files\services\taskManager</Filter>

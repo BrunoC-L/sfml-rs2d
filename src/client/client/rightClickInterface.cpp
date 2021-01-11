@@ -1,7 +1,7 @@
 #include "rightClickInterface.h"
 #include "abstractRenderWindow.h"
 
-RightClickInterface::RightClickInterface(AbstractServiceProvider* provider) : Service(provider) {
+RightClickInterface::RightClickInterface(AbstractServiceProvider* provider, AbstractRenderWindow* window) : Service(provider), window(window) {
     acquire();
     active = false;
     AbstractMeasures& measures = *(AbstractMeasures*)nullptr;
@@ -57,8 +57,8 @@ void RightClickInterface::draw() {
     const auto scale = measures->stretch;
     sf::Transform transform;
     transform.scale(sf::Vector2f(1 / scale.x, 1 / scale.y));
-    renderWindow->draw(&rect, transform);
-    renderWindow->draw(text, transform);
+    window->draw(&rect, transform);
+    window->draw(text, transform);
 }
 
 void RightClickInterface::click(MouseEvent* ev) {

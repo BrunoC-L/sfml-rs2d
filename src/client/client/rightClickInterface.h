@@ -11,7 +11,7 @@ using namespace std;
 
 class RightClickInterface : public Service {
 public:
-    RightClickInterface(AbstractServiceProvider* provider);
+    RightClickInterface(AbstractServiceProvider* provider, AbstractRenderWindow* window);
     void draw();
     bool active;
     void setPosition(VPixel pos);
@@ -22,6 +22,7 @@ public:
     void click(MouseEvent* ev);
     void addInteractions(string objectName, vector<pair<string, function<bool()>>> interactions);
 private:
+    AbstractRenderWindow* window;
     vector<pair<string,function<bool()>>> interactions;
     sf::Text text;
     sf::Font font;
