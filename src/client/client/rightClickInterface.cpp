@@ -62,18 +62,18 @@ void RightClickInterface::draw() {
 }
 
 void RightClickInterface::click(MouseEvent* ev) {
-    active = false;
-    if (!interactions.size())
-        return;
-    auto dy = getDeltaClick(ev).y - 16;
-    int interactionIndex = dy / 16;
-    if (dy < 0 || interactionIndex >= interactions.size())
-        return;
-    pair<string, function<bool()>> interaction = interactions[interactionIndex];
-    if (interaction.first == "Examine")
-        interaction.second();
-    else
-        player->setActionIfNotBusy(interaction.second);
+    //active = false;
+    //if (!interactions.size())
+    //    return;
+    //auto dy = getDeltaClick(ev).y - 16;
+    //int interactionIndex = dy / 16;
+    //if (dy < 0 || interactionIndex >= interactions.size())
+    //    return;
+    //pair<string, function<bool()>> interaction = interactions[interactionIndex];
+    //if (interaction.first == "Examine")
+    //    interaction.second();
+    //else
+    //    player->setActionIfNotBusy(interaction.second);
 }
 
 void RightClickInterface::addInteractions(string objectName, vector<pair<string, function<bool()>>> interactions) {

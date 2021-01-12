@@ -92,7 +92,6 @@ void JSONParser::parseJSON() {
 		json->children.push_back(JSON(buffer, propertyName));
 		json->indices.insert(make_pair(propertyName, json->children.size() - 1));
 		parseSpaces();
-		char xd = self[index];
 		if (self[index] == '}')
 			break;
 		else if (self[index] == ',')

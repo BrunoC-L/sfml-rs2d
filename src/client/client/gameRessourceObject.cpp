@@ -50,9 +50,6 @@ GameRessourceObject::GameRessourceObject(
 			));
 		}
 	}
-	player = (AbstractPlayer*)provider->get("Player");
-	inventory = (AbstractInventory*)provider->get("Inventory");
-	taskManager = (AbstractTaskManager*)provider->get("TaskManager");
 }
 
 void GameRessourceObject::show() {

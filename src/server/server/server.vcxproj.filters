@@ -209,5 +209,8 @@
     <ClInclude Include="..\..\common\event.h">
       <Filter>Source Files\events</Filter>
     </ClInclude>
+    <ClInclude Include="tickScheduler.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

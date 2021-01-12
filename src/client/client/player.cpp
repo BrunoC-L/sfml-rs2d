@@ -2,14 +2,7 @@
 
 Player::Player(AbstractServiceProvider* provider): Service(provider) {
     provider->set("Player", this);
-    t.loadFromFile("../../../assets/player.png");
-    playerSprite = sf::Sprite(t);
-    currentMovement[0] = VTile();
-    currentMovement[1] = VTile();
     position = VTile();
-    positionLastTick = position;
-    positionNextTick = position;
-    currentAction = []() { return false; };
 }
 
 void Player::init() {
@@ -28,48 +21,38 @@ void Player::init() {
 }
 
 void Player::update(unsigned tickmod) {
-    if (currentMovement[0] == VTile())
-        return;
-    if (currentMovement[1] == VTile()) {
-        position = positionLastTick + currentMovement[0] * ((tickmod + 1) / AbstractMeasures::framesPerTick);
-        return;
-    }
-    if (tickmod * 2 < AbstractMeasures::framesPerTick ) {
-        position = positionLastTick + currentMovement[0] * 2 * ((tickmod + 1) / AbstractMeasures::framesPerTick);
-        return;
-    }
-    position = positionLastTick + currentMovement[0] + currentMovement[1] * ((2 * tickmod) % unsigned(AbstractMeasures::framesPerTick) + 2) / AbstractMeasures::framesPerTick;
+    //if (currentMovement[0] == VTile())
+    //    return;
+    //if (currentMovement[1] == VTile()) {
+    //    position = positionLastTick + currentMovement[0] * ((tickmod + 1) / AbstractMeasures::framesPerTick);
+    //    return;
+    //}
+    //if (tickmod * 2 < AbstractMeasures::framesPerTick ) {
+    //    position = positionLastTick + currentMovement[0] * 2 * ((tickmod + 1) / AbstractMeasures::framesPerTick);
+    //    return;
+    //}
+    //position = positionLastTick + currentMovement[0] + currentMovement[1] * ((2 * tickmod) % unsigned(AbstractMeasures::framesPerTick) + 2) / AbstractMeasures::framesPerTick;
 }
 
 void Player::onGameTick() {
-    if (!currentAction())
-        currentAction = []() { return false; };
-    positionLastTick = position;
-    if (path.size()) {
-        currentMovement[0] = path[0] - position;
-        path.erase(path.begin());
-        if (path.size()) {
-            currentMovement[1] = path[0] - (position + currentMovement[0]);
-            path.erase(path.begin());
-        }
-        else
-            currentMovement[1] = VTile();
-    }
-    else {
-        currentMovement[0] = VTile();
-        currentMovement[1] = VTile();
-    }
-    positionNextTick = positionLastTick + currentMovement[0] + currentMovement[1];
-}
-
-void Player::clearActionIfNotBusy() {
-    if (!isBusy)
-        currentAction = []() { return true; };
-}
-
-void Player::setActionIfNotBusy(function<bool()> action) {
-    if (!isBusy)
-        currentAction = action;
+    //if (!currentAction())
+    //    currentAction = []() { return false; };
+    //positionLastTick = position;
+    //if (path.size()) {
+    //    currentMovement[0] = path[0] - position;
+    //    path.erase(path.begin());
+    //    if (path.size()) {
+    //        currentMovement[1] = path[0] - (position + currentMovement[0]);
+    //        path.erase(path.begin());
+    //    }
+    //    else
+    //        currentMovement[1] = VTile();
+    //}
+    //else {
+    //    currentMovement[0] = VTile();
+    //    currentMovement[1] = VTile();
+    //}
+    //positionNextTick = positionLastTick + currentMovement[0] + currentMovement[1];
 }
 
 void Player::subscribeToTeleport() {
@@ -81,19 +64,14 @@ void Player::subscribeToTeleport() {
 }
 
 void Player::teleport(VTile position) {
-    path = { position };
+    //path = { position };
 }
 
 void Player::subscribeToInteractionClick() {
     InteractionClickEvent::subscribe(new EventObserver<InteractionClickEvent>(
         [&](InteractionClickEvent* ev) {
-            interact(ev->f);
         }
     ));
-}
-
-void Player::interact(function<bool()> f) {
-    setActionIfNotBusy(f);
 }
 
 void Player::subscribeToWalkClick() {

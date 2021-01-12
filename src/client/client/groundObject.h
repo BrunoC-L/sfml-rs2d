@@ -1,7 +1,6 @@
 #pragma once
-#include <SFML/Graphics.hpp>
-#include "abstractMeasures.h"
-
+#include <functional>
+#include "../../common/units.h"
 using namespace std;
 
 class GroundObject {

@@ -1,5 +1,4 @@
 #pragma once
-#include "SFML/Graphics.hpp"
 #include "../../common/abstractService.h"
 #include "../../common/json.h"
 #include <functional>

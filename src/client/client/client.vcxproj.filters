@@ -112,11 +112,26 @@
     <Filter Include="Source Files\services\gameData">
       <UniqueIdentifier>{e730577c-017a-4ddf-a587-b45b51334195}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\renderWindow">
+    <Filter Include="Source Files\UI\bottomBanner">
+      <UniqueIdentifier>{ce4234cc-9955-461d-8538-c54c0366fc71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\rightBanner">
+      <UniqueIdentifier>{e88fd10b-ed7f-456d-8ca9-d0aa2b76bb8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\rightBanner\minimap">
+      <UniqueIdentifier>{fda9d176-d832-4bfc-a159-9e0eae3f3068}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\rightClickInterface">
+      <UniqueIdentifier>{f746ce55-17fe-4024-a64f-580bcd3c6ee5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\renderWindow">
       <UniqueIdentifier>{b273d6be-1734-4551-8d38-21de1a6d29dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\UI\minimap">
-      <UniqueIdentifier>{fda9d176-d832-4bfc-a159-9e0eae3f3068}</UniqueIdentifier>
+    <Filter Include="Source Files\other\splitString">
+      <UniqueIdentifier>{3e703a66-49e9-4e76-952c-79e45634fae1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\chat">
+      <UniqueIdentifier>{5bed2bec-b4a3-47f7-8f54-a406ac1bb1d3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -133,7 +148,7 @@
       <Filter>Source Files\services\map</Filter>
     </ClInclude>
     <ClInclude Include="minimap.h">
-      <Filter>Source Files\UI\minimap</Filter>
+      <Filter>Source Files\UI\rightBanner\minimap</Filter>
     </ClInclude>
     <ClInclude Include="measures.h">
       <Filter>Source Files\services\measures</Filter>
@@ -172,10 +187,10 @@
       <Filter>Source Files\services\camera</Filter>
     </ClInclude>
     <ClInclude Include="abstractRenderWindow.h">
-      <Filter>Source Files\renderWindow</Filter>
+      <Filter>Source Files\UI\renderWindow</Filter>
     </ClInclude>
     <ClInclude Include="sfRenderWindow.h">
-      <Filter>Source Files\renderWindow</Filter>
+      <Filter>Source Files\UI\renderWindow</Filter>
     </ClInclude>
     <ClInclude Include="abstractTaskManager.h">
       <Filter>Source Files\services\taskManager</Filter>
@@ -201,20 +216,8 @@
     <ClInclude Include="tile.h">
       <Filter>Source Files\tile</Filter>
     </ClInclude>
-    <ClInclude Include="bottomBanner.h">
-      <Filter>Source Files\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="rightClickInterface.h">
-      <Filter>Source Files\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="rightBanner.h">
-      <Filter>Source Files\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Tilemap.h">
       <Filter>Source Files\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="chatMessage.h">
-      <Filter>Source Files\other</Filter>
     </ClInclude>
     <ClInclude Include="NPC.h">
       <Filter>Source Files\NPC</Filter>
@@ -279,9 +282,6 @@
     <ClInclude Include="..\..\common\units.h">
       <Filter>Source Files\other\units</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\common\splitString.h">
-      <Filter>Source Files\other</Filter>
-    </ClInclude>
     <ClInclude Include="jsonSocket.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -293,6 +293,24 @@
     </ClInclude>
     <ClInclude Include="gameDataService.h">
       <Filter>Source Files\services\gameData</Filter>
+    </ClInclude>
+    <ClInclude Include="bottomBanner.h">
+      <Filter>Source Files\UI\bottomBanner</Filter>
+    </ClInclude>
+    <ClInclude Include="rightBanner.h">
+      <Filter>Source Files\UI\rightBanner</Filter>
+    </ClInclude>
+    <ClInclude Include="rightClickInterface.h">
+      <Filter>Source Files\UI\rightClickInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="color.h">
+      <Filter>Source Files\other</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\splitString.h">
+      <Filter>Source Files\other\splitString</Filter>
+    </ClInclude>
+    <ClInclude Include="chatMessage.h">
+      <Filter>Source Files\chat</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -309,7 +327,7 @@
       <Filter>Source Files\services\map</Filter>
     </ClCompile>
     <ClCompile Include="minimap.cpp">
-      <Filter>Source Files\UI\minimap</Filter>
+      <Filter>Source Files\UI\rightBanner\minimap</Filter>
     </ClCompile>
     <ClCompile Include="inventory.cpp">
       <Filter>Source Files\services\inventory</Filter>
@@ -324,7 +342,7 @@
       <Filter>Source Files\services\camera</Filter>
     </ClCompile>
     <ClCompile Include="sfRenderWindow.cpp">
-      <Filter>Source Files\renderWindow</Filter>
+      <Filter>Source Files\UI\renderWindow</Filter>
     </ClCompile>
     <ClCompile Include="taskManager.cpp">
       <Filter>Source Files\services\taskManager</Filter>
@@ -340,15 +358,6 @@
     </ClCompile>
     <ClCompile Include="tile.cpp">
       <Filter>Source Files\tile</Filter>
-    </ClCompile>
-    <ClCompile Include="bottomBanner.cpp">
-      <Filter>Source Files\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="rightClickInterface.cpp">
-      <Filter>Source Files\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="rightBanner.cpp">
-      <Filter>Source Files\UI</Filter>
     </ClCompile>
     <ClCompile Include="interactionClickEvent.cpp">
       <Filter>Source Files\events\interactionClickEvent</Filter>
@@ -395,11 +404,20 @@
     <ClCompile Include="..\..\common\units.cpp">
       <Filter>Source Files\other\units</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\common\splitString.cpp">
-      <Filter>Source Files\other</Filter>
-    </ClCompile>
     <ClCompile Include="gameDataService.cpp">
       <Filter>Source Files\services\gameData</Filter>
+    </ClCompile>
+    <ClCompile Include="bottomBanner.cpp">
+      <Filter>Source Files\UI\bottomBanner</Filter>
+    </ClCompile>
+    <ClCompile Include="rightBanner.cpp">
+      <Filter>Source Files\UI\rightBanner</Filter>
+    </ClCompile>
+    <ClCompile Include="rightClickInterface.cpp">
+      <Filter>Source Files\UI\rightClickInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\splitString.cpp">
+      <Filter>Source Files\other\splitString</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

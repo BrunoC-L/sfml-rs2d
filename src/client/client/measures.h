@@ -1,11 +1,6 @@
 #pragma once
 #include "../../common/units.h"
-#include <SFML/Graphics.hpp>
-#include <functional>
-#include <iostream>
-#include "abstractServices.h"
 #include "keyPressedEvent.h"
-#include "resizeEvent.h"
 #include "service.h"
 
 using namespace std;
@@ -34,15 +29,22 @@ public:
 		size -= banners;
 		return VTile(size.x, size.y) / 32;
 	}
+
 	virtual VPixel getInnerWindowSize() const {
 		VPixel size = windowSize;
 		VPixel banners(rightBannerWidth, bottomBannerHeight);
 		return size - banners;
 	}
 
-	virtual sf::Vector2f getTileSize() const {
-		return sf::Vector2f(pixelsPerTile, pixelsPerTile);
+	virtual VPixel getTileSize() const {
+		return VPixel(pixelsPerTile, pixelsPerTile);
 	}
-	virtual float getRightBannerStartingX()  const { return AbstractMeasures::startingScreenSize().x - AbstractMeasures::banners().x; }
-	virtual float getBottomBannerStartingY() const { return AbstractMeasures::startingScreenSize().y - AbstractMeasures::banners().y; }
+
+	virtual float getRightBannerStartingX()  const {
+		return AbstractMeasures::startingScreenSize().x - AbstractMeasures::banners().x;
+	}
+
+	virtual float getBottomBannerStartingY() const {
+		return AbstractMeasures::startingScreenSize().y - AbstractMeasures::banners().y;
+	}
 };

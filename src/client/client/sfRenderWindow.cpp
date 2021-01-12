@@ -8,10 +8,14 @@ void SFRenderWindow::init() {
 	acquire();
 
 	setFramerateLimit(60);
+	updateWindowSize();
 
 	rightBanner = new RightBanner(provider, this);
 	bottomBanner = new BottomBanner(provider, this);
 	rightClickInterface = new RightClickInterface(provider, this);
+
+	p_t.loadFromFile("../../../assets/player.png");
+	playerSprite = sf::Sprite(p_t);
 
 	MouseLeftClickEvent::subscribe(new EventObserver<MouseLeftClickEvent>([&](MouseLeftClickEvent* ev) {
 		bool clickedOnRightClickInterface = rightClickInterface->active && rightClickInterface->mouseIsInRect(ev);
@@ -61,13 +65,8 @@ void SFRenderWindow::init() {
 	}));
 
 	ResizeEvent::subscribe(new EventObserver<ResizeEvent>([&](ResizeEvent* ev) {
-		auto size = getSize();
-		measures->windowSize = size;
-		measures->stretch = sf::Vector2f(size.x / AbstractMeasures::startingScreenSize().x, size.y / AbstractMeasures::startingScreenSize().y);
+		updateWindowSize();
 	}));
-	auto size = getSize();
-	measures->windowSize = size;
-	measures->stretch = sf::Vector2f(size.x / AbstractMeasures::startingScreenSize().x, size.y / AbstractMeasures::startingScreenSize().y);
 }
 
 void SFRenderWindow::draw(sf::VertexArray v, sf::RenderStates s) {
@@ -120,9 +119,7 @@ void SFRenderWindow::setFramerateLimit(int limit) {
 }
 
 bool SFRenderWindow::isOpen() {
-	auto isOpen = getInstance().isOpen();
-	auto wtf = getInstance().getSize();
-	return isOpen;
+	return getInstance().isOpen();
 }
 
 void SFRenderWindow::close() {
@@ -175,23 +172,49 @@ void SFRenderWindow::events() {
 
 void SFRenderWindow::draw() {
 	VTile pos = *camera->position;
-	cout << pos.x << ' ' << pos.y << '\n';
 	VTile relativePos(
 		pos.x - map->centerChunk.x * AbstractMeasures::TilesPerChunk - measures->getInnerWindowSizeTile().x / 2,
 		pos.y - map->centerChunk.y * AbstractMeasures::TilesPerChunk - measures->getInnerWindowSizeTile().y / 2
 	);
 	map->mutex.lock();
 	for (int i = 0; i < 2 * map->chunkRadius + 1; ++i)
-		for (int j = 0; j < 2 * map->chunkRadius + 1; ++j)
-			map->loaded[i][j]->draw(*this, relativePos + VTile(0.5, 0.5), VChunk(i, j) - VChunk(map->chunkRadius, map->chunkRadius));
+		for (int j = 0; j < 2 * map->chunkRadius + 1; ++j) {
+			auto* chunk = map->loaded[i][j];
+			if (chunk->deleted)
+				return;
+			auto getTransform = [&](const VTile& relativePos, const VChunk& chunkOffset) {
+				AbstractMeasures* measures = (AbstractMeasures*)provider->get("Measures");
+				const float scale = measures->zoom;
+				VTile offsetTiles = VTile(chunkOffset.x * AbstractMeasures::TilesPerChunk, chunkOffset.y * AbstractMeasures::TilesPerChunk) - relativePos;
+				const auto offset = VPixel(AbstractMeasures::pixelsPerTile * offsetTiles.x * scale, AbstractMeasures::pixelsPerTile * offsetTiles.y * scale);
+				const VTile scalingDiff = measures->getInnerWindowSizeTile() * VTile(1 - scale, 1 - scale);
+				const VPixel scalingDiffPx = VPixel(AbstractMeasures::pixelsPerTile * scalingDiff.x, AbstractMeasures::pixelsPerTile * scalingDiff.y) / 2;
+				const auto finalOffset = offset + scalingDiffPx;
+
+				sf::Transform transform;
+				const sf::Vector2f middleOfInnerWindow(
+					measures->getInnerWindowSizeTile().x * AbstractMeasures::pixelsPerTile / 2,
+					measures->getInnerWindowSizeTile().y * AbstractMeasures::pixelsPerTile / 2
+				);
+				transform.scale(sf::Vector2f(1 / measures->stretch.x, 1 / measures->stretch.y));
+				transform.rotate(measures->angle, middleOfInnerWindow);
+				transform.translate(sf::Vector2f(finalOffset.x, finalOffset.y));
+				transform.scale(scale, scale);
+				return transform;
+			};
+			sf::Transform transform = getTransform(relativePos + VTile(0.5, 0.5), VChunk(i, j) - VChunk(map->chunkRadius, map->chunkRadius));
+			chunk->tilemap.draw(*this, transform);
+			chunk->wallmap.draw(*this, transform);
+			chunk->objectmap.draw(*this, transform);
+		}
 	map->mutex.unlock();
-	draw(player->position, 0, player->playerSprite);
+	draw(player->position, 0, playerSprite);
 
 	for (int i = 0; i < gameData->playerPositions.size(); ++i) {
 		if (i == player->id)
 			continue;
 		auto pos = gameData->playerPositions[i];
-		draw(pos, 0, player->playerSprite);
+		draw(pos, 0, playerSprite);
 	}
 
 	bottomBanner->draw();
@@ -201,4 +224,10 @@ void SFRenderWindow::draw() {
 
 void SFRenderWindow::update() {
 	rightBanner->update();
+}
+
+void SFRenderWindow::updateWindowSize() {
+	auto size = getSize();
+	measures->windowSize = size;
+	measures->stretch = VPixel(size.x / AbstractMeasures::startingScreenSize().x, size.y / AbstractMeasures::startingScreenSize().y);
 }

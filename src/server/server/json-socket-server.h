@@ -12,7 +12,7 @@ public:
 	SocketServer server;
 	std::unordered_map<std::string, std::vector<std::function<void(sf::TcpSocket*, JSON)>>> callbacks;
 	std::vector<QueueMessage> messageQueue;
-	sf::Mutex queueMutex;
+	std::mutex queueMutex;
 	std::thread logicThread;
 	bool stopped = false;
 	std::function<void(std::exception&, QueueMessage)> onError;

@@ -39,4 +39,7 @@ public:
 	virtual void events();
 	virtual void draw();
 	virtual void update();
+	void updateWindowSize();
+	sf::Texture p_t;
+	sf::Sprite playerSprite;
 };

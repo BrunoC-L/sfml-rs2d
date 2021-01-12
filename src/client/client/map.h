@@ -1,5 +1,4 @@
 #pragma once
-#include <SFML/Graphics.hpp>
 #include "../../common/units.h"
 #include "item.h"
 #include "abstractServices.h"

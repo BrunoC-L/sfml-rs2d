@@ -1,6 +1,6 @@
 #pragma once
-#include <SFML/Graphics.hpp>
 #include "groundObject.h"
+#include <vector>
 #include "abstractMeasures.h"
 #include "../../common/units.h"
 #include "abstractPlayer.h"

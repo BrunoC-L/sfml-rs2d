@@ -1,9 +1,5 @@
 #pragma once
 #include "../../common/units.h"
-#include "abstractMeasures.h"
-#include "SFML/Graphics.hpp"
-#include "abstractCamera.h"
-#include "abstractServices.h"
 #include "service.h"
 
 class VPixelToVTileConverter : public Service {

@@ -9,13 +9,14 @@ template <
     typename DB,
     typename UserService,
     typename PlayerActionService,
-    typename SocketServerService
+    typename SocketServerService,
+    typename TickScheduler
 >
 class App : public AbstractServiceProvider, private Service {
     std::thread gameTicks;
 public:
-    App(/* port, connectionstring */) : Service(this) {
-        dbService = new DB(this, (wchar_t*)L"DRIVER=SQL Server Native Client 11.0;SERVER=DESKTOP-FJJ4HB5\\SQLEXPRESS;DATABASE=rs2d;Trusted_Connection=Yes;");
+    App(unsigned port, wchar_t* connectionString) : Service(this) {
+        dbService = new DB(this, connectionString);
         map = new Map(this);
         userService = new UserService(this);
         playerActionService = new PlayerActionService(this);
@@ -39,12 +40,10 @@ public:
         bool stop = false;
         gameTicks = std::thread(
             [&]() {
-                sf::Clock clock;
+                TickScheduler tickScheduler;
                 while (!stop) {
-                    if (clock.getElapsedTime().asMilliseconds() < 600)
-                        continue;
-                    clock.restart();
-                    playerActionService->onGameTick();
+                    if (tickScheduler.shouldTick())
+                        playerActionService->onGameTick();
                 }
             }
         );

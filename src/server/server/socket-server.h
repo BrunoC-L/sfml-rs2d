@@ -6,13 +6,14 @@
 #include <unordered_map>
 #include <iostream>
 #include <functional>
+#include <mutex>
 
 const std::string messageEnd = "|END|";
 
 struct SocketTuple {
     sf::TcpSocket* socket;
     std::string buffer;
-    sf::Mutex mutex;
+    std::mutex mutex;
 };
 
 class SocketServer {

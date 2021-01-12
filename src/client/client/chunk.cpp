@@ -31,10 +31,6 @@ Chunk::Chunk(const VChunk& pos, AbstractServiceProvider* provider) : chunkpos(po
         const int borders         =  stoi(parameters[3]);
         const auto items          = split(parameters[4], "////");
         const auto NPCs           = split(parameters[5], "////");
-        if (parameters.size() < 6)
-            const int wetrrt = 2;
-        if (parameters[6].length())
-            const int rtert = 34;
         const auto objects        = split(parameters[6], "////");
         const auto callbacks      = split(parameters[7], "////");
 
@@ -81,34 +77,4 @@ Chunk::~Chunk() {
     for (int i = 0; i < tiles.size(); ++i)
         for (int j = 0; j < tiles[i].size(); ++j)
             delete tiles[i][j];
-}
-
-void Chunk::draw(AbstractRenderWindow& w, const VTile& relativePos, const VChunk& chunkOffset) {
-    if (deleted)
-        return;
-    sf::Transform transform = getTransform(relativePos, chunkOffset);
-    tilemap  .draw(w, transform);
-    wallmap  .draw(w, transform);
-    objectmap.draw(w, transform);
-}
-
-sf::Transform Chunk::getTransform(const VTile& relativePos, const VChunk& chunkOffset) const {
-    AbstractMeasures* measures = (AbstractMeasures*)provider->get("Measures");
-    const float scale = measures->zoom;
-    VTile offsetTiles = VTile(chunkOffset.x * AbstractMeasures::TilesPerChunk, chunkOffset.y * AbstractMeasures::TilesPerChunk) - relativePos;
-    const sf::Vector2f offset = sf::Vector2f(AbstractMeasures::pixelsPerTile * offsetTiles.x * scale, AbstractMeasures::pixelsPerTile * offsetTiles.y * scale);
-    const VTile scalingDiff = measures->getInnerWindowSizeTile() * VTile(1 - scale, 1 - scale);
-    const VPixel scalingDiffPx = VPixel(AbstractMeasures::pixelsPerTile * scalingDiff.x, AbstractMeasures::pixelsPerTile * scalingDiff.y) / 2;
-    const sf::Vector2f finalOffset(offset.x + scalingDiffPx.x, offset.y + scalingDiffPx.y);
-
-    sf::Transform transform;
-    const sf::Vector2f middleOfInnerWindow(
-        measures->getInnerWindowSizeTile().x * AbstractMeasures::pixelsPerTile / 2,
-        measures->getInnerWindowSizeTile().y * AbstractMeasures::pixelsPerTile / 2
-    );
-    transform.scale(sf::Vector2f(1 / measures->stretch.x, 1 / measures->stretch.y));
-    transform.rotate(measures->angle, middleOfInnerWindow);
-    transform.translate(finalOffset);
-    transform.scale(scale, scale);
-    return transform;
 }
