@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\json">
-      <UniqueIdentifier>{76afd48c-6915-47ca-a592-94658b02efa8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\socket-server">
       <UniqueIdentifier>{994a0ad4-f184-4762-bf31-c0cb35e9cd6c}</UniqueIdentifier>
     </Filter>
@@ -31,9 +28,6 @@
     <Filter Include="Source Files\other">
       <UniqueIdentifier>{f25136fc-4f53-4f50-8775-ff0bfdaeb11f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\other\units">
-      <UniqueIdentifier>{80b7b8ab-e17c-4c7d-b7f0-3c46e95c2eb8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\chunk">
       <UniqueIdentifier>{77b83036-42ca-4a99-8d41-a451bd77e7c8}</UniqueIdentifier>
     </Filter>
@@ -42,9 +36,6 @@
     </Filter>
     <Filter Include="Source Files\other\pathfind">
       <UniqueIdentifier>{0dc3378c-f3ad-4db8-bb27-b83e9833c843}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\other\splitString">
-      <UniqueIdentifier>{2cbf9935-fc21-4fe9-b387-267dc2370c0a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\services\db">
       <UniqueIdentifier>{293f5319-1162-41ab-827e-e7177cac9c31}</UniqueIdentifier>
@@ -75,29 +66,17 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\common\json.cpp">
-      <Filter>Source Files\json</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\common\json-parser.cpp">
-      <Filter>Source Files\json</Filter>
-    </ClCompile>
     <ClCompile Include="map.cpp">
       <Filter>Source Files\services\map</Filter>
     </ClCompile>
     <ClCompile Include="service.h">
       <Filter>Source Files\services\base</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\common\units.cpp">
-      <Filter>Source Files\other\units</Filter>
-    </ClCompile>
     <ClCompile Include="tile.cpp">
       <Filter>Source Files\tile</Filter>
     </ClCompile>
     <ClCompile Include="chunk.cpp">
       <Filter>Source Files\chunk</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\common\splitString.cpp">
-      <Filter>Source Files\other\pathfind</Filter>
     </ClCompile>
     <ClCompile Include="db.cpp">
       <Filter>Source Files\services\db</Filter>
@@ -128,29 +107,14 @@
     <ClInclude Include="socket-server.h">
       <Filter>Source Files\socket-server</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\common\json.h">
-      <Filter>Source Files\json</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\json-parser.h">
-      <Filter>Source Files\json</Filter>
-    </ClInclude>
     <ClInclude Include="abstractMap.h">
       <Filter>Source Files\services\map</Filter>
     </ClInclude>
     <ClInclude Include="map.h">
       <Filter>Source Files\services\map</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\common\abstractService.h">
-      <Filter>Source Files\services\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\abstractServiceProvider.h">
-      <Filter>Source Files\services\base</Filter>
-    </ClInclude>
     <ClInclude Include="abstractServices.h">
       <Filter>Source Files\services\base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\units.h">
-      <Filter>Source Files\other\units</Filter>
     </ClInclude>
     <ClInclude Include="tile.h">
       <Filter>Source Files\tile</Filter>
@@ -163,12 +127,6 @@
     </ClInclude>
     <ClInclude Include="app.h">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\splitString.h">
-      <Filter>Source Files\other\pathfind</Filter>
-    </ClInclude>
-    <ClInclude Include="pathfinder.h">
-      <Filter>Source Files\other\splitString</Filter>
     </ClInclude>
     <ClInclude Include="abstractDB.h">
       <Filter>Source Files\services\db</Filter>
@@ -211,6 +169,9 @@
     </ClInclude>
     <ClInclude Include="tickScheduler.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pathfinder.h">
+      <Filter>Source Files\other\pathfind</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

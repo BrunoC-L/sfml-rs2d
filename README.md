@@ -4,15 +4,15 @@ https://www.youtube.com/user/thelatestartosrs/videos
 
 To run the game you must:
 1. run "python scripts/main.py" (changed chunks to reduce loaded area if you dont want to way 2 hours, lumbridge is {18, 13})
-2. setup projects (server/client) like so https://www.sfml-dev.org/tutorials/2.5/start-vc.php
+2. setup projects (server/client + tests) like so https://www.sfml-dev.org/tutorials/2.5/start-vc.php
    - add the additional include directory in C/C++ settings
    - add the additional libraries in linker settings
-   - add additional dependencies in input settings
+   - add additional dependencies in input settings (sfml-graphics-d.lib;sfml-network-d.lib;sfml-system-d.lib;sfml-audio-d.lib;sfml-window-d.lib;)
    - copy the SFML DLLs to the debug folder with the .exe created when compiling (go in visual studio, try to debug, it will crash because of missing DLLs and create the debug folders and executable)
 3. run an sql server, change the odbc connection string to match the db, link odbc in visual c++ settings
-4. add credentials in db for a user TODO: add db schema somewhere
+4. add credentials in db for a user (TODO: add db schema somewhere)
 5. run the server
-6. run clients, enter username in console and press enter to send info to server
+6. run clients, enter only a username in the console and press enter to send info to the server
 
 If the info above is wrong, let me know!
 

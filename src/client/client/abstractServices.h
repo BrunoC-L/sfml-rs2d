@@ -5,6 +5,5 @@
 #include "abstractMap.h"
 #include "abstractMeasures.h"
 #include "abstractPlayer.h"
-#include "abstractTaskManager.h"
 #include "abstractSocket.h"
 #include "abstractGameDataService.h"

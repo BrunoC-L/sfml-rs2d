@@ -27,7 +27,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Bruno\Desktop\sfml-rs2d\src\SFML-2.5.1-windows-vc15-32-bit\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Bruno\Desktop\sfml-rs2d\src\SFML-2.5.1-windows-vc15-32-bit\SFML-2.5.1\include;C:\Users\Bruno\Desktop\sfml-rs2d\src\common\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,13 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\common\abstractService.h" />
-    <ClInclude Include="..\..\common\abstractServiceProvider.h" />
     <ClInclude Include="..\..\common\event.h" />
-    <ClInclude Include="..\..\common\json-parser.h" />
-    <ClInclude Include="..\..\common\json.h" />
-    <ClInclude Include="..\..\common\splitString.h" />
-    <ClInclude Include="..\..\common\units.h" />
     <ClInclude Include="abstractCamera.h" />
     <ClInclude Include="abstractChat.h" />
     <ClInclude Include="abstractGameDataService.h" />
@@ -159,7 +153,6 @@
     <ClInclude Include="abstractRenderWindow.h" />
     <ClInclude Include="abstractServices.h" />
     <ClInclude Include="abstractSocket.h" />
-    <ClInclude Include="abstractTaskManager.h" />
     <ClInclude Include="app.h" />
     <ClInclude Include="bottomBanner.h" />
     <ClInclude Include="camera.h" />
@@ -177,6 +170,7 @@
     <ClInclude Include="item.h" />
     <ClInclude Include="jsonSocket.h" />
     <ClInclude Include="keyPressedEvent.h" />
+    <ClInclude Include="main.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="measures.h" />
     <ClInclude Include="minimap.h" />
@@ -195,7 +189,6 @@
     <ClInclude Include="service.h" />
     <ClInclude Include="sfRenderWindow.h" />
     <ClInclude Include="socket.h" />
-    <ClInclude Include="taskManager.h" />
     <ClInclude Include="teleportEvent.h" />
     <ClInclude Include="tile.h" />
     <ClInclude Include="Tilemap.h" />
@@ -203,10 +196,6 @@
     <ClInclude Include="walkClickEvent.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\common\json-parser.cpp" />
-    <ClCompile Include="..\..\common\json.cpp" />
-    <ClCompile Include="..\..\common\splitString.cpp" />
-    <ClCompile Include="..\..\common\units.cpp" />
     <ClCompile Include="bottomBanner.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="chat.cpp" />
@@ -234,10 +223,14 @@
     <ClCompile Include="rightClickTileEvent.cpp" />
     <ClCompile Include="sfRenderWindow.cpp" />
     <ClCompile Include="socket.cpp" />
-    <ClCompile Include="taskManager.cpp" />
     <ClCompile Include="teleportEvent.cpp" />
     <ClCompile Include="tile.cpp" />
     <ClCompile Include="walkClickEvent.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\common\common\common.vcxproj">
+      <Project>{1c7e8b8b-b052-4b7f-ac15-d687c038ba42}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

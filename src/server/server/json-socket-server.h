@@ -1,6 +1,6 @@
 #pragma once
 #include "socket-server.h"
-#include "../../common/json.h"
+#include "../../common/common/json.h"
 
 struct QueueMessage {
 	sf::TcpSocket* socket;

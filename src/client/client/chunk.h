@@ -1,14 +1,14 @@
 #pragma once
 #include "tile.h"
 #include "Tilemap.h"
-#include "../../common/units.h"
-#include "../../common/splitstring.h"
+#include "../../common/common/units.h"
+#include "../../common/common/splitstring.h"
 #include <unordered_map>
 #include <fstream>
 #include "GameObject.h"
 #include "abstractMeasures.h"
 #include "abstractRenderWindow.h"
-#include "../../common/abstractServiceProvider.h"
+#include "../../common/common/abstractServiceProvider.h"
 
 class Chunk {
 public:

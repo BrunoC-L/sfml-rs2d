@@ -171,6 +171,8 @@ void SFRenderWindow::events() {
 }
 
 void SFRenderWindow::draw() {
+	update();
+	clear();
 	VTile pos = *camera->position;
 	VTile relativePos(
 		pos.x - map->centerChunk.x * AbstractMeasures::TilesPerChunk - measures->getInnerWindowSizeTile().x / 2,
@@ -220,6 +222,7 @@ void SFRenderWindow::draw() {
 	bottomBanner->draw();
 	rightBanner->draw();
 	rightClickInterface->draw();
+	display();
 }
 
 void SFRenderWindow::update() {

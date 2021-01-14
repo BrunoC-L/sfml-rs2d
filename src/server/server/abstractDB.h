@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <functional>
-#include "../../common/abstractService.h"
+#include "../../common/common/abstractService.h"
 
 using QueryResult = std::vector<std::vector<std::string>>;
 using Query = std::pair<std::string, std::function<void(QueryResult)>>;

@@ -19,10 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\common\json-parser.cpp" />
-    <ClCompile Include="..\..\common\json.cpp" />
-    <ClCompile Include="..\..\common\splitString.cpp" />
-    <ClCompile Include="..\..\common\units.cpp" />
     <ClCompile Include="chunk.cpp" />
     <ClCompile Include="db.cpp" />
     <ClCompile Include="map.cpp" />
@@ -37,13 +33,7 @@
     <ClCompile Include="userService.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\common\abstractService.h" />
-    <ClInclude Include="..\..\common\abstractServiceProvider.h" />
     <ClInclude Include="..\..\common\event.h" />
-    <ClInclude Include="..\..\common\json-parser.h" />
-    <ClInclude Include="..\..\common\json.h" />
-    <ClInclude Include="..\..\common\splitString.h" />
-    <ClInclude Include="..\..\common\units.h" />
     <ClInclude Include="abstractDB.h" />
     <ClInclude Include="abstractMap.h" />
     <ClInclude Include="abstractPlayerActionService.h" />
@@ -67,6 +57,11 @@
     <ClInclude Include="tile.h" />
     <ClInclude Include="user.h" />
     <ClInclude Include="userService.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\common\common\common.vcxproj">
+      <Project>{1c7e8b8b-b052-4b7f-ac15-d687c038ba42}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -138,7 +133,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Bruno\Desktop\sfml-rs2d\src\SFML-2.5.1-windows-vc15-32-bit\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Bruno\Desktop\sfml-rs2d\src\SFML-2.5.1-windows-vc15-32-bit\SFML-2.5.1\include;C:\Users\Bruno\Desktop\sfml-rs2d\src\common\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

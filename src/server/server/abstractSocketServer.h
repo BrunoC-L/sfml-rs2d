@@ -1,7 +1,7 @@
 #pragma once
-#include "../../common/abstractService.h"
+#include "../../common/common/abstractService.h"
 #include <functional>
-#include "../../common/json.h"
+#include "../../common/common/json.h"
 #include <SFML/Network.hpp>
 
 class User;

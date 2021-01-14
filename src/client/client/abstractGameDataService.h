@@ -1,6 +1,6 @@
 #pragma once
-#include "../../common/abstractService.h"
-#include "../../common/units.h"
+#include "../../common/common/abstractService.h"
+#include "../../common/common/units.h"
 #include <vector>
 
 class AbstractGameDataService : public AbstractService {

@@ -1,10 +1,9 @@
 #pragma once
 #include "GameObject.h"
-#include "abstractTaskManager.h"
 #include <stdlib.h>
 #include "item.h"
 #include "abstractInventory.h"
-#include "../../common/abstractServiceProvider.h"
+#include "../../common/common/abstractServiceProvider.h"
 #include "abstractPlayer.h"
 
 class GameRessourceObject : public GameObject {
@@ -26,5 +25,4 @@ public:
 	AbstractServiceProvider* provider;
 	AbstractPlayer* player;
 	AbstractInventory* inventory;
-	AbstractTaskManager* taskManager;
 };

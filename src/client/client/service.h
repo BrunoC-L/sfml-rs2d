@@ -1,6 +1,6 @@
 #pragma once
 #include "abstractServices.h"
-#include "../../common/abstractServiceProvider.h"
+#include "../../common/common/abstractServiceProvider.h"
 
 class Service {
 protected:
@@ -11,7 +11,6 @@ protected:
 	AbstractMap* map;
 	AbstractMeasures* measures;
 	AbstractPlayer* player;
-	AbstractTaskManager* taskManager;
 	AbstractSocket* socket;
 	AbstractGameDataService* gameData;
 public:
@@ -24,7 +23,6 @@ public:
 		map = (AbstractMap*)provider->get("Map");
 		measures = (AbstractMeasures*)provider->get("Measures");
 		player = (AbstractPlayer*)provider->get("Player");
-		taskManager = (AbstractTaskManager*)provider->get("TaskManager");
 		socket = (AbstractSocket*)provider->get("Socket");
 		gameData = (AbstractGameDataService*)provider->get("GameData");
 	}

@@ -1,6 +1,6 @@
 #pragma once
-#include "../../common/units.h"
-#include "../../common/abstractService.h"
+#include "../../common/common/units.h"
+#include "../../common/common/abstractService.h"
 
 class AbstractCamera : public AbstractService {
 public:

@@ -1,7 +1,7 @@
 #pragma once
-#include "../../common/abstractService.h"
+#include "../../common/common/abstractService.h"
 #include "mouseWheelEvent.h"
-#include "../../common/units.h"
+#include "../../common/common/units.h"
 
 class AbstractRenderWindow {
 public:

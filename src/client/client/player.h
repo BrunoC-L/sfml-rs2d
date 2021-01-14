@@ -1,5 +1,5 @@
 #pragma once
-#include "../../common/units.h"
+#include "../../common/common/units.h"
 #include "teleportEvent.h"
 #include "interactionClickEvent.h"
 #include "service.h"
@@ -7,14 +7,13 @@
 using namespace std;
 
 class Player : public AbstractPlayer, public Service {
+private:
+    void subscribeToTeleport();
+    void subscribeToInteractionClick();
+    void subscribeToWalkClick();
+    void teleport(VTile pos);
+    void walk(VTile pos);
 public:
     Player(AbstractServiceProvider* provider);
     void init();
-    void update(unsigned tick);
-    void onGameTick();
-    void subscribeToTeleport();
-    void teleport(VTile pos);
-    void subscribeToInteractionClick();
-    void subscribeToWalkClick();
-    void walk(VTile pos);
 };

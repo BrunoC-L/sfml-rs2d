@@ -20,41 +20,6 @@ void Player::init() {
     );
 }
 
-void Player::update(unsigned tickmod) {
-    //if (currentMovement[0] == VTile())
-    //    return;
-    //if (currentMovement[1] == VTile()) {
-    //    position = positionLastTick + currentMovement[0] * ((tickmod + 1) / AbstractMeasures::framesPerTick);
-    //    return;
-    //}
-    //if (tickmod * 2 < AbstractMeasures::framesPerTick ) {
-    //    position = positionLastTick + currentMovement[0] * 2 * ((tickmod + 1) / AbstractMeasures::framesPerTick);
-    //    return;
-    //}
-    //position = positionLastTick + currentMovement[0] + currentMovement[1] * ((2 * tickmod) % unsigned(AbstractMeasures::framesPerTick) + 2) / AbstractMeasures::framesPerTick;
-}
-
-void Player::onGameTick() {
-    //if (!currentAction())
-    //    currentAction = []() { return false; };
-    //positionLastTick = position;
-    //if (path.size()) {
-    //    currentMovement[0] = path[0] - position;
-    //    path.erase(path.begin());
-    //    if (path.size()) {
-    //        currentMovement[1] = path[0] - (position + currentMovement[0]);
-    //        path.erase(path.begin());
-    //    }
-    //    else
-    //        currentMovement[1] = VTile();
-    //}
-    //else {
-    //    currentMovement[0] = VTile();
-    //    currentMovement[1] = VTile();
-    //}
-    //positionNextTick = positionLastTick + currentMovement[0] + currentMovement[1];
-}
-
 void Player::subscribeToTeleport() {
     TeleportEvent::subscribe(new EventObserver<TeleportEvent>(
         [&](TeleportEvent* ev) {
