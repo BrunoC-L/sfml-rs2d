@@ -15,6 +15,4 @@ public:
 	AbstractService* get(string name) {
 		return this->services[name];
 	}
-
-	virtual void init() = 0;
 };

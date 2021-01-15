@@ -2,11 +2,17 @@
 #include "keyPressedEvent.h"
 #include "resizeEvent.h"
 
-SFRenderWindow::SFRenderWindow(AbstractServiceProvider* provider) : Service(provider), converter(provider) { }
+SFRenderWindow::SFRenderWindow(
+	AbstractServiceProvider* provider,
+	TickScheduler* scheduler,
+	sf::RenderWindow& window
+) : Service(provider),
+	converter(provider),
+	scheduler(scheduler),
+	window(window) { }
 
 void SFRenderWindow::init() {
 	acquire();
-
 	setFramerateLimit(60);
 	updateWindowSize();
 
@@ -70,19 +76,19 @@ void SFRenderWindow::init() {
 }
 
 void SFRenderWindow::draw(sf::VertexArray v, sf::RenderStates s) {
-	getInstance().draw(v, s);
+	window.draw(v, s);
 }
 
 void SFRenderWindow::draw(const sf::Shape* s, sf::Transform t) {
-	getInstance().draw(*s, t);
+	window.draw(*s, t);
 }
 
 void SFRenderWindow::draw(const sf::Sprite s, sf::Transform t) {
-	getInstance().draw(s, t);
+	window.draw(s, t);
 }
 
 void SFRenderWindow::draw(const sf::Text text, sf::Transform t) {
-	getInstance().draw(text, t);
+	window.draw(text, t);
 }
 
 void SFRenderWindow::draw(VTile pos, double angle, sf::Sprite s) {
@@ -108,37 +114,38 @@ void SFRenderWindow::draw(VTile pos, double angle, sf::Sprite s) {
 
 VPixel SFRenderWindow::getSize() {
 	VPixel v;
-	auto size = getInstance().getSize();
+	auto size = window.getSize();
 	v.x = size.x;
 	v.y = size.y;
 	return v;
 }
 
 void SFRenderWindow::setFramerateLimit(int limit) {
-	getInstance().setFramerateLimit(limit);
+	window.setFramerateLimit(limit);
 }
 
 bool SFRenderWindow::isOpen() {
-	return getInstance().isOpen();
+	return window.isOpen();
 }
 
 void SFRenderWindow::close() {
-	getInstance().close();
+	if (window.isOpen())
+		window.close();
 }
 
 void SFRenderWindow::clear() {
-	getInstance().clear();
+	window.clear();
 }
 
 void SFRenderWindow::display() {
-	getInstance().display();
+	window.display();
 }
 
 void SFRenderWindow::events() {
 	sf::Event event;
-	while (getInstance().pollEvent(event))
+	while (window.pollEvent(event))
 		if (event.type == sf::Event::Closed)
-			getInstance().close();
+			window.close();
 		else if (event.type == sf::Event::KeyPressed)
 			switch (event.text.unicode) {
 			case 71:
@@ -227,6 +234,18 @@ void SFRenderWindow::draw() {
 
 void SFRenderWindow::update() {
 	rightBanner->update();
+}
+
+bool SFRenderWindow::shouldTick() {
+	return scheduler->shouldTick();
+}
+
+bool SFRenderWindow::shouldFrame() {
+	return scheduler->shouldFrame();
+}
+
+void SFRenderWindow::setActive(bool newState) {
+	window.setActive(newState);
 }
 
 void SFRenderWindow::updateWindowSize() {

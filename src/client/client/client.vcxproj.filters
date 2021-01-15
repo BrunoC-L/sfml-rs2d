@@ -281,9 +281,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="chunk.cpp">
       <Filter>Source Files\chunk</Filter>
     </ClCompile>

@@ -208,7 +208,6 @@
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="keyPressedEvent.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="minimap.cpp" />
     <ClCompile Include="mouseLeftClickEvent.cpp" />

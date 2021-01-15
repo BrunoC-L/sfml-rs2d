@@ -12,4 +12,6 @@ public:
 	virtual void emit(std::string, JSON) = 0;
 	virtual void receive(std::string, JSON) = 0;
 	virtual void login() = 0;
+	virtual void connect(std::string ip, unsigned port) = 0;
+	virtual void disconnect() = 0;
 };

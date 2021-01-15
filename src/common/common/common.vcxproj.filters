@@ -21,12 +21,6 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="../../common/common/abstractService.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="../../common/common/abstractServiceProvider.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="event.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -39,8 +33,20 @@
     <ClInclude Include="splitString.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="../../common/common/units.h">
+    <ClInclude Include="abstractService.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="abstractServiceProvider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="units.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tickScheduler.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="timer.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -6,7 +6,7 @@ Socket::Socket(AbstractServiceProvider* provider) : Service(provider) {
 
 void Socket::init() {
 	acquire();
-	socket.connect("127.0.0.1", 38838);
+    connect("127.0.0.1", 38838);
 	listener = std::thread(
 		[&]() {
             login();
@@ -64,4 +64,12 @@ void Socket::login() {
     std::cin >> username;
     logindata["username"] = "'" + username + "'";
     emit("login", logindata);
+}
+
+void Socket::connect(std::string ip, unsigned port) {
+    socket.connect(ip, port);
+}
+
+void Socket::disconnect() {
+    socket.disconnect();
 }

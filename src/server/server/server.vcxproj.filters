@@ -167,9 +167,6 @@
     <ClInclude Include="..\..\common\event.h">
       <Filter>Source Files\events</Filter>
     </ClInclude>
-    <ClInclude Include="tickScheduler.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="pathfinder.h">
       <Filter>Source Files\other\pathfind</Filter>
     </ClInclude>

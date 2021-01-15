@@ -7,33 +7,35 @@
 #include "mouseLeftClickEvent.h"
 #include "mouseRightClickEvent.h"
 #include "mouseMoveEvent.h"
+#include "abstractServices.h"
 #include "../../common/common/abstractServiceProvider.h"
-#include <SFML/Network.hpp>
 
-template <
-    typename RenderWindow,
-    typename Socket,
-    typename Measures,
-    typename Player,
-    typename Camera,
-    typename Map,
-    typename Chat,
-    typename Inventory,
-    typename GameData
->
-class App : public AbstractServiceProvider, public Service {
-    AbstractRenderWindow* renderWindow;
+class App : public Service {
 public:
-    App() : Service(this) {
-        measures = new Measures(this);
-        map = new Map(this);
-        player = new Player(this);
-        camera = new Camera(this);
-        chat = new Chat(this);
-        inventory = new Inventory(this);
-        gameData = new GameData(this);
-        socket = new Socket(this);
-        renderWindow = new RenderWindow(this);
+    AbstractRenderWindow* renderWindow;
+    AbstractServiceProvider* provider;
+    bool stopping = false;
+
+    App(
+        AbstractServiceProvider* provider,
+        AbstractRenderWindow* window,
+        AbstractSocket* socket,
+        AbstractMeasures* measures,
+        AbstractMap* map,
+        AbstractPlayer* player,
+        AbstractCamera* camera,
+        AbstractChat* chat,
+        AbstractInventory* inventory,
+        AbstractGameDataService* gameData
+    ) : renderWindow(window), Service(provider), provider(provider) {
+        this->socket = socket;
+        this->measures = measures;
+        this->map = map;
+        this->player = player;
+        this->camera = camera;
+        this->chat = chat;
+        this->inventory = inventory;
+        this->gameData = gameData;
     }
 
     void init() {
@@ -48,12 +50,19 @@ public:
         renderWindow->init();
     }
 
-    void stop() {
+    void stop(bool closeWindow = false) {
         map->stopUpdates();
+        if (closeWindow)
+            renderWindow->close();
+        socket->disconnect();
+        stopping = true;
     }
 
 	void start() {
-        while (renderWindow->isOpen()) {
+        while (renderWindow->isOpen() && !stopping) {
+            if (!renderWindow->shouldFrame())
+                continue;
+            //if (renderWindow->shouldTick())
             renderWindow->events();
             renderWindow->draw();
         }

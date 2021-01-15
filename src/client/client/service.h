@@ -3,7 +3,7 @@
 #include "../../common/common/abstractServiceProvider.h"
 
 class Service {
-protected:
+public:
 	AbstractServiceProvider* provider;
 	AbstractCamera* camera;
 	AbstractChat* chat;
@@ -13,7 +13,7 @@ protected:
 	AbstractPlayer* player;
 	AbstractSocket* socket;
 	AbstractGameDataService* gameData;
-public:
+
 	Service(AbstractServiceProvider* provider) : provider(provider) { }
 
 	void acquire() {

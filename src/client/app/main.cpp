@@ -1,17 +1,27 @@
 #include "main.h"
+#include "tickScheduler.h"
 
 int main() {
-    App<
-        SFRenderWindow,
-        Socket,
-        Measures,
-        Player,
-        Camera,
-        Map,
-        Chat,
-        Inventory,
-        GameDataService
-    > app;
+	AbstractServiceProvider* provider = new AbstractServiceProvider();
+	AbstractSocket* socket = new Socket(provider);
+	AbstractMeasures* measures = new Measures(provider);
+	AbstractChat* chat = new Chat(provider);
+	AbstractCamera* camera = new Camera(provider);
+	AbstractPlayer* player = new Player(provider);
+	AbstractMap* map = new Map(provider);
+	AbstractInventory* inventory = new Inventory(provider);
+	AbstractGameDataService* gameData = new GameDataService(provider);
+	sf::RenderWindow sfWindow(
+		sf::VideoMode(
+			AbstractMeasures::startingScreenSize().x,
+			AbstractMeasures::startingScreenSize().y
+		),
+		"RS2D"
+	);
+	AbstractRenderWindow* window = new SFRenderWindow(provider, new ClockTickScheduler(), sfWindow);
+
+	App app(provider, window, socket, measures, map, player, camera, chat, inventory, gameData);
+
     app.init();
     app.start();
 }

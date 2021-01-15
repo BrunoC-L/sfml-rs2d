@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Bruno\Desktop\sfml-rs2d\src\client\client;C:\Users\Bruno\Desktop\sfml-rs2d\src\SFML-2.5.1-windows-vc15-32-bit\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Bruno\Desktop\sfml-rs2d\src\client\client;C:\Users\Bruno\Desktop\sfml-rs2d\src\SFML-2.5.1-windows-vc15-32-bit\SFML-2.5.1\include;C:\Users\Bruno\Desktop\sfml-rs2d\src\common\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,6 +142,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\common\common\common.vcxproj">
+      <Project>{1c7e8b8b-b052-4b7f-ac15-d687c038ba42}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\client\client.vcxproj">
       <Project>{55864e91-a896-4ae6-b24e-61fdde19eceb}</Project>
     </ProjectReference>

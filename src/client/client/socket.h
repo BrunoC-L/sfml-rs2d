@@ -9,9 +9,9 @@
 class Socket : public AbstractSocket, public Service {
 private:
 	JSONTCPSocket socket;
+public:
 	std::thread listener;
 	std::unordered_map<std::string, std::vector<std::function<void(JSON)>>> callbacks;
-public:
 	Socket(AbstractServiceProvider*);
 	virtual void send(JSON);
 	virtual void on(std::string, std::function<void(JSON)>);
@@ -19,4 +19,6 @@ public:
 	virtual void receive(std::string, JSON);
 	virtual void emit(std::string, JSON);
 	virtual void login();
+	virtual void connect(std::string ip, unsigned port);
+	virtual void disconnect();
 };

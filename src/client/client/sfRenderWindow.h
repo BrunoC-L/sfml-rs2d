@@ -6,6 +6,7 @@
 #include "bottomBanner.h"
 #include "rightClickInterface.h"
 #include "VPixelToVTileConverter.h"
+#include "tickScheduler.h"
 
 class SFRenderWindow : public AbstractRenderWindow, public Service {
 public:
@@ -13,17 +14,9 @@ public:
 	RightBanner* rightBanner;
 	BottomBanner* bottomBanner;
 	RightClickInterface* rightClickInterface;
-	SFRenderWindow(AbstractServiceProvider* provider);
-	static sf::RenderWindow& getInstance() {
-		static sf::RenderWindow window(
-			sf::VideoMode(
-				AbstractMeasures::startingScreenSize().x,
-				AbstractMeasures::startingScreenSize().y
-			),
-			"RS2D"
-		);
-		return window;
-	}
+	TickScheduler* scheduler;
+	sf::RenderWindow& window;
+	SFRenderWindow(AbstractServiceProvider* provider, TickScheduler* scheduler, sf::RenderWindow& window);
 	void init();
 	virtual void draw(sf::VertexArray v, sf::RenderStates s);
 	virtual void draw(const sf::Shape* s, sf::Transform t);
@@ -39,6 +32,9 @@ public:
 	virtual void events();
 	virtual void draw();
 	virtual void update();
+	virtual bool shouldTick();
+	virtual bool shouldFrame();
+	virtual void setActive(bool newState);
 	void updateWindowSize();
 	sf::Texture p_t;
 	sf::Sprite playerSprite;

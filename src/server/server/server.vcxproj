@@ -53,7 +53,6 @@
     <ClInclude Include="playerWalkAction.h" />
     <ClInclude Include="socket-server.h" />
     <ClInclude Include="socketServer.h" />
-    <ClInclude Include="tickScheduler.h" />
     <ClInclude Include="tile.h" />
     <ClInclude Include="user.h" />
     <ClInclude Include="userService.h" />
