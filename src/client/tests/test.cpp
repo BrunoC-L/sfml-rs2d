@@ -1,16 +1,11 @@
 #include "pch.h"
 #include "main.h"
+#include "globalWindow.h"
+
 #include "socketMock1.h"
 
-sf::RenderWindow sfWindow(
-	sf::VideoMode(
-		AbstractMeasures::startingScreenSize().x,
-		AbstractMeasures::startingScreenSize().y
-	),
-	"RS2D"
-);
-
 TEST(app_builds, TestName) {
+	globalWindow->setActive(false);
 	AbstractServiceProvider& provider = AbstractServiceProvider();
 	AbstractSocket& socket = Socket(&provider);
 	AbstractMeasures& measures = Measures(&provider);
@@ -22,13 +17,12 @@ TEST(app_builds, TestName) {
 	AbstractGameDataService& gameData = GameDataService(&provider);
 
 	TickScheduler& scheduler = ClockTickScheduler();
-	AbstractRenderWindow& window = SFRenderWindow(&provider, &scheduler, sfWindow);
+	AbstractRenderWindow& window = SFRenderWindow(&provider, &scheduler, *globalWindow);
 	App app(&provider, &window, &socket, &measures, &map, &player, &camera, &chat, &inventory, &gameData);
-
-	sfWindow.setActive(false);
 }
 
 TEST(app_runs_with_socket_mock_1, TestName) {
+	globalWindow->setActive(false);
 	AbstractServiceProvider& provider = AbstractServiceProvider();
 	AbstractSocket& socket = SocketMock1(&provider);
 	AbstractMeasures& measures = Measures(&provider);
@@ -40,7 +34,7 @@ TEST(app_runs_with_socket_mock_1, TestName) {
 	AbstractGameDataService& gameData = GameDataService(&provider);
 
 	TickScheduler& scheduler = ClockTickScheduler();
-	AbstractRenderWindow& window = SFRenderWindow(&provider, &scheduler, sfWindow);
+	AbstractRenderWindow& window = SFRenderWindow(&provider, &scheduler, *globalWindow);
 
 
 	App app(&provider, &window, &socket, &measures, &map, &player, &camera, &chat, &inventory, &gameData);
@@ -49,14 +43,13 @@ TEST(app_runs_with_socket_mock_1, TestName) {
 
 	bool hasStarted = false;
 
-	sfWindow.setActive(false);
 	std::thread t(
 		[&]() {
-			sfWindow.setActive(true);
+			globalWindow->setActive(true);
 			app.init();
 			hasStarted = true;
 			app.start();
-			sfWindow.setActive(false);
+			globalWindow->setActive(false);
 		}
 	);
 
@@ -69,6 +62,7 @@ TEST(app_runs_with_socket_mock_1, TestName) {
 }
 
 TEST(player_position_updates_when_server_emits, TestName) {
+	globalWindow->setActive(false);
 	AbstractServiceProvider& provider = AbstractServiceProvider();
 	SocketMock1& socket = SocketMock1(&provider);
 	AbstractMeasures& measures = Measures(&provider);
@@ -80,7 +74,7 @@ TEST(player_position_updates_when_server_emits, TestName) {
 	AbstractGameDataService& gameData = GameDataService(&provider);
 
 	TickScheduler& scheduler = ClockTickScheduler();
-	AbstractRenderWindow& window = SFRenderWindow(&provider, &scheduler, sfWindow);
+	AbstractRenderWindow& window = SFRenderWindow(&provider, &scheduler, *globalWindow);
 
 	App app(&provider, &window, &socket, &measures, &map, &player, &camera, &chat, &inventory, &gameData);
 
@@ -90,9 +84,11 @@ TEST(player_position_updates_when_server_emits, TestName) {
 
 	std::thread t(
 		[&]() {
+			globalWindow->setActive(true);
 			app.init();
 			hasStarted = true;
 			app.start();
+			globalWindow->setActive(false);
 		}
 	);
 
