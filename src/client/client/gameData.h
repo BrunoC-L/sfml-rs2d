@@ -12,6 +12,8 @@ public:
 
 class GameDataStorage {
 public:
+	int playerId;
+	std::pair<int, std::pair<GameData, GameData>> cache;
 	std::vector<GameData> data;
 	GameDataStorage() = default;
 	GameData getGameData(double tickFraction);

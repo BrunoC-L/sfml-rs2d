@@ -15,7 +15,9 @@ void Player::init() {
 
     socket->on("hello",
         [&](JSON data) {
-            player->id = data.asInt();
+            int id = data.asInt();
+            player->id = id;
+            gameData->data->playerId = id;
         }
     );
 }

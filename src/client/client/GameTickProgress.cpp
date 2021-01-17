@@ -1,5 +1,25 @@
 #include "GameTickProgress.h"
+#include "constants.h"
+#include <iostream>
 
-double GameTickProgress::getTickFraction() {
-	return 1;
+ClockGameTickProgress::ClockGameTickProgress() {
+	clock.restart();
+}
+
+void ClockGameTickProgress::onGameTick() {
+	msBehind = msCurrentAnimWouldTakeAtNormalSpeed * (1 - getTickFraction());
+	if (msBehind < 0)
+		msBehind = 0;
+	msCurrentAnimWouldTakeAtNormalSpeed = mspt + msBehind;
+	clock.restart();
+	std::cout << "ms behind: " << msBehind << std::endl;
+}
+
+double ClockGameTickProgress::getTickFraction() {
+	auto tf = getMsSinceTick() / mspt * (1 + msBehind / mspt);
+	return tf;
+}
+
+double ClockGameTickProgress::getMsSinceTick() {
+	return clock.getElapsedTime().asMilliseconds();
 }

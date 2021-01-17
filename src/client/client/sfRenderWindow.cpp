@@ -179,6 +179,7 @@ void SFRenderWindow::events() {
 void SFRenderWindow::draw() {
 	update();
 	clear();
+	auto playerPositions = gameData->getPlayerPositions();
 	VTile pos = *camera->position;
 	VTile relativePos(
 		pos.x - map->centerChunk.x * AbstractMeasures::TilesPerChunk - measures->getInnerWindowSizeTile().x / 2,
@@ -216,13 +217,10 @@ void SFRenderWindow::draw() {
 			chunk->objectmap.draw(*this, transform);
 		}
 	map->mutex.unlock();
-	draw(player->position, 0, playerSprite);
 
-	auto playerPositions = gameData->getPlayerPositions();
-
+	if (playerPositions.size())
+		player->position = playerPositions[0];
 	for (int i = 0; i < playerPositions.size(); ++i) {
-		if (i == player->id)
-			continue;
 		auto pos = playerPositions[i];
 		draw(pos, 0, playerSprite);
 	}
@@ -236,7 +234,6 @@ void SFRenderWindow::draw() {
 
 void SFRenderWindow::update() {
 	rightBanner->update();
-	gameData->updatePlayerPosition();
 }
 
 void SFRenderWindow::setActive(bool newState) {

@@ -6,8 +6,7 @@ GameDataService::GameDataService(
     GameTickProgress* tracker,
     GameDataStorage* data
 ) : Service(provider),
-    tracker(tracker),
-    data(data) {
+    AbstractGameDataService(tracker, data) {
 	provider->set("GameData", this);
 }
 
@@ -16,22 +15,12 @@ std::vector<VTile> GameDataService::getPlayerPositions() {
     return data->getGameData(tickFraction).playerPositions;
 }
 
-void GameDataService::updatePlayerPosition() {
-    //auto pair = playerPositions[player->id];
-    //if (pair.second == VTile())
-    //    pair.second = player->position;
-    //double tickFraction = 1;
-    //if (pair.first == VTile())
-    //    player->position = pair.second;
-    //else
-    //    player->position = pair.first * (1 - tickFraction) + pair.second * tickFraction;
-}
-
 void GameDataService::init() {
 	acquire();
     socket->on("GameTick",
         [&](JSON json) {
             data->onGameTick(json);
+            tracker->onGameTick();
         }
     );
 }

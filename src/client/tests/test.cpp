@@ -16,7 +16,7 @@ TEST(app_builds, TestName) {
 	AbstractPlayer& player = Player(&provider);
 	AbstractMap& map = Map(&provider);
 	AbstractInventory& inventory = Inventory(&provider);
-	GameTickProgress& tracker = GameTickProgress();
+	GameTickProgress& tracker = ClockGameTickProgress();
 	GameDataStorage& storage = GameDataStorage();
 	AbstractGameDataService& gameData = GameDataService(&provider, &tracker, &storage);
 
@@ -34,7 +34,7 @@ TEST(app_runs_with_socket_mock_1, TestName) {
 	AbstractPlayer& player = Player(&provider);
 	AbstractMap& map = Map(&provider);
 	AbstractInventory& inventory = Inventory(&provider);
-	GameTickProgress& tracker = GameTickProgress();
+	GameTickProgress& tracker = ClockGameTickProgress();
 	GameDataStorage& storage = GameDataStorage();
 	AbstractGameDataService& gameData = GameDataService(&provider, &tracker, &storage);
 
@@ -75,7 +75,7 @@ TEST(player_position_updates_when_server_emits_current, TestName) {
 	AbstractPlayer& player = Player(&provider);
 	AbstractMap& map = Map(&provider);
 	AbstractInventory& inventory = Inventory(&provider);
-	GameTickProgress& tracker = GameTickProgress();
+	GameTickProgress& tracker = ClockGameTickProgress();
 	GameDataStorage& storage = GameDataStorage();
 	AbstractGameDataService& gameData = GameDataService(&provider, &tracker, &storage);
 

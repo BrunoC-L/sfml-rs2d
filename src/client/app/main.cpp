@@ -10,7 +10,7 @@ int main() {
 	AbstractPlayer* player = new Player(provider);
 	AbstractMap* map = new Map(provider);
 	AbstractInventory* inventory = new Inventory(provider);
-	GameTickProgress* tracker = new GameTickProgress();
+	GameTickProgress* tracker = new ClockGameTickProgress();
 	GameDataStorage* storage = new GameDataStorage();
 	AbstractGameDataService* gameData = new GameDataService(provider, tracker, storage);
 
