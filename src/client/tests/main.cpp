@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "globalWindow.h"
 
-
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);
 	if (argc > 1) {

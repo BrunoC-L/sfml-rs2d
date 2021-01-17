@@ -1,9 +1,13 @@
 #pragma once
 #include <cstddef>
+#include <iostream>
 
 class VBase {
 public:
 	float x = 0, y = 0, z = 0;
+	friend std::ostream& operator<<(std::ostream& s, VBase v) {
+		return s << v.x << ", " << v.y;
+	}
 };
 
 #define VClass(_type) \

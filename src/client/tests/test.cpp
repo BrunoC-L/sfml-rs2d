@@ -4,6 +4,8 @@
 
 #include "socketMock1.h"
 
+#include "frameEvent.h"
+
 TEST(app_builds, TestName) {
 	globalWindow->setActive(false);
 	AbstractServiceProvider& provider = AbstractServiceProvider();
@@ -14,10 +16,11 @@ TEST(app_builds, TestName) {
 	AbstractPlayer& player = Player(&provider);
 	AbstractMap& map = Map(&provider);
 	AbstractInventory& inventory = Inventory(&provider);
-	AbstractGameDataService& gameData = GameDataService(&provider);
+	GameTickProgress& tracker = GameTickProgress();
+	GameDataStorage& storage = GameDataStorage();
+	AbstractGameDataService& gameData = GameDataService(&provider, &tracker, &storage);
 
-	TickScheduler& scheduler = ClockTickScheduler();
-	AbstractRenderWindow& window = SFRenderWindow(&provider, &scheduler, *globalWindow);
+	AbstractRenderWindow& window = SFRenderWindow(&provider, *globalWindow);
 	App app(&provider, &window, &socket, &measures, &map, &player, &camera, &chat, &inventory, &gameData);
 }
 
@@ -31,10 +34,11 @@ TEST(app_runs_with_socket_mock_1, TestName) {
 	AbstractPlayer& player = Player(&provider);
 	AbstractMap& map = Map(&provider);
 	AbstractInventory& inventory = Inventory(&provider);
-	AbstractGameDataService& gameData = GameDataService(&provider);
+	GameTickProgress& tracker = GameTickProgress();
+	GameDataStorage& storage = GameDataStorage();
+	AbstractGameDataService& gameData = GameDataService(&provider, &tracker, &storage);
 
-	TickScheduler& scheduler = ClockTickScheduler();
-	AbstractRenderWindow& window = SFRenderWindow(&provider, &scheduler, *globalWindow);
+	AbstractRenderWindow& window = SFRenderWindow(&provider, *globalWindow);
 
 
 	App app(&provider, &window, &socket, &measures, &map, &player, &camera, &chat, &inventory, &gameData);
@@ -61,7 +65,7 @@ TEST(app_runs_with_socket_mock_1, TestName) {
 	t.join();
 }
 
-TEST(player_position_updates_when_server_emits, TestName) {
+TEST(player_position_updates_when_server_emits_current, TestName) {
 	globalWindow->setActive(false);
 	AbstractServiceProvider& provider = AbstractServiceProvider();
 	SocketMock1& socket = SocketMock1(&provider);
@@ -71,10 +75,11 @@ TEST(player_position_updates_when_server_emits, TestName) {
 	AbstractPlayer& player = Player(&provider);
 	AbstractMap& map = Map(&provider);
 	AbstractInventory& inventory = Inventory(&provider);
-	AbstractGameDataService& gameData = GameDataService(&provider);
+	GameTickProgress& tracker = GameTickProgress();
+	GameDataStorage& storage = GameDataStorage();
+	AbstractGameDataService& gameData = GameDataService(&provider, &tracker, &storage);
 
-	TickScheduler& scheduler = ClockTickScheduler();
-	AbstractRenderWindow& window = SFRenderWindow(&provider, &scheduler, *globalWindow);
+	AbstractRenderWindow& window = SFRenderWindow(&provider, *globalWindow);
 
 	App app(&provider, &window, &socket, &measures, &map, &player, &camera, &chat, &inventory, &gameData);
 
@@ -101,7 +106,7 @@ TEST(player_position_updates_when_server_emits, TestName) {
 	socket.mockReceiveFromServer(hello);
 
 	VTile lumbridge(18 * AbstractMeasures::TilesPerChunk + 20, 13 * AbstractMeasures::TilesPerChunk + 37, 0);
-	EXPECT_EQ(app.player->position, lumbridge);
+	EXPECT_EQ(player.position, lumbridge);
 	
 	lumbridge += VTile(1, -1);
 
@@ -117,7 +122,18 @@ TEST(player_position_updates_when_server_emits, TestName) {
 
 	socket.mockReceiveFromServer(json);
 
-	EXPECT_EQ(app.player->position, lumbridge);
+	int frames = 0;
+	FrameEvent::subscribe(
+		new EventObserver<FrameEvent>(
+			[&](FrameEvent* ev) {
+				++frames;
+			}
+		)
+	);
+
+	while (frames < 2);
+
+	EXPECT_EQ(player.position, lumbridge);
 
 	app.stop();
 	t.join();

@@ -13,8 +13,6 @@ public:
     virtual void doUpdates() = 0;
     virtual void stopUpdates() = 0;
     virtual Tile* getTileFromVTile(VTile tilePosition) = 0;
-    bool shouldUpdate = false;
-    bool shouldStop = false;
     unsigned chunkRadius = 0;
     VChunk centerChunk;
     vector<vector<Chunk*>> loaded;

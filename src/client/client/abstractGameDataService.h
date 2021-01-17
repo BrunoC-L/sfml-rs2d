@@ -5,5 +5,6 @@
 
 class AbstractGameDataService : public AbstractService {
 public:
-	std::vector<VTile> playerPositions;
+	virtual std::vector<VTile> getPlayerPositions() = 0;
+	virtual void updatePlayerPosition() = 0;
 };

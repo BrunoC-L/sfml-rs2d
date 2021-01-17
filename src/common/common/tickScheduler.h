@@ -4,7 +4,6 @@
 class TickScheduler {
 public:
 	virtual bool shouldTick() = 0;
-	virtual bool shouldFrame() = 0;
 };
 
 class ClockTickScheduler : public TickScheduler {
@@ -21,30 +20,19 @@ public:
 		tickTime += 600;
 		return true;
 	}
-
-	bool shouldFrame() {
-		return true;
-	}
 };
 
 class BoolTickScheduler : public TickScheduler {
 public:
 	bool shouldtick;
-	bool shouldframe;
-	BoolTickScheduler() : shouldtick(false), shouldframe(false) { }
+	BoolTickScheduler() : shouldtick(false) { }
 
 	bool shouldTick() {
-		if (!shouldtick)
-			return false;
-		shouldtick = false;
-		return true;
-	}
-
-	bool shouldFrame() {
-		if (!shouldframe)
-			return false;
-		shouldframe = false;
-		return true;
+		return shouldtick ^ (shouldtick = false);
+		//if (!shouldtick)
+		//	return false;
+		//shouldtick = false;
+		//return true;
 	}
 };
 
@@ -57,10 +45,6 @@ public:
 
 	bool shouldTick() {
 		m.lock();
-		return true;
-	}
-
-	bool shouldFrame() {
 		return true;
 	}
 };

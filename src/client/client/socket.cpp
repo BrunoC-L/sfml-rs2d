@@ -59,9 +59,9 @@ void Socket::on(std::string type, std::function<void(JSON)> callback) {
 
 void Socket::login() {
     JSON logindata;
-    std::string username;
-    std::cout << "Enter username: ";
-    std::cin >> username;
+    std::string username = "bruno";
+    //std::cout << "Enter username: ";
+    //std::cin >> username;
     logindata["username"] = "'" + username + "'";
     emit("login", logindata);
 }

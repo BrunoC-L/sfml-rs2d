@@ -51,18 +51,15 @@ public:
     }
 
     void stop(bool closeWindow = false) {
+        stopping = true;
         map->stopUpdates();
         if (closeWindow)
             renderWindow->close();
         socket->disconnect();
-        stopping = true;
     }
 
 	void start() {
         while (renderWindow->isOpen() && !stopping) {
-            if (!renderWindow->shouldFrame())
-                continue;
-            //if (renderWindow->shouldTick())
             renderWindow->events();
             renderWindow->draw();
         }

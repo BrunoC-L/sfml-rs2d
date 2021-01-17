@@ -58,41 +58,8 @@
     <Filter Include="Source Files\NPC">
       <UniqueIdentifier>{5c4b5f25-46e7-4b11-b031-932dad45123d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\events\interactionClickEvent">
-      <UniqueIdentifier>{2adef991-c3d9-46c2-96ee-7773c2302ffa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\events\keyPressedEvent">
-      <UniqueIdentifier>{e2ea61b7-171c-4d87-924d-3bbd643514e0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\events\mouseEvents">
       <UniqueIdentifier>{b9ad23bd-1596-49e3-8f5a-5d72f0b6edaf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\events\mouseEvents\mouseLeftClickEvent">
-      <UniqueIdentifier>{9d211f13-5683-4b14-9d3b-6b07c3a1bf8f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\events\mouseEvents\mouseMiddleClickEventcpp">
-      <UniqueIdentifier>{4c17625a-9f33-4a30-870c-78c06c83cb04}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\events\mouseEvents\mouseMoveEvent">
-      <UniqueIdentifier>{486e9ebc-3bda-4254-82f9-07a2b8ae2f59}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\events\mouseEvents\mouseRightClickEvent">
-      <UniqueIdentifier>{4f58f4b2-380b-44a9-9edb-ab33199290bb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\events\mouseEvents\mouseWheelEvent">
-      <UniqueIdentifier>{179a2ccd-8135-4c89-a279-95851819ff31}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\events\resizeEvent">
-      <UniqueIdentifier>{aeab2006-4825-4a87-94e3-74a236f1b338}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\events\rightClickTileEvent">
-      <UniqueIdentifier>{7beda3f5-0b32-41fb-848f-8fbe9d988318}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\events\teleportEvent">
-      <UniqueIdentifier>{c81b015e-49dc-4b33-b91d-8b6a9364c9db}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\events\walkClickEvent">
-      <UniqueIdentifier>{b816d76e-f988-4989-9201-c7d5d3f2f7f7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\services\base">
       <UniqueIdentifier>{1b96a7bb-141f-4d02-aced-772828a104fa}</UniqueIdentifier>
@@ -120,6 +87,12 @@
     </Filter>
     <Filter Include="Source Files\chat">
       <UniqueIdentifier>{5bed2bec-b4a3-47f7-8f54-a406ac1bb1d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\other\gameTickProgress">
+      <UniqueIdentifier>{dde80dcd-c02e-4184-a5f2-53bf6fe68426}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\services\gameData\gameData">
+      <UniqueIdentifier>{39f98846-9e3c-4ffc-a1ac-3ff85c1f3e60}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -204,41 +177,8 @@
     <ClInclude Include="NPC.h">
       <Filter>Source Files\NPC</Filter>
     </ClInclude>
-    <ClInclude Include="interactionClickEvent.h">
-      <Filter>Source Files\events\interactionClickEvent</Filter>
-    </ClInclude>
-    <ClInclude Include="keyPressedEvent.h">
-      <Filter>Source Files\events\keyPressedEvent</Filter>
-    </ClInclude>
     <ClInclude Include="mouseEvent.h">
       <Filter>Source Files\events\mouseEvents</Filter>
-    </ClInclude>
-    <ClInclude Include="mouseLeftClickEvent.h">
-      <Filter>Source Files\events\mouseEvents\mouseLeftClickEvent</Filter>
-    </ClInclude>
-    <ClInclude Include="mouseMiddleClickEvent.h">
-      <Filter>Source Files\events\mouseEvents\mouseMiddleClickEventcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="mouseMoveEvent.h">
-      <Filter>Source Files\events\mouseEvents\mouseMoveEvent</Filter>
-    </ClInclude>
-    <ClInclude Include="mouseRightClickEvent.h">
-      <Filter>Source Files\events\mouseEvents\mouseRightClickEvent</Filter>
-    </ClInclude>
-    <ClInclude Include="mouseWheelEvent.h">
-      <Filter>Source Files\events\mouseEvents\mouseWheelEvent</Filter>
-    </ClInclude>
-    <ClInclude Include="resizeEvent.h">
-      <Filter>Source Files\events\resizeEvent</Filter>
-    </ClInclude>
-    <ClInclude Include="rightClickTileEvent.h">
-      <Filter>Source Files\events\rightClickTileEvent</Filter>
-    </ClInclude>
-    <ClInclude Include="teleportEvent.h">
-      <Filter>Source Files\events\teleportEvent</Filter>
-    </ClInclude>
-    <ClInclude Include="walkClickEvent.h">
-      <Filter>Source Files\events\walkClickEvent</Filter>
     </ClInclude>
     <ClInclude Include="service.h">
       <Filter>Source Files\services\base</Filter>
@@ -251,9 +191,6 @@
     </ClInclude>
     <ClInclude Include="jsonSocket.h">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\event.h">
-      <Filter>Source Files\events</Filter>
     </ClInclude>
     <ClInclude Include="abstractGameDataService.h">
       <Filter>Source Files\services\gameData</Filter>
@@ -278,6 +215,48 @@
     </ClInclude>
     <ClInclude Include="main.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mouseWheelEvent.h">
+      <Filter>Source Files\events\mouseEvents</Filter>
+    </ClInclude>
+    <ClInclude Include="mouseRightClickEvent.h">
+      <Filter>Source Files\events\mouseEvents</Filter>
+    </ClInclude>
+    <ClInclude Include="mouseMoveEvent.h">
+      <Filter>Source Files\events\mouseEvents</Filter>
+    </ClInclude>
+    <ClInclude Include="mouseLeftClickEvent.h">
+      <Filter>Source Files\events\mouseEvents</Filter>
+    </ClInclude>
+    <ClInclude Include="mouseMiddleClickEvent.h">
+      <Filter>Source Files\events\mouseEvents</Filter>
+    </ClInclude>
+    <ClInclude Include="interactionClickEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="keyPressedEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="frameEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="resizeEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="rightClickTileEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="teleportEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="walkClickEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTickProgress.h">
+      <Filter>Source Files\other\gameTickProgress</Filter>
+    </ClInclude>
+    <ClInclude Include="gameData.h">
+      <Filter>Source Files\services\gameData\gameData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -320,39 +299,6 @@
     <ClCompile Include="tile.cpp">
       <Filter>Source Files\tile</Filter>
     </ClCompile>
-    <ClCompile Include="interactionClickEvent.cpp">
-      <Filter>Source Files\events\interactionClickEvent</Filter>
-    </ClCompile>
-    <ClCompile Include="keyPressedEvent.cpp">
-      <Filter>Source Files\events\keyPressedEvent</Filter>
-    </ClCompile>
-    <ClCompile Include="mouseLeftClickEvent.cpp">
-      <Filter>Source Files\events\mouseEvents\mouseLeftClickEvent</Filter>
-    </ClCompile>
-    <ClCompile Include="mouseMiddleClickEventcpp.cpp">
-      <Filter>Source Files\events\mouseEvents\mouseMiddleClickEventcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="mouseMoveEvent.cpp">
-      <Filter>Source Files\events\mouseEvents\mouseMoveEvent</Filter>
-    </ClCompile>
-    <ClCompile Include="mouseRightClickEvent.cpp">
-      <Filter>Source Files\events\mouseEvents\mouseRightClickEvent</Filter>
-    </ClCompile>
-    <ClCompile Include="mouseWheelEvent.cpp">
-      <Filter>Source Files\events\mouseEvents\mouseWheelEvent</Filter>
-    </ClCompile>
-    <ClCompile Include="resizeEvent.cpp">
-      <Filter>Source Files\events\resizeEvent</Filter>
-    </ClCompile>
-    <ClCompile Include="rightClickTileEvent.cpp">
-      <Filter>Source Files\events\rightClickTileEvent</Filter>
-    </ClCompile>
-    <ClCompile Include="teleportEvent.cpp">
-      <Filter>Source Files\events\teleportEvent</Filter>
-    </ClCompile>
-    <ClCompile Include="walkClickEvent.cpp">
-      <Filter>Source Files\events\walkClickEvent</Filter>
-    </ClCompile>
     <ClCompile Include="socket.cpp">
       <Filter>Source Files\services\socket</Filter>
     </ClCompile>
@@ -367,6 +313,12 @@
     </ClCompile>
     <ClCompile Include="rightClickInterface.cpp">
       <Filter>Source Files\UI\rightClickInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTickProgress.cpp">
+      <Filter>Source Files\other\gameTickProgress</Filter>
+    </ClCompile>
+    <ClCompile Include="gameData.cpp">
+      <Filter>Source Files\services\gameData\gameData</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -10,7 +10,10 @@ int main() {
 	AbstractPlayer* player = new Player(provider);
 	AbstractMap* map = new Map(provider);
 	AbstractInventory* inventory = new Inventory(provider);
-	AbstractGameDataService* gameData = new GameDataService(provider);
+	GameTickProgress* tracker = new GameTickProgress();
+	GameDataStorage* storage = new GameDataStorage();
+	AbstractGameDataService* gameData = new GameDataService(provider, tracker, storage);
+
 	sf::RenderWindow sfWindow(
 		sf::VideoMode(
 			AbstractMeasures::startingScreenSize().x,
@@ -18,7 +21,7 @@ int main() {
 		),
 		"RS2D"
 	);
-	AbstractRenderWindow* window = new SFRenderWindow(provider, new ClockTickScheduler(), sfWindow);
+	AbstractRenderWindow* window = new SFRenderWindow(provider, sfWindow);
 
 	App app(provider, window, socket, measures, map, player, camera, chat, inventory, gameData);
 

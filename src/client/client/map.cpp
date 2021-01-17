@@ -27,10 +27,7 @@ void Map::load() {
 }
 
 void Map::update() {
-	if (!shouldUpdate)
-		return;
 	VTile& pos = camera->getPosition();
-	shouldUpdate = false;
 	const VChunk newChunk(int(pos.x / AbstractMeasures::TilesPerChunk), int(pos.y / AbstractMeasures::TilesPerChunk), int(pos.z));
 	const VChunk difference = newChunk - centerChunk;
 	if (!difference.x && !difference.y && !difference.z)

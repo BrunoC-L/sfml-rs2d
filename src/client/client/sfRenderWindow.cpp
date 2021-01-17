@@ -1,14 +1,13 @@
 #include "sfRenderWindow.h"
 #include "keyPressedEvent.h"
 #include "resizeEvent.h"
+#include "frameEvent.h"
 
 SFRenderWindow::SFRenderWindow(
 	AbstractServiceProvider* provider,
-	TickScheduler* scheduler,
 	sf::RenderWindow& window
 ) : Service(provider),
 	converter(provider),
-	scheduler(scheduler),
 	window(window) { }
 
 void SFRenderWindow::init() {
@@ -219,10 +218,12 @@ void SFRenderWindow::draw() {
 	map->mutex.unlock();
 	draw(player->position, 0, playerSprite);
 
-	for (int i = 0; i < gameData->playerPositions.size(); ++i) {
+	auto playerPositions = gameData->getPlayerPositions();
+
+	for (int i = 0; i < playerPositions.size(); ++i) {
 		if (i == player->id)
 			continue;
-		auto pos = gameData->playerPositions[i];
+		auto pos = playerPositions[i];
 		draw(pos, 0, playerSprite);
 	}
 
@@ -230,18 +231,12 @@ void SFRenderWindow::draw() {
 	rightBanner->draw();
 	rightClickInterface->draw();
 	display();
+	FrameEvent().emit();
 }
 
 void SFRenderWindow::update() {
 	rightBanner->update();
-}
-
-bool SFRenderWindow::shouldTick() {
-	return scheduler->shouldTick();
-}
-
-bool SFRenderWindow::shouldFrame() {
-	return scheduler->shouldFrame();
+	gameData->updatePlayerPosition();
 }
 
 void SFRenderWindow::setActive(bool newState) {

@@ -20,4 +20,4 @@ EVENT_CLASS(TabKeyPressedEvent)
 #undef MEMBERS_SET
 #define PARAMETERS char letter, bool shift
 #define MEMBERS_SET MEMBER_SET(letter) MEMBER_SET(shift)
-EVENT_CLASS(LetterKeyPressedEvent, : public KeyPress, char letter; , PARAMETERS)
+EVENT_CLASS(LetterKeyPressedEvent, : public KeyPress, char letter; , PARAMETERS, MEMBERS_SET)

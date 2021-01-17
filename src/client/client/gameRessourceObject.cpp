@@ -36,7 +36,7 @@ GameRessourceObject::GameRessourceObject(
 		),
 		make_pair(
 			"Examine",
-			[this, examines]() { cout << examines[isUp ? 0 : 1] << endl; return false; }
+			[this, examines]() { /*cout << examines[isUp ? 0 : 1] << endl;*/ return false; }
 		),
 	};
 	if (objectPart.size() > 10) {

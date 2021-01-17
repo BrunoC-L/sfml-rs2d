@@ -9,6 +9,7 @@ using namespace std;
 
 class Map: public AbstractMap, public Service {
     std::thread updateThread;
+    bool shouldStop = false;
 public:
     Map(AbstractServiceProvider* provider);
     void init();
