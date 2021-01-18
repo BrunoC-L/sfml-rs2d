@@ -4,7 +4,7 @@
 
 class GameDataService : public Service, public AbstractGameDataService {
 public:
-	GameDataService(AbstractServiceProvider* provider, GameTickProgress* tracker, GameDataStorage* data);
+	GameDataService(AbstractServiceProvider* provider, GameTickProgress* tracker, GameDataStorage* storage);
 	virtual void init();
 
 	virtual std::vector<VTile> getPlayerPositions();

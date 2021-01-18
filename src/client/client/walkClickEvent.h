@@ -11,7 +11,7 @@ using namespace std;
 #undef  PARAMETERS
 #undef  MEMBERS_SET
 #define TYPE WalkClickEvent
-#define PARENTS
+#define PARENTS : public Event
 #define MEMBERS VTile pos;
 #define PARAMETERS VTile pos
 #define MEMBERS_SET MEMBER_SET(pos)

@@ -172,6 +172,7 @@
     <ClInclude Include="item.h" />
     <ClInclude Include="jsonSocket.h" />
     <ClInclude Include="keyPressedEvent.h" />
+    <ClInclude Include="login.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="measures.h" />

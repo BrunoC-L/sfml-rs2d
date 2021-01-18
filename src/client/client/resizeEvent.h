@@ -8,7 +8,7 @@
 #undef  MEMBERS_SET
 #undef  MEMBERS_INITALIZER_LIST
 #define TYPE ResizeEvent
-#define PARENTS
+#define PARENTS : public Event
 #define MEMBERS
 #define PARAMETERS
 #define MEMBERS_SET

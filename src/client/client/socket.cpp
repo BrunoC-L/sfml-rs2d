@@ -1,4 +1,6 @@
 #include "socket.h"
+#include "login.h"
+#include "keyPressedEvent.h"
 
 Socket::Socket(AbstractServiceProvider* provider) : Service(provider) {
 	provider->set("Socket", this);
@@ -58,12 +60,40 @@ void Socket::on(std::string type, std::function<void(JSON)> callback) {
 }
 
 void Socket::login() {
-    JSON logindata;
-    std::string username = "bruno";
-    //std::cout << "Enter username: ";
-    //std::cin >> username;
-    logindata["username"] = "'" + username + "'";
-    emit("login", logindata);
+    EnterKeyPressedEvent::subscribe(
+        new EventObserver<EnterKeyPressedEvent>(
+            [&](EnterKeyPressedEvent* ev) {
+                JSON logindata;
+                logindata["username"] = "'" + username + "'";
+                emit("login", logindata);
+                std::cout << username << '\n';
+                username = "";
+                std::cout << username << '\n';
+            }
+        )
+    );
+    BackspaceKeyPressedEvent::subscribe(
+        new EventObserver<BackspaceKeyPressedEvent>(
+            [&](BackspaceKeyPressedEvent* ev) {
+                username = username.substr(0, username.length() - 1);
+                std::cout << username << '\n';
+            }
+        )
+    );
+    LetterKeyPressedEvent::subscribe(
+        new EventObserver<LetterKeyPressedEvent>(
+            [&](LetterKeyPressedEvent* ev) {
+                username += ev->letter;
+                std::cout << username << '\n';
+            }
+        )
+    );
+
+    on("login",
+        [&](JSON data) {
+            LoginEvent(data).emit();
+        }
+    );
 }
 
 void Socket::connect(std::string ip, unsigned port) {

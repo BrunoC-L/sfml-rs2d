@@ -258,6 +258,9 @@
     <ClInclude Include="gameData.h">
       <Filter>Source Files\services\gameData\gameData</Filter>
     </ClInclude>
+    <ClInclude Include="login.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="chunk.cpp">

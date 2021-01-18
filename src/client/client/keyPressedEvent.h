@@ -8,14 +8,15 @@ public:
 	bool shift;
 };
 
-EVENT_CLASS(LeftArrowKeyPressedEvent)
-EVENT_CLASS(RightArrowKeyPressedEvent)
-EVENT_CLASS(UpArrowKeyPressedEvent)
-EVENT_CLASS(DownArrowKeyPressedEvent)
-EVENT_CLASS(EscapeKeyPressedEvent)
-EVENT_CLASS(SpaceKeyPressedEvent)
-EVENT_CLASS(EnterKeyPressedEvent)
-EVENT_CLASS(TabKeyPressedEvent)
+EVENT_CLASS(LeftArrowKeyPressedEvent, : public Event)
+EVENT_CLASS(RightArrowKeyPressedEvent, : public Event)
+EVENT_CLASS(UpArrowKeyPressedEvent, : public Event)
+EVENT_CLASS(DownArrowKeyPressedEvent, : public Event)
+EVENT_CLASS(EscapeKeyPressedEvent, : public Event)
+EVENT_CLASS(BackspaceKeyPressedEvent, : public Event)
+EVENT_CLASS(SpaceKeyPressedEvent, : public Event)
+EVENT_CLASS(EnterKeyPressedEvent, : public Event)
+EVENT_CLASS(TabKeyPressedEvent, : public Event)
 #undef PARAMETERS
 #undef MEMBERS_SET
 #define PARAMETERS char letter, bool shift

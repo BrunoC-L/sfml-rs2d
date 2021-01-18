@@ -12,7 +12,6 @@ void ClockGameTickProgress::onGameTick() {
 		msBehind = 0;
 	msCurrentAnimWouldTakeAtNormalSpeed = mspt + msBehind;
 	clock.restart();
-	std::cout << "ms behind: " << msBehind << std::endl;
 }
 
 double ClockGameTickProgress::getTickFraction() {

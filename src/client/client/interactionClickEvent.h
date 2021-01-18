@@ -11,7 +11,7 @@ using namespace std;
 #undef  PARAMETERS
 #undef  MEMBERS_SET
 #define TYPE InteractionClickEvent
-#define PARENTS
+#define PARENTS : public Event
 #define MEMBERS function<bool(void)> f;
 #define PARAMETERS function<bool(void)> f
 #define MEMBERS_SET MEMBER_SET(f)

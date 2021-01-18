@@ -12,7 +12,7 @@ using namespace std;
 #undef  MEMBERS_SET
 #undef  MEMBERS_INITALIZER_LIST
 #define TYPE RightClickTileEvent
-#define PARENTS
+#define PARENTS : public Event
 #define MEMBERS Tile* tile;
 #define PARAMETERS Tile* tile
 #define MEMBERS_SET MEMBER_SET(tile)

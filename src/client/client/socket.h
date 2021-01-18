@@ -9,6 +9,7 @@
 class Socket : public AbstractSocket, public Service {
 private:
 	JSONTCPSocket socket;
+	std::string username;
 public:
 	std::thread listener;
 	std::unordered_map<std::string, std::vector<std::function<void(JSON)>>> callbacks;

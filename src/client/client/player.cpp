@@ -1,53 +1,29 @@
 #include "player.h"
+#include "login.h"
 
 Player::Player(AbstractServiceProvider* provider): Service(provider) {
     provider->set("Player", this);
     position = VTile();
+    LoginEvent::subscribe(
+        new EventObserver<LoginEvent>(
+            [&](LoginEvent* ev) {
+                auto& data = ev->json;
+                int id = data.asInt();
+                player->id = id;
+            }
+        )
+    );
 }
 
 void Player::init() {
     acquire();
     VTile lumbridge(18 * AbstractMeasures::TilesPerChunk + 20, 13 * AbstractMeasures::TilesPerChunk + 37, 0);
     position = lumbridge;
-    subscribeToTeleport();
-    subscribeToInteractionClick();
-    subscribeToWalkClick();
-
-    socket->on("hello",
-        [&](JSON data) {
-            int id = data.asInt();
-            player->id = id;
-            gameData->data->playerId = id;
-        }
-    );
-}
-
-void Player::subscribeToTeleport() {
-    TeleportEvent::subscribe(new EventObserver<TeleportEvent>(
-        [&](TeleportEvent* ev) {
-            teleport(ev->pos);
-        }
-    ));
-}
-
-void Player::teleport(VTile position) {
-    //path = { position };
-}
-
-void Player::subscribeToInteractionClick() {
-    InteractionClickEvent::subscribe(new EventObserver<InteractionClickEvent>(
-        [&](InteractionClickEvent* ev) {
-        }
-    ));
-}
-
-void Player::subscribeToWalkClick() {
     WalkClickEvent::subscribe(new EventObserver<WalkClickEvent>(
         [&](WalkClickEvent* ev) {
             walk(ev->pos);
         }
     ));
-
 }
 
 void Player::walk(VTile pos) {

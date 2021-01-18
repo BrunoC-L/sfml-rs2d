@@ -7,8 +7,9 @@
 
 class AbstractGameDataService : public AbstractService {
 public:
-	AbstractGameDataService(GameTickProgress* tracker, GameDataStorage* data) : tracker(tracker), data(data) {}
+	bool userIsLoggedIn = false;
+	AbstractGameDataService(GameTickProgress* tracker, GameDataStorage* storage) : tracker(tracker), storage(storage) {}
 	GameTickProgress* tracker;
-	GameDataStorage* data;
+	GameDataStorage* storage;
 	virtual std::vector<VTile> getPlayerPositions() = 0;
 };

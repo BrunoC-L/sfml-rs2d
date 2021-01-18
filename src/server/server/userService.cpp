@@ -20,7 +20,7 @@ void UserService::init() {
                 int id = atoi(res[0].c_str());
                 *user = User(id, username, VTile(posx, posy));
                 JSON data = "'" + res[0] + "'";
-                server->send(user, "hello", data);
+                server->send(user, "login", data);
                 users.push_back(user);
             }
         );
