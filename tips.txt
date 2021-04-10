@@ -1,3 +1,4 @@
 list all tables:
-	select * from sysobjects where xtype = 'U';
-
+	select name from sysobjects where xtype = 'U';
+list all columns of table:
+	select column_name from information_schema.columns where table_name = n'player';

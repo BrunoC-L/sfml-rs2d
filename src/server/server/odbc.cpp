@@ -34,7 +34,7 @@ int db(WCHAR* connectionString, std::vector<Query>& queries, std::mutex& mutex, 
             NULL,
             0,
             NULL,
-            SQL_DRIVER_COMPLETE));
+            SQL_DRIVER_NOPROMPT));
 
     fwprintf(stderr, L"Connected!\n");
     *connected = true;

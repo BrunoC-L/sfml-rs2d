@@ -23,12 +23,55 @@ void DB::init() {
         throw std::exception((fileName + " not found at 'ODBC_RS2D_HOME'").c_str());
     fgetws(pwszConnStr, s, pFile);
     fclose(pFile);
+    err = wcscmp(L"DRIVER=SQL Server Native Client 11.0;SERVER=DESKTOP-FJJ4HB5\\SQLEXPRESS;DATABASE=rs2d;Trusted_Connection=Yes;", pwszConnStr);
+    if (err)
+        throw 1;
 	dbthread = std::thread(
 		[&]() {
 			db(pwszConnStr, queries, mutex, &connected);
 		}
 	);
 	while (!connected);
+
+
+    query("select * from sysobjects where xtype = 'U';", [&](QueryResult qr) {
+        bool DBisEmpty = qr.size() == 0;
+        if (DBisEmpty)
+            createDB();
+        else {
+            query("select * from sysobjects where xtype = 'U' and name = 'version';", [&](QueryResult qr) {
+                bool versionTableMissing = qr.size() == 0;
+                if (versionTableMissing)
+                    throw std::exception("Found tables in database but missing version table");
+                query("select * from version;", [&](QueryResult qr) {
+                    bool versionMissing = qr.size() == 0;
+                    if (versionMissing)
+                        throw std::exception("Found version table in db but its empty");
+                    std::string version = qr[0][0];
+                    std::cout << "Performing DB checks for version " + version << std::endl;
+                    checkVersion(version);
+                    if (version != this->version) {
+                        std::cout << "Performing DB updates from version " + version + " to version " + this->version << std::endl;
+                        updateVersion(version);
+                    }
+                });
+            });
+        }
+    });
+}
+
+void DB::createDB() {
+    query("create table player(id int, name varchar(20), username varchar(20), password varchar(20), posx int, posy int);");
+}
+
+void DB::checkVersion(std::string version) {
+    // for each expected table
+    // for each expected column
+    // check type
+}
+
+void DB::updateVersion(std::string version) {
+
 }
 
 void DB::query(Query q) {
