@@ -8,9 +8,7 @@ using Query = std::pair<std::string, std::function<void(QueryResult)>>;
 
 class AbstractDB : public AbstractService {
 protected:
-	wchar_t* connectionString;
 public:
-	AbstractDB(wchar_t* connectionString) : connectionString(connectionString) { }
 	virtual void query(Query) = 0;
 	virtual void query(std::string) = 0;
 	virtual void query(std::string, std::function<void(QueryResult)>) = 0;

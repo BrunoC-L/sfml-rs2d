@@ -1,6 +1,6 @@
 #include "odbc.h"
 
-int db(WCHAR* connectionString, std::vector<Query>& queries, std::mutex& mutex) {
+int db(WCHAR* connectionString, std::vector<Query>& queries, std::mutex& mutex, bool* connected) {
     SQLHENV     hEnv = NULL;
     SQLHDBC     hDbc = NULL;
     SQLHSTMT    hStmt = NULL;
@@ -37,6 +37,7 @@ int db(WCHAR* connectionString, std::vector<Query>& queries, std::mutex& mutex) 
             SQL_DRIVER_COMPLETE));
 
     fwprintf(stderr, L"Connected!\n");
+    *connected = true;
 
     TRYODBC(hDbc,
         SQL_HANDLE_DBC,

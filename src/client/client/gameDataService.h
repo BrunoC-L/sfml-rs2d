@@ -8,4 +8,5 @@ public:
 	virtual void init();
 
 	virtual std::vector<VTile> getPlayerPositions();
+	std::unordered_map<int, int> getPlayerPositionIndices();
 };

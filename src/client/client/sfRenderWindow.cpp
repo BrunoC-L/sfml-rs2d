@@ -252,8 +252,10 @@ void SFRenderWindow::draw() {
 			}
 		map->mutex.unlock();
 
-		if (playerPositions.size())
+		if (playerPositions.size()) {
+			auto playerPosIndex = gameData->getPlayerPositionIndices()[player->id];
 			player->position = playerPositions[0];
+		}
 		for (int i = 0; i < playerPositions.size(); ++i) {
 			auto pos = playerPositions[i];
 			draw(pos, 0, playerSprite);
@@ -263,9 +265,6 @@ void SFRenderWindow::draw() {
 		rightBanner->draw();
 		rightClickInterface->draw();
 	}
-	else {
-
-	}
 	display();
 }
 
@@ -273,7 +272,7 @@ void SFRenderWindow::update() {
 	rightBanner->update();
 }
 
-void SFRenderWindow::setActive(bool newState) {
+void SFRenderWindow::setActive(bool newState = true) {
 	window.setActive(newState);
 }
 

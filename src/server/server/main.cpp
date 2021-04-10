@@ -3,7 +3,7 @@
 #include "userService.h"
 #include "socketServer.h"
 #include "playerActionService.h"
-#include "tickScheduler.h"
+#include "../../common/common/tickScheduler.h"
 #include "app.h"
 
 int main() {
@@ -15,8 +15,7 @@ int main() {
 		SocketServerService,
 		ClockTickScheduler
 	> app(
-		38838,
-		(wchar_t*)L"DRIVER=SQL Server Native Client 11.0;SERVER=DESKTOP-FJJ4HB5\\SQLEXPRESS;DATABASE=rs2d;Trusted_Connection=Yes;"
+		38838
 	);
 	app.init();
 	app.start();

@@ -1,0 +1,3 @@
+list all tables:
+	select * from sysobjects where xtype = 'U';
+

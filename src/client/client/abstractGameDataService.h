@@ -12,4 +12,5 @@ public:
 	GameTickProgress* tracker;
 	GameDataStorage* storage;
 	virtual std::vector<VTile> getPlayerPositions() = 0;
+	virtual std::unordered_map<int, int> getPlayerPositionIndices() = 0;
 };

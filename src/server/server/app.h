@@ -15,8 +15,8 @@ template <
 class App : public AbstractServiceProvider, private Service {
     std::thread gameTicks;
 public:
-    App(unsigned port, wchar_t* connectionString) : Service(this) {
-        dbService = new DB(this, connectionString);
+    App(unsigned port) : Service(this) {
+        dbService = new DB(this);
         map = new Map(this);
         userService = new UserService(this);
         playerActionService = new PlayerActionService(this);

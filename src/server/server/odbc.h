@@ -55,4 +55,4 @@ using Query = std::pair<std::string, std::function<void(QueryResult)>>;
 QueryResult getResults(HSTMT       hStmt,
     SQLSMALLINT cCols);
 
-int db(WCHAR* connectionString, std::vector<Query>& queries, std::mutex& mutex);
+int db(WCHAR* connectionString, std::vector<Query>& queries, std::mutex& mutex, bool* connected);

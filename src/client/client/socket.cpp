@@ -65,10 +65,9 @@ void Socket::login() {
             [&](EnterKeyPressedEvent* ev) {
                 JSON logindata;
                 logindata["username"] = "'" + username + "'";
+                std::cout << "Logging in as: " << username << '\n';
                 emit("login", logindata);
-                std::cout << username << '\n';
                 username = "";
-                std::cout << username << '\n';
             }
         )
     );

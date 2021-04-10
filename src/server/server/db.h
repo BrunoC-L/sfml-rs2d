@@ -7,8 +7,9 @@ class DB : public Service, public AbstractDB {
 	std::mutex mutex;
 	std::vector<Query> queries;
 	std::thread dbthread;
+	bool connected = false;
 public:
-	DB(AbstractServiceProvider* provider, wchar_t* connectionString);
+	DB(AbstractServiceProvider* provider);
 	virtual void init();
 	virtual void query(Query);
 	virtual void query(std::string);

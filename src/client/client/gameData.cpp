@@ -51,11 +51,12 @@ void GameDataStorage::onGameTick(JSON& gameData) {
 void GameDataStorage::storePositions(JSON& positions, GameData& gData) {
 	auto _positions = positions.children;
 	gData.playerPositions.push_back(VTile());
-	for (auto data : _positions) {
+	for (int i = 0; i < _positions.size(); ++i) {
+		auto& data = _positions[i];
 		int id = data["id"].asInt();
 		int x = data["x"].asDouble();
 		int y = data["y"].asDouble();
-		gData.playerIdToPositionIndex[id] = gData.playerPositions.size();
+		gData.playerIdToPositionIndex[id] = i;
 		gData.playerPositions.push_back(VTile(x, y));
 	}
 }

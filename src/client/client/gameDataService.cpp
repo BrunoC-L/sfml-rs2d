@@ -26,6 +26,11 @@ std::vector<VTile> GameDataService::getPlayerPositions() {
     return storage->getGameData(tickFraction).playerPositions;
 }
 
+std::unordered_map<int, int> GameDataService::getPlayerPositionIndices() {
+    double tickFraction = tracker->getTickFraction();
+    return storage->getGameData(tickFraction).playerIdToPositionIndex;
+}
+
 void GameDataService::init() {
 	acquire();
     socket->on("GameTick",
