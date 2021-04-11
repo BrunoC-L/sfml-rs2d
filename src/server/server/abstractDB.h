@@ -1,9 +1,10 @@
 #pragma once
 #include <vector>
 #include <functional>
+#include "../../common/common/json.h"
 #include "../../common/common/abstractService.h"
 
-using QueryResult = std::vector<std::vector<std::string>>;
+using QueryResult = std::vector<JSON>;
 using Query = std::pair<std::string, std::function<void(QueryResult)>>;
 
 class AbstractDB : public AbstractService {

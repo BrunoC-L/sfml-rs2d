@@ -141,70 +141,68 @@ Exit:
 
 }
 
+std::vector<std::string> getTitles(HSTMT hStmt, DWORD cDisplaySize, BINDING* pBinding) {
+    WCHAR           wszTitle[DISPLAY_MAX];
+    SQLSMALLINT     iCol = 0;
+    std::vector<std::string> titles;
+    for (; pBinding; pBinding = pBinding->sNext) {
+        TRYODBC(hStmt,
+            SQL_HANDLE_STMT,
+            SQLColAttribute(hStmt,
+                ++iCol,
+                SQL_DESC_NAME,
+                wszTitle,
+                sizeof(wszTitle), // Note count of bytes!
+                NULL,
+                NULL));
+        std::wstring ws(wszTitle);
+        titles.push_back(std::string(ws.begin(), ws.end()));
+    }
+
+    return titles;
+
+Exit:
+    throw std::exception("idk wtf this is");
+}
+
 QueryResult getResults(HSTMT       hStmt,
     SQLSMALLINT cCols)
 {
     BINDING* pFirstBinding, * pThisBinding;
     SQLSMALLINT     cDisplaySize;
     RETCODE         RetCode = SQL_SUCCESS;
-    int             iCount = 0;
-
-    // Allocate memory for each column
 
     AllocateBindings(hStmt, cCols, &pFirstBinding, &cDisplaySize);
-
-    // Set the display mode and write the titles
-
-    // Fetch the data
+    auto titles = getTitles(hStmt, cDisplaySize + 1, pFirstBinding);
 
     bool fNoData = false;
     QueryResult result;
+    int column;
     do {
         TRYODBC(hStmt, SQL_HANDLE_STMT, RetCode = SQLFetch(hStmt));
 
         if (RetCode == SQL_NO_DATA_FOUND)
             fNoData = true;
         else {
-            result.push_back({});
+            column = 0;
+            result.push_back(JSON());
 
-            for (pThisBinding = pFirstBinding;
-                pThisBinding;
-                pThisBinding = pThisBinding->sNext)
-            {
+            for (pThisBinding = pFirstBinding; pThisBinding; pThisBinding = pThisBinding->sNext) {
+                auto columnName = titles[column];
                 if (pThisBinding->indPtr != SQL_NULL_DATA)
                 {
                     auto w = pThisBinding->wszBuffer;
                     auto ws = std::wstring(w);
                     auto s = std::string(ws.begin(), ws.end());
-                    result.back().push_back(s);
-                    //std::wprintf(pThisBinding->fChar ? DISPLAY_FORMAT_C : DISPLAY_FORMAT,
-                    //    PIPE,
-                    //    pThisBinding->cDisplaySize,
-                    //    pThisBinding->cDisplaySize,
-                    //    pThisBinding->wszBuffer);
+                    result.back()[columnName] = '"' + s + '"';
                 }
                 else
-                {
-                    result.back().push_back("<NULL>");
-                    //std::wprintf(DISPLAY_FORMAT_C,
-                    //    PIPE,
-                    //    pThisBinding->cDisplaySize,
-                    //    pThisBinding->cDisplaySize,
-                    //    L"<NULL>");
-                }
+                    result.back()[columnName] = "\"<NULL>\"";
+                ++column;
             }
-            //std::wprintf(L" %c\n", PIPE);
         }
     } while (!fNoData);
-
-    //SetConsole(cDisplaySize + 2, TRUE);
-    //std::wprintf(L"%*.*s", cDisplaySize + 2, cDisplaySize + 2, L" ");
-    //SetConsole(cDisplaySize + 2, FALSE);
-    //std::wprintf(L"\n");
-
 Exit:
-    // Clean up the allocated buffers
-
     while (pFirstBinding)
     {
         pThisBinding = pFirstBinding->sNext;

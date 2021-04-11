@@ -253,8 +253,9 @@ void SFRenderWindow::draw() {
 		map->mutex.unlock();
 
 		if (playerPositions.size()) {
-			auto playerPosIndex = gameData->getPlayerPositionIndices()[player->id];
-			player->position = playerPositions[0];
+			auto indices = gameData->getPlayerPositionIndices();
+			auto playerPosIndex = indices[player->id];
+			player->position = playerPositions[playerPosIndex];
 		}
 		for (int i = 0; i < playerPositions.size(); ++i) {
 			auto pos = playerPositions[i];

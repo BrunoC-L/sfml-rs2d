@@ -6,7 +6,7 @@ SocketMock1::SocketMock1(AbstractServiceProvider* provider) : Socket(provider) {
 }
 
 void SocketMock1::init() {
-
+    login();
 }
 
 void SocketMock1::connect(std::string ip, unsigned port) {

@@ -10,6 +10,7 @@
 #include <vector>
 #include <mutex>
 #include <functional>
+#include "../../common/common/json.h"
 
 #define TRYODBC(h, ht, x)   {   RETCODE rc = x;\
                                 if (rc != SQL_SUCCESS) \
@@ -50,7 +51,7 @@ void AllocateBindings(HSTMT         hStmt,
 
 #define PIPE                L'|'
 
-using QueryResult = std::vector<std::vector<std::string>>;
+using QueryResult = std::vector<JSON>;
 using Query = std::pair<std::string, std::function<void(QueryResult)>>;
 QueryResult getResults(HSTMT       hStmt,
     SQLSMALLINT cCols);

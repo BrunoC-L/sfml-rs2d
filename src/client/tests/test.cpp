@@ -100,27 +100,31 @@ TEST(player_position_updates_when_server_emits_current, TestName) {
 	while (!hasStarted);
 
 	JSON hello;
-	hello["type"] = "'hello'";
-	hello["data"] = "7";
-
+	int id = 7;
+	hello["type"] = "'login'";
+	hello["data"] = std::to_string(id);
 	socket.mockReceiveFromServer(hello);
+	EXPECT_EQ(player.id, id);
 
-	VTile lumbridge(18 * AbstractMeasures::TilesPerChunk + 20, 13 * AbstractMeasures::TilesPerChunk + 37, 0);
+	auto _1172 = 18 * AbstractMeasures::TilesPerChunk + 20;
+	auto _869 = 13 * AbstractMeasures::TilesPerChunk + 37;
+	VTile lumbridge(_1172, _869, 0);
 	EXPECT_EQ(player.position, lumbridge);
 	
-	lumbridge += VTile(1, -1);
+	auto close = lumbridge + VTile(1, -1);
 
-	JSON json;
-	json["type"] = "'positions'";
 	JSON data("[]");
 	JSON playerPos;
-	playerPos["id"] = "7";
-	playerPos["x"] = std::to_string(lumbridge.x);
-	playerPos["y"] = std::to_string(lumbridge.y);
+	playerPos["id"] = std::to_string(id);
+	playerPos["x"] = std::to_string(close.x);
+	playerPos["y"] = std::to_string(close.y);
 	data.push(playerPos);
-	json["data"] = data;
-
-	socket.mockReceiveFromServer(json);
+	JSON json;
+	json["positions"] = data;
+	JSON tick;
+	tick["type"] = "'GameTick'";
+	tick["data"] = json;
+	socket.mockReceiveFromServer(tick);
 
 	int frames = 0;
 	FrameEvent::subscribe(
@@ -131,9 +135,9 @@ TEST(player_position_updates_when_server_emits_current, TestName) {
 		)
 	);
 
-	while (frames < 2);
+	while (!frames);
 
-	EXPECT_EQ(player.position, lumbridge);
+	EXPECT_EQ(player.position, close);
 
 	app.stop();
 	t.join();
