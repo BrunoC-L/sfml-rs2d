@@ -1,4 +1,3 @@
 odbcsql.exe
 thumbnail*
 !.gitignore
-*.vs*
