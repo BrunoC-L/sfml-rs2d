@@ -11,8 +11,7 @@ int main() {
 	AbstractMap* map = new Map(provider);
 	AbstractInventory* inventory = new Inventory(provider);
 	GameTickProgress* tracker = new ClockGameTickProgress();
-	GameDataStorage* storage = new GameDataStorage();
-	AbstractGameDataService* gameData = new GameDataService(provider, tracker, storage);
+	AbstractGameDataService* gameData = new GameDataService(provider, tracker);
 
 	sf::RenderWindow sfWindow(
 		sf::VideoMode(

@@ -2,41 +2,37 @@
 #include "constants.h"
 #include "login.h"
 
-GameDataService::GameDataService(
-    AbstractServiceProvider* provider,
-    GameTickProgress* tracker,
-    GameDataStorage* storage
-) : Service(provider),
-    AbstractGameDataService(tracker, storage) {
-	provider->set("GameData", this);
+GameDataService::GameDataService(AbstractServiceProvider* provider, GameTickProgress* tracker) : Service(provider), tracker(tracker) {
+    provider->set("GameData", this);
+
     LoginEvent::subscribe(
         new EventObserver<LoginEvent>(
             [&](LoginEvent* ev) {
                 auto& data = ev->json;
                 int id = data.asInt();
-                gameData->storage->playerId = id;
-                userIsLoggedIn = true;
+                player->id = id;
+                loggedIn = true;
             }
         )
     );
 }
 
-std::vector<VTile> GameDataService::getPlayerPositions() {
-    double tickFraction = tracker->getTickFraction();
-    return storage->getGameData(tickFraction).playerPositions;
-}
-
-std::unordered_map<int, int> GameDataService::getPlayerPositionIndices() {
-    double tickFraction = tracker->getTickFraction();
-    return storage->getGameData(tickFraction).playerIdToPositionIndex;
-}
-
 void GameDataService::init() {
-	acquire();
-    socket->on("GameTick",
-        [&](JSON json) {
-            storage->onGameTick(json);
-            tracker->onGameTick();
-        }
-    );
+    acquire();
+    socket->on("positions", [&](JSON& json) {
+        storePositions(json);
+        tracker->onGameTick();
+    });
+}
+
+bool GameDataService::userIsLoggedIn() {
+    return loggedIn;
+}
+
+std::vector<playerIdAndPosition> GameDataService::getPlayerPositions() {
+    return playerPositions.getPlayerPositions(tracker->getTickFraction());
+}
+
+void GameDataService::storePositions(JSON& json) {
+    playerPositions.update(json);
 }

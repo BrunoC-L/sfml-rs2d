@@ -22,8 +22,12 @@ void SFRenderWindow::init() {
 	p_t.loadFromFile("../../../assets/player.png");
 	playerSprite = sf::Sprite(p_t);
 
+	loginPage = sf::RectangleShape(sf::Vector2f(measures->windowSize.x, measures->windowSize.y));
+	loginTexture.loadFromFile("../../../assets/login.png");
+	loginPage.setTexture(&loginTexture);
+
 	MouseLeftClickEvent::subscribe(new EventObserver<MouseLeftClickEvent>([&](MouseLeftClickEvent* ev) {
-		if (gameData->userIsLoggedIn) {
+		if (gameData->userIsLoggedIn()) {
 			bool clickedOnRightClickInterface = rightClickInterface->active && rightClickInterface->mouseIsInRect(ev);
 			if (clickedOnRightClickInterface) {
 				rightClickInterface->click(ev);
@@ -45,7 +49,7 @@ void SFRenderWindow::init() {
 	}));
 
 	MouseRightClickEvent::subscribe(new EventObserver<MouseRightClickEvent>([&](MouseRightClickEvent* ev) {
-		if (gameData->userIsLoggedIn) {
+		if (gameData->userIsLoggedIn()) {
 			if (!rightClickInterface->active || !rightClickInterface->mouseIsInRect(ev)) {
 				rightClickInterface->setPosition(ev->pos);
 				VTile tileClicked = converter.getPositionInGame(ev->pos);
@@ -60,7 +64,7 @@ void SFRenderWindow::init() {
 	}));
 
 	MouseMiddleClickEvent::subscribe(new EventObserver<MouseMiddleClickEvent>([&](MouseMiddleClickEvent* ev) {
-		if (gameData->userIsLoggedIn) {
+		if (gameData->userIsLoggedIn()) {
 			auto clickedOnRightClickInterface = rightClickInterface->active && rightClickInterface->mouseIsInRect(ev);
 			if (clickedOnRightClickInterface)
 				return;
@@ -78,7 +82,7 @@ void SFRenderWindow::init() {
 	}));
 
 	MouseMoveEvent::subscribe(new EventObserver<MouseMoveEvent>([&](MouseMoveEvent* ev) {
-		if (gameData->userIsLoggedIn) {
+		if (gameData->userIsLoggedIn()) {
 			// add top left indicator of what your mouse is over + left click option + options.length
 			if (rightClickInterface->active && !rightClickInterface->mouseIsInRect(ev)) {
 				rightClickInterface->active = false;
@@ -181,6 +185,7 @@ void SFRenderWindow::events() {
 					BackspaceKeyPressedEvent().emit();
 					break;
 				default:
+					// this is trash
 					int code = event.text.unicode;
 					if (code < 26)
 						LetterKeyPressedEvent(char(97 + code), false).emit();
@@ -211,7 +216,7 @@ void SFRenderWindow::events() {
 
 void SFRenderWindow::draw() {
 	clear();
-	if (gameData->userIsLoggedIn) {
+	if (gameData->userIsLoggedIn()) {
 		update();
 		auto playerPositions = gameData->getPlayerPositions();
 		VTile pos = *camera->position;
@@ -252,19 +257,20 @@ void SFRenderWindow::draw() {
 			}
 		map->mutex.unlock();
 
-		if (playerPositions.size()) {
-			auto indices = gameData->getPlayerPositionIndices();
-			auto playerPosIndex = indices[player->id];
-			player->position = playerPositions[playerPosIndex];
-		}
 		for (int i = 0; i < playerPositions.size(); ++i) {
-			auto pos = playerPositions[i];
+			auto& pair = playerPositions[i];
+			auto pos = pair.second;
+			if (pair.first == player->id)
+				player->position = pos;
 			draw(pos, 0, playerSprite);
 		}
 
 		bottomBanner->draw();
 		rightBanner->draw();
 		rightClickInterface->draw();
+	}
+	else {
+		window.draw(loginPage);
 	}
 	display();
 }

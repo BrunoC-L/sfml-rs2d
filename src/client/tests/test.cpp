@@ -1,9 +1,7 @@
 #include "pch.h"
 #include "main.h"
 #include "globalWindow.h"
-
 #include "socketMock1.h"
-
 #include "frameEvent.h"
 
 TEST(app_builds, TestName) {
@@ -17,8 +15,7 @@ TEST(app_builds, TestName) {
 	AbstractMap& map = Map(&provider);
 	AbstractInventory& inventory = Inventory(&provider);
 	GameTickProgress& tracker = ClockGameTickProgress();
-	GameDataStorage& storage = GameDataStorage();
-	AbstractGameDataService& gameData = GameDataService(&provider, &tracker, &storage);
+	AbstractGameDataService& gameData = GameDataService(&provider, &tracker);
 
 	AbstractRenderWindow& window = SFRenderWindow(&provider, *globalWindow);
 	App app(&provider, &window, &socket, &measures, &map, &player, &camera, &chat, &inventory, &gameData);
@@ -35,8 +32,7 @@ TEST(app_runs_with_socket_mock_1, TestName) {
 	AbstractMap& map = Map(&provider);
 	AbstractInventory& inventory = Inventory(&provider);
 	GameTickProgress& tracker = ClockGameTickProgress();
-	GameDataStorage& storage = GameDataStorage();
-	AbstractGameDataService& gameData = GameDataService(&provider, &tracker, &storage);
+	AbstractGameDataService& gameData = GameDataService(&provider, &tracker);
 
 	AbstractRenderWindow& window = SFRenderWindow(&provider, *globalWindow);
 
@@ -76,8 +72,7 @@ TEST(player_position_updates_when_server_emits_current, TestName) {
 	AbstractMap& map = Map(&provider);
 	AbstractInventory& inventory = Inventory(&provider);
 	GameTickProgress& tracker = ClockGameTickProgress();
-	GameDataStorage& storage = GameDataStorage();
-	AbstractGameDataService& gameData = GameDataService(&provider, &tracker, &storage);
+	AbstractGameDataService& gameData = GameDataService(&provider, &tracker);
 
 	AbstractRenderWindow& window = SFRenderWindow(&provider, *globalWindow);
 
@@ -110,7 +105,7 @@ TEST(player_position_updates_when_server_emits_current, TestName) {
 	auto _869 = 13 * AbstractMeasures::TilesPerChunk + 37;
 	VTile lumbridge(_1172, _869, 0);
 	EXPECT_EQ(player.position, lumbridge);
-	
+
 	auto close = lumbridge + VTile(1, -1);
 
 	JSON data("[]");
@@ -120,11 +115,9 @@ TEST(player_position_updates_when_server_emits_current, TestName) {
 	playerPos["y"] = std::to_string(close.y);
 	data.push(playerPos);
 	JSON json;
-	json["positions"] = data;
-	JSON tick;
-	tick["type"] = "'GameTick'";
-	tick["data"] = json;
-	socket.mockReceiveFromServer(tick);
+	json["data"] = data;
+	json["type"] = "positions";
+	socket.mockReceiveFromServer(json);
 
 	int frames = 0;
 	FrameEvent::subscribe(

@@ -12,14 +12,14 @@ private:
 	std::string username;
 public:
 	std::thread listener;
-	std::unordered_map<std::string, std::vector<std::function<void(JSON)>>> callbacks;
+	std::unordered_map<std::string, std::vector<std::function<void(JSON&)>>> callbacks;
 	Socket(AbstractServiceProvider*);
-	virtual void send(JSON);
-	virtual void on(std::string, std::function<void(JSON)>);
-	virtual void init();
-	virtual void receive(std::string, JSON);
-	virtual void emit(std::string, JSON);
-	virtual void login();
-	virtual void connect(std::string ip, unsigned port);
-	virtual void disconnect();
+	virtual void send(JSON&) override;
+	virtual void on(std::string, std::function<void(JSON&)>) override;
+	virtual void init() override;
+	virtual void receive(std::string, JSON&) override;
+	virtual void emit(std::string, JSON&) override;
+	virtual void login() override;
+	virtual void connect(std::string ip, unsigned port) override;
+	virtual void disconnect() override;
 };

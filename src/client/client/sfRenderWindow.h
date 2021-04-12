@@ -14,6 +14,8 @@ public:
 	BottomBanner* bottomBanner;
 	RightClickInterface* rightClickInterface;
 	sf::RenderWindow& window;
+	sf::RectangleShape loginPage;
+	sf::Texture loginTexture = sf::Texture();
 	SFRenderWindow(AbstractServiceProvider* provider, sf::RenderWindow& window);
 	void init();
 	virtual void draw(sf::VertexArray v, sf::RenderStates s);

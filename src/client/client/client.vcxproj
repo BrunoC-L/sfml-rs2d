@@ -160,7 +160,6 @@
     <ClInclude Include="chunk.h" />
     <ClInclude Include="color.h" />
     <ClInclude Include="frameEvent.h" />
-    <ClInclude Include="gameData.h" />
     <ClInclude Include="gameDataService.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="gameRessourceObject.h" />
@@ -185,6 +184,7 @@
     <ClInclude Include="mouseWheelEvent.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="PlayerPositions.h" />
     <ClInclude Include="resizeEvent.h" />
     <ClInclude Include="rightBanner.h" />
     <ClInclude Include="rightClickInterface.h" />
@@ -203,7 +203,6 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="chat.cpp" />
     <ClCompile Include="chunk.cpp" />
-    <ClCompile Include="gameData.cpp" />
     <ClCompile Include="gameDataService.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="gameRessourceObject.cpp" />
@@ -214,6 +213,7 @@
     <ClCompile Include="map.cpp" />
     <ClCompile Include="minimap.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="PlayerPositions.cpp" />
     <ClCompile Include="rightBanner.cpp" />
     <ClCompile Include="rightClickInterface.cpp" />
     <ClCompile Include="sfRenderWindow.cpp" />

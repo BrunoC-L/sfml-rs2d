@@ -25,8 +25,9 @@ void PlayerActionService::onGameTick() {
 }
 
 void PlayerActionService::sendPlayerPositions() {
-    JSON msg;
-    msg["positions"] = "[]";
+    JSON positions;
+    positions["type"] = "positions";
+    positions["data"] = "[]";
 
     for (auto user : userService->users) {
         if (paths[user].size()) {
@@ -38,15 +39,11 @@ void PlayerActionService::sendPlayerPositions() {
         pos["x"] = std::to_string(user->position.x);
         pos["y"] = std::to_string(user->position.y);
         pos["id"] = std::to_string(user->id);
-        msg["positions"].push(pos);
+        positions["data"].push(pos);
     }
 
-    JSON gameTick;
-    gameTick["type"] = "'GameTick'";
-    gameTick["data"] = msg;
-
     for (auto user : userService->users)
-        server->send(user, gameTick);
+        server->send(user, positions);
 }
 
 void PlayerActionService::sendGameTick() {

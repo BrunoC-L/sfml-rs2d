@@ -91,8 +91,8 @@
     <Filter Include="Source Files\other\gameTickProgress">
       <UniqueIdentifier>{dde80dcd-c02e-4184-a5f2-53bf6fe68426}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\services\gameData\gameData">
-      <UniqueIdentifier>{39f98846-9e3c-4ffc-a1ac-3ff85c1f3e60}</UniqueIdentifier>
+    <Filter Include="Source Files\playerPositions">
+      <UniqueIdentifier>{d82b137e-50fe-4c9b-a6ae-0731e280d323}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -255,11 +255,11 @@
     <ClInclude Include="GameTickProgress.h">
       <Filter>Source Files\other\gameTickProgress</Filter>
     </ClInclude>
-    <ClInclude Include="gameData.h">
-      <Filter>Source Files\services\gameData\gameData</Filter>
-    </ClInclude>
     <ClInclude Include="login.h">
       <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerPositions.h">
+      <Filter>Source Files\playerPositions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -320,8 +320,8 @@
     <ClCompile Include="GameTickProgress.cpp">
       <Filter>Source Files\other\gameTickProgress</Filter>
     </ClCompile>
-    <ClCompile Include="gameData.cpp">
-      <Filter>Source Files\services\gameData\gameData</Filter>
+    <ClCompile Include="PlayerPositions.cpp">
+      <Filter>Source Files\playerPositions</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

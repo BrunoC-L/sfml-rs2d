@@ -39,23 +39,23 @@ void Socket::init() {
 	);
 }
 
-void Socket::receive(std::string type, JSON data) {
+void Socket::receive(std::string type, JSON& data) {
     for (auto lambda : callbacks[type])
         lambda(data);
 }
 
-void Socket::emit(std::string type, JSON data) {
+void Socket::emit(std::string type, JSON& data) {
     JSON json;
     json["type"] = "'" + type + "'";
     json["data"] = data.asString();
     send(json);
 }
 
-void Socket::send(JSON json) {
+void Socket::send(JSON& json) {
 	socket.send(json.asString() + messageEnd);
 }
 
-void Socket::on(std::string type, std::function<void(JSON)> callback) {
+void Socket::on(std::string type, std::function<void(JSON&)> callback) {
 	callbacks[type].push_back(callback);
 }
 
@@ -71,6 +71,7 @@ void Socket::login() {
             }
         )
     );
+
     BackspaceKeyPressedEvent::subscribe(
         new EventObserver<BackspaceKeyPressedEvent>(
             [&](BackspaceKeyPressedEvent* ev) {
@@ -79,6 +80,7 @@ void Socket::login() {
             }
         )
     );
+
     LetterKeyPressedEvent::subscribe(
         new EventObserver<LetterKeyPressedEvent>(
             [&](LetterKeyPressedEvent* ev) {
@@ -89,7 +91,7 @@ void Socket::login() {
     );
 
     on("login",
-        [&](JSON data) {
+        [&](JSON& data) {
             LoginEvent(data).emit();
         }
     );
