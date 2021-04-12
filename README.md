@@ -1,6 +1,7 @@
 # sfml-rs2d
-Runescape 2D version Made with C++/SFML - only asset used is the map and items, the rest is remade by myself
-https://www.youtube.com/user/thelatestartosrs/videos
+Non commercial Runescape 2D version Made with C++/SFML
+Some assets are property of Jagex: https://www.jagex.com/en-GB/
+Dev blogs on https://www.youtube.com/user/thelatestartosrs/videos
 
 To run the game you must:
 1. run "python scripts/main.py" (changed chunks to reduce loaded area if you dont want to way 2 hours, lumbridge is {18, 13})
