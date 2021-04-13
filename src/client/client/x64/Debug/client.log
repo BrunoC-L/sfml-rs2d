@@ -1,0 +1,53 @@
+﻿  bottomBanner.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\bottomBanner.h(2,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  camera.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(2,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  chat.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(2,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  chunk.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(2,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  gameDataService.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\abstractGameDataService.h(2,10): fatal error C1083: Cannot open include file: 'abstractService.h': No such file or directory
+  GameTickProgress.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\GameTickProgress.h(2,10): fatal error C1083: Cannot open include file: 'SFML/System.hpp': No such file or directory
+  groundObject.cpp
+  inventory.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(2,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  item.cpp
+  map.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(2,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  minimap.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\minimap.h(2,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  player.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(2,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  PlayerPositions.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\PlayerPositions.h(2,10): fatal error C1083: Cannot open include file: 'units.h': No such file or directory
+  rightBanner.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\rightBanner.h(2,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  rightClickInterface.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\rightClickInterface.h(2,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  sfRenderWindow.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\sfRenderWindow.h(2,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  socket.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(2,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  tile.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\tile.cpp(4,16): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\tile.cpp(4,13): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\tile.cpp(23,36): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\tile.cpp(23,21): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\event.h(34,1): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\event.h(33): message : while compiling class template member function 'void EventEmitter<RightClickTileEvent>::emit(T *)'
+          with
+          [
+              T=RightClickTileEvent
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\rightClickTileEvent.h(20): message : see reference to function template instantiation 'void EventEmitter<RightClickTileEvent>::emit(T *)' being compiled
+          with
+          [
+              T=RightClickTileEvent
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\rightClickTileEvent.h(20): message : see reference to class template instantiation 'EventEmitter<RightClickTileEvent>' being compiled
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\event.h(29,1): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\event.h(28): message : while compiling class template member function 'void EventEmitter<RightClickTileEvent>::unsubscribe(EventObserver<RightClickTileEvent> *)'
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\rightClickTileEvent.h(20): message : see reference to function template instantiation 'void EventEmitter<RightClickTileEvent>::unsubscribe(EventObserver<RightClickTileEvent> *)' being compiled
+  Generating Code...

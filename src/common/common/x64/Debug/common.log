@@ -1,0 +1,140 @@
+﻿  pch.cpp
+  common.cpp
+  json-parser.cpp
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\utility(208,1): warning C4267: 'initializing': conversion from 'size_t' to '_Ty2', possible loss of data
+          with
+          [
+              _Ty2=unsigned int
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\xmemory(670): message : see reference to function template instantiation 'std::pair<const std::string,unsigned int>::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64,0>(std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64> &&) noexcept' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\xmemory(671): message : see reference to function template instantiation 'std::pair<const std::string,unsigned int>::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64,0>(std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64> &&) noexcept' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\list(585): message : see reference to function template instantiation 'void std::_Default_allocator_traits<_Alloc>::construct<_Ty,std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64>>(_Alloc &,_Objty *const ,std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64> &&)' being compiled
+          with
+          [
+              _Alloc=std::allocator<std::_List_node<std::pair<const std::string,unsigned int>,std::_Default_allocator_traits<std::allocator<std::pair<const std::string,unsigned int>>>::void_pointer>>,
+              _Ty=std::pair<const std::string,unsigned int>,
+              _Objty=std::pair<const std::string,unsigned int>
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\list(587): message : see reference to function template instantiation 'void std::_Default_allocator_traits<_Alloc>::construct<_Ty,std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64>>(_Alloc &,_Objty *const ,std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64> &&)' being compiled
+          with
+          [
+              _Alloc=std::allocator<std::_List_node<std::pair<const std::string,unsigned int>,std::_Default_allocator_traits<std::allocator<std::pair<const std::string,unsigned int>>>::void_pointer>>,
+              _Ty=std::pair<const std::string,unsigned int>,
+              _Objty=std::pair<const std::string,unsigned int>
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\xhash(594): message : see reference to function template instantiation 'std::_List_node_emplace_op2<std::allocator<std::_List_node<_Ty,std::_Default_allocator_traits<_Alloc>::void_pointer>>>::_List_node_emplace_op2<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64>>(_Alnode &,std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64> &&)' being compiled
+          with
+          [
+              _Ty=std::pair<const std::string,unsigned int>,
+              _Alloc=std::allocator<std::pair<const std::string,unsigned int>>,
+              _Alnode=std::allocator<std::_List_node<std::pair<const std::string,unsigned int>,std::_Default_allocator_traits<std::allocator<std::pair<const std::string,unsigned int>>>::void_pointer>>
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\xhash(618): message : see reference to function template instantiation 'std::_List_node_emplace_op2<std::allocator<std::_List_node<_Ty,std::_Default_allocator_traits<_Alloc>::void_pointer>>>::_List_node_emplace_op2<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64>>(_Alnode &,std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64> &&)' being compiled
+          with
+          [
+              _Ty=std::pair<const std::string,unsigned int>,
+              _Alloc=std::allocator<std::pair<const std::string,unsigned int>>,
+              _Alnode=std::allocator<std::_List_node<std::pair<const std::string,unsigned int>,std::_Default_allocator_traits<std::allocator<std::pair<const std::string,unsigned int>>>::void_pointer>>
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\unordered_map(222): message : see reference to function template instantiation 'std::pair<std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>,bool> std::_Hash<std::_Umap_traits<_Kty,unsigned int,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,false>>::emplace<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64>>(std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64> &&)' being compiled
+          with
+          [
+              _Ty=std::pair<const std::string,unsigned int>,
+              _Kty=std::string,
+              _Hasher=std::hash<std::string>,
+              _Keyeq=std::equal_to<std::string>,
+              _Alloc=std::allocator<std::pair<const std::string,unsigned int>>
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\unordered_map(222): message : see reference to function template instantiation 'std::pair<std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>,bool> std::_Hash<std::_Umap_traits<_Kty,unsigned int,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,false>>::emplace<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64>>(std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64> &&)' being compiled
+          with
+          [
+              _Ty=std::pair<const std::string,unsigned int>,
+              _Kty=std::string,
+              _Hasher=std::hash<std::string>,
+              _Keyeq=std::equal_to<std::string>,
+              _Alloc=std::allocator<std::pair<const std::string,unsigned int>>
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json-parser.cpp(94): message : see reference to function template instantiation 'std::pair<std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>,bool> std::unordered_map<std::string,unsigned int,std::hash<std::string>,std::equal_to<std::string>,std::allocator<_Ty>>::insert<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64>,0>(_Valty &&)' being compiled
+          with
+          [
+              _Ty=std::pair<const std::string,unsigned int>,
+              _Valty=std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64>
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json-parser.cpp(94): message : see reference to function template instantiation 'std::pair<std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>,bool> std::unordered_map<std::string,unsigned int,std::hash<std::string>,std::equal_to<std::string>,std::allocator<_Ty>>::insert<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64>,0>(_Valty &&)' being compiled
+          with
+          [
+              _Ty=std::pair<const std::string,unsigned int>,
+              _Valty=std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64>
+          ]
+  json.cpp
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\utility(208,1): warning C4267: 'initializing': conversion from 'size_t' to '_Ty2', possible loss of data
+          with
+          [
+              _Ty2=unsigned int
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\xmemory(670): message : see reference to function template instantiation 'std::pair<const std::string,unsigned int>::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64,0>(std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64> &&) noexcept' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\xmemory(671): message : see reference to function template instantiation 'std::pair<const std::string,unsigned int>::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64,0>(std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64> &&) noexcept' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\list(585): message : see reference to function template instantiation 'void std::_Default_allocator_traits<_Alloc>::construct<_Ty,std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64>>(_Alloc &,_Objty *const ,std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64> &&)' being compiled
+          with
+          [
+              _Alloc=std::allocator<std::_List_node<std::pair<const std::string,unsigned int>,std::_Default_allocator_traits<std::allocator<std::pair<const std::string,unsigned int>>>::void_pointer>>,
+              _Ty=std::pair<const std::string,unsigned int>,
+              _Objty=std::pair<const std::string,unsigned int>
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\list(587): message : see reference to function template instantiation 'void std::_Default_allocator_traits<_Alloc>::construct<_Ty,std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64>>(_Alloc &,_Objty *const ,std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64> &&)' being compiled
+          with
+          [
+              _Alloc=std::allocator<std::_List_node<std::pair<const std::string,unsigned int>,std::_Default_allocator_traits<std::allocator<std::pair<const std::string,unsigned int>>>::void_pointer>>,
+              _Ty=std::pair<const std::string,unsigned int>,
+              _Objty=std::pair<const std::string,unsigned int>
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\xhash(594): message : see reference to function template instantiation 'std::_List_node_emplace_op2<std::allocator<std::_List_node<_Ty,std::_Default_allocator_traits<_Alloc>::void_pointer>>>::_List_node_emplace_op2<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64>>(_Alnode &,std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64> &&)' being compiled
+          with
+          [
+              _Ty=std::pair<const std::string,unsigned int>,
+              _Alloc=std::allocator<std::pair<const std::string,unsigned int>>,
+              _Alnode=std::allocator<std::_List_node<std::pair<const std::string,unsigned int>,std::_Default_allocator_traits<std::allocator<std::pair<const std::string,unsigned int>>>::void_pointer>>
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\xhash(618): message : see reference to function template instantiation 'std::_List_node_emplace_op2<std::allocator<std::_List_node<_Ty,std::_Default_allocator_traits<_Alloc>::void_pointer>>>::_List_node_emplace_op2<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64>>(_Alnode &,std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64> &&)' being compiled
+          with
+          [
+              _Ty=std::pair<const std::string,unsigned int>,
+              _Alloc=std::allocator<std::pair<const std::string,unsigned int>>,
+              _Alnode=std::allocator<std::_List_node<std::pair<const std::string,unsigned int>,std::_Default_allocator_traits<std::allocator<std::pair<const std::string,unsigned int>>>::void_pointer>>
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\unordered_map(222): message : see reference to function template instantiation 'std::pair<std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>,bool> std::_Hash<std::_Umap_traits<_Kty,unsigned int,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,false>>::emplace<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64>>(std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64> &&)' being compiled
+          with
+          [
+              _Ty=std::pair<const std::string,unsigned int>,
+              _Kty=std::string,
+              _Hasher=std::hash<std::string>,
+              _Keyeq=std::equal_to<std::string>,
+              _Alloc=std::allocator<std::pair<const std::string,unsigned int>>
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.26.28801\include\unordered_map(222): message : see reference to function template instantiation 'std::pair<std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>,bool> std::_Hash<std::_Umap_traits<_Kty,unsigned int,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,false>>::emplace<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64>>(std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64> &&)' being compiled
+          with
+          [
+              _Ty=std::pair<const std::string,unsigned int>,
+              _Kty=std::string,
+              _Hasher=std::hash<std::string>,
+              _Keyeq=std::equal_to<std::string>,
+              _Alloc=std::allocator<std::pair<const std::string,unsigned int>>
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(47): message : see reference to function template instantiation 'std::pair<std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>,bool> std::unordered_map<std::string,unsigned int,std::hash<std::string>,std::equal_to<std::string>,std::allocator<_Ty>>::insert<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64>,0>(_Valty &&)' being compiled
+          with
+          [
+              _Ty=std::pair<const std::string,unsigned int>,
+              _Valty=std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64>
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(47): message : see reference to function template instantiation 'std::pair<std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>,bool> std::unordered_map<std::string,unsigned int,std::hash<std::string>,std::equal_to<std::string>,std::allocator<_Ty>>::insert<std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64>,0>(_Valty &&)' being compiled
+          with
+          [
+              _Ty=std::pair<const std::string,unsigned int>,
+              _Valty=std::pair<std::basic_string<char,std::char_traits<char>,std::allocator<char>>,unsigned __int64>
+          ]
+  splitString.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\splitString.cpp(10,44): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  units.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\units.cpp(29,24): warning C4244: 'return': conversion from 'float' to 'size_t', possible loss of data
+  Generating Code...
+  common.vcxproj -> C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\x64\Debug\common.lib
