@@ -170,5 +170,8 @@
     <ClInclude Include="pathfinder.h">
       <Filter>Source Files\other\pathfind</Filter>
     </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

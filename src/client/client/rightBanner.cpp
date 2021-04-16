@@ -69,7 +69,7 @@ void RightBanner::click(MouseEvent* ev) {
         VPixel rotatedDelta = VPixel(cos(angle), sin(angle)) * radius;
         vpxFromMiddleOfMinimap = rotatedDelta;
 
-        VTile position = player->position + vpxFromMiddleOfMinimap / AbstractMeasures::pixelsPerTileOnMap;
+        VTile position = player->getPosition() + vpxFromMiddleOfMinimap / AbstractMeasures::pixelsPerTileOnMap;
         WalkClickEvent(position).emit();
     }
 }

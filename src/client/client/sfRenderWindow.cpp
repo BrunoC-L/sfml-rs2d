@@ -257,13 +257,8 @@ void SFRenderWindow::draw() {
 			}
 		map->mutex.unlock();
 
-		for (int i = 0; i < playerPositions.size(); ++i) {
-			auto& pair = playerPositions[i];
-			auto pos = pair.second;
-			if (pair.first == player->id)
-				player->position = pos;
-			draw(pos, 0, playerSprite);
-		}
+		for (int i = 0; i < playerPositions.size(); ++i)
+			draw(playerPositions[i].second, 0, playerSprite);
 
 		bottomBanner->draw();
 		rightBanner->draw();

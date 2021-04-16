@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{ddf2ac23-1cf3-45e6-acda-2cc638f9324a}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ConfigurationType>Application</ConfigurationType>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -55,6 +55,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\common\common\common.vcxproj">
       <Project>{1c7e8b8b-b052-4b7f-ac15-d687c038ba42}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\app\app.vcxproj">
+      <Project>{3ce24861-8a31-4a8e-b746-341c2dc677d8}</Project>
     </ProjectReference>
     <ProjectReference Include="..\client\client.vcxproj">
       <Project>{55864e91-a896-4ae6-b24e-61fdde19eceb}</Project>

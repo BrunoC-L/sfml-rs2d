@@ -39,7 +39,7 @@ TEST(app_runs_with_socket_mock_1, TestName) {
 
 	App app(&provider, &window, &socket, &measures, &map, &player, &camera, &chat, &inventory, &gameData);
 
-	EXPECT_EQ(app.player->position, VTile());
+	EXPECT_EQ(app.player->getPosition(), VTile());
 
 	bool hasStarted = false;
 
@@ -54,8 +54,6 @@ TEST(app_runs_with_socket_mock_1, TestName) {
 	);
 
 	while (!hasStarted);
-
-	std::this_thread::sleep_for(20ms);
 
 	app.stop();
 	t.join();
@@ -78,7 +76,7 @@ TEST(player_position_updates_when_server_emits_current, TestName) {
 
 	App app(&provider, &window, &socket, &measures, &map, &player, &camera, &chat, &inventory, &gameData);
 
-	EXPECT_EQ(app.player->position, VTile());
+	EXPECT_EQ(app.player->getPosition(), VTile());
 
 	bool hasStarted = false;
 
@@ -99,12 +97,12 @@ TEST(player_position_updates_when_server_emits_current, TestName) {
 	hello["type"] = "'login'";
 	hello["data"] = std::to_string(id);
 	socket.mockReceiveFromServer(hello);
-	EXPECT_EQ(player.id, id);
+	EXPECT_EQ(player.getID(), id);
 
 	auto _1172 = 18 * AbstractMeasures::TilesPerChunk + 20;
 	auto _869 = 13 * AbstractMeasures::TilesPerChunk + 37;
 	VTile lumbridge(_1172, _869, 0);
-	EXPECT_EQ(player.position, lumbridge);
+	EXPECT_EQ(player.getPosition(), lumbridge);
 
 	auto close = lumbridge + VTile(1, -1);
 
@@ -130,7 +128,7 @@ TEST(player_position_updates_when_server_emits_current, TestName) {
 
 	while (!frames);
 
-	EXPECT_EQ(player.position, close);
+	EXPECT_EQ(player.getPosition(), close);
 
 	app.stop();
 	t.join();

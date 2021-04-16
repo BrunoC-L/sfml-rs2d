@@ -44,6 +44,7 @@
     <ClInclude Include="chunk.h" />
     <ClInclude Include="db.h" />
     <ClInclude Include="json-socket-server.h" />
+    <ClInclude Include="main.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="movingPredicate.h" />
     <ClInclude Include="odbc.h" />
@@ -71,7 +72,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>

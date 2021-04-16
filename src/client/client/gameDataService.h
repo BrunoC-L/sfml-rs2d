@@ -7,12 +7,12 @@
 class GameDataService : public Service, public AbstractGameDataService {
 	bool loggedIn = false;
 	GameTickProgress* tracker;
-	PlayerPositions playerPositions;
+	std::unique_ptr<PlayerPositions> playerPositions;
 	void storePositions(JSON& json);
 public:
 	GameDataService(AbstractServiceProvider* provider, GameTickProgress* tracker);
 	virtual void init();
 
-	virtual bool userIsLoggedIn() override;
+	virtual const bool& userIsLoggedIn() override;
 	virtual std::vector<playerIdAndPosition> getPlayerPositions() override;
 };

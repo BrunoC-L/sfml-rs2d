@@ -15,7 +15,7 @@ Minimap::Minimap(AbstractServiceProvider* provider, AbstractRenderWindow* window
 }
 
 void Minimap::update() {
-    auto pos = player->position;
+    auto pos = player->getPosition();
     if (pos == lastPos)
         return;
     lastPos = pos;

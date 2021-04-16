@@ -31,8 +31,13 @@ public:
 				subscribers.erase(subscribers.begin() + index);
 	}
 	void emit(T* t) {
-		for (int index = subscribers.size() - 1; index >= 0; --index)
+		// if someone unsuscribes during his callback, the next subscriber won't get the notification (or if a callback unsubscribes another!)
+		for (int index = 0; index < subscribers.size(); ++index)
 			subscribers[index]->f(t);
+	}
+
+	void clear() {
+		subscribers = {};
 	}
 };
 
@@ -60,4 +65,8 @@ public:\
 	void emit() {\
 		getEmitter().emit(this);\
 	}\
+	static void clear() {\
+		getEmitter().clear();\
+	}\
 };\
+

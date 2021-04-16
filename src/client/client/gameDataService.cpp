@@ -4,17 +4,6 @@
 
 GameDataService::GameDataService(AbstractServiceProvider* provider, GameTickProgress* tracker) : Service(provider), tracker(tracker) {
     provider->set("GameData", this);
-
-    LoginEvent::subscribe(
-        new EventObserver<LoginEvent>(
-            [&](LoginEvent* ev) {
-                auto& data = ev->json;
-                int id = data.asInt();
-                player->id = id;
-                loggedIn = true;
-            }
-        )
-    );
 }
 
 void GameDataService::init() {
@@ -23,16 +12,30 @@ void GameDataService::init() {
         storePositions(json);
         tracker->onGameTick();
     });
+
+	LoginEvent::subscribe(
+		new EventObserver<LoginEvent>(
+			[&](LoginEvent* ev) {
+				loggedIn = true;
+				// Temporal link with the player subscription... maybe add a new event called when the player receives login
+				playerPositions = std::make_unique<PlayerPositions>(player->getID(), player->getPosition());
+			}
+			)
+	);
 }
 
-bool GameDataService::userIsLoggedIn() {
+const bool& GameDataService::userIsLoggedIn() {
     return loggedIn;
 }
 
 std::vector<playerIdAndPosition> GameDataService::getPlayerPositions() {
-    return playerPositions.getPlayerPositions(tracker->getTickFraction());
+	if (playerPositions == nullptr)
+		throw std::exception("Asking for positions before login");
+    return playerPositions->getPlayerPositions(tracker->getTickFraction());
 }
 
 void GameDataService::storePositions(JSON& json) {
-    playerPositions.update(json);
+	if (playerPositions == nullptr)
+		throw std::exception("Giving positions before login");
+    playerPositions->update(json);
 }

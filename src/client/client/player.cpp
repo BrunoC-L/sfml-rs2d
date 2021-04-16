@@ -4,15 +4,6 @@
 Player::Player(AbstractServiceProvider* provider): Service(provider) {
     provider->set("Player", this);
     position = VTile();
-    LoginEvent::subscribe(
-        new EventObserver<LoginEvent>(
-            [&](LoginEvent* ev) {
-                auto& data = ev->json;
-                int id = data.asInt();
-                player->id = id;
-            }
-        )
-    );
 }
 
 void Player::init() {
@@ -24,6 +15,32 @@ void Player::init() {
             walk(ev->pos);
         }
     ));
+
+	LoginEvent::subscribe(
+		new EventObserver<LoginEvent>(
+			[&](LoginEvent* ev) {
+				auto& data = ev->json;
+				int id = data.asInt();
+				setID(id);
+			}
+		)
+	);
+}
+
+void Player::setID(int id) {
+	this->id = id;
+}
+
+const int& Player::getID() {
+	return id;
+}
+
+void Player::setPosition(VTile position) {
+	this->position = position;
+}
+
+VTile& Player::getPosition() {
+	return position;
 }
 
 void Player::walk(VTile pos) {

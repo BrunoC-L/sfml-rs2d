@@ -4,6 +4,8 @@
 
 class AbstractPlayer : public AbstractService {
 public:
-    int id = 0;
-    VTile position;
+	virtual void setID(int id) = 0;
+	virtual const int& getID() = 0;
+	virtual void setPosition(VTile position) = 0;
+	virtual VTile& getPosition() = 0;
 };

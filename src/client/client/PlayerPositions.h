@@ -11,8 +11,10 @@ class PlayerPositions {
 	std::pair<std::unique_ptr<std::vector<playerIdAndPosition>>, std::unique_ptr<std::vector<playerIdAndPosition>>> data;
 	std::mutex mutex;
 	VTile weightedAverage(VTile v1, VTile v2, double weight);
+	int playerId;
+	VTile& playerPosition;
 public:
-	PlayerPositions();
+	PlayerPositions(int playerId, VTile& playerPosition);
 	std::vector<playerIdAndPosition> getPlayerPositions(double tickFraction);
 	void update(std::vector<playerIdAndPosition> newPositions);
 	void update(JSON& json);

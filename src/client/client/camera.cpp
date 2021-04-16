@@ -7,7 +7,7 @@ Camera::Camera(AbstractServiceProvider* provider) : Service(provider) {
 
 void Camera::init() {
 	acquire();
-	setPosition(&(player->position));
+	setPosition(&(player->getPosition()));
 }
 
 void Camera::setPosition(VTile* pos) {
