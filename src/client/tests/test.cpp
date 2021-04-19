@@ -61,7 +61,7 @@ TEST(app_runs_with_socket_mock_1, TestName) {
 	t.join();
 }
 
-TEST(player_position_updates_when_server_emits_current, TestName) {
+TEST(player_position_updates_when_server_emits, TestName) {
 	globalWindow->setActive(false);
 	AbstractServiceProvider& provider = AbstractServiceProvider();
 	SocketMock1& socket = SocketMock1(&provider);
