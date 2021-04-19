@@ -13,5 +13,5 @@ def texturer(cx, cy):
             for i in range(dim):
                 for j in range(dim):
                     pixout[dim * x + i, dim * y + j] = pixin[(dim * (64 * cx + x) + i) // 8, (dim * (64 * cy + y) + j) // 8]
-    output.save(f"../assets/textures/{cx}-{cy}-0.png")
+    output.save(f"../assets/textures/chunks/{cx}-{cy}-0.png")
     original.close()
