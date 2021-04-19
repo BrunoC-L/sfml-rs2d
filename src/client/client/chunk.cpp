@@ -59,7 +59,7 @@ string Chunk::getTilesetFileName() const {
 }
 
 string Chunk::getGroundTexturesetFileName() const {
-    return "../../../assets/textures/" +
+    return "../../../assets/textures/chunks/" +
         to_string((int)chunkpos.x) + "-" + to_string((int)chunkpos.y) + "-" + to_string((int)chunkpos.z) + ".png";
 }
 
