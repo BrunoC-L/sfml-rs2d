@@ -1,2 +1,0 @@
-C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\x64\Debug\common.pdb
-C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\x64\Debug\common.pdb

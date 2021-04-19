@@ -2,13 +2,14 @@
 #include <thread>
 
 #include "mouseWheelEvent.h"
-#include "../../common/common/event.h"
+#include "event.h"
 #include "VPixelToVTileConverter.h"
 #include "mouseLeftClickEvent.h"
 #include "mouseRightClickEvent.h"
 #include "mouseMoveEvent.h"
 #include "abstractServices.h"
-#include "../../common/common/abstractServiceProvider.h"
+#include "abstractServiceProvider.h"
+#include "clearevents.h"
 
 class App : public Service {
 public:
@@ -36,6 +37,8 @@ public:
         this->chat = chat;
         this->inventory = inventory;
         this->gameData = gameData;
+
+		clearAllEventSubscribers();
     }
 
     void init() {

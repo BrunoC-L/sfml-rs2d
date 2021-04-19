@@ -2,7 +2,11 @@ client/Debug/*
 client/client/Debug/*
 client/app/Debug/*
 client/tests/Debug/*
+
 server/Debug/*
 server/server/Debug/*
+server/app/Debug/*
+server/tests/Debug/*
+
 common/Debug/*
 common/common/Debug/*

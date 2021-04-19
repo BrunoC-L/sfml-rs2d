@@ -1,6 +1,6 @@
 #include "PlayerPositions.h"
 
-PlayerPositions::PlayerPositions() {
+PlayerPositions::PlayerPositions(int playerId, VTile& playerPosition) : playerId(playerId), playerPosition(playerPosition) {
 	data.first = std::make_unique<std::vector<playerIdAndPosition>>();
 	data.second = std::make_unique<std::vector<playerIdAndPosition>>();
 }
@@ -52,8 +52,10 @@ void PlayerPositions::update(JSON& json) {
 		auto x = pos["x"].asInt();
 		auto y = pos["y"].asInt();
 		auto id = pos["id"].asInt();
-		auto tile = VTile(x, y);
-		newPositions.push_back(playerIdAndPosition(id, tile));
+		auto pos = VTile(x, y);
+		newPositions.push_back(playerIdAndPosition(id, pos));
+		if (id == playerId)
+			playerPosition = pos;
 	}
 	update(newPositions);
 }

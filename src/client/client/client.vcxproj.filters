@@ -261,6 +261,9 @@
     <ClInclude Include="PlayerPositions.h">
       <Filter>Source Files\playerPositions</Filter>
     </ClInclude>
+    <ClInclude Include="clearevents.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="chunk.cpp">
@@ -322,6 +325,9 @@
     </ClCompile>
     <ClCompile Include="PlayerPositions.cpp">
       <Filter>Source Files\playerPositions</Filter>
+    </ClCompile>
+    <ClCompile Include="clearevents.cpp">
+      <Filter>Source Files\events</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
