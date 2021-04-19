@@ -18,7 +18,7 @@ void GameDataService::init() {
 			[&](LoginEvent* ev) {
 				loggedIn = true;
 				// Temporal link with the player subscription... maybe add a new event called when the player receives login
-				playerPositions = std::make_unique<PlayerPositions>(player->getID(), player->getPosition());
+				playerPositions = std::make_unique<PlayerPositions>(player);
 			}
 		)
 	);

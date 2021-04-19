@@ -219,7 +219,7 @@ void SFRenderWindow::draw() {
 	if (gameData->userIsLoggedIn()) {
 		update();
 		auto playerPositions = gameData->getPlayerPositions();
-		VTile pos = *camera->position;
+		const VTile pos = camera->getPosition();
 		VTile relativePos(
 			pos.x - map->centerChunk.x * AbstractMeasures::TilesPerChunk - measures->getInnerWindowSizeTile().x / 2,
 			pos.y - map->centerChunk.y * AbstractMeasures::TilesPerChunk - measures->getInnerWindowSizeTile().y / 2

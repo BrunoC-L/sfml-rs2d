@@ -1,6 +1,6 @@
 #include "PlayerPositions.h"
 
-PlayerPositions::PlayerPositions(int playerId, VTile& playerPosition) : playerId(playerId), playerPosition(playerPosition) {
+PlayerPositions::PlayerPositions(AbstractPlayer* player) : player(player), playerId(player->getID()) {
 	data.first = std::make_unique<std::vector<playerIdAndPosition>>();
 	data.second = std::make_unique<std::vector<playerIdAndPosition>>();
 }
@@ -30,6 +30,8 @@ std::vector<playerIdAndPosition> PlayerPositions::getPlayerPositions(double tick
 		}
 		else
 			++i; // old player, is not in most recent data, keep going
+		if (p2.first == playerId)
+			player->setPosition(result.back().second);
 	}
 	while (j < l2) {
 		auto& p2 = newpositions[i];
@@ -55,7 +57,7 @@ void PlayerPositions::update(JSON& json) {
 		auto pos = VTile(x, y);
 		newPositions.push_back(playerIdAndPosition(id, pos));
 		if (id == playerId)
-			playerPosition = pos;
+			player->setIntPosition(pos);
 	}
 	update(newPositions);
 }

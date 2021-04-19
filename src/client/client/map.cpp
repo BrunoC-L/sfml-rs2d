@@ -7,7 +7,7 @@ Map::Map(AbstractServiceProvider* provider) : Service(provider) {
 
 void Map::init() {
 	acquire();
-	VTile& pos = camera->getPosition();
+	const VTile& pos = camera->getPosition();
 	centerChunk = VChunk(int(pos.x / AbstractMeasures::TilesPerChunk), int(pos.y / AbstractMeasures::TilesPerChunk), int(pos.z));
 	chunkRadius = 1;
 	load();
@@ -27,7 +27,7 @@ void Map::load() {
 }
 
 void Map::update() {
-	VTile& pos = camera->getPosition();
+	const VTile& pos = camera->getPosition();
 	const VChunk newChunk(int(pos.x / AbstractMeasures::TilesPerChunk), int(pos.y / AbstractMeasures::TilesPerChunk), int(pos.z));
 	const VChunk difference = newChunk - centerChunk;
 	if (!difference.x && !difference.y && !difference.z)

@@ -4,9 +4,10 @@
 #include "service.h"
 
 class Camera : public AbstractCamera, public Service {
+	const VTile* position;
 public:
 	Camera(AbstractServiceProvider* provider);
 	void init();
-	virtual void setPosition(VTile* pos);
-	virtual VTile& getPosition();
+	virtual void setPosition(const VTile* pos);
+	virtual const VTile& getPosition();
 };

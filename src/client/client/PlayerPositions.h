@@ -1,7 +1,7 @@
 #pragma once
 #include "units.h"
 #include "json.h"
-#include <utility>
+#include "abstractPlayer.h"
 #include <vector>
 #include <mutex>
 
@@ -12,9 +12,9 @@ class PlayerPositions {
 	std::mutex mutex;
 	VTile weightedAverage(VTile v1, VTile v2, double weight);
 	int playerId;
-	VTile& playerPosition;
+	AbstractPlayer* player;
 public:
-	PlayerPositions(int playerId, VTile& playerPosition);
+	PlayerPositions(AbstractPlayer* player);
 	std::vector<playerIdAndPosition> getPlayerPositions(double tickFraction);
 	void update(std::vector<playerIdAndPosition> newPositions);
 	void update(JSON& json);

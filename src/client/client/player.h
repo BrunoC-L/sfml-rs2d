@@ -10,6 +10,7 @@ class Player : public AbstractPlayer, public Service {
 private:
 	int id = 0;
 	VTile position;
+	VTile intPosition;
     void walk(VTile pos);
 public:
     Player(AbstractServiceProvider* provider);
@@ -17,5 +18,7 @@ public:
 	virtual void setID(int id) ;
 	virtual const int& getID();
 	virtual void setPosition(VTile position);
-	virtual VTile& getPosition();
+	virtual void setIntPosition(VTile position);
+	virtual const VTile& getPosition();
+	virtual const VTile& getIntPosition();
 };

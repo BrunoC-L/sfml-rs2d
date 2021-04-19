@@ -36,11 +36,19 @@ const int& Player::getID() {
 }
 
 void Player::setPosition(VTile position) {
-	this->position = position;
+    this->position = position;
 }
 
-VTile& Player::getPosition() {
-	return position;
+void Player::setIntPosition(VTile position) {
+    this->intPosition = position;
+}
+
+const VTile& Player::getPosition() {
+    return position;
+}
+
+const VTile& Player::getIntPosition() {
+    return intPosition;
 }
 
 void Player::walk(VTile pos) {

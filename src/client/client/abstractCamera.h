@@ -4,7 +4,6 @@
 
 class AbstractCamera : public AbstractService {
 public:
-	VTile* position;
-	virtual void setPosition(VTile* pos) = 0;
-	virtual VTile& getPosition() = 0;
+	virtual void setPosition(const VTile* pos) = 0;
+	virtual const VTile& getPosition() = 0;
 };

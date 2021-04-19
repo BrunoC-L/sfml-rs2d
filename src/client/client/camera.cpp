@@ -10,10 +10,10 @@ void Camera::init() {
 	setPosition(&(player->getPosition()));
 }
 
-void Camera::setPosition(VTile* pos) {
+void Camera::setPosition(const VTile* pos) {
 	position = pos;
 }
 
-VTile& Camera::getPosition() {
+const VTile& Camera::getPosition() {
 	return *position;
 }
