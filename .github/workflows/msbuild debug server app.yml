@@ -1,4 +1,4 @@
-name: MSBuild debug client app.yml
+name: MSBuild debug server app.yml
 
 on: [push]
 
