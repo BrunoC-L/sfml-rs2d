@@ -6,11 +6,10 @@ Dev blogs on <https://www.youtube.com/user/thelatestartosrs/videos>
 
 To run the game you must: (please contact me if you need help, I will make a tutorial on how to setup everything!)
 
-1. run "python scripts/main.py" (changed chunks to reduce loaded area if you dont want to way 2 hours, lumbridge is {18, 13})
-2. Add an environment variable "ODBC_RS2D_HOME" pointing to a folder containing your DB connection string file, name that file "dbinfo.txt"
-3. run an sql server and create a database named "rs2d"
-4. run the server
-5. run client(s), enter only a username in the console and press enter to send info to the server, no login system currently, it will just lookup the username in DB (sql insert it yourself for now)
+1. Add an environment variable "ODBC_RS2D_HOME" pointing to a folder containing your DB connection string file, name that file "dbinfo.txt"
+2. run an sql server and create a database named "rs2d"
+3. run the server
+4. run client(s), enter only a username in the console and press enter to send info to the server, no login system currently, it will just lookup the username in DB (sql insert it yourself for now)
 
 If the info above is wrong, let me know!
 
