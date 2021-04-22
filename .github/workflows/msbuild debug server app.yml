@@ -39,4 +39,4 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
       # Add additional options to the MSBuild command line here (like platform or verbosity level).
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
-      run: D:\a\sfml-rs2d\sfml-rs2d\src\client\Debug\tests.exe
+      run: D:\a\sfml-rs2d\sfml-rs2d\src\server\Debug\tests.exe
