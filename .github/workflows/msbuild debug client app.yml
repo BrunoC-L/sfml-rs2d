@@ -13,11 +13,9 @@ env:
 jobs:
   build:
     runs-on: windows-latest
-
+    env:
+      SFML_RS2D_HOME : "D:/a/sfml-rs2d/sfml-rs2d/sfml for github actions"
     steps:
-    - name: Set env
-      env:
-        SFML_RS2D_HOME : "D:/a/sfml-rs2d/sfml-rs2d/sfml for github actions"
     - id: go to d drive
       run:
         (d:)
