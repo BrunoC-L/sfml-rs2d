@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "item.h"
 #include "abstractInventory.h"
-#include "../../common/common/abstractServiceProvider.h"
+#include "abstractServiceProvider.h"
 #include "abstractPlayer.h"
 
 class GameResourceObject : public GameObject {

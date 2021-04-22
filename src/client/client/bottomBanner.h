@@ -1,8 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "../../common/common/units.h"
+#include "units.h"
 #include "service.h"
-#include "../../common/common/abstractServiceProvider.h"
+#include "abstractServiceProvider.h"
 #include "abstractRenderWindow.h"
 using namespace std;
 

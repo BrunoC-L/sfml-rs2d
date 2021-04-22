@@ -1,6 +1,6 @@
 #pragma once
-#include "../../common/common/event.h"
-#include "../../common/common/units.h"
+#include "event.h"
+#include "units.h"
 #include "mouseEvent.h"
 using namespace std;
 
