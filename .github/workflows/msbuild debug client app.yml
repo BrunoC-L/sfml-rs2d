@@ -13,8 +13,6 @@ env:
 jobs:
   build:
     runs-on: windows-latest
-    env:
-      SFML_RS2D_HOME : "D:/a/sfml-rs2d/sfml-rs2d/SFML-2.5.1"
     steps:
     - uses: actions/checkout@v2
 
