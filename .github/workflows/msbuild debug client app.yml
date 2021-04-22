@@ -16,13 +16,13 @@ jobs:
     env:
       SFML_RS2D_HOME : "D:/a/sfml-rs2d/sfml-rs2d/sfml for github actions"
     steps:
-    - id: go to d drive
+    - id: go-to-d-drive
       run:
         (d:)
-    - id: go to sfml folder
+    - id: go-to-sfml-folder
       run:
         cd $SFML_RS2D_HOME
-    - id: print content
+    - id: print-content
       run:
         dir
         
