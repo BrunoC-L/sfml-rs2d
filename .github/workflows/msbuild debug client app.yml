@@ -19,7 +19,7 @@ jobs:
       env:
         SFML_RS2D_HOME : "D:/a/sfml-rs2d/sfml-rs2d/sfml for github actions"
       run:
-        echo $GITHUB_ENV
+        cd $GITHUB_ENV && dir
         
     - uses: actions/checkout@v2
 
