@@ -9,9 +9,9 @@ To run the game you must: (please contact me if you need help, I will make a tut
    - Add an environment variable "SFML_RS2D_HOME" pointing to your sfml folder, ex: C:\Users\Bruno\Desktop\prog\SFML-2.5.1-windows-vc15-32-bit\SFML-2.5.1
    - copy the SFML DLLs to the debug folder containing the .exe created when compiling (in visual studio, debug or build (F5/F6), it will crash because of missing DLLs and create the debug folder)
 3. Add an environment variable "ODBC_RS2D_HOME" pointing to a folder containing your DB connection string file, name that file "dbinfo.txt"
-4. run an sql server (first todo in short term is blocking, the tables are not created, but soon will be made by default on server start)
+4. run an sql server and create a database named "rs2d"
 6. run the server
-7. run client(s), enter only a username in the console and press enter to send info to the server, no login system currently, it will just lookup the username in DB
+7. run client(s), enter only a username in the console and press enter to send info to the server, no login system currently, it will just lookup the username in DB (sql insert it yourself for now)
 
 If the info above is wrong, let me know!
 
