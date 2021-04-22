@@ -1,5 +1,5 @@
 #include "chunk.h"
-#include "gameRessourceObject.h"
+#include "gameResourceObject.h"
 
 Chunk::Chunk(const VChunk& pos, AbstractServiceProvider* provider) : chunkpos(pos) {
     this->provider = provider;
@@ -35,7 +35,7 @@ Chunk::Chunk(const VChunk& pos, AbstractServiceProvider* provider) : chunkpos(po
         const auto callbacks      = split(parameters[7], "////");
 
         for (const auto& objStr : objects)
-            new GameRessourceObject(updateObjectTexture, gameObjects, objStr, provider);
+            new GameResourceObject(updateObjectTexture, gameObjects, objStr, provider);
 
         int absx = AbstractMeasures::TilesPerChunk * chunkpos.x + x;
         int absy = AbstractMeasures::TilesPerChunk * chunkpos.y + y;

@@ -1,6 +1,7 @@
 #include "socket.h"
 #include "login.h"
 #include "keyPressedEvent.h"
+#include "sha256.h"
 
 Socket::Socket(AbstractServiceProvider* provider) : Service(provider) {
 	provider->set("Socket", this);
@@ -65,6 +66,7 @@ void Socket::login() {
             [&](EnterKeyPressedEvent* ev) {
                 JSON logindata;
                 logindata["username"] = "'" + username + "'";
+                logindata["passwordHash"] = "'" + sha256("123") + "'";
                 std::cout << "Logging in as: " << username << '\n';
                 emit("login", logindata);
                 username = "";

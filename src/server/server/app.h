@@ -1,8 +1,8 @@
 #pragma once
 #include <thread>
 #include "json-socket-server.h"
-#include "../../common/common/json.h"
-#include "../../common/common/units.h"
+#include "json.h"
+#include "units.h"
 
 template <
     typename Map,

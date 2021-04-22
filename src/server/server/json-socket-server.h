@@ -1,6 +1,6 @@
 #pragma once
 #include "socket-server.h"
-#include "../../common/common/json.h"
+#include "json.h"
 
 struct QueueMessage {
 	sf::TcpSocket* socket;
@@ -10,8 +10,10 @@ struct QueueMessage {
 class JsonSocketServer {
 public:
 	SocketServer server;
-	std::unordered_map<std::string, std::vector<std::function<void(sf::TcpSocket*, JSON)>>> callbacks;
+	std::unordered_map<std::string, std::vector<std::function<void(sf::TcpSocket*, JSON&)>>> callbacks;
 	std::vector<QueueMessage> messageQueue;
+	std::mutex waiter;
+	std::condition_variable cv;
 	std::mutex queueMutex;
 	std::thread logicThread;
 	bool stopped = false;
@@ -26,7 +28,7 @@ public:
 		server(port, [&](sf::TcpSocket* socket, std::string msg) { queue(socket, msg); }, onConnect, onDisconnect), onError(onError)
 	{ }
 
-	void on(std::string msgType, std::function<void(sf::TcpSocket*, JSON)> callback) {
+	void on(std::string msgType, std::function<void(sf::TcpSocket*, JSON&)> callback) {
 		callbacks[msgType].push_back(callback);
 	}
 
@@ -34,6 +36,7 @@ public:
 		queueMutex.lock();
 		messageQueue.push_back({ socket, msg });
 		queueMutex.unlock();
+		cv.notify_one();
 	}
 
 	void receive(QueueMessage qm) {
@@ -59,8 +62,9 @@ public:
 		logicThread = std::thread(
 			[&]() {
 				while (!stopped) {
-					if (messageQueue.size() == 0)
-						continue;
+					std::unique_lock<std::mutex> lock(waiter);
+					cv.wait(lock, [&]() { return messageQueue.size() != 0; });
+					lock.unlock();
 					queueMutex.lock();
 					auto msg = messageQueue[0];
 					messageQueue.erase(messageQueue.begin());

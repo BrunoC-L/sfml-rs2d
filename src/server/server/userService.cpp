@@ -8,10 +8,10 @@ void UserService::init() {
 	acquire();
 
     auto onLogin = [&](std::shared_ptr<User> user, JSON json) {
-        std::string username = json["username"].asString();
+        auto packet = LoginPacket(json);
         dbService->queryPlayerByUsernameEquals(
-            username,
-            [&, user, username](QueryResult qr) {
+            packet.username,
+            [&, user, packet](QueryResult qr) {
                 if (qr.size() == 0)
                     throw std::exception("User does not exist");
                 auto userData = qr[0];
@@ -19,7 +19,7 @@ void UserService::init() {
                 std::string ign = userData["username"].asString();
                 int posx = userData["posx"].asInt();
                 int posy = userData["posy"].asInt();
-                *user = User(id, username, VTile(posx, posy));
+                *user = User(id, packet.username, VTile(posx, posy));
                 JSON data = "'" + std::to_string(id) + "'";
                 server->send(user, "login", data);
                 users.push_back(user);

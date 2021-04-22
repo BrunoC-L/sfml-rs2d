@@ -82,7 +82,10 @@ public:
         communicationThread = std::thread(
             [&]() {
                 while (!stopped) {
-                    selector.wait(sf::seconds(1));
+                    if (sockets.size() == 0)
+                        std::this_thread::sleep_for(std::chrono::seconds(1));
+                    if (!selector.wait(sf::seconds(1))) // does not wait 1 second when there are no sockets
+                        continue;
                     for (int i = 0; i < sockets.size(); ++i) {
                         auto& socket = sockets[i];
                         if (!selector.isReady(*socket->socket))

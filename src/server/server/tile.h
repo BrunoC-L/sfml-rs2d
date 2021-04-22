@@ -3,7 +3,7 @@
 #include <vector>
 #include <functional>
 
-#include "../../common/common/units.h"
+#include "units.h"
 //#include "NPC.h"
 //#include "groundItem.h"
 //#include "GameObject.h"

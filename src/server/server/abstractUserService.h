@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <functional>
-#include "../../common/common/abstractService.h"
+#include "abstractService.h"
 #include "user.h"
 
 class AbstractUserService : public AbstractService {

@@ -1,5 +1,6 @@
 #include "db.h"
 #include "odbc.h"
+#include "queryBuilder.h"
 
 DB::DB(AbstractServiceProvider* provider) : Service(provider) {
 	provider->set("DB", this);
@@ -35,7 +36,7 @@ void DB::connect() {
 	fclose(pFile);
 	dbthread = std::thread(
 		[&]() {
-			db(pwszConnStr, queries, mutex, &connected);
+			db(pwszConnStr, queryLock, queries, waiter, cv, &connected);
 		}
 	);
 	while (!connected);
@@ -43,14 +44,6 @@ void DB::connect() {
 
 bool DB::isEmpty() {
 	return syncQuery("select name from sysobjects where xtype = 'U';", false).size() == 0;
-}
-
-void DB::sanitizeArgumentAlphaNumericSpace(std::string& arg) {
-	for (auto& c : arg) {
-		if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == ' '))
-			continue;
-		c = ' ';
-	}
 }
 
 void DB::createDB() {
@@ -74,7 +67,10 @@ void DB::updateVersion(std::string version) {
 }
 
 void DB::query(std::string s, std::function<void(QueryResult)> f) {
+	queryLock.lock();
 	queries.push_back(std::make_pair(s, f));
+	queryLock.unlock();
+	cv.notify_one();
 }
 
 QueryResult DB::syncQuery(std::string s, bool warn) {
@@ -91,7 +87,6 @@ QueryResult DB::syncQuery(std::string s, bool warn) {
 }
 
 void DB::queryPlayerByUsernameEquals(std::string username, std::function<void(QueryResult)> f) {
-	sanitizeArgumentAlphaNumericSpace(username);
 	std::string s = "select * from Player where username = '" + username + "'\n";
 	query(s, f);
 }

@@ -1,6 +1,14 @@
 #include "odbc.h"
+#include <condition_variable>
 
-int db(WCHAR* connectionString, std::vector<Query>& queries, std::mutex& mutex, bool* connected) {
+int db(
+    WCHAR* connectionString,
+    std::mutex& queryLock,
+    std::vector<Query>& queries,
+    std::mutex& waiter,
+    std::condition_variable& cv,
+    bool* connected
+) {
     SQLHENV     hEnv = NULL;
     SQLHDBC     hDbc = NULL;
     SQLHSTMT    hStmt = NULL;
@@ -48,12 +56,14 @@ int db(WCHAR* connectionString, std::vector<Query>& queries, std::mutex& mutex, 
     // Loop to get input and execute queries
 
     while (true) {
-        if (queries.size() == 0)
-            continue;
-        mutex.lock();
-        Query query = queries[0];
+        Query query;
+        std::unique_lock<std::mutex> lock(waiter);
+        cv.wait(lock, [&]() { return queries.size() != 0; });
+        lock.unlock();
+        queryLock.lock();
+        query = queries[0];
         queries.erase(queries.begin());
-        mutex.unlock();
+        queryLock.unlock();
         RETCODE     RetCode;
         SQLSMALLINT sNumResults;
 

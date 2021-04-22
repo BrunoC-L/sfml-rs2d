@@ -1,11 +1,11 @@
 #pragma once
 #include "tile.h"
-#include "../../common/common/units.h"
-#include "../../common/common/splitString.h"
+#include "units.h"
+#include "splitString.h"
 #include <unordered_map>
 #include <fstream>
 // #include "GameObject.h"
-#include "../../common/common/abstractServiceProvider.h"
+#include "abstractServiceProvider.h"
 
 class Chunk {
 public:

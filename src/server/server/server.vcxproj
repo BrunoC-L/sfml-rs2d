@@ -22,8 +22,8 @@
     <ClCompile Include="chunk.cpp" />
     <ClCompile Include="db.cpp" />
     <ClCompile Include="map.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="odbc.cpp" />
+    <ClCompile Include="packets.cpp" />
     <ClCompile Include="playerActionService.cpp" />
     <ClCompile Include="playerWalkAction.cpp" />
     <ClCompile Include="service.h" />
@@ -42,16 +42,19 @@
     <ClInclude Include="abstractUserService.h" />
     <ClInclude Include="app.h" />
     <ClInclude Include="chunk.h" />
+    <ClInclude Include="costLogger.h" />
     <ClInclude Include="db.h" />
     <ClInclude Include="json-socket-server.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="movingPredicate.h" />
     <ClInclude Include="odbc.h" />
+    <ClInclude Include="packets.h" />
     <ClInclude Include="pathfinder.h" />
     <ClInclude Include="playerAction.h" />
     <ClInclude Include="playerActionService.h" />
     <ClInclude Include="playerWalkAction.h" />
+    <ClInclude Include="queryBuilder.h" />
     <ClInclude Include="socket-server.h" />
     <ClInclude Include="socketServer.h" />
     <ClInclude Include="tile.h" />
@@ -133,7 +136,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SFML_RS2D_HOME)\include;..\common\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SFML_RS2D_HOME)\include;..\..\common\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,6 +144,7 @@
       <AdditionalLibraryDirectories>$(SFML_RS2D_HOME)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-network-d.lib;sfml-system-d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Lib />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

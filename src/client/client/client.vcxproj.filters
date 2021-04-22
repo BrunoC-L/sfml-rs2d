@@ -153,9 +153,6 @@
     <ClInclude Include="sfRenderWindow.h">
       <Filter>Source Files\UI\renderWindow</Filter>
     </ClInclude>
-    <ClInclude Include="gameRessourceObject.h">
-      <Filter>Source Files\gameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Source Files\gameObjects</Filter>
     </ClInclude>
@@ -264,6 +261,9 @@
     <ClInclude Include="clearevents.h">
       <Filter>Source Files\events</Filter>
     </ClInclude>
+    <ClInclude Include="gameResourceObject.h">
+      <Filter>Source Files\gameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="chunk.cpp">
@@ -292,9 +292,6 @@
     </ClCompile>
     <ClCompile Include="sfRenderWindow.cpp">
       <Filter>Source Files\UI\renderWindow</Filter>
-    </ClCompile>
-    <ClCompile Include="gameRessourceObject.cpp">
-      <Filter>Source Files\gameObjects</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files\gameObjects</Filter>
@@ -328,6 +325,9 @@
     </ClCompile>
     <ClCompile Include="clearevents.cpp">
       <Filter>Source Files\events</Filter>
+    </ClCompile>
+    <ClCompile Include="gameResourceObject.cpp">
+      <Filter>Source Files\gameObjects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

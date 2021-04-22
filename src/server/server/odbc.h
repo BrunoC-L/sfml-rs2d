@@ -10,7 +10,7 @@
 #include <vector>
 #include <mutex>
 #include <functional>
-#include "../../common/common/json.h"
+#include "json.h"
 
 #define TRYODBC(h, ht, x)   {   RETCODE rc = x;\
                                 if (rc != SQL_SUCCESS) \
@@ -56,4 +56,11 @@ using Query = std::pair<std::string, std::function<void(QueryResult)>>;
 QueryResult getResults(HSTMT       hStmt,
     SQLSMALLINT cCols);
 
-int db(WCHAR* connectionString, std::vector<Query>& queries, std::mutex& mutex, bool* connected);
+int db(
+    WCHAR* connectionString,
+    std::mutex& queryLock,
+    std::vector<Query>& queries,
+    std::mutex& waiter,
+    std::condition_variable& cv,
+    bool* connected
+);

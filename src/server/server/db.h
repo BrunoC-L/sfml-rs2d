@@ -4,8 +4,12 @@
 #include <mutex>
 
 class DB : public Service, public AbstractDB {
-	std::mutex mutex;
+	std::mutex queryLock;
 	std::vector<Query> queries;
+
+	std::mutex waiter;
+	std::condition_variable cv;
+
 	std::thread dbthread;
 	bool connected = false;
 	void createDB();
@@ -13,7 +17,6 @@ class DB : public Service, public AbstractDB {
 	void updateVersion(std::string version);
 	void connect();
 	bool isEmpty();
-	void sanitizeArgumentAlphaNumericSpace(std::string& arg);
 public:
 	DB(AbstractServiceProvider* provider);
 	virtual void init();

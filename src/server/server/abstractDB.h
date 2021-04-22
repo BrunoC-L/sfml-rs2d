@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
 #include <functional>
-#include "../../common/common/json.h"
-#include "../../common/common/abstractService.h"
+#include "json.h"
+#include "abstractService.h"
 
 using QueryResult = std::vector<JSON>;
 using Query = std::pair<std::string, std::function<void(QueryResult)>>;

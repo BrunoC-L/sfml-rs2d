@@ -1,6 +1,7 @@
 #include "playerActionService.h"
 #include "pathfinder.h"
 #include <memory>
+#include "costLogger.h"
 
 PlayerActionService::PlayerActionService(AbstractServiceProvider* provider) : Service(provider) {
 	provider->set("PlayerAction", this);
@@ -9,17 +10,17 @@ PlayerActionService::PlayerActionService(AbstractServiceProvider* provider) : Se
 void PlayerActionService::init() {
     acquire();
 
-    auto onWalk = [&](std::shared_ptr<User> user, JSON data) {
+    auto onWalk = [&](std::shared_ptr<User> user, JSON& data) {
         auto p1 = user->position;
-        int x2 = data["x"].asInt();
-        int y2 = data["y"].asInt();
-        paths[user] = Pathfinder::pathfind(VTile(p1.x, p1.y), { VTile(x2, y2) }, false, map);
+        auto packet = WalkPacket(data);
+        paths[user] = Pathfinder::pathfind(VTile(p1.x, p1.y), { VTile(packet.x, packet.y) }, false, map);
     };
 
     server->on("walk", onWalk, true);
 }
 
 void PlayerActionService::onGameTick() {
+    //CostLogger cl("onGameTick.txt");
     sendPlayerPositions();
     sendGameTick();
 }

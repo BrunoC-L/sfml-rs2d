@@ -61,11 +61,11 @@
     <Filter Include="Source Files\events">
       <UniqueIdentifier>{e1626e18-a119-45ad-8dc0-14c67168fff9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\playerAction\playerClickResourceAction">
+      <UniqueIdentifier>{d9a729f3-4899-41df-b2e0-1c025f1ec43e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="map.cpp">
       <Filter>Source Files\services\map</Filter>
     </ClCompile>
@@ -98,6 +98,9 @@
     </ClCompile>
     <ClCompile Include="playerWalkAction.cpp">
       <Filter>Source Files\playerAction\playerWalkAction</Filter>
+    </ClCompile>
+    <ClCompile Include="packets.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +174,15 @@
       <Filter>Source Files\other\pathfind</Filter>
     </ClInclude>
     <ClInclude Include="main.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="queryBuilder.h">
+      <Filter>Source Files\services\db</Filter>
+    </ClInclude>
+    <ClInclude Include="costLogger.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="packets.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

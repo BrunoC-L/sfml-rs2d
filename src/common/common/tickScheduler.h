@@ -1,5 +1,6 @@
 #pragma once
 #include <mutex>
+#include <chrono>
 
 class TickScheduler {
 public:
@@ -7,17 +8,19 @@ public:
 };
 
 class ClockTickScheduler : public TickScheduler {
-	unsigned tickTime;
+	int tickTime;
 	sf::Clock clock;
 public:
-	ClockTickScheduler() : tickTime(0) {
+	ClockTickScheduler() : tickTime(600) {
 		clock.restart();
 	}
 
 	bool shouldTick() {
-		if (clock.getElapsedTime().asMilliseconds() < tickTime)
-			return false;
-		tickTime += 600;
+		auto tms = clock.getElapsedTime().asMilliseconds();
+		auto tsleep = tickTime - tms;
+		if (tsleep > 0)
+			std::this_thread::sleep_for(std::chrono::milliseconds(tsleep));
+		clock.restart();
 		return true;
 	}
 };
@@ -29,10 +32,6 @@ public:
 
 	bool shouldTick() {
 		return shouldtick ^ (shouldtick = false);
-		//if (!shouldtick)
-		//	return false;
-		//shouldtick = false;
-		//return true;
 	}
 };
 
