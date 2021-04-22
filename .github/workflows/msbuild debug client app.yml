@@ -16,7 +16,7 @@ jobs:
 
     steps:
     - name: Set env
-      run: echo "SFML_RS2D_HOME=\"./sfml for github actions/\"" >> $GITHUB_ENV
+      run: set "SFML=./sfml for github actions/" && echo "SFML_RS2D_HOME=%SFML%" >> $GITHUB_ENV
       
     - uses: actions/checkout@v2
 
