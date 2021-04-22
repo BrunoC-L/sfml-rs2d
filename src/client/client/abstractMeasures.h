@@ -4,8 +4,6 @@
 
 using namespace std;
 
-enum MouseClickType { Left, Right, Middle };
-
 class AbstractMeasures : public AbstractService {
 public:
 	virtual VTile getInnerWindowSizeTile() const = 0;
