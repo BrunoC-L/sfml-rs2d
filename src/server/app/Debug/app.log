@@ -1,3 +1,0 @@
-﻿  main.cpp
-C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\socket-server.h(89,39): warning C4018: '<': signed/unsigned mismatch
-  app.vcxproj -> C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\Debug\app.exe
