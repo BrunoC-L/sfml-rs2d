@@ -23,5 +23,6 @@ public:
 	virtual void query(std::string, std::function<void(QueryResult)> = [](QueryResult) {});
 	virtual QueryResult syncQuery(std::string s, bool warn = true);
 	virtual void queryPlayerByUsernameEquals(std::string username, std::function<void(QueryResult)>);
+	virtual void queryLoginDataByUserId(int id, std::function<void(QueryResult)> f) override;
 	std::string version = "1";
 };

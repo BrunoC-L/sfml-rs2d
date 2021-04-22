@@ -10,4 +10,7 @@ public:
 	virtual void setIntPosition(VTile position) = 0;
 	virtual const VTile& getPosition() = 0;
 	virtual const VTile& getIntPosition() = 0;
+	virtual std::pair<std::string, std::string> getCredentials() const = 0;
+	virtual void setSalts(std::string tempsalt, std::string permsalt) = 0;
+	virtual void login() = 0;
 };

@@ -38,7 +38,7 @@
 #include <cstring>
 #include <fstream>
 #include "sha256.h"
-
+#include <ctime>
 const unsigned int SHA256::sha256_k[64] = //UL = uint32
 { 0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5,
  0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
@@ -166,4 +166,13 @@ std::string sha256(std::string input)
     for (int i = 0; i < SHA256::DIGEST_SIZE; i++)
         sprintf_s(buf + i * 2, 2 * (SHA256::DIGEST_SIZE - i) + 1, "%02x", digest[i]);
     return std::string(buf);
+}
+
+std::string randomString256() {
+    std::string str;
+    srand((unsigned)time(NULL));
+    str.reserve(256);
+    for (int i = 0; i < 256; ++i)
+        str += char(1 + (int)((double)rand() / ((double)RAND_MAX + 1) * 255));
+    return str;
 }

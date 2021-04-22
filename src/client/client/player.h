@@ -6,12 +6,21 @@
 
 using namespace std;
 
+struct LoginData {
+	std::string username;
+	std::string password;
+	std::string tempsalt;
+	std::string permsalt;
+	bool typingUsername = true;
+};
+
 class Player : public AbstractPlayer, public Service {
 private:
 	int id = 0;
 	VTile position;
 	VTile intPosition;
     void walk(VTile pos);
+	LoginData loginData;
 public:
     Player(AbstractServiceProvider* provider);
     void init();
@@ -21,4 +30,7 @@ public:
 	virtual void setIntPosition(VTile position);
 	virtual const VTile& getPosition();
 	virtual const VTile& getIntPosition();
+	virtual std::pair<std::string, std::string> getCredentials() const override;
+	virtual void setSalts(std::string tempsalt, std::string permsalt) override;
+	virtual void login() override;
 };
