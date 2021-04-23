@@ -103,6 +103,7 @@ TEST(player_position_updates_when_server_emits, TestName) {
 	auto _869 = 13 * AbstractMeasures::TilesPerChunk + 37;
 	VTile lumbridge(_1172, _869, 0);
 	EXPECT_EQ(player.getPosition(), lumbridge);
+	EXPECT_EQ(player.getIntPosition(), lumbridge);
 
 	auto close = lumbridge + VTile(1, -1);
 
@@ -127,8 +128,9 @@ TEST(player_position_updates_when_server_emits, TestName) {
 	);
 
 	while (!frames);
-
-	EXPECT_EQ(player.getPosition(), close);
+	VTile playerIntPos = player.getIntPosition();
+	bool eq = playerIntPos == close;
+	EXPECT_EQ(playerIntPos, close);
 
 	app.stop();
 	t.join();

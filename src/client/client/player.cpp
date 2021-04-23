@@ -12,6 +12,7 @@ void Player::init() {
     acquire();
     VTile lumbridge(18 * AbstractMeasures::TilesPerChunk + 20, 13 * AbstractMeasures::TilesPerChunk + 37, 0);
     position = lumbridge;
+    intPosition = lumbridge;
     WalkClickEvent::subscribe(new EventObserver<WalkClickEvent>(
         [&](WalkClickEvent* ev) {
             walk(ev->pos);
