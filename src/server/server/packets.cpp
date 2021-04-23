@@ -18,5 +18,14 @@ WalkPacket::WalkPacket(JSON& data) {
 
 LoginPacket::LoginPacket(JSON& data) {
 	username = sanitizeString(data["username"].asString());
+	passwordHashWithBothSalts = sanitizeString(data["passwordHash"].asString());
+}
+
+SignUpPacket::SignUpPacket(JSON& data) {
+	username = sanitizeString(data["username"].asString());
 	passwordHash = sanitizeString(data["passwordHash"].asString());
+}
+
+SaltsRequestPacket::SaltsRequestPacket(JSON& data) {
+	username = sanitizeString(data["username"].asString());
 }

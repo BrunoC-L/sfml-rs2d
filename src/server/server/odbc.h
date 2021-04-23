@@ -42,7 +42,7 @@ void AllocateBindings(HSTMT         hStmt,
     BINDING** ppBinding,
     SQLSMALLINT* pDisplay);
 
-#define DISPLAY_MAX 50          // Arbitrary limit on column width to display
+#define DISPLAY_MAX 10000          // Arbitrary limit on column width to display
 #define DISPLAY_FORMAT_EXTRA 3  // Per column extra display bytes (| <data> )
 #define DISPLAY_FORMAT      L"%c %*.*s "
 #define DISPLAY_FORMAT_C    L"%c %-*.*s "

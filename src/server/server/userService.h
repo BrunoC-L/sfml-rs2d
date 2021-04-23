@@ -4,6 +4,8 @@
 #include <unordered_map>
 
 class UserService : public AbstractUserService, public Service {
+private:
+	std::map<std::shared_ptr<User>, std::string> tempSaltByUser;
 public:
 	UserService(AbstractServiceProvider* provider);
 	virtual void init();

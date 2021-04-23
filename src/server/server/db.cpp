@@ -47,9 +47,11 @@ bool DB::isEmpty() {
 }
 
 void DB::createDB() {
-	query("create table player(id int not null identity, name varchar(25) not null, username varchar(25) not null unique, password varchar(25) not null, posx int not null, posy int not null, primary key (id));");
 	query("create table version(version varchar(25) not null);");
 	query("insert into version values('1');");
+
+	query("create table player(id int not null identity, username varchar(25) not null unique, posx int default 1172, posy int default 869, primary key (id));");
+	query("create table logindata(id int not null, salt varchar(64) not null, hash varchar(64) not null, primary key(id), foreign key(id) references player(id));");
 }
 
 void DB::checkVersion() {
@@ -88,5 +90,10 @@ QueryResult DB::syncQuery(std::string s, bool warn) {
 
 void DB::queryPlayerByUsernameEquals(std::string username, std::function<void(QueryResult)> f) {
 	std::string s = "select * from Player where username = '" + username + "'\n";
+	query(s, f);
+}
+
+void DB::queryLoginDataByUserId(int id, std::function<void(QueryResult)> f) {
+	std::string s = "select * from LoginData where id = '" + std::to_string(id) + "'\n";
 	query(s, f);
 }

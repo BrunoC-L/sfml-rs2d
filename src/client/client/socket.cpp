@@ -1,7 +1,6 @@
 #include "socket.h"
 #include "login.h"
 #include "keyPressedEvent.h"
-#include "sha256.h"
 
 Socket::Socket(AbstractServiceProvider* provider) : Service(provider) {
 	provider->set("Socket", this);
@@ -48,7 +47,7 @@ void Socket::receive(std::string type, JSON& data) {
 void Socket::emit(std::string type, JSON& data) {
     JSON json;
     json["type"] = "'" + type + "'";
-    json["data"] = data.asString();
+    json["data"] = data;
     send(json);
 }
 
@@ -61,40 +60,16 @@ void Socket::on(std::string type, std::function<void(JSON&)> callback) {
 }
 
 void Socket::login() {
-    EnterKeyPressedEvent::subscribe(
-        new EventObserver<EnterKeyPressedEvent>(
-            [&](EnterKeyPressedEvent* ev) {
-                JSON logindata;
-                logindata["username"] = "'" + username + "'";
-                logindata["passwordHash"] = "'" + sha256("123") + "'";
-                std::cout << "Logging in as: " << username << '\n';
-                emit("login", logindata);
-                username = "";
-            }
-        )
-    );
-
-    BackspaceKeyPressedEvent::subscribe(
-        new EventObserver<BackspaceKeyPressedEvent>(
-            [&](BackspaceKeyPressedEvent* ev) {
-                username = username.substr(0, username.length() - 1);
-                std::cout << username << '\n';
-            }
-        )
-    );
-
-    LetterKeyPressedEvent::subscribe(
-        new EventObserver<LetterKeyPressedEvent>(
-            [&](LetterKeyPressedEvent* ev) {
-                username += ev->letter;
-                std::cout << username << '\n';
-            }
-        )
-    );
-
     on("login",
         [&](JSON& data) {
             LoginEvent(data).emit();
+        }
+    );
+
+    on("salts",
+        [&](JSON& data) {
+            player->setSalts(data["tempsalt"].asString(), data["permsalt"].asString());
+            player->login();
         }
     );
 }

@@ -44,7 +44,32 @@ void SFRenderWindow::init() {
 				t->onLeftClick(*ev);
 		}
 		else {
-
+			auto abs = ev->pos / measures->stretch;
+			auto newUserButton = std::make_pair(std::make_pair<int>(407, 659), std::make_pair<int>(495, 565));
+			bool clickedOnNewUser =
+				abs.x > newUserButton.first.first &&
+				abs.x < newUserButton.first.second &&
+				abs.y > newUserButton.second.first &&
+				abs.y < newUserButton.second.second;
+			if (clickedOnNewUser) {
+				player->signUp();
+				return;
+			}
+			auto existingUserButton = std::make_pair(std::make_pair<int>(690, 942), std::make_pair<int>(495, 565));
+			bool clickedOnExistingUser =
+				abs.x > existingUserButton.first.first &&
+				abs.x < existingUserButton.first.second&&
+				abs.y > existingUserButton.second.first &&
+				abs.y < existingUserButton.second.second;
+			if (clickedOnExistingUser) {
+				JSON json;
+				json["type"] = "'salts request'";
+				json["data"] = JSON();
+				auto username = player->getUserNamePw().first;
+				json["data"]["username"] = "'" + username + "'";
+				socket->send(json);
+				return;
+			}
 		}
 	}));
 
@@ -184,13 +209,21 @@ void SFRenderWindow::events() {
 				case 59:
 					BackspaceKeyPressedEvent().emit();
 					break;
+				case 60:
+					TabKeyPressedEvent().emit();
+					break;
 				default:
-					// this is trash
 					int code = event.text.unicode;
-					if (code < 26)
+					bool isLetter = code < 26;
+					if (isLetter) {
 						LetterKeyPressedEvent(char(97 + code), false).emit();
-					else if (code < 36)
+						break;
+					}
+					bool isNumber = code < 36;
+					if (isNumber) {
 						LetterKeyPressedEvent(char(22 + code), false).emit();
+						break;
+					}
 			}
 		else if (event.type == sf::Event::MouseButtonPressed) {
 			switch (event.mouseButton.button) {
@@ -266,6 +299,16 @@ void SFRenderWindow::draw() {
 	}
 	else {
 		window.draw(loginPage);
+
+		sf::Font font;
+		font.loadFromFile("../../../assets/runescape_uf.ttf");
+		auto credentials = player->getUserNamePw();
+		sf::Text username(credentials.first + "\n" + credentials.second, font);
+		const auto scale = measures->stretch;
+		sf::Transform transform;
+		transform.translate(500, 400);
+		transform.scale(sf::Vector2f(1 / scale.x, 1 / scale.y));
+		draw(username, transform);
 	}
 	display();
 }
