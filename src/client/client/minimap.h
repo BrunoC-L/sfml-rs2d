@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "../../common/common/units.h"
-#include "../../common/common/abstractServiceProvider.h"
+#include "units.h"
+#include "abstractServiceProvider.h"
 #include "abstractServices.h"
 #include "service.h"
 #include "abstractRenderWindow.h"

@@ -1,6 +1,6 @@
 #pragma once
 #include <functional>
-#include "../../common/common/abstractService.h"
+#include "abstractService.h"
 
 class AbstractPlayer : public AbstractService {
 public:

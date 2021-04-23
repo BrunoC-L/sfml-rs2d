@@ -1,7 +1,7 @@
 #pragma once
-#include "../../common/common/event.h"
+#include "event.h"
 
-#include "../../common/common/units.h"
+#include "units.h"
 #include <functional>
 using namespace std;
 

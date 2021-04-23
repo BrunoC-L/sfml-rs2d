@@ -1,6 +1,6 @@
 #pragma once
-#include "../../common/common/abstractService.h"
-#include "../../common/common/units.h"
+#include "abstractService.h"
+#include "units.h"
 #include <vector>
 #include "chunk.h"
 using namespace std;

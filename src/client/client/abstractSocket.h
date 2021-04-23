@@ -1,6 +1,6 @@
 #pragma once
-#include "../../common/common/abstractService.h"
-#include "../../common/common/json.h"
+#include "abstractService.h"
+#include "json.h"
 #include <functional>
 
 using namespace std;

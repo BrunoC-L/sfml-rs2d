@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "../../common/common/units.h"
+#include "units.h"
 #include "abstractRenderWindow.h"
 
 class TileMap {
