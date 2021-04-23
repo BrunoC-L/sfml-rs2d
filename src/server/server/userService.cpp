@@ -29,7 +29,7 @@ void UserService::init() {
                 auto userData = qr[0];
                 int id = userData["id"].asInt();
 
-                dbService->queryLoginDataByUserId(id, [&, user, userData, packet, tempsalt](QueryResult qr) mutable {
+                dbService->queryLoginDataByUserId(id, [&, id, user, userData, packet, tempsalt](QueryResult qr) mutable {
                     if (qr.size() == 0)
                         throw std::exception("Found user matching username but missing LoginData entry in DB");
                     auto userHash = packet.passwordHashWithBothSalts;

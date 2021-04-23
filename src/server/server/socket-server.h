@@ -94,8 +94,9 @@ public:
                             continue;
                         selectorMutex.lock();
                         onDisconnect(socket->socket);
-                        delete socket->socket;
                         sockets.erase(sockets.begin() + i);
+                        selector.remove(*socket->socket);
+                        delete socket->socket;
                         selectorMutex.unlock();
                     }
                 }
