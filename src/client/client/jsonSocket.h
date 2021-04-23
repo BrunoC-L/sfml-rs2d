@@ -20,6 +20,7 @@ public:
 	void disconnect() {
 		socket->disconnect();
 		delete socket;
+		socket = nullptr;
 	}
 
 	void send(std::string str) {

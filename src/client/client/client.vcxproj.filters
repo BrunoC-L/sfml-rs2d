@@ -94,6 +94,9 @@
     <Filter Include="Source Files\playerPositions">
       <UniqueIdentifier>{d82b137e-50fe-4c9b-a6ae-0731e280d323}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\services\socket\socketState">
+      <UniqueIdentifier>{1de0d19a-0ba3-4b7a-9fcb-f0242cc7fec5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="app.h">
@@ -264,6 +267,15 @@
     <ClInclude Include="gameResourceObject.h">
       <Filter>Source Files\gameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="disconnectedState.h">
+      <Filter>Source Files\services\socket\socketState</Filter>
+    </ClInclude>
+    <ClInclude Include="socketState.h">
+      <Filter>Source Files\services\socket\socketState</Filter>
+    </ClInclude>
+    <ClInclude Include="connectedState.h">
+      <Filter>Source Files\services\socket\socketState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="chunk.cpp">
@@ -328,6 +340,12 @@
     </ClCompile>
     <ClCompile Include="gameResourceObject.cpp">
       <Filter>Source Files\gameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="disconnectedState.cpp">
+      <Filter>Source Files\services\socket\socketState</Filter>
+    </ClCompile>
+    <ClCompile Include="connectedState.cpp">
+      <Filter>Source Files\services\socket\socketState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

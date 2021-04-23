@@ -7,7 +7,7 @@
 TEST(app_builds, TestName) {
 	globalWindow->setActive(false);
 	AbstractServiceProvider& provider = AbstractServiceProvider();
-	AbstractSocket& socket = Socket(&provider);
+	AbstractSocket& socket = Socket(&provider, "1", 1);
 	AbstractMeasures& measures = Measures(&provider);
 	AbstractChat& chat = Chat(&provider);
 	AbstractCamera& camera = Camera(&provider);

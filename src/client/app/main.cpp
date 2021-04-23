@@ -3,7 +3,7 @@
 
 int main() {
 	AbstractServiceProvider* provider = new AbstractServiceProvider();
-	AbstractSocket* socket = new Socket(provider);
+	AbstractSocket* socket = new Socket(provider, "127.0.0.1", 38838);
 	AbstractMeasures* measures = new Measures(provider);
 	AbstractChat* chat = new Chat(provider);
 	AbstractCamera* camera = new Camera(provider);

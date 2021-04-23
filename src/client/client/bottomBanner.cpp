@@ -13,3 +13,12 @@ void BottomBanner::draw() const {
         sf::RenderStates().transform.scale(sf::Vector2f(1, 1 / scale.y)).translate(0, window->getSize().y - AbstractMeasures::startingScreenSize().y)
     );
 }
+
+void BottomBanner::click(MouseEvent* ev) {
+    socket->disconnect();
+}
+
+bool BottomBanner::mouseIsInRect(MouseEvent* ev) {
+    int pxFromBottomBorder = window->getSize().y - ev->pos.y;
+    return pxFromBottomBorder <= AbstractMeasures::bottomBannerHeight;
+}

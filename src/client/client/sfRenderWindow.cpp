@@ -38,6 +38,11 @@ void SFRenderWindow::init() {
 				rightBanner->click(ev);
 				return;
 			}
+			bool clickedOnBottomBanner = bottomBanner->mouseIsInRect(ev);
+			if (clickedOnBottomBanner) {
+				bottomBanner->click(ev);
+				return;
+			}
 			VTile tileClicked = converter.getPositionInGame(ev->pos);
 			Tile* t = map->getTileFromVTile(tileClicked);
 			if (t)

@@ -1,42 +1,29 @@
 #include "socket.h"
 #include "login.h"
 #include "keyPressedEvent.h"
+#include "disconnectedState.h"
+#include "connectedState.h"
 
-Socket::Socket(AbstractServiceProvider* provider) : Service(provider) {
+Socket::Socket(AbstractServiceProvider* provider, std::string ip, int port) : Service(provider), ip(ip), port(port) {
 	provider->set("Socket", this);
+    state = std::make_shared<DisconnectedSocketState>(this);
 }
 
 void Socket::init() {
 	acquire();
-    connect("127.0.0.1", 38838);
-	listener = std::thread(
-		[&]() {
-            login();
-            std::string buffer = "";
-            while (true) {
-                char data[1024] = { 0 };
-                std::size_t received;
-                sf::Socket::Status status;
-                status = socket.socket->receive(data, 1024, received);
-                if (status == sf::Socket::Status::Disconnected)
-                     throw std::exception();
-                if (!status == sf::Socket::Status::Done)
-                    throw std::exception();
 
-                buffer += std::string(data).substr(0, received);
-                int index = 0;
+    on("login",
+        [&](JSON& data) {
+            LoginEvent(data).emit();
+        }
+    );
 
-                while ((index = buffer.find(messageEnd)) != -1) {
-                    std::string str(buffer.substr(0, index));
-                    try {
-                        JSON json(str);
-                        receive(json["type"].asString(), json["data"]);
-                    } catch (...) { }
-                    buffer = buffer.substr(index + messageEnd.length());
-                }
-            }
-		}
-	);
+    on("salts",
+        [&](JSON& data) {
+            player->setSalts(data["tempsalt"].asString(), data["permsalt"].asString());
+            player->login();
+        }
+    );
 }
 
 void Socket::receive(std::string type, JSON& data) {
@@ -52,32 +39,60 @@ void Socket::emit(std::string type, JSON& data) {
 }
 
 void Socket::send(JSON& json) {
-	socket.send(json.asString() + messageEnd);
+    send(json.asString());
 }
 
 void Socket::on(std::string type, std::function<void(JSON&)> callback) {
 	callbacks[type].push_back(callback);
 }
 
-void Socket::login() {
-    on("login",
-        [&](JSON& data) {
-            LoginEvent(data).emit();
-        }
-    );
-
-    on("salts",
-        [&](JSON& data) {
-            player->setSalts(data["tempsalt"].asString(), data["permsalt"].asString());
-            player->login();
-        }
-    );
-}
-
-void Socket::connect(std::string ip, unsigned port) {
+void Socket::connect() {
+    state = std::make_shared<ConnectedSocketState>(this);
     socket.connect(ip, port);
+    listener = std::thread(
+        [&]() {
+            std::string buffer = "";
+            while (state->connected()) {
+                char data[1024] = { 0 };
+                std::size_t received;
+                sf::Socket::Status status = socket.socket->receive(data, 1024, received);
+                if (status != sf::Socket::Status::Done) {
+                    disconnect();
+                    return;
+                }
+
+                buffer += std::string(data).substr(0, received);
+                int index = 0;
+
+                while ((index = buffer.find(messageEnd)) != -1) {
+                    std::string str(buffer.substr(0, index));
+                    try {
+                        JSON json(str);
+                        receive(json["type"].asString(), json["data"]);
+                    }
+                    catch (...) {
+                        std::cout << "Failed to create JSON from server message\n";
+                    }
+                    buffer = buffer.substr(index + messageEnd.length());
+                }
+            }
+        }
+    );
 }
 
 void Socket::disconnect() {
+    if (!state->connected())
+        return;
+    state = make_shared<DisconnectedSocketState>(this);
     socket.disconnect();
+    listener.join();
+    LogoutEvent().emit();
+}
+
+void Socket::send(std::string str) {
+    state->send(str);
+}
+
+void Socket::sendNoCheck(std::string str) {
+    socket.send(str + messageEnd);
 }

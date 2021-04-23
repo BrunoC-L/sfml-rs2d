@@ -161,6 +161,8 @@
     <ClInclude Include="chunk.h" />
     <ClInclude Include="clearevents.h" />
     <ClInclude Include="color.h" />
+    <ClInclude Include="connectedState.h" />
+    <ClInclude Include="disconnectedState.h" />
     <ClInclude Include="frameEvent.h" />
     <ClInclude Include="gameDataService.h" />
     <ClInclude Include="GameObject.h" />
@@ -194,6 +196,7 @@
     <ClInclude Include="service.h" />
     <ClInclude Include="sfRenderWindow.h" />
     <ClInclude Include="socket.h" />
+    <ClInclude Include="socketState.h" />
     <ClInclude Include="teleportEvent.h" />
     <ClInclude Include="tile.h" />
     <ClInclude Include="Tilemap.h" />
@@ -206,6 +209,8 @@
     <ClCompile Include="chat.cpp" />
     <ClCompile Include="chunk.cpp" />
     <ClCompile Include="clearevents.cpp" />
+    <ClCompile Include="connectedState.cpp" />
+    <ClCompile Include="disconnectedState.cpp" />
     <ClCompile Include="gameDataService.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="gameResourceObject.cpp" />

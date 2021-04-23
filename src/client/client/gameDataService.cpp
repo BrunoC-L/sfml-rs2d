@@ -22,6 +22,15 @@ void GameDataService::init() {
 				// the other solution is for the gamedataservice to own the player
 				playerPositions = std::make_unique<PlayerPositions>(player);
 			}
+			)
+	);
+
+	LogoutEvent::subscribe(
+		new EventObserver<LogoutEvent>(
+			[&](LogoutEvent* ev) {
+				loggedIn = false;
+				playerPositions.reset();
+			}
 		)
 	);
 }
