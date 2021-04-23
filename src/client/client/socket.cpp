@@ -47,7 +47,7 @@ void Socket::receive(std::string type, JSON& data) {
 void Socket::emit(std::string type, JSON& data) {
     JSON json;
     json["type"] = "'" + type + "'";
-    json["data"] = data.asString();
+    json["data"] = data;
     send(json);
 }
 

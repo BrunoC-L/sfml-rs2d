@@ -18,22 +18,6 @@ void Player::init() {
         }
     ));
 
-    EnterKeyPressedEvent::subscribe(
-        new EventObserver<EnterKeyPressedEvent>(
-            [&](EnterKeyPressedEvent* ev) {
-                if (loginData.typingUsername)
-                    TabKeyPressedEvent().emit();
-                else {
-                    JSON json;
-                    json["type"] = "'salts request'";
-                    json["data"] = JSON();
-                    json["data"]["username"] = "'" + loginData.username + "'";
-                    socket->send(json);
-                }
-            }
-        )
-    );
-
 	LoginEvent::subscribe(
 		new EventObserver<LoginEvent>(
 			[&](LoginEvent* ev) {
@@ -100,7 +84,16 @@ const VTile& Player::getIntPosition() {
 }
 
 std::pair<std::string, std::string> Player::getCredentials() const {
-    return { loginData.username, sha256(loginData.tempsalt + sha256(loginData.permsalt + sha256(loginData.password))) };
+    return { loginData.username, picosha2::hash256_hex_string(loginData.tempsalt + picosha2::hash256_hex_string(loginData.permsalt + picosha2::hash256_hex_string(loginData.password))) };
+}
+
+std::pair<std::string, std::string> Player::getUserNamePw() const {
+    std::string hiddenPassword = "";
+    auto len = loginData.password.length();
+    hiddenPassword.reserve(len);
+    for (int i = 0; i < len; ++i)
+        hiddenPassword += "*";
+    return {loginData.username, hiddenPassword};
 }
 
 void Player::setSalts(std::string tempsalt, std::string permsalt) {
@@ -114,6 +107,15 @@ void Player::login() {
     json["username"] = "'" + credentials.first + "'";
     json["passwordHash"] = "'" + credentials.second; +"'";
     socket->emit("login", json);
+    loginData.password = "";
+    loginData.username = "";
+}
+
+void Player::signUp() {
+    JSON json;
+    json["username"] = "'" + loginData.username + "'";
+    json["passwordHash"] = "'" + picosha2::hash256_hex_string(loginData.password) +"'";
+    socket->emit("sign up", json);
     loginData.password = "";
     loginData.username = "";
 }

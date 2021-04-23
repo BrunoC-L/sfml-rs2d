@@ -51,7 +51,7 @@ void DB::createDB() {
 	query("insert into version values('1');");
 
 	query("create table player(id int not null identity, username varchar(25) not null unique, posx int default 1172, posy int default 869, primary key (id));");
-	query("create table logindata(id int not null, salt varchar(256) not null, hash varchar(256) not null, primary key(id), foreign key(id) references player(id));");
+	query("create table logindata(id int not null, salt varchar(64) not null, hash varchar(64) not null, primary key(id), foreign key(id) references player(id));");
 }
 
 void DB::checkVersion() {

@@ -5,6 +5,16 @@ UserService::UserService(AbstractServiceProvider* provider) : Service(provider) 
 	provider->set("User", this);
 }
 
+std::string randomString64() {
+    std::string str;
+    srand((unsigned)time(NULL));
+    char chars[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+    str.reserve(64);
+    for (int i = 0; i < 64; ++i)
+        str += chars[(int)((double)rand() / ((double)RAND_MAX + 1) * 16)];
+    return str;
+}
+
 void UserService::init() {
 	acquire();
 
@@ -23,10 +33,9 @@ void UserService::init() {
                     if (qr.size() == 0)
                         throw std::exception("Found user matching username but missing LoginData entry in DB");
                     auto userHash = packet.passwordHashWithBothSalts;
-                    auto expectedHash = sha256(tempsalt + qr[0]["hash"].asString());
+                    auto expectedHash = picosha2::hash256_hex_string(tempsalt + qr[0]["hash"].asString());
                     if (userHash != expectedHash)
                         return; // silent fail, terrible for the client, will do later
-                    // throw std::exception("wrong password");
 
                     std::string ign = userData["username"].asString();
                     int posx = userData["posx"].asInt();
@@ -43,17 +52,17 @@ void UserService::init() {
 
     auto onSignUp = [&](std::shared_ptr<User> user, JSON& json) {
         auto packet = SignUpPacket(json);
-        auto permSalt = randomString256();
-        auto pwHashWithPermSalt = sha256(permSalt + packet.passwordHash);
-        dbService->query("select id from player where username = " + packet.username, [&](QueryResult qr) {
+        auto permSalt = randomString64();
+        auto pwHashWithPermSalt = picosha2::hash256_hex_string(permSalt + packet.passwordHash);
+        dbService->query("select id from player where username = '" + packet.username + "';", [&, packet, permSalt, pwHashWithPermSalt](QueryResult qr) {
             if (qr.size() != 0)
                 return; // account already exists!
             dbService->query("insert into player (username) values ('" + packet.username + "');");
-            dbService->query("select id from player where username = " + packet.username, [&, permSalt, pwHashWithPermSalt](QueryResult qr) {
+            dbService->query("select id from player where username = '" + packet.username + "';", [&, permSalt, pwHashWithPermSalt](QueryResult qr) {
                 if (qr.size() == 0)
                     throw std::exception("Just created user but missing in DB");
                 auto id = qr[0]["id"].asString();
-                dbService->query("insert into logindata values(" + id + ", " + permSalt + ", " + pwHashWithPermSalt + ");");
+                dbService->query("insert into logindata values(" + id + ", '" + permSalt + "', '" + pwHashWithPermSalt + "');");
             });
         });
     };
@@ -61,16 +70,17 @@ void UserService::init() {
 
     auto onSaltsRequest = [&](std::shared_ptr<User> user, JSON& json) {
         auto packet = SaltsRequestPacket(json);
-        dbService->query("declare @id int set @id = (select id from player where username = '" + packet.username + "'); select * from logindata where id = @id", [&](QueryResult qr) {
+        dbService->query("declare @id int set @id = (select id from player where username = '" + packet.username + "'); select * from logindata where id = @id", [&, user](QueryResult qr) {
             if (qr.size() == 0)
                 return; // no user matches
             auto permSalt = qr[0]["salt"].asString();
-            auto tempSalt = randomString256();
+            auto tempSalt = randomString64();
             JSON json;
             json["type"] = "'salts'";
             json["data"] = JSON();
             json["data"]["permsalt"] = permSalt;
             json["data"]["tempsalt"] = tempSalt;
+            tempSaltByUser[user] = tempSalt;
             server->send(user, json);
         });
     };
