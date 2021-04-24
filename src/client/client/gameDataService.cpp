@@ -11,7 +11,7 @@ void GameDataService::init() {
     socket->on("positions", [&](JSON& json) {
         storePositions(json);
         tracker->onGameTick();
-		std::cout << "GameTick " << tracker->getTick() << std::endl;
+		//std::cout << "GameTick " << tracker->getTick() << std::endl;
     });
 
 	LoginEvent::subscribe(

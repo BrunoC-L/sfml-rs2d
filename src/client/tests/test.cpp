@@ -39,8 +39,6 @@ TEST(app_runs_with_socket_mock_1, TestName) {
 
 	App app(&provider, &window, &socket, &measures, &map, &player, &camera, &chat, &inventory, &gameData);
 
-	EXPECT_EQ(app.player->getPosition(), VTile());
-
 	bool hasStarted = false;
 
 	std::thread t(
@@ -75,8 +73,6 @@ TEST(player_position_updates_when_server_emits, TestName) {
 	AbstractRenderWindow& window = SFRenderWindow(&provider, *globalWindow);
 
 	App app(&provider, &window, &socket, &measures, &map, &player, &camera, &chat, &inventory, &gameData);
-
-	EXPECT_EQ(app.player->getPosition(), VTile());
 
 	bool hasStarted = false;
 
