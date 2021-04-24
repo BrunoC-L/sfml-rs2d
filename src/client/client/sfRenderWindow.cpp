@@ -4,7 +4,7 @@
 #include "frameEvent.h"
 
 SFRenderWindow::SFRenderWindow(
-	AbstractServiceProvider* provider,
+	ServiceProvider* provider,
 	sf::RenderWindow& window
 ) : Service(provider),
 	converter(provider),

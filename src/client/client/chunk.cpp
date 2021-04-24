@@ -1,7 +1,7 @@
 #include "chunk.h"
 #include "gameResourceObject.h"
 
-Chunk::Chunk(const VChunk& pos, AbstractServiceProvider* provider) : chunkpos(pos) {
+Chunk::Chunk(const VChunk& pos, ServiceProvider* provider) : chunkpos(pos) {
     this->provider = provider;
     int* walls = new int[AbstractMeasures::TilesPerChunk * AbstractMeasures::TilesPerChunk];
     int* level = new int[AbstractMeasures::TilesPerChunk * AbstractMeasures::TilesPerChunk];

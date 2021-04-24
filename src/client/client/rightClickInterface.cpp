@@ -1,7 +1,7 @@
 #include "rightClickInterface.h"
 #include "abstractRenderWindow.h"
 
-RightClickInterface::RightClickInterface(AbstractServiceProvider* provider, AbstractRenderWindow* window) : Service(provider), window(window) {
+RightClickInterface::RightClickInterface(ServiceProvider* provider, AbstractRenderWindow* window) : Service(provider), window(window) {
     acquire();
     active = false;
     AbstractMeasures& measures = *(AbstractMeasures*)nullptr;

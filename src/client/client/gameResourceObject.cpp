@@ -4,7 +4,7 @@ GameResourceObject::GameResourceObject(
 	function<void(VTile, int)> updateObjectTexture,
 	unordered_map<VTile, vector<GameObject*>,
 	VTileHash>& gameObjects, string objectData,
-	AbstractServiceProvider* provider
+	ServiceProvider* provider
 ) : GameObject(id, updateObjectTexture) {
 	this->provider = provider;
 	vector<string> parts = split(objectData, "///");

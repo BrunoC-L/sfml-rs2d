@@ -7,7 +7,7 @@
 
 class Inventory : public AbstractInventory, public Service {
 public:
-	Inventory(AbstractServiceProvider* provider) : Service(provider) {
+	Inventory(ServiceProvider* provider) : Service(provider) {
 		provider->set("Inventory", this);
 		size = 28;
 		_space = size;

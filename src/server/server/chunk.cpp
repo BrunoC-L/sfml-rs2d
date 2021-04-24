@@ -1,6 +1,6 @@
 #include "chunk.h"
 
-Chunk::Chunk(const VChunk& pos, AbstractServiceProvider* provider) : chunkpos(pos) {
+Chunk::Chunk(const VChunk& pos, ServiceProvider* provider) : chunkpos(pos) {
     this->provider = provider;
     int* walls = new int[Chunk::TilesPerChunk * Chunk::TilesPerChunk];
     int* level = new int[Chunk::TilesPerChunk * Chunk::TilesPerChunk];

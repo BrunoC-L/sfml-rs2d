@@ -18,7 +18,7 @@ class DB : public Service, public AbstractDB {
 	void connect();
 	bool isEmpty();
 public:
-	DB(AbstractServiceProvider* provider);
+	DB(ServiceProvider* provider);
 	virtual void init();
 	virtual void query(std::string, std::function<void(QueryResult)> = [](QueryResult) {});
 	virtual QueryResult syncQuery(std::string s, bool warn = true);

@@ -6,7 +6,7 @@
 class Map : public AbstractMap, public Service {
 	vector<Chunk*> chunks;
 public:
-	Map(AbstractServiceProvider* provider);
+	Map(ServiceProvider* provider);
 	virtual void init();
 	virtual void load();
 	virtual Chunk* getChunk(VChunk v);

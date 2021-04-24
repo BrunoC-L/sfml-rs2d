@@ -7,7 +7,7 @@
 class PlayerActionService : public AbstractPlayerActionService, public Service {
 	std::unordered_map<std::shared_ptr<User>, std::vector<VTile>> paths;
 public:
-	PlayerActionService(AbstractServiceProvider* provider);
+	PlayerActionService(ServiceProvider* provider);
 	virtual void onGameTick();
 	virtual void init();
 	void sendPlayerPositions();

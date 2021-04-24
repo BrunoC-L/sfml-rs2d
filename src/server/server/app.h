@@ -3,27 +3,28 @@
 #include "json-socket-server.h"
 #include "json.h"
 #include "units.h"
+#include "abstractServices.h"
+#include "tickScheduler.h"
 
-template <
-    typename Map,
-    typename DB,
-    typename UserService,
-    typename PlayerActionService,
-    typename SocketServerService,
-    typename TickScheduler
->
-class App : public AbstractServiceProvider, private Service {
+class App : public ServiceProvider, private Service {
     std::thread gameTicks;
+    TickScheduler* scheduler;
 public:
-    App(unsigned port) : Service(this) {
-        dbService = new DB(this);
-        map = new Map(this);
-        userService = new UserService(this);
-        playerActionService = new PlayerActionService(this);
-        server = new SocketServerService(this, 38838);
+    App(
+        ServiceProvider* provider,
+        AbstractSocketServer* server,
+        AbstractDB* dbService,
+        AbstractMap* map,
+        AbstractPlayerActionService* playerActionService,
+        AbstractUserService* userService,
+        TickScheduler* scheduler
+    ) : Service(provider), scheduler(scheduler) {
+
+        // clearAllEventSubscribers();
     }
 
     void init() {
+        acquire();
         dbService->init();
         map->init();
         userService->init();
@@ -40,9 +41,8 @@ public:
         bool stop = false;
         gameTicks = std::thread(
             [&]() {
-                TickScheduler tickScheduler;
                 while (!stop) {
-                    if (tickScheduler.shouldTick())
+                    if (scheduler->shouldTick())
                         playerActionService->onGameTick();
                 }
             }

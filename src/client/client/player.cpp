@@ -3,7 +3,7 @@
 #include "keyPressedEvent.h"
 #include "sha256.h"
 
-Player::Player(AbstractServiceProvider* provider): Service(provider) {
+Player::Player(ServiceProvider* provider): Service(provider) {
     provider->set("Player", this);
     position = VTile();
 }

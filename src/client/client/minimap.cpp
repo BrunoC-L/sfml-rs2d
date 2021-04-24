@@ -3,7 +3,7 @@
 #include "abstractPlayer.h"
 #include "abstractRenderWindow.h"
 
-Minimap::Minimap(AbstractServiceProvider* provider, AbstractRenderWindow* window) : Service(provider), window(window) {
+Minimap::Minimap(ServiceProvider* provider, AbstractRenderWindow* window) : Service(provider), window(window) {
     acquire();
     shape = sf::CircleShape(AbstractMeasures::minimapRadius);
     shape.setPosition(measures->getRightBannerStartingX() + (AbstractMeasures::banners().x - 2 * AbstractMeasures::minimapRadius / measures->stretch.x) / 2, 0);

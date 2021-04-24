@@ -1,6 +1,6 @@
 #include "socketServer.h"
 
-SocketServerService::SocketServerService(AbstractServiceProvider* provider, unsigned port) : Service(provider) {
+SocketServerService::SocketServerService(ServiceProvider* provider, unsigned port) : Service(provider) {
     provider->set("Server", this);
     auto onError = [&](std::exception& e, QueueMessage qm) {
         std::cout << e.what() << std::endl;

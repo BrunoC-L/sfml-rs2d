@@ -2,7 +2,7 @@
 #include "odbc.h"
 #include "queryBuilder.h"
 
-DB::DB(AbstractServiceProvider* provider) : Service(provider) {
+DB::DB(ServiceProvider* provider) : Service(provider) {
 	provider->set("DB", this);
 }
 

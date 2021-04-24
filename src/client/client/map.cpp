@@ -1,7 +1,7 @@
 #include "map.h"
 #include <iostream>
 
-Map::Map(AbstractServiceProvider* provider) : Service(provider) {
+Map::Map(ServiceProvider* provider) : Service(provider) {
 	provider->set("Map", this);
 };
 

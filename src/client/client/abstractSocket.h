@@ -13,6 +13,6 @@ public:
 	virtual void on(std::string type, std::function<void(JSON&)>) = 0;
 	virtual void emit(std::string, JSON&) = 0;
 	virtual void receive(std::string, JSON&) = 0;
-	virtual void connect() = 0;
+	virtual bool connect() = 0;
 	virtual void disconnect() = 0;
 };

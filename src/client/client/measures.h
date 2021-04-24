@@ -7,7 +7,7 @@ using namespace std;
 
 class Measures : public AbstractMeasures, public Service {
 public:
-	Measures(AbstractServiceProvider* provider) : Service(provider) {
+	Measures(ServiceProvider* provider) : Service(provider) {
 		provider->set("Measures", this);
 	}
 	void init() {

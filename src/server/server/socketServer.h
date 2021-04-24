@@ -8,7 +8,7 @@ class SocketServerService : public AbstractSocketServer, public Service {
 	std::unordered_map<sf::TcpSocket*, std::shared_ptr<User>> socketToUser;
 	std::unordered_map<std::shared_ptr<User>, sf::TcpSocket*> userToSocket;
 public:
-	SocketServerService(AbstractServiceProvider* provider, unsigned port);
+	SocketServerService(ServiceProvider* provider, unsigned port);
 	virtual void on(std::string msgType, std::function<void(std::shared_ptr<User>, JSON&)> callback, bool loggedInRequired);
 	virtual void send(std::shared_ptr<User> user, JSON& msg);
 	virtual void send(std::shared_ptr<User> user, std::string type, JSON& data);

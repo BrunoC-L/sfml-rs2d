@@ -16,7 +16,7 @@ public:
 	sf::RenderWindow& window;
 	sf::RectangleShape loginPage;
 	sf::Texture loginTexture = sf::Texture();
-	SFRenderWindow(AbstractServiceProvider* provider, sf::RenderWindow& window);
+	SFRenderWindow(ServiceProvider* provider, sf::RenderWindow& window);
 	void init();
 	virtual void draw(sf::VertexArray v, sf::RenderStates s);
 	virtual void draw(const sf::Shape* s, sf::Transform t);

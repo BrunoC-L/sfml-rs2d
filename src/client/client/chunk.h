@@ -8,11 +8,11 @@
 #include "GameObject.h"
 #include "abstractMeasures.h"
 #include "abstractRenderWindow.h"
-#include "abstractServiceProvider.h"
+#include "serviceProvider.h"
 
 class Chunk {
 public:
-	Chunk(const VChunk& pos, AbstractServiceProvider* provider);
+	Chunk(const VChunk& pos, ServiceProvider* provider);
 	~Chunk();
 	vector<vector<Tile*>> tiles;
 	bool deleted = false;
@@ -20,7 +20,7 @@ public:
 	TileMap wallmap;
 	TileMap objectmap;
 private:
-	AbstractServiceProvider* provider;
+	ServiceProvider* provider;
 	string getTilesetFileName() const;
 	string getGroundTexturesetFileName() const;
 	string getObjectsTexturesetFileName() const;

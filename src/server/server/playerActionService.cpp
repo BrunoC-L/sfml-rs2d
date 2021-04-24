@@ -3,7 +3,7 @@
 #include <memory>
 #include "costLogger.h"
 
-PlayerActionService::PlayerActionService(AbstractServiceProvider* provider) : Service(provider) {
+PlayerActionService::PlayerActionService(ServiceProvider* provider) : Service(provider) {
 	provider->set("PlayerAction", this);
 }
 

@@ -1,10 +1,10 @@
 #pragma once
 #include "abstractServices.h"
-#include "abstractServiceProvider.h"
+#include "serviceProvider.h"
 
 class Service {
 public:
-	AbstractServiceProvider* provider;
+	ServiceProvider* provider;
 	AbstractCamera* camera;
 	AbstractChat* chat;
 	AbstractInventory* inventory;
@@ -14,7 +14,7 @@ public:
 	AbstractSocket* socket;
 	AbstractGameDataService* gameData;
 
-	Service(AbstractServiceProvider* provider) : provider(provider) { }
+	Service(ServiceProvider* provider) : provider(provider) { }
 
 	void acquire() {
 		camera = (AbstractCamera*)provider->get("Camera");

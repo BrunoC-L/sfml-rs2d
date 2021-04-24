@@ -7,7 +7,7 @@ class UserService : public AbstractUserService, public Service {
 private:
 	std::map<std::shared_ptr<User>, std::string> tempSaltByUser;
 public:
-	UserService(AbstractServiceProvider* provider);
+	UserService(ServiceProvider* provider);
 	virtual void init();
 	virtual void saveUserPosition(User user);
 	virtual void login(std::string username, std::function<void(std::shared_ptr<User>)> onSuccess);

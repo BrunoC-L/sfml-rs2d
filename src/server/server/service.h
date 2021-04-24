@@ -1,17 +1,17 @@
 #pragma once
 #include "abstractServices.h"
-#include "abstractServiceProvider.h"
+#include "ServiceProvider.h"
 
 class Service {
 protected:
-	AbstractServiceProvider* provider;
+	ServiceProvider* provider;
 	AbstractMap* map;
 	AbstractDB* dbService;
 	AbstractUserService* userService;
 	AbstractPlayerActionService* playerActionService;
 	AbstractSocketServer* server;
 public:
-	Service(AbstractServiceProvider* provider) : provider(provider) { }
+	Service(ServiceProvider* provider) : provider(provider) { }
 
 	void acquire() {
 		map = (AbstractMap*)provider->get("Map");

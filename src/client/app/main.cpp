@@ -1,8 +1,7 @@
 #include "main.h"
-#include "tickScheduler.h"
 
 int main() {
-	AbstractServiceProvider* provider = new AbstractServiceProvider();
+	ServiceProvider* provider = new ServiceProvider();
 	AbstractSocket* socket = new Socket(provider, "127.0.0.1", 38838);
 	AbstractMeasures* measures = new Measures(provider);
 	AbstractChat* chat = new Chat(provider);

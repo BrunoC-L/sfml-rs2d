@@ -5,16 +5,16 @@
 #include <unordered_map>
 #include <fstream>
 // #include "GameObject.h"
-#include "abstractServiceProvider.h"
+#include "ServiceProvider.h"
 
 class Chunk {
 public:
-	Chunk(const VChunk& pos, AbstractServiceProvider* provider);
+	Chunk(const VChunk& pos, ServiceProvider* provider);
 	~Chunk();
 	vector<vector<Tile*>> tiles;
 	static constexpr float TilesPerChunk = 64;
 private:
-	AbstractServiceProvider* provider;
+	ServiceProvider* provider;
 	string getTilesetFileName() const;
 	VChunk chunkpos;
 	// unordered_map<VTile, vector<GameObject*>, VTileHash> gameObjects;

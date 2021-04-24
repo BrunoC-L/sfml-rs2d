@@ -1,7 +1,7 @@
 #pragma once
 #include "camera.h"
 
-Camera::Camera(AbstractServiceProvider* provider) : Service(provider) {
+Camera::Camera(ServiceProvider* provider) : Service(provider) {
 	provider->set("Camera", this);
 }
 

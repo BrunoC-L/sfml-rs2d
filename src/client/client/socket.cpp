@@ -4,7 +4,7 @@
 #include "disconnectedState.h"
 #include "connectedState.h"
 
-Socket::Socket(AbstractServiceProvider* provider, std::string ip, int port) : Service(provider), ip(ip), port(port) {
+Socket::Socket(ServiceProvider* provider, std::string ip, int port) : Service(provider), ip(ip), port(port) {
 	provider->set("Socket", this);
     state = std::make_shared<DisconnectedSocketState>(this);
 }
@@ -46,10 +46,16 @@ void Socket::on(std::string type, std::function<void(JSON&)> callback) {
 	callbacks[type].push_back(callback);
 }
 
-void Socket::connect() {
+bool Socket::connect() {
+    if (!socket.connect(ip, port))
+        return false;
     state = std::make_shared<ConnectedSocketState>(this);
-    socket.connect(ip, port);
-    listener = std::thread(
+    if (listener) {
+        listener->join();
+        delete listener;
+        listener = nullptr;
+    }
+    listener = new std::thread(
         [&]() {
             std::string buffer = "";
             while (state->connected()) {
@@ -78,6 +84,7 @@ void Socket::connect() {
             }
         }
     );
+    return true;
 }
 
 void Socket::disconnect() {
@@ -85,7 +92,6 @@ void Socket::disconnect() {
         return;
     state = make_shared<DisconnectedSocketState>(this);
     socket.disconnect();
-    listener.join();
     LogoutEvent().emit();
 }
 

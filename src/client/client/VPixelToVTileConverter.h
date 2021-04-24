@@ -4,7 +4,7 @@
 
 class VPixelToVTileConverter : public Service {
 public:
-	VPixelToVTileConverter(AbstractServiceProvider* provider) : Service(provider) {
+	VPixelToVTileConverter(ServiceProvider* provider) : Service(provider) {
 		acquire();
 	}
 	 VTile getPositionInGame(VPixel mousePos) {

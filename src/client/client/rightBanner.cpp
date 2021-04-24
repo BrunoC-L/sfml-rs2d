@@ -3,7 +3,7 @@
 #include "abstractRenderWindow.h"
 #include "abstractPlayer.h"
 
-RightBanner::RightBanner(AbstractServiceProvider* provider, AbstractRenderWindow* window): Service(provider), minimap(provider, window), window(window) {
+RightBanner::RightBanner(ServiceProvider* provider, AbstractRenderWindow* window): Service(provider), minimap(provider, window), window(window) {
     acquire();
     banner = sf::RectangleShape(sf::Vector2f(measures->rightBannerWidth, window->getSize().y));
     sf::RectangleShape defaultShape(sf::Vector2f(AbstractMeasures::itemsSizeInInventory, AbstractMeasures::itemsSizeInInventory));

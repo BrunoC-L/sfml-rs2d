@@ -1,4 +1,5 @@
 #pragma once
+#include "serviceProvider.h"
 #include "abstractMap.h"
 #include "abstractDB.h"
 #include "abstractUserService.h"

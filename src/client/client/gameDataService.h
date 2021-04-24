@@ -10,7 +10,7 @@ class GameDataService : public Service, public AbstractGameDataService {
 	std::unique_ptr<PlayerPositions> playerPositions;
 	void storePositions(JSON& json);
 public:
-	GameDataService(AbstractServiceProvider* provider, GameTickProgress* tracker);
+	GameDataService(ServiceProvider* provider, GameTickProgress* tracker);
 	virtual void init();
 
 	virtual const bool& userIsLoggedIn() override;

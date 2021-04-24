@@ -3,12 +3,12 @@
 #include <stdlib.h>
 #include "item.h"
 #include "abstractInventory.h"
-#include "abstractServiceProvider.h"
+#include "serviceProvider.h"
 #include "abstractPlayer.h"
 
 class GameResourceObject : public GameObject {
 public:
-	GameResourceObject(function<void(VTile, int)> updateObjectTexture, unordered_map<VTile, vector<GameObject*>, VTileHash>& gameObjects, string objectData, AbstractServiceProvider* provider);
+	GameResourceObject(function<void(VTile, int)> updateObjectTexture, unordered_map<VTile, vector<GameObject*>, VTileHash>& gameObjects, string objectData, ServiceProvider* provider);
 	virtual vector<pair<string, function<bool()>>> getInteractions();
 	void show();
 	void showDepleted();
@@ -22,7 +22,7 @@ public:
 	unsigned minItem;
 	unsigned maxItem;
 	Item item;
-	AbstractServiceProvider* provider;
+	ServiceProvider* provider;
 	AbstractPlayer* player;
 	AbstractInventory* inventory;
 };

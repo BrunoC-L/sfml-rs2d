@@ -1,6 +1,6 @@
 #include "bottomBanner.h"
 
-BottomBanner::BottomBanner(AbstractServiceProvider* provider, AbstractRenderWindow* window) : Service(provider), window(window) {
+BottomBanner::BottomBanner(ServiceProvider* provider, AbstractRenderWindow* window) : Service(provider), window(window) {
     acquire();
     banner = sf::RectangleShape(sf::Vector2f(window->getSize().x, measures->bottomBannerHeight));
     banner.setPosition(0, measures->getBottomBannerStartingY());

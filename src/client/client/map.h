@@ -11,7 +11,7 @@ class Map: public AbstractMap, public Service {
     std::thread updateThread;
     bool shouldStop = false;
 public:
-    Map(AbstractServiceProvider* provider);
+    Map(ServiceProvider* provider);
     void init();
     virtual void load();
     virtual void update();

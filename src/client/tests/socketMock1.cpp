@@ -2,7 +2,7 @@
 #include "socketMock1.h"
 #include "login.h"
 
-SocketMock1::SocketMock1(AbstractServiceProvider* provider) : Socket(provider, "1", 1) {
+SocketMock1::SocketMock1(ServiceProvider* provider) : Socket(provider, "1", 1) {
     provider->set("Socket", this);
 }
 

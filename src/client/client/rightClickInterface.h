@@ -3,7 +3,7 @@
 #include "units.h"
 #include "mouseEvent.h"
 #include "abstractServices.h"
-#include "abstractServiceProvider.h"
+#include "serviceProvider.h"
 #include "rightClickTileEvent.h"
 #include "service.h"
 
@@ -11,7 +11,7 @@ using namespace std;
 
 class RightClickInterface : public Service {
 public:
-    RightClickInterface(AbstractServiceProvider* provider, AbstractRenderWindow* window);
+    RightClickInterface(ServiceProvider* provider, AbstractRenderWindow* window);
     void draw();
     bool active;
     void setPosition(VPixel pos);

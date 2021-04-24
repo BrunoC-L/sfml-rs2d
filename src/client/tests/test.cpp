@@ -6,7 +6,7 @@
 
 TEST(app_builds, TestName) {
 	globalWindow->setActive(false);
-	AbstractServiceProvider& provider = AbstractServiceProvider();
+	ServiceProvider& provider = ServiceProvider();
 	AbstractSocket& socket = Socket(&provider, "1", 1);
 	AbstractMeasures& measures = Measures(&provider);
 	AbstractChat& chat = Chat(&provider);
@@ -23,7 +23,7 @@ TEST(app_builds, TestName) {
 
 TEST(app_runs_with_socket_mock_1, TestName) {
 	globalWindow->setActive(false);
-	AbstractServiceProvider& provider = AbstractServiceProvider();
+	ServiceProvider& provider = ServiceProvider();
 	AbstractSocket& socket = SocketMock1(&provider);
 	AbstractMeasures& measures = Measures(&provider);
 	AbstractChat& chat = Chat(&provider);
@@ -61,7 +61,7 @@ TEST(app_runs_with_socket_mock_1, TestName) {
 
 TEST(player_position_updates_when_server_emits, TestName) {
 	globalWindow->setActive(false);
-	AbstractServiceProvider& provider = AbstractServiceProvider();
+	ServiceProvider& provider = ServiceProvider();
 	SocketMock1& socket = SocketMock1(&provider);
 	AbstractMeasures& measures = Measures(&provider);
 	AbstractChat& chat = Chat(&provider);

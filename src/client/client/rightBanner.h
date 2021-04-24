@@ -12,7 +12,7 @@ using namespace std;
 
 class RightBanner : public Service {
 public:
-    RightBanner(AbstractServiceProvider* provider, AbstractRenderWindow* window);
+    RightBanner(ServiceProvider* provider, AbstractRenderWindow* window);
     void draw();
     bool mouseIsInRect(MouseEvent* ev);
     void click(MouseEvent* ev);

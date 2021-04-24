@@ -23,7 +23,7 @@ protected:
 	LoginData loginData;
 	virtual std::pair<std::string, std::string> getCredentials() const override;
 public:
-    Player(AbstractServiceProvider* provider);
+    Player(ServiceProvider* provider);
     void init();
 	virtual void setID(int id) ;
 	virtual const int& getID();

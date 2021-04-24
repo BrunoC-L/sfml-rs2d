@@ -7,7 +7,7 @@ using namespace std;
 
 class Chat : public AbstractChat, public Service {
 public:
-	Chat(AbstractServiceProvider* provider) : Service(provider) {
+	Chat(ServiceProvider* provider) : Service(provider) {
 		provider->set("Chat", this);
 	}
 	void init() {

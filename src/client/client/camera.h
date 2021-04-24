@@ -6,7 +6,7 @@
 class Camera : public AbstractCamera, public Service {
 	const VTile* position;
 public:
-	Camera(AbstractServiceProvider* provider);
+	Camera(ServiceProvider* provider);
 	void init();
 	virtual void setPosition(const VTile* pos);
 	virtual const VTile& getPosition();

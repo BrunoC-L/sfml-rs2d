@@ -12,6 +12,7 @@ void ClockGameTickProgress::onGameTick() {
 		msBehind = 0;
 	msCurrentAnimWouldTakeAtNormalSpeed = mspt + msBehind;
 	clock.restart();
+	tick += 1;
 }
 
 double ClockGameTickProgress::getTickFraction() {
@@ -21,4 +22,8 @@ double ClockGameTickProgress::getTickFraction() {
 
 double ClockGameTickProgress::getMsSinceTick() {
 	return clock.getElapsedTime().asMilliseconds();
+}
+
+int ClockGameTickProgress::getTick() {
+	return tick;
 }

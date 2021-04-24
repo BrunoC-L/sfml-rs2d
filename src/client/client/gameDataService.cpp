@@ -2,7 +2,7 @@
 #include "constants.h"
 #include "login.h"
 
-GameDataService::GameDataService(AbstractServiceProvider* provider, GameTickProgress* tracker) : Service(provider), tracker(tracker) {
+GameDataService::GameDataService(ServiceProvider* provider, GameTickProgress* tracker) : Service(provider), tracker(tracker) {
     provider->set("GameData", this);
 }
 
@@ -11,6 +11,7 @@ void GameDataService::init() {
     socket->on("positions", [&](JSON& json) {
         storePositions(json);
         tracker->onGameTick();
+		std::cout << "GameTick " << tracker->getTick() << std::endl;
     });
 
 	LoginEvent::subscribe(
@@ -22,7 +23,7 @@ void GameDataService::init() {
 				// the other solution is for the gamedataservice to own the player
 				playerPositions = std::make_unique<PlayerPositions>(player);
 			}
-			)
+		)
 	);
 
 	LogoutEvent::subscribe(

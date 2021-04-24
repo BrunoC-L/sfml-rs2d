@@ -1,7 +1,7 @@
 #include "userService.h"
 #include "sha256.h"
 
-UserService::UserService(AbstractServiceProvider* provider) : Service(provider) {
+UserService::UserService(ServiceProvider* provider) : Service(provider) {
 	provider->set("User", this);
 }
 
