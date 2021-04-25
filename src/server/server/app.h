@@ -5,10 +5,11 @@
 #include "units.h"
 #include "abstractServices.h"
 #include "tickScheduler.h"
+#include "tick.h"
 
 class App : public ServiceProvider, private Service {
     std::thread gameTicks;
-    TickScheduler* scheduler;
+    TickScheduler* tickScheduler;
 public:
     App(
         ServiceProvider* provider,
@@ -17,10 +18,13 @@ public:
         AbstractMap* map,
         AbstractPlayerActionService* playerActionService,
         AbstractUserService* userService,
-        TickScheduler* scheduler
-    ) : Service(provider), scheduler(scheduler) {
+        TickScheduler* tickScheduler,
+        AbstractTaskScheduler* scheduler
+    ) : Service(provider), tickScheduler(tickScheduler) {
+        clearAllEventSubscribers();
+    }
 
-        // clearAllEventSubscribers();
+    void clearAllEventSubscribers() {
     }
 
     void init() {
@@ -30,10 +34,12 @@ public:
         userService->init();
         playerActionService->init();
         server->init();
+        scheduler->init();
     }
 
     void stop() {
-        // server->stop();
+        throw std::exception("Not implemented");
+        //server->stop();
         gameTicks.join();
     }
 
@@ -42,8 +48,8 @@ public:
         gameTicks = std::thread(
             [&]() {
                 while (!stop) {
-                    if (scheduler->shouldTick())
-                        playerActionService->onGameTick();
+                    if (tickScheduler->shouldTick())
+                        TickEvent().emit();
                 }
             }
         );

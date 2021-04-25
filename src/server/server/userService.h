@@ -9,8 +9,7 @@ private:
 public:
 	UserService(ServiceProvider* provider);
 	virtual void init();
-	virtual void saveUserPosition(User user);
-	virtual void login(std::string username, std::function<void(std::shared_ptr<User>)> onSuccess);
-	virtual void logout(User user);
+	virtual void saveUserPosition(User& user);
+	virtual void logout(User& user);
 	virtual std::shared_ptr<User> getUserById(int id);
 };

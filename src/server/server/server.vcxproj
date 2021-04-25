@@ -28,6 +28,7 @@
     <ClCompile Include="playerWalkAction.cpp" />
     <ClCompile Include="service.h" />
     <ClCompile Include="socketServer.cpp" />
+    <ClCompile Include="taskScheduler.cpp" />
     <ClCompile Include="tile.cpp" />
     <ClCompile Include="user.cpp" />
     <ClCompile Include="userService.cpp" />
@@ -39,12 +40,14 @@
     <ClInclude Include="abstractPlayerActionService.h" />
     <ClInclude Include="abstractServices.h" />
     <ClInclude Include="abstractSocketServer.h" />
+    <ClInclude Include="abstractTaskScheduler.h" />
     <ClInclude Include="abstractUserService.h" />
     <ClInclude Include="app.h" />
     <ClInclude Include="chunk.h" />
     <ClInclude Include="costLogger.h" />
     <ClInclude Include="db.h" />
     <ClInclude Include="json-socket-server.h" />
+    <ClInclude Include="loginout.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="movingPredicate.h" />
@@ -57,6 +60,8 @@
     <ClInclude Include="queryBuilder.h" />
     <ClInclude Include="socket-server.h" />
     <ClInclude Include="socketServer.h" />
+    <ClInclude Include="taskScheduler.h" />
+    <ClInclude Include="tick.h" />
     <ClInclude Include="tile.h" />
     <ClInclude Include="user.h" />
     <ClInclude Include="userService.h" />

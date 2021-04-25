@@ -7,8 +7,9 @@ int main() {
 	UserService userService(&provider);
 	PlayerActionService playerActionService(&provider);
 	SocketServerService server(&provider, 38838);
-	ClockTickScheduler scheduler;
-	App app(&provider, &server, &db, &map, &playerActionService, &userService, &scheduler);
+	ClockTickScheduler tickScheduler;
+	TaskScheduler scheduler(&provider);
+	App app(&provider, &server, &db, &map, &playerActionService, &userService, &tickScheduler, &scheduler);
 	app.init();
 	app.start();
 	app.stop();

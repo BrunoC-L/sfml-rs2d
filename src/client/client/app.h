@@ -29,7 +29,6 @@ public:
         AbstractGameDataService* gameData
     ) : renderWindow(window),
         Service(provider) {
-
 		clearAllEventSubscribers();
     }
 

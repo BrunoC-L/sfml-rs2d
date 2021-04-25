@@ -10,6 +10,7 @@ protected:
 	AbstractUserService* userService;
 	AbstractPlayerActionService* playerActionService;
 	AbstractSocketServer* server;
+	AbstractTaskScheduler* scheduler;
 public:
 	Service(ServiceProvider* provider) : provider(provider) { }
 
@@ -19,5 +20,6 @@ public:
 		userService = (AbstractUserService*)provider->get("User");
 		playerActionService = (AbstractPlayerActionService*)provider->get("PlayerAction");
 		server = (AbstractSocketServer*)provider->get("Server");
+		scheduler = (AbstractTaskScheduler*)provider->get("Scheduler");
 	}
 };

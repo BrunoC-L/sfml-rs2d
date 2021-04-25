@@ -64,6 +64,9 @@
     <Filter Include="Source Files\playerAction\playerClickResourceAction">
       <UniqueIdentifier>{d9a729f3-4899-41df-b2e0-1c025f1ec43e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\services\taskScheduler">
+      <UniqueIdentifier>{c16bd998-bb1d-4195-85d8-1c11eb7e01d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="map.cpp">
@@ -101,6 +104,9 @@
     </ClCompile>
     <ClCompile Include="packets.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="taskScheduler.cpp">
+      <Filter>Source Files\services\taskScheduler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +190,18 @@
     </ClInclude>
     <ClInclude Include="packets.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="loginout.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="tick.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="taskScheduler.h">
+      <Filter>Source Files\services\taskScheduler</Filter>
+    </ClInclude>
+    <ClInclude Include="abstractTaskScheduler.h">
+      <Filter>Source Files\services\taskScheduler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

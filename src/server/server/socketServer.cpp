@@ -1,4 +1,5 @@
 #include "socketServer.h"
+#include "loginout.h"
 
 SocketServerService::SocketServerService(ServiceProvider* provider, unsigned port) : Service(provider) {
     provider->set("Server", this);
@@ -7,14 +8,19 @@ SocketServerService::SocketServerService(ServiceProvider* provider, unsigned por
     };
 
     auto onDisconnect = [&](sf::TcpSocket* socket) {
+        std::shared_ptr<User> user = socketToUser[socket];
+        LogoutEvent(user).emit();
+        socketToUser.erase(socket);
+        userToSocket.erase(user);
         std::cout << socket << " disconnected\n";
     };
 
     auto onConnect = [&](sf::TcpSocket* socket) {
         std::cout << socket << " connected\n";
-        auto user = std::make_shared<User>(-1);
+        auto user = std::make_shared<User>();
         socketToUser[socket] = user;
         userToSocket[user] = socket;
+        LoginEvent(socketToUser[socket]).emit();
     };
 
     server = new JsonSocketServer(port, onError, onConnect, onDisconnect);

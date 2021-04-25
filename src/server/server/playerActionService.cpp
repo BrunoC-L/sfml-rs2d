@@ -2,6 +2,8 @@
 #include "pathfinder.h"
 #include <memory>
 #include "costLogger.h"
+#include "loginout.h"
+#include "tick.h"
 
 PlayerActionService::PlayerActionService(ServiceProvider* provider) : Service(provider) {
 	provider->set("PlayerAction", this);
@@ -17,6 +19,22 @@ void PlayerActionService::init() {
     };
 
     server->on("walk", onWalk, true);
+
+    LogoutEvent::subscribe(
+        new EventObserver<LogoutEvent>(
+            [&](LogoutEvent* ev) {
+                paths.erase(ev->user);
+            }
+        )
+    );
+
+    TickEvent::subscribe(
+        new EventObserver<TickEvent>(
+            [&](TickEvent* ev) {
+                onGameTick();
+            }
+        )
+    );
 }
 
 void PlayerActionService::onGameTick() {
@@ -30,7 +48,7 @@ void PlayerActionService::sendPlayerPositions() {
     positions["type"] = "positions";
     positions["data"] = "[]";
 
-    for (auto user : userService->users) {
+    for (auto& user : userService->users) {
         if (paths[user].size()) {
             user->position = paths[user][0];
             paths[user].erase(paths[user].begin());
