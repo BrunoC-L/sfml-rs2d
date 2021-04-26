@@ -9,8 +9,7 @@ void Map::init() {
 	acquire();
 	const VTile& pos = camera->getPosition();
 	centerChunk = VChunk(int(pos.x / AbstractMeasures::TilesPerChunk), int(pos.y / AbstractMeasures::TilesPerChunk), int(pos.z));
-	//chunkRadius = 1;
-	load();
+	chunkRadius = 1;
 	doUpdates();
 }
 
@@ -61,6 +60,7 @@ void Map::updateChunks(const VChunk& difference, const VChunk& tempCenter) {
 void Map::doUpdates() {
 	updateThread = std::thread(
 		[&]() {
+			load();
 			while (true) {
 				if (shouldStop)
 					return;

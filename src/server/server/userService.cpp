@@ -42,7 +42,11 @@ void UserService::init() {
                     int posx = userData["posx"].asInt();
                     int posy = userData["posy"].asInt();
                     user->activate(id, packet.username, VTile(posx, posy));
-                    JSON data = "'" + std::to_string(id) + "'";
+                    JSON data;
+                    data["id"] = "'" + std::to_string(id) + "'";
+                    data["position"] = JSON();
+                    data["position"]["x"] = std::to_string(posx);
+                    data["position"]["y"] = std::to_string(posy);
                     server->send(user, "login", data);
                     users.push_back(user);
                 });

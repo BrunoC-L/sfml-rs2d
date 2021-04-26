@@ -23,8 +23,9 @@ void Player::init() {
 		new EventObserver<LoginEvent>(
 			[&](LoginEvent* ev) {
 				auto& data = ev->json;
-				int id = data.asInt();
-				setID(id);
+				setID(data["id"].asInt());
+                player->setIntPosition(VTile(data["position"]["x"].asInt(), data["position"]["y"].asInt()));
+                player->setPosition(VTile(data["position"]["x"].asInt(), data["position"]["y"].asInt()));
 			}
 		)
 	);
