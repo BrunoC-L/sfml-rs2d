@@ -1,6 +1,6 @@
 #include "groundObject.h"
 
-GroundObject::GroundObject(int id, VTile position, int textureIndex, function<void(VTile, int)> updateObjectTexture, bool isVisible) :
+GroundObject::GroundObject(int id, VTile position, int textureIndex, std::function<void(VTile, int)> updateObjectTexture, bool isVisible) :
 	parentGameObjectID(id),
 	position(position),
 	textureIndex(textureIndex),

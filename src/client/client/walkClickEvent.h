@@ -1,9 +1,7 @@
 #pragma once
 #include "event.h"
-
 #include "units.h"
 #include <functional>
-using namespace std;
 
 #undef  TYPE
 #undef  PARENTS

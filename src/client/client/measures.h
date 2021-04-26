@@ -3,8 +3,6 @@
 #include "keyPressedEvent.h"
 #include "service.h"
 
-using namespace std;
-
 class Measures : public AbstractMeasures, public Service {
 public:
 	Measures(ServiceProvider* provider) : Service(provider) {

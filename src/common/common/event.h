@@ -1,7 +1,6 @@
 #pragma once
 #include <functional>
 #include <vector>
-using namespace std;
 
 class Event {
 public:
@@ -11,8 +10,8 @@ public:
 template <class T>
 class EventObserver {
 public:
-	function<void(T*)> f;
-	EventObserver(function<void(T*)> f) {
+	std::function<void(T*)> f;
+	EventObserver(std::function<void(T*)> f) {
 		this->f = f;
 	}
 };
@@ -20,7 +19,7 @@ public:
 template <typename T>
 class EventEmitter {
 private:
-	vector<EventObserver<T>*> subscribers;
+	std::vector<EventObserver<T>*> subscribers;
 public:
 	void subscribe(EventObserver<T>* obv) {
 		subscribers.push_back(obv);

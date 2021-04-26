@@ -9,17 +9,17 @@ public:
     static bool canMoveFromTo(VTile a, VTile b, AbstractMap* map) {
         VChunk ca = VChunk(int(a.x / Chunk::TilesPerChunk), int(a.y / Chunk::TilesPerChunk));
         VChunk cb = VChunk(int(b.x / Chunk::TilesPerChunk), int(b.y / Chunk::TilesPerChunk));
-        Chunk* tileAChunk = map->getChunk(ca);
-        Chunk* tileBChunk = map->getChunk(cb);
+        std::shared_ptr<Chunk> tileAChunk = map->getChunk(ca);
+        std::shared_ptr<Chunk> tileBChunk = map->getChunk(cb);
         if (!tileAChunk || !tileBChunk)
             return false;
-        Tile* ta = tileAChunk->tiles[int(a.x - ca.x * Chunk::TilesPerChunk)][int(a.y - ca.y * Chunk::TilesPerChunk)];
-        Tile* tb = tileBChunk->tiles[int(b.x - cb.x * Chunk::TilesPerChunk)][int(b.y - cb.y * Chunk::TilesPerChunk)];
+        std::shared_ptr<Tile> ta = tileAChunk->tiles[int(a.x - ca.x * Chunk::TilesPerChunk)][int(a.y - ca.y * Chunk::TilesPerChunk)];
+        std::shared_ptr<Tile> tb = tileBChunk->tiles[int(b.x - cb.x * Chunk::TilesPerChunk)][int(b.y - cb.y * Chunk::TilesPerChunk)];
         return ta->canMoveFrom(*tb);
     }
 
-    static vector<VTile> getNextTo(vector<VTile> tiles) {
-        vector<VTile> adjacent = {};
+    static std::vector<VTile> getNextTo(std::vector<VTile> tiles) {
+        std::vector<VTile> adjacent = {};
         for (auto t : tiles) {
             adjacent.push_back(t + VTile( 0,  1));
             adjacent.push_back(t + VTile(-1,  0));
@@ -29,14 +29,14 @@ public:
         return adjacent;
     }
 
-    static bool tileIsInVector(VTile t, vector<VTile> v) {
+    static bool tileIsInVector(VTile t, std::vector<VTile> v) {
         return distance(t, v) == 0;
     };
 
-    static float distance(VTile t, vector<VTile> v) {
+    static float distance(VTile t, std::vector<VTile> v) {
         float best = 1000;
         for (auto target : v)
-            if (!(best = min(best, distance(t, target))))
+            if (!(best = std::min(best, distance(t, target))))
                 break;
         return best;
     }

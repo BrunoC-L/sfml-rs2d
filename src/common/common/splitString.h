@@ -2,6 +2,4 @@
 #include <vector>
 #include <iostream>
 
-using namespace std;
-
-vector<string> split(const string& s, const string& divider);
+std::vector<std::string> split(const std::string& s, const std::string& divider);

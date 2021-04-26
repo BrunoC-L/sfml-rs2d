@@ -8,15 +8,15 @@
 
 class GameResourceObject : public GameObject {
 public:
-	GameResourceObject(function<void(VTile, int)> updateObjectTexture, unordered_map<VTile, vector<GameObject*>, VTileHash>& gameObjects, string objectData, ServiceProvider* provider);
-	virtual vector<pair<string, function<bool()>>> getInteractions();
+	GameResourceObject(std::function<void(VTile, int)> updateObjectTexture, std::unordered_map<VTile, std::vector<GameObject*>, VTileHash>& gameObjects, std::string objectData, ServiceProvider* provider);
+	virtual std::vector<std::pair<std::string, std::function<bool()>>> getInteractions();
 	void show();
 	void showDepleted();
 	void sendPlayerToCollect();
 	bool collect();
-	void sendPlayerToProspect(string oreType);
-	bool prospect(string oreType);
-	virtual string getName();
+	void sendPlayerToProspect(std::string oreType);
+	bool prospect(std::string oreType);
+	virtual std::string getName();
 	bool isUp;
 	unsigned size;
 	unsigned minItem;

@@ -5,17 +5,15 @@
 #include "units.h"
 #include "abstractPlayer.h"
 
-using namespace std;
-
 class GameObject {
 public:
-	GameObject(int id, function<void(VTile, int)> updateObjectTexture);
-	virtual vector<pair<string, function<bool()>>> getInteractions() = 0;
-	virtual string getName() = 0;
+	GameObject(int id, std::function<void(VTile, int)> updateObjectTexture);
+	virtual std::vector<std::pair<std::string, std::function<bool()>>> getInteractions() = 0;
+	virtual std::string getName() = 0;
 	int id;
-	function<void(VTile, int)> updateObjectTexture;
-	vector<GroundObject> groundObjects;
-	vector<pair<string, function<bool()>>> interactions;
-	vector<VTile> positions;
-	string name;
+	std::function<void(VTile, int)> updateObjectTexture;
+	std::vector<GroundObject> groundObjects;
+	std::vector<std::pair<std::string, std::function<bool()>>> interactions;
+	std::vector<VTile> positions;
+	std::string name;
 };

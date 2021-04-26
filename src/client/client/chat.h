@@ -3,8 +3,6 @@
 #include "abstractServices.h"
 #include "service.h"
 
-using namespace std;
-
 class Chat : public AbstractChat, public Service {
 public:
 	Chat(ServiceProvider* provider) : Service(provider) {
@@ -15,6 +13,6 @@ public:
 	}
 	Chat() = default;
 	void addMessage(ChatMessage message);
-	vector<ChatMessage> messages;
-	vector<ChatMessage> getFilteredMessagesList(int filter);
+	std::vector<ChatMessage> messages;
+	std::vector<ChatMessage> getFilteredMessagesList(int filter);
 };

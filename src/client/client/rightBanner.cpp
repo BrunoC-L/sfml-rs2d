@@ -13,7 +13,7 @@ RightBanner::RightBanner(ServiceProvider* provider, AbstractRenderWindow* window
     sf::Vector2i pos(0, 0);
     sf::Vector2i size(AbstractMeasures::itemsSizePx, AbstractMeasures::itemsSizePx);
     defaultShape.setTextureRect(sf::IntRect(pos, size));
-    inventoryItems = vector<pair<Item, sf::RectangleShape>>(28, make_pair(Item(), sf::RectangleShape(defaultShape)));
+    inventoryItems = std::vector<std::pair<Item, sf::RectangleShape>>(28, std::make_pair(Item(), sf::RectangleShape(defaultShape)));
 }
 
 void RightBanner::draw() {

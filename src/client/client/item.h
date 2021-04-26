@@ -1,17 +1,16 @@
 #pragma once
 #include "splitstring.h"
-using namespace std;
 
 class Item {
 public:
-	static Item fromString(string s, string divider);
+	static Item fromString(std::string s, std::string divider);
 	unsigned id;
-	string name;
+	std::string name;
 	unsigned textureIndex;
 	bool stackable;
 	unsigned weight;
 	unsigned quantity;
-	Item(unsigned id, string name, unsigned textureIndex, bool stackable, unsigned weight, unsigned quantity) :
+	Item(unsigned id, std::string name, unsigned textureIndex, bool stackable, unsigned weight, unsigned quantity) :
 		id(id), 
 		name(name), 
 		textureIndex(textureIndex),

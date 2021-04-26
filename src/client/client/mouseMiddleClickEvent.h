@@ -2,7 +2,6 @@
 #include "event.h"
 #include "units.h"
 #include "mouseEvent.h"
-using namespace std;
 
 #undef  TYPE
 #undef  PARENTS

@@ -4,8 +4,6 @@
 #include "interactionClickEvent.h"
 #include "service.h"
 
-using namespace std;
-
 struct LoginData {
 	std::string username;
 	std::string password;

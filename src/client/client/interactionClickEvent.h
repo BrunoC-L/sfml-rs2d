@@ -1,9 +1,7 @@
 #pragma once
 #include "event.h"
-
 #include "units.h"
 #include <functional>
-using namespace std;
 
 #undef  TYPE
 #undef  PARENTS
@@ -12,8 +10,8 @@ using namespace std;
 #undef  MEMBERS_SET
 #define TYPE InteractionClickEvent
 #define PARENTS : public Event
-#define MEMBERS function<bool(void)> f;
-#define PARAMETERS function<bool(void)> f
+#define MEMBERS std::function<bool(void)> f;
+#define PARAMETERS std::function<bool(void)> f
 #define MEMBERS_SET MEMBER_SET(f)
 
 EVENT_CLASS(TYPE, PARENTS, MEMBERS, PARAMETERS, MEMBERS_SET)

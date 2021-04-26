@@ -7,8 +7,6 @@
 #include "rightClickTileEvent.h"
 #include "service.h"
 
-using namespace std;
-
 class RightClickInterface : public Service {
 public:
     RightClickInterface(ServiceProvider* provider, AbstractRenderWindow* window);
@@ -17,13 +15,13 @@ public:
     void setPosition(VPixel pos);
     bool mouseIsInRect(MouseEvent* ev);
     VPixel getDeltaClick(MouseEvent* ev);
-    void addText(string text);
+    void addText(std::string text);
     void resetText();
     void click(MouseEvent* ev);
-    void addInteractions(string objectName, vector<pair<string, function<bool()>>> interactions);
+    void addInteractions(std::string objectName, std::vector<std::pair<std::string, std::function<bool()>>> interactions);
 private:
     AbstractRenderWindow* window;
-    vector<pair<string,function<bool()>>> interactions;
+    std::vector<std::pair<std::string, std::function<bool()>>> interactions;
     sf::Text text;
     sf::Font font;
     RightClickInterface();
