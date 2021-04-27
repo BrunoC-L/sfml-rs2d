@@ -58,6 +58,7 @@ public:
 
         connectionThread = std::thread(
             [&]() {
+                std::cout << "Connection Thread: " << std::this_thread::get_id() << std::endl;
                 int id = 0;
                 while (!stopped) {
                     sf::TcpSocket* client = new sf::TcpSocket();
@@ -80,6 +81,7 @@ public:
 
         communicationThread = std::thread(
             [&]() {
+                std::cout << "Communication Thread: " << std::this_thread::get_id() << std::endl;
                 while (!stopped) {
                     if (sockets.size() == 0)
                         std::this_thread::sleep_for(std::chrono::seconds(1));

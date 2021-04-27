@@ -7,5 +7,5 @@
 class AbstractMap : public AbstractService {
 public:
 	virtual void load() = 0;
-	virtual Chunk* getChunk(VChunk v) = 0;
+	virtual std::shared_ptr<Chunk> getChunk(VChunk v) = 0;
 };

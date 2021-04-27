@@ -16,13 +16,13 @@ RightClickInterface::RightClickInterface(ServiceProvider* provider, AbstractRend
             return;
         active = true;
         resetText();
-        for (int i = 0; i < ev->tile->groundObjects.size(); ++i) {
-            auto groundObject = ev->tile->groundObjects[i];
-            auto gameObject = ev->tile->gameObjects[i];
-            string name = gameObject->getName();
-            if (groundObject.isVisible && groundObject.isOverObject(1, 1))
-                addInteractions(gameObject->getName(), gameObject->getInteractions());
-        }
+        //for (int i = 0; i < ev->tile->groundObjects.size(); ++i) {
+        //    auto groundObject = ev->tile->groundObjects[i];
+        //    auto gameObject = ev->tile->gameObjects[i];
+        //    std::string name = gameObject->getName();
+        //    if (groundObject.isVisible && groundObject.isOverObject(1, 1))
+        //        addInteractions(gameObject->getName(), gameObject->getInteractions());
+        //}
     }));
 }
 
@@ -32,7 +32,7 @@ void RightClickInterface::setPosition(VPixel pos) {
     text.setPosition(sf::Vector2f(pos.x, pos.y));
 }
 
-void RightClickInterface::addText(string txt) {
+void RightClickInterface::addText(std::string txt) {
     text.setString(text.getString() + '\n' + txt);
 }
 
@@ -76,7 +76,7 @@ void RightClickInterface::click(MouseEvent* ev) {
     //    player->setActionIfNotBusy(interaction.second);
 }
 
-void RightClickInterface::addInteractions(string objectName, vector<pair<string, function<bool()>>> interactions) {
+void RightClickInterface::addInteractions(std::string objectName, std::vector<std::pair<std::string, std::function<bool()>>> interactions) {
     for (auto i : interactions) {
         addText(objectName + '\t' + i.first);
         this->interactions.push_back(i);

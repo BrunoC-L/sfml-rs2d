@@ -1,17 +1,16 @@
 #pragma once
 #include <functional>
 #include "units.h"
-using namespace std;
 
 class GroundObject {
 public:
-	GroundObject(int id, VTile position, int textureIndex, function<void(VTile, int)> updateObjectTexture, bool isVisible);
+	GroundObject(int id, VTile position, int textureIndex, std::function<void(VTile, int)> updateObjectTexture, bool isVisible);
 	void show();
 	void hide();
 	int parentGameObjectID;
 	VTile position;
 	int textureIndex;
-	function<bool(int, int)> isOverObject;
+	std::function<bool(int, int)> isOverObject;
 	bool isVisible;
-	function<void(VTile, int)> updateObjectTexture;
+	std::function<void(VTile, int)> updateObjectTexture;
 };

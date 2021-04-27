@@ -154,6 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="abstractService.h" />
+    <ClInclude Include="onExit.h" />
     <ClInclude Include="serviceProvider.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="event.h" />

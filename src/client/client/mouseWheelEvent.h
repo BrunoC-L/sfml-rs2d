@@ -1,10 +1,7 @@
 #pragma once
-
 #include "units.h"
 #include "event.h"
-
 #include "mouseEvent.h"
-using namespace std;
 
 #undef  TYPE
 #undef  PARENTS

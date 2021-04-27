@@ -3,11 +3,10 @@
 #include <unordered_map>
 #include <unordered_set>
 #include "movingPredicate.h"
-using namespace std;
 
 class Pathfinder {
 public:
-	static vector<VTile> pathfind(VTile a, vector<VTile> b, bool nextToInsteadOfOnto, AbstractMap* map) {
+	static std::vector<VTile> pathfind(VTile a, std::vector<VTile> b, bool nextToInsteadOfOnto, AbstractMap* map) {
 		if (nextToInsteadOfOnto)
 			b = MovingPredicate::getNextTo(b);
 		for (auto t : b)
@@ -21,11 +20,11 @@ public:
 		return path;
 	}
 private:
-	static vector<VTile> _pathfind(VTile a, vector<VTile> b, AbstractMap* map) {
+	static std::vector<VTile> _pathfind(VTile a, std::vector<VTile> b, AbstractMap* map) {
 		static Pathfinder instance;
-		unordered_map<VTile, VTile, VTileHash> parents;
-		unordered_set<VTile, VTileHash> seen;
-		vector<VTile> queue = {a};
+		std::unordered_map<VTile, VTile, VTileHash> parents;
+		std::unordered_set<VTile, VTileHash> seen;
+		std::vector<VTile> queue = {a};
 		VTile current, best;
 		float bestDistance = 1000;
 
@@ -60,7 +59,7 @@ private:
 				queue.push_back(next);
 			}
 		}
-		vector<VTile> path = { best };
+		std::vector<VTile> path = { best };
 		while (parents.count(best)) {
 			best = parents[best];
 			path.push_back(best);

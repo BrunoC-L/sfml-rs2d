@@ -10,18 +10,17 @@ void Map::init() {
 	const VTile& pos = camera->getPosition();
 	centerChunk = VChunk(int(pos.x / AbstractMeasures::TilesPerChunk), int(pos.y / AbstractMeasures::TilesPerChunk), int(pos.z));
 	chunkRadius = 1;
-	load();
 	doUpdates();
 }
 
 void Map::load() {
-	loaded = vector<vector<Chunk*>>(2 * chunkRadius + 1, vector<Chunk*>(2 * chunkRadius + 1, nullptr));
+	loaded = std::vector<std::vector<Chunk*>>(2 * chunkRadius + 1, std::vector<Chunk*>(2 * chunkRadius + 1, nullptr));
 	mutex.lock();
 	for (int i = 0; i < 2 * chunkRadius + 1; ++i)
 		for (int j = 0; j < 2 * chunkRadius + 1; ++j) {
 			VChunk chunkPos = centerChunk + VChunk(i, j) - VChunk(chunkRadius, chunkRadius);
 			delete loaded[i][j];
-			loaded[i][j] = new Chunk(chunkPos, provider);
+			loaded[i][j] = new Chunk(chunkPos);
 		}
 	mutex.unlock();
 }
@@ -37,8 +36,8 @@ void Map::update() {
 }
 
 void Map::updateChunks(const VChunk& difference, const VChunk& tempCenter) {
-	vector<vector<Chunk*>> newChunks(2 * chunkRadius + 1, vector<Chunk*>(2 * chunkRadius + 1, nullptr));
-	vector<vector<bool>> reused(2 * chunkRadius + 1, vector<bool>(2 * chunkRadius + 1, false));
+	std::vector<std::vector<Chunk*>> newChunks(2 * chunkRadius + 1, std::vector<Chunk*>(2 * chunkRadius + 1, nullptr));
+	std::vector<std::vector<bool>> reused(2 * chunkRadius + 1, std::vector<bool>(2 * chunkRadius + 1, false));
 	for (int i = 0; i < 2 * chunkRadius + 1; ++i)
 		for (int j = 0; j < 2 * chunkRadius + 1; ++j) {
 			VChunk chunkPos = tempCenter + VChunk(i, j) - VChunk(chunkRadius, chunkRadius);
@@ -47,7 +46,7 @@ void Map::updateChunks(const VChunk& difference, const VChunk& tempCenter) {
 				reused[i + difference.x][j + difference.y] = true;
 			}
 			else
-				newChunks[i][j] = new Chunk(chunkPos, provider);
+				newChunks[i][j] = new Chunk(chunkPos);
 		}
 	mutex.lock();
 	for (int i = 0; i < 2 * chunkRadius + 1; ++i)
@@ -61,6 +60,7 @@ void Map::updateChunks(const VChunk& difference, const VChunk& tempCenter) {
 void Map::doUpdates() {
 	updateThread = std::thread(
 		[&]() {
+			load();
 			while (true) {
 				if (shouldStop)
 					return;
@@ -70,10 +70,10 @@ void Map::doUpdates() {
 	);
 }
 
-Tile* Map::getTileFromVTile(VTile tilePosition) {
+std::shared_ptr<Tile> Map::getTileFromVTile(VTile tilePosition) {
 	VChunk chunkOfTileClicked = VChunk(int(tilePosition.x / AbstractMeasures::TilesPerChunk), int(tilePosition.y / AbstractMeasures::TilesPerChunk));
 	VChunk deltaChunkOffsetWithMiddleChunk = chunkOfTileClicked - centerChunk + VChunk(loaded.size() / 2, loaded.size() / 2);
-	Tile* t = nullptr;
+	std::shared_ptr<Tile> t = nullptr;
 	if (deltaChunkOffsetWithMiddleChunk.x >= 0 && deltaChunkOffsetWithMiddleChunk.x < loaded.size() &&
 		deltaChunkOffsetWithMiddleChunk.y >= 0 && deltaChunkOffsetWithMiddleChunk.y < loaded.size()) {
 		Chunk* chunk = loaded[deltaChunkOffsetWithMiddleChunk.x][deltaChunkOffsetWithMiddleChunk.y];

@@ -24,13 +24,13 @@ void UserService::init() {
         auto tempsalt = tempSaltByUser[user];
         dbService->queryPlayerByUsernameEquals(
             packet.username,
-            [&, user, packet, tempsalt](QueryResult qr) {
+            [&, user, packet, tempsalt](SelectQueryResult qr) {
                 if (qr.size() == 0)
                     throw std::exception("User does not exist");
                 auto userData = qr[0];
                 int id = userData["id"].asInt();
 
-                dbService->queryLoginDataByUserId(id, [&, id, user, userData, packet, tempsalt](QueryResult qr) mutable {
+                dbService->queryLoginDataByUserId(id, [&, id, user, userData, packet, tempsalt](SelectQueryResult qr) mutable {
                     if (qr.size() == 0)
                         throw std::exception("Found user matching username but missing LoginData entry in DB");
                     auto userHash = packet.passwordHashWithBothSalts;
@@ -42,7 +42,11 @@ void UserService::init() {
                     int posx = userData["posx"].asInt();
                     int posy = userData["posy"].asInt();
                     user->activate(id, packet.username, VTile(posx, posy));
-                    JSON data = "'" + std::to_string(id) + "'";
+                    JSON data;
+                    data["id"] = "'" + std::to_string(id) + "'";
+                    data["position"] = JSON();
+                    data["position"]["x"] = std::to_string(posx);
+                    data["position"]["y"] = std::to_string(posy);
                     server->send(user, "login", data);
                     users.push_back(user);
                 });
@@ -55,15 +59,15 @@ void UserService::init() {
         auto packet = SignUpPacket(json);
         auto permSalt = randomString64();
         auto pwHashWithPermSalt = picosha2::hash256_hex_string(permSalt + packet.passwordHash);
-        dbService->query("select id from player where username = '" + packet.username + "';", [&, packet, permSalt, pwHashWithPermSalt](QueryResult qr) {
+        dbService->selectQuery("select id from player where username = '" + packet.username + "';", [&, packet, permSalt, pwHashWithPermSalt](SelectQueryResult qr) {
             if (qr.size() != 0)
                 return; // account already exists!
-            dbService->query("insert into player (username) values ('" + packet.username + "');");
-            dbService->query("select id from player where username = '" + packet.username + "';", [&, permSalt, pwHashWithPermSalt](QueryResult qr) {
+            dbService->nonSelectQuery("insert into player (username) values ('" + packet.username + "');");
+            dbService->selectQuery("select id from player where username = '" + packet.username + "';", [&, permSalt, pwHashWithPermSalt](SelectQueryResult qr) {
                 if (qr.size() == 0)
                     throw std::exception("Just created user but missing in DB");
                 auto id = qr[0]["id"].asString();
-                dbService->query("insert into logindata values(" + id + ", '" + permSalt + "', '" + pwHashWithPermSalt + "');");
+                dbService->nonSelectQuery("insert into logindata values(" + id + ", '" + permSalt + "', '" + pwHashWithPermSalt + "');");
             });
         });
     };
@@ -71,7 +75,7 @@ void UserService::init() {
 
     auto onSaltsRequest = [&](std::shared_ptr<User> user, JSON& json) {
         auto packet = SaltsRequestPacket(json);
-        dbService->query("declare @id int set @id = (select id from player where username = '" + packet.username + "'); select * from logindata where id = @id", [&, user](QueryResult qr) {
+        dbService->selectQuery("declare @id int set @id = (select id from player where username = '" + packet.username + "'); select * from logindata where id = @id", [&, user](SelectQueryResult qr) {
             if (qr.size() == 0)
                 return; // no user matches
             auto permSalt = qr[0]["salt"].asString();
@@ -105,7 +109,7 @@ void UserService::saveUserPosition(User& user) {
         ", posy = " +
         std::to_string(user.position.y) +
         " where id = '" + std::to_string(user.id) + "'\n";
-    dbService->query(q);
+    dbService->nonSelectQuery(q);
 }
 
 void UserService::logout(User& user) {

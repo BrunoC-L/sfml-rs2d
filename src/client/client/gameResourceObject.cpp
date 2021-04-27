@@ -1,16 +1,16 @@
 #include "gameResourceObject.h"
 
 GameResourceObject::GameResourceObject(
-	function<void(VTile, int)> updateObjectTexture,
-	unordered_map<VTile, vector<GameObject*>,
-	VTileHash>& gameObjects, string objectData,
+	std::function<void(VTile, int)> updateObjectTexture,
+	std::unordered_map<VTile, std::vector<GameObject*>,
+	VTileHash>& gameObjects, std::string objectData,
 	ServiceProvider* provider
 ) : GameObject(id, updateObjectTexture) {
 	this->provider = provider;
-	vector<string> parts = split(objectData, "///");
-	string itemPart = parts[1];
+	std::vector<std::string> parts = split(objectData, "///");
+	std::string itemPart = parts[1];
 	item = Item::fromString(itemPart, "//");
-	vector<string> objectPart = split(parts[0], "//");
+	std::vector<std::string> objectPart = split(parts[0], "//");
 	name = objectPart[0];
 	id = stoi(objectPart[1]);
 	size = stoi(objectPart[2]);
@@ -26,25 +26,25 @@ GameResourceObject::GameResourceObject(
 			groundObjects.push_back(GroundObject(id, positions.back(), firstTextureIndex + dx + size * dy + size * size, updateObjectTexture, false));
 		}
 	isUp = true;
-	string collectOption = objectPart[9];
-	string examineOptions = objectPart[8];
+	std::string collectOption = objectPart[9];
+	std::string examineOptions = objectPart[8];
 	auto examines = split(examineOptions, "|");
 	interactions = {
 		make_pair(
 			collectOption,
 			[this]() { sendPlayerToCollect(); return true; }
 		),
-		make_pair(
+		std::make_pair(
 			"Examine",
 			[this, examines]() { /*cout << examines[isUp ? 0 : 1] << endl;*/ return false; }
 		),
 	};
 	if (objectPart.size() > 10) {
 		auto parts = split(objectPart[10], "|");
-		string option = parts[0];
+		std::string option = parts[0];
 		if (option == "Prospect") {
-			string whatsInside = parts[1];
-			interactions.insert(interactions.begin() + 1, make_pair(
+			std::string whatsInside = parts[1];
+			interactions.insert(interactions.begin() + 1, std::make_pair(
 				"Prospect",
 				[this, whatsInside]() { sendPlayerToProspect(whatsInside); return true; }
 			));
@@ -96,7 +96,7 @@ bool GameResourceObject::collect() {
 	return true;
 }
 
-void GameResourceObject::sendPlayerToProspect(string oreType) {
+void GameResourceObject::sendPlayerToProspect(std::string oreType) {
 	//player->path = Pathfinder::pathfind(player->positionNextTick, positions, true, (AbstractMap*)provider->get("Map"));
 	//player->setActionIfNotBusy([&, oreType]() {
 	//	auto nextToResource = MovingPredicate::getNextTo(positions);
@@ -108,7 +108,7 @@ void GameResourceObject::sendPlayerToProspect(string oreType) {
 	//	});
 }
 
-bool GameResourceObject::prospect(string oreType) {
+bool GameResourceObject::prospect(std::string oreType) {
 	//auto nextToResource = MovingPredicate::getNextTo(positions);
 	//if (!MovingPredicate::tileIsInVector(player->position, nextToResource))
 	//	return false;
@@ -121,12 +121,12 @@ bool GameResourceObject::prospect(string oreType) {
 	return false;
 }
 
-vector<pair<string, function<bool()>>> GameResourceObject::getInteractions() {
+std::vector<std::pair<std::string, std::function<bool()>>> GameResourceObject::getInteractions() {
 	if (isUp)
 		return interactions;
-	return vector<pair<string, function<bool()>>>(interactions.begin() + 1, interactions.end());
+	return std::vector<std::pair<std::string, std::function<bool()>>>(interactions.begin() + 1, interactions.end());
 }
 
-string GameResourceObject::getName() {
+std::string GameResourceObject::getName() {
 	return split(name, "|")[isUp ? 0 : 1];
 }

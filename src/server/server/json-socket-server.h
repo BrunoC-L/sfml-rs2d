@@ -61,6 +61,7 @@ public:
 		server.start();
 		logicThread = std::thread(
 			[&]() {
+				std::cout << "Socket Message Queue Thread: " << std::this_thread::get_id() << std::endl;
 				while (!stopped) {
 					std::unique_lock<std::mutex> lock(waiter);
 					cv.wait(lock, [&]() { return messageQueue.size() != 0; });

@@ -1,11 +1,11 @@
 #include "pch.h"
 #include "splitstring.h"
 
-vector<string> split(const string& s, const string& divider) {
+std::vector<std::string> split(const std::string& s, const std::string& divider) {
     if (divider.length() == 0)
-        throw new exception("Tried splitting with empty divider");
-    string remainder = s;
-    vector<string> v = {};
+        throw new std::exception("Tried splitting with empty divider");
+    std::string remainder = s;
+    std::vector<std::string> v = {};
     int index = 0;
     while ((index = remainder.find(divider)) != -1) {
         v.push_back(remainder.substr(0, index));

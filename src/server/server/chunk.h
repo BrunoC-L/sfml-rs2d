@@ -4,19 +4,16 @@
 #include "splitString.h"
 #include <unordered_map>
 #include <fstream>
-// #include "GameObject.h"
-#include "ServiceProvider.h"
+#include <memory>
 
 class Chunk {
-public:
-	Chunk(const VChunk& pos, ServiceProvider* provider);
-	~Chunk();
-	vector<vector<Tile*>> tiles;
-	static constexpr float TilesPerChunk = 64;
 private:
-	ServiceProvider* provider;
-	string getTilesetFileName() const;
+	std::string getWallsFileName() const;
+	void loadWalls();
 	VChunk chunkpos;
-	// unordered_map<VTile, vector<GameObject*>, VTileHash> gameObjects;
 	bool deleted = false;
+public:
+	static constexpr float TilesPerChunk = 64;
+	Chunk(const VChunk& pos);
+	std::shared_ptr<Tile> tiles[int(TilesPerChunk)][int(TilesPerChunk)];
 };

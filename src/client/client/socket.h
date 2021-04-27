@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include "socketState.h"
 
+
 class Socket : public AbstractSocket, public Service {
 private:
 	JSONTCPSocket socket;

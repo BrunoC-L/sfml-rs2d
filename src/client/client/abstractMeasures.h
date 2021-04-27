@@ -2,8 +2,6 @@
 #include "units.h"
 #include "abstractService.h"
 
-using namespace std;
-
 enum MouseClickType { Left, Right, Middle };
 
 class AbstractMeasures : public AbstractService {

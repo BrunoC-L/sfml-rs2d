@@ -3,8 +3,6 @@
 #include "json.h"
 #include <functional>
 
-using namespace std;
-
 class AbstractSocket : public AbstractService {
 public:
 	virtual void send(JSON& json) = 0;

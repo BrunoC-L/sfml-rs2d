@@ -1,8 +1,6 @@
 #pragma once
 #include "event.h"
 
-using namespace std;
-
 class KeyPress {
 public:
 	bool shift;

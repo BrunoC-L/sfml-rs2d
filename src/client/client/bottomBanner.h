@@ -4,7 +4,6 @@
 #include "service.h"
 #include "serviceProvider.h"
 #include "abstractRenderWindow.h"
-using namespace std;
 
 class BottomBanner : public Service {
 public:

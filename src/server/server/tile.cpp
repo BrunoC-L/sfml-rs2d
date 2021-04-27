@@ -29,6 +29,6 @@ bool Tile::canMove(VTile delta, int bordersTo, int bordersFrom) {
 		case  west         : return !(bordersTo &  WEST          || bordersFrom &  EAST);
 		case  north        : return !(bordersTo &  NORTH         || bordersFrom &  SOUTH);
 		default:
-			throw new exception("This should never happen");
+			throw new std::exception("This should never happen");
 	}
 }

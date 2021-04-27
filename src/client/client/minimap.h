@@ -6,8 +6,6 @@
 #include "service.h"
 #include "abstractRenderWindow.h"
 
-using namespace std;
-
 class Minimap : public Service {
 public:
     Minimap(ServiceProvider* provider, AbstractRenderWindow* window);

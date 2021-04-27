@@ -3,8 +3,6 @@
 
 class Tile;
 
-using namespace std;
-
 #undef  TYPE
 #undef  PARENTS
 #undef  MEMBERS

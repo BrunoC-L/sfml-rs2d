@@ -1,2 +1,0 @@
-Tree|Stump//1//2//posx//posy//1//1//1//A tree|A sad looking stump don't worry it will grow back//Chop Down///1//logs//0//false//1//1
-1169,864

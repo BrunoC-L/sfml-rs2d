@@ -8,8 +8,6 @@
 #include "item.h"
 #include "service.h"
 
-using namespace std;
-
 class RightBanner : public Service {
 public:
     RightBanner(ServiceProvider* provider, AbstractRenderWindow* window);
@@ -22,5 +20,5 @@ private:
     Minimap minimap;
     RightBanner();
     sf::RectangleShape banner;
-    vector<pair<Item, sf::RectangleShape>> inventoryItems;
+    std::vector<std::pair<Item, sf::RectangleShape>> inventoryItems;
 };

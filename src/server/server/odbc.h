@@ -12,54 +12,47 @@
 #include <functional>
 #include "json.h"
 
-#define TRYODBC(h, ht, x)   {   RETCODE rc = x;\
-                                if (rc != SQL_SUCCESS) \
-                                { \
-                                    HandleDiagnosticRecord (h, ht, rc); \
-                                } \
-                                if (rc == SQL_ERROR) \
-                                { \
-                                    fwprintf(stderr, L"Error in " L#x L"\n"); \
-                                    goto Exit;  \
-                                }  \
-                            }
+#define TRYODBC(h, ht, x) {\
+    RETCODE rc = x;\
+    if (rc != SQL_SUCCESS) {\
+        HandleDiagnosticRecord (h, ht, rc); \
+        if (rc == SQL_ERROR) \
+        { \
+            fwprintf(stderr, L"Error in " L#x L"\n"); \
+            goto Exit;  \
+        }  \
+    }\
+}
 
 typedef struct STR_BINDING {
     SQLSMALLINT         cDisplaySize;           /* size to display  */
-    WCHAR* wszBuffer;             /* display buffer   */
+    WCHAR* wszBuffer;                           /* display buffer   */
     SQLLEN              indPtr;                 /* size or null     */
     BOOL                fChar;                  /* character col?   */
-    struct STR_BINDING* sNext;                 /* linked list      */
+    struct STR_BINDING* sNext;                  /* linked list      */
 } BINDING;
 
-void HandleDiagnosticRecord(SQLHANDLE      hHandle,
-    SQLSMALLINT    hType,
-    RETCODE        RetCode);
+void HandleDiagnosticRecord(SQLHANDLE hHandle, SQLSMALLINT hType, RETCODE RetCode);
+std::string getMessage(SQLHANDLE hHandle, SQLSMALLINT hType, RETCODE RetCode);
+void AllocateBindings(HSTMT hStmt, SQLSMALLINT cCols, BINDING** ppBinding);
 
-
-void AllocateBindings(HSTMT         hStmt,
-    SQLSMALLINT   cCols,
-    BINDING** ppBinding,
-    SQLSMALLINT* pDisplay);
-
-#define DISPLAY_MAX 10000          // Arbitrary limit on column width to display
-#define DISPLAY_FORMAT_EXTRA 3  // Per column extra display bytes (| <data> )
-#define DISPLAY_FORMAT      L"%c %*.*s "
-#define DISPLAY_FORMAT_C    L"%c %-*.*s "
-#define NULL_SIZE           6   // <NULL>
-#define SQL_QUERY_SIZE      1000 // Max. Num characters for SQL Query passed in.
-
+#define DISPLAY_MAX         1000
+#define NULL_SIZE           6    // <NULL>
+#define SQL_QUERY_SIZE      1000
 #define PIPE                L'|'
 
-using QueryResult = std::vector<JSON>;
-using Query = std::pair<std::string, std::function<void(QueryResult)>>;
-QueryResult getResults(HSTMT       hStmt,
-    SQLSMALLINT cCols);
+using SelectQueryResult = std::vector<JSON>;
+using SelectQuery = std::pair<std::string, std::function<void(SelectQueryResult)>>;
+using NonSelectQueryResult = std::string;
+using NonSelectQuery = std::pair<std::string, std::function<void(NonSelectQueryResult)>>;
+
+SelectQueryResult getResults(HSTMT hStmt, SQLSMALLINT cCols);
 
 int db(
     WCHAR* connectionString,
     std::mutex& queryLock,
-    std::vector<Query>& queries,
+    std::vector<SelectQuery>& selectQueries,
+    std::vector<NonSelectQuery>& nonSelectQueries,
     std::mutex& waiter,
     std::condition_variable& cv,
     bool* connected

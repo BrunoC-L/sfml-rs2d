@@ -44,28 +44,28 @@ void SFRenderWindow::init() {
 				return;
 			}
 			VTile tileClicked = converter.getPositionInGame(ev->pos);
-			Tile* t = map->getTileFromVTile(tileClicked);
+			std::shared_ptr<Tile> t = map->getTileFromVTile(tileClicked);
 			if (t)
 				t->onLeftClick(*ev);
 		}
 		else {
 			auto abs = ev->pos / measures->stretch;
-			auto newUserButton = std::make_pair(std::make_pair<int>(407, 659), std::make_pair<int>(495, 565));
+			int newUserButton[2][2] = { {407, 659}, {495, 565} };
 			bool clickedOnNewUser =
-				abs.x > newUserButton.first.first &&
-				abs.x < newUserButton.first.second &&
-				abs.y > newUserButton.second.first &&
-				abs.y < newUserButton.second.second;
+				abs.x > newUserButton[0][0] &&
+				abs.x < newUserButton[0][1] &&
+				abs.y > newUserButton[1][0] &&
+				abs.y < newUserButton[1][1];
 			if (clickedOnNewUser) {
 				player->signUp();
 				return;
 			}
-			auto existingUserButton = std::make_pair(std::make_pair<int>(690, 942), std::make_pair<int>(495, 565));
+			int existingUserButton[2][2] = { {690, 942}, {495, 565} };
 			bool clickedOnExistingUser =
-				abs.x > existingUserButton.first.first &&
-				abs.x < existingUserButton.first.second&&
-				abs.y > existingUserButton.second.first &&
-				abs.y < existingUserButton.second.second;
+				abs.x > existingUserButton[0][0] &&
+				abs.x < existingUserButton[0][1] &&
+				abs.y > existingUserButton[1][0] &&
+				abs.y < existingUserButton[1][1];
 			if (clickedOnExistingUser) {
 				JSON json;
 				json["type"] = "'salts request'";
@@ -83,7 +83,7 @@ void SFRenderWindow::init() {
 			if (!rightClickInterface->active || !rightClickInterface->mouseIsInRect(ev)) {
 				rightClickInterface->setPosition(ev->pos);
 				VTile tileClicked = converter.getPositionInGame(ev->pos);
-				Tile* t = map->getTileFromVTile(tileClicked);
+				std::shared_ptr<Tile> t = map->getTileFromVTile(tileClicked);
 				if (t)
 					t->onRightClick(*ev);
 			}
@@ -102,7 +102,7 @@ void SFRenderWindow::init() {
 			if (clickedOnRightBanner)
 				return;
 			VTile tileClicked = converter.getPositionInGame(ev->pos);
-			Tile* t = map->getTileFromVTile(tileClicked);
+			std::shared_ptr<Tile> t = map->getTileFromVTile(tileClicked);
 			if (t)
 				t->onMiddleClick(*ev);
 		}
@@ -263,7 +263,6 @@ void SFRenderWindow::draw() {
 			pos.y - map->centerChunk.y * AbstractMeasures::TilesPerChunk - measures->getInnerWindowSizeTile().y / 2
 		);
 		auto getTransform = [&](const VTile& relativePos, const VChunk& chunkOffset) {
-			AbstractMeasures* measures = (AbstractMeasures*)provider->get("Measures");
 			const float scale = measures->zoom;
 			VTile offsetTiles = VTile(chunkOffset.x * AbstractMeasures::TilesPerChunk, chunkOffset.y * AbstractMeasures::TilesPerChunk) - relativePos;
 			const auto offset = VPixel(AbstractMeasures::pixelsPerTile * offsetTiles.x * scale, AbstractMeasures::pixelsPerTile * offsetTiles.y * scale);
@@ -282,19 +281,19 @@ void SFRenderWindow::draw() {
 			transform.scale(scale, scale);
 			return transform;
 		};
-		map->mutex.lock();
-		for (int i = 0; i < 2 * map->chunkRadius + 1; ++i)
-			for (int j = 0; j < 2 * map->chunkRadius + 1; ++j) {
-				auto* chunk = map->loaded[i][j];
-				if (chunk->deleted)
-					return;
-				sf::Transform transform = getTransform(relativePos + VTile(0.5, 0.5), VChunk(i, j) - VChunk(map->chunkRadius, map->chunkRadius));
-				chunk->tilemap.draw(*this, transform);
-				chunk->wallmap.draw(*this, transform);
-				chunk->objectmap.draw(*this, transform);
-			}
-		map->mutex.unlock();
 
+		{
+			std::lock_guard<std::mutex> lock(map->mutex);
+			for (int i = 0; i < 2 * map->chunkRadius + 1; ++i)
+				for (int j = 0; j < 2 * map->chunkRadius + 1; ++j) {
+					auto* chunk = map->loaded[i][j];
+					if (chunk->deleted)
+						return;
+					sf::Transform transform = getTransform(relativePos + VTile(0.5, 0.5), VChunk(i, j) - VChunk(map->chunkRadius, map->chunkRadius));
+					draw(&chunk->map, transform);
+					chunk->wallmap.draw(*this, transform);
+				}
+		}
 		for (int i = 0; i < playerPositions.size(); ++i)
 			draw(playerPositions[i].second, 0, playerSprite);
 

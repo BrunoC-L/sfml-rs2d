@@ -7,24 +7,22 @@
 #include <fstream>
 #include "GameObject.h"
 #include "abstractMeasures.h"
-#include "abstractRenderWindow.h"
-#include "serviceProvider.h"
 
 class Chunk {
 public:
-	Chunk(const VChunk& pos, ServiceProvider* provider);
+	Chunk(const VChunk& pos);
 	~Chunk();
-	vector<vector<Tile*>> tiles;
+	std::shared_ptr<Tile> tiles[int(AbstractMeasures::TilesPerChunk)][int(AbstractMeasures::TilesPerChunk)];
 	bool deleted = false;
-	TileMap tilemap;
+	sf::Texture mapTexture;
+	sf::RectangleShape map;
 	TileMap wallmap;
-	TileMap objectmap;
+	//int walls[int(AbstractMeasures::TilesPerChunk * AbstractMeasures::TilesPerChunk)];
 private:
-	ServiceProvider* provider;
-	string getTilesetFileName() const;
-	string getGroundTexturesetFileName() const;
-	string getObjectsTexturesetFileName() const;
-	string getWallsTexturesetFileName() const;
+	std::string getGroundTexturesetFileName() const;
+	//std::string getWallsTexturesetFileName() const;
+	//std::string getWallsFileName() const;
+	void loadTexture();
+	//void loadWalls();
 	VChunk chunkpos;
-	unordered_map<VTile, vector<GameObject*>, VTileHash> gameObjects;
 };

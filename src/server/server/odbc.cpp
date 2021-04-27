@@ -1,10 +1,12 @@
 #include "odbc.h"
+#include "onExit.h"
 #include <condition_variable>
 
 int db(
     WCHAR* connectionString,
     std::mutex& queryLock,
-    std::vector<Query>& queries,
+    std::vector<SelectQuery>& selectQueries,
+    std::vector<NonSelectQuery>& nonSelectQueries,
     std::mutex& waiter,
     std::condition_variable& cv,
     bool* connected
@@ -51,33 +53,69 @@ int db(
         SQL_HANDLE_DBC,
         SQLAllocHandle(SQL_HANDLE_STMT, hDbc, &hStmt));
 
-    // std::wprintf(L"Enter SQL commands, type (control)Z to exit\n"); // SQL COMMAND > ");
-
-    // Loop to get input and execute queries
-
     while (true) {
-        Query query;
-        std::unique_lock<std::mutex> lock(waiter);
-        cv.wait(lock, [&]() { return queries.size() != 0; });
-        lock.unlock();
-        queryLock.lock();
-        query = queries[0];
-        queries.erase(queries.begin());
-        queryLock.unlock();
+        SelectQuery sq;
+        NonSelectQuery nsq;
+        {
+            bool wait;
+            {
+                std::lock_guard<std::mutex> g(queryLock);
+                wait = selectQueries.size() == 0 && nonSelectQueries.size() == 0;
+            }
+            if (wait) {
+                std::unique_lock<std::mutex> lock(waiter);
+                cv.wait(lock, [&]() {
+                    return selectQueries.size() != 0 || nonSelectQueries.size() != 0;
+                });
+            }
+        }
+        bool SELECT = false;
+        WCHAR wquery[SQL_QUERY_SIZE];
+
+        {
+            std::lock_guard<std::mutex> g(queryLock);
+            std::string q;
+            if (selectQueries.size() > nonSelectQueries.size()) {
+                sq = selectQueries[0];
+                SELECT = true;
+                selectQueries.erase(selectQueries.begin());
+                q = sq.first;
+            }
+            else {
+                nsq = nonSelectQueries[0];
+                SELECT = false;
+                nonSelectQueries.erase(nonSelectQueries.begin());
+                q = nsq.first;
+            }
+            for (int i = 0; i < q.length(); ++i)
+                wquery[i] = q[i];
+            wquery[q.length()] = 0;
+        }
+
+        bool* CALLED = new bool(false);
+        OnExit _([CALLED, SELECT, sq, nsq]() {
+            bool called = *CALLED;
+            delete CALLED;
+            if (!called)
+                throw std::exception(("Callback never called after query: " + SELECT ? sq.first : nsq.first).c_str());
+        });
+
         RETCODE     RetCode;
         SQLSMALLINT sNumResults;
-
-        WCHAR wquery[SQL_QUERY_SIZE];
-        for (int i = 0; i < query.first.length(); ++i)
-            wquery[i] = query.first[i];
-        wquery[query.first.length()] = 0;
         RetCode = SQLExecDirect(hStmt, wquery, SQL_NTS);
 
         switch (RetCode)
         {
         case SQL_SUCCESS_WITH_INFO:
         {
-            HandleDiagnosticRecord(hStmt, SQL_HANDLE_STMT, RetCode);
+            std::string info = getMessage(hStmt, SQL_HANDLE_STMT, RetCode);
+            if (SELECT)
+                throw std::exception((info + " encountered during select: '" + sq.first + "'\n").c_str());
+            else {
+                *CALLED = true;
+                nsq.second(info);
+            }
+            break;
             // fall through
         }
         case SQL_SUCCESS:
@@ -88,31 +126,34 @@ int db(
                 SQL_HANDLE_STMT,
                 SQLNumResultCols(hStmt, &sNumResults));
 
-            if (sNumResults > 0)
-            {
-                query.second(getResults(hStmt, sNumResults));
+            if (sNumResults > 0) {
+                // Does not mean that select has to return at least 1 element, I'm not sure what sNumResults stands for
+                // But select queries that return empty go through here still
+                _ASSERT(SELECT);
+                *CALLED = true;
+                sq.second(getResults(hStmt, sNumResults));
             }
-            else
-            {
+            else {
+                _ASSERT(!SELECT);
+                *CALLED = true;
+                nsq.second(NonSelectQueryResult()); // TODO: pass the message
                 SQLLEN cRowCount;
-
                 TRYODBC(hStmt,
                     SQL_HANDLE_STMT,
                     SQLRowCount(hStmt, &cRowCount));
-
-                //if (cRowCount >= 0)
-                //{
-                //    std::wprintf(L"%Id %s affected\n",
-                //        cRowCount,
-                //        cRowCount == 1 ? L"row" : L"rows");
-                //}
             }
             break;
         }
 
         case SQL_ERROR:
         {
-            HandleDiagnosticRecord(hStmt, SQL_HANDLE_STMT, RetCode);
+            std::string err = getMessage(hStmt, SQL_HANDLE_STMT, RetCode);
+            if (SELECT)
+                throw std::exception((err + " encountered during select: '" + sq.first + "'\n").c_str());
+            else {
+                *CALLED = true;
+                nsq.second(err);
+            }
             break;
         }
 
@@ -124,34 +165,20 @@ int db(
             SQL_HANDLE_STMT,
             SQLFreeStmt(hStmt, SQL_CLOSE));
     }
-
 Exit:
-
-    // Free ODBC handles and exit
-
     if (hStmt)
-    {
         SQLFreeHandle(SQL_HANDLE_STMT, hStmt);
-    }
-
-    if (hDbc)
-    {
+    if (hDbc) {
         SQLDisconnect(hDbc);
         SQLFreeHandle(SQL_HANDLE_DBC, hDbc);
     }
-
     if (hEnv)
-    {
         SQLFreeHandle(SQL_HANDLE_ENV, hEnv);
-    }
-
-    std::wprintf(L"\nDisconnected.");
-
-    return 0;
-
+    std::cout << "Database Disconnected\n";
+    exit(-100);
 }
 
-std::vector<std::string> getTitles(HSTMT hStmt, DWORD cDisplaySize, BINDING* pBinding) {
+std::vector<std::string> getTitles(HSTMT hStmt, BINDING* pBinding) {
     WCHAR           wszTitle[DISPLAY_MAX];
     SQLSMALLINT     iCol = 0;
     std::vector<std::string> titles;
@@ -168,25 +195,20 @@ std::vector<std::string> getTitles(HSTMT hStmt, DWORD cDisplaySize, BINDING* pBi
         std::wstring ws(wszTitle);
         titles.push_back(std::string(ws.begin(), ws.end()));
     }
-
     return titles;
-
 Exit:
-    throw std::exception("idk wtf this is");
+    throw std::exception("Failed to get titles for query\n");
 }
 
-QueryResult getResults(HSTMT       hStmt,
-    SQLSMALLINT cCols)
-{
+SelectQueryResult getResults(HSTMT hStmt, SQLSMALLINT cCols) {
     BINDING* pFirstBinding, * pThisBinding;
-    SQLSMALLINT     cDisplaySize;
-    RETCODE         RetCode = SQL_SUCCESS;
+    RETCODE RetCode = SQL_SUCCESS;
 
-    AllocateBindings(hStmt, cCols, &pFirstBinding, &cDisplaySize);
-    auto titles = getTitles(hStmt, cDisplaySize + 1, pFirstBinding);
+    AllocateBindings(hStmt, cCols, &pFirstBinding);
+    auto titles = getTitles(hStmt, pFirstBinding);
 
     bool fNoData = false;
-    QueryResult result;
+    SelectQueryResult result;
     int column;
     do {
         TRYODBC(hStmt, SQL_HANDLE_STMT, RetCode = SQLFetch(hStmt));
@@ -223,24 +245,18 @@ Exit:
     return result;
 }
 
-void AllocateBindings(HSTMT         hStmt,
-    SQLSMALLINT   cCols,
-    BINDING** ppBinding,
-    SQLSMALLINT* pDisplay)
-{
+void AllocateBindings(HSTMT hStmt, SQLSMALLINT  cCols, BINDING** ppBinding) {
     SQLSMALLINT     iCol;
     BINDING* pThisBinding, * pLastBinding = NULL;
     SQLLEN          cchDisplay, ssType;
     SQLSMALLINT     cchColumnNameLength;
-
-    *pDisplay = 0;
 
     for (iCol = 1; iCol <= cCols; iCol++)
     {
         pThisBinding = (BINDING*)(malloc(sizeof(BINDING)));
         if (!(pThisBinding))
         {
-            fwprintf(stderr, L"Out of memory!\n");
+            std::cout << "Out of memory!\nDatabase FAILED\n";
             exit(-100);
         }
 
@@ -304,7 +320,7 @@ void AllocateBindings(HSTMT         hStmt,
 
         if (!(pThisBinding->wszBuffer))
         {
-            fwprintf(stderr, L"Out of memory!\n");
+            std::cout << "Out of memory!\nDatabase FAILED\n";
             exit(-100);
         }
 
@@ -340,18 +356,44 @@ void AllocateBindings(HSTMT         hStmt,
         pThisBinding->cDisplaySize = max((SQLSMALLINT)cchDisplay, cchColumnNameLength);
         if (pThisBinding->cDisplaySize < NULL_SIZE)
             pThisBinding->cDisplaySize = NULL_SIZE;
-
-        *pDisplay += pThisBinding->cDisplaySize + DISPLAY_FORMAT_EXTRA;
-
     }
-
     return;
-
 Exit:
-
+    std::cout << "Database FAILED\n";
     exit(-1);
-
     return;
+}
+
+std::string getMessage(SQLHANDLE      hHandle,
+    SQLSMALLINT    hType,
+    RETCODE        RetCode) {
+    SQLSMALLINT iRec = 0;
+    SQLINTEGER  iError;
+    WCHAR       wszMessage[1000];
+    WCHAR       wszState[SQL_SQLSTATE_SIZE + 1];
+
+    std::string msg;
+
+    if (RetCode == SQL_INVALID_HANDLE)
+        msg = "Invalid handle\n";
+    else {
+        while (SQLGetDiagRec(hType,
+            hHandle,
+            ++iRec,
+            wszState,
+            &iError,
+            wszMessage,
+            (SQLSMALLINT)(sizeof(wszMessage) / sizeof(WCHAR)),
+            (SQLSMALLINT*)NULL) == SQL_SUCCESS)
+        {
+            //if (wcsncmp(wszState, L"01004", 5))
+                //fwprintf(stderr, L"[%5.5s] %s (%d)\n", wszState, wszMessage, iError);
+
+            std::wstring werr(wszMessage);
+            msg += std::string(werr.begin(), werr.end()) + "\n";
+        }
+    }
+    return msg;
 }
 
 void HandleDiagnosticRecord(SQLHANDLE      hHandle,

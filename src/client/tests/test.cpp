@@ -3,6 +3,7 @@
 #include "globalWindow.h"
 #include "socketMock1.h"
 #include "frameEvent.h"
+#include "onExit.h"
 
 TEST(app_builds, TestName) {
 	globalWindow->setActive(false);
@@ -40,9 +41,11 @@ TEST(app_runs_with_socket_mock_1, TestName) {
 	App app(&provider, &window, &socket, &measures, &map, &player, &camera, &chat, &inventory, &gameData);
 
 	bool hasStarted = false;
+	bool done = false;
 
 	std::thread t(
 		[&]() {
+			OnExit _([&]() { done = true; });
 			globalWindow->setActive(true);
 			app.init();
 			hasStarted = true;
@@ -51,7 +54,7 @@ TEST(app_runs_with_socket_mock_1, TestName) {
 		}
 	);
 
-	while (!hasStarted);
+	while (!hasStarted && !done); // if something goes wrong, done will go through
 
 	app.stop();
 	t.join();
@@ -75,9 +78,11 @@ TEST(player_position_updates_when_server_emits, TestName) {
 	App app(&provider, &window, &socket, &measures, &map, &player, &camera, &chat, &inventory, &gameData);
 
 	bool hasStarted = false;
+	bool done = false;
 
 	std::thread t(
 		[&]() {
+			OnExit _([&]() { done = true; });
 			globalWindow->setActive(true);
 			app.init();
 			hasStarted = true;
@@ -86,22 +91,28 @@ TEST(player_position_updates_when_server_emits, TestName) {
 		}
 	);
 
-	while (!hasStarted);
-
-	JSON hello;
-	int id = 7;
-	hello["type"] = "'login'";
-	hello["data"] = std::to_string(id);
-	socket.mockReceiveFromServer(hello);
-	EXPECT_EQ(player.getID(), id);
+	while (!hasStarted && !done); // if something goes wrong, done will go through
 
 	auto _1172 = 18 * AbstractMeasures::TilesPerChunk + 20;
 	auto _869 = 13 * AbstractMeasures::TilesPerChunk + 37;
 	VTile lumbridge(_1172, _869, 0);
-	EXPECT_EQ(player.getPosition(), lumbridge);
-	EXPECT_EQ(player.getIntPosition(), lumbridge);
 
-	auto close = lumbridge + VTile(1, -1);
+	auto close = lumbridge + VTile(3, -3);
+
+	JSON hello;
+	int id = 7;
+	hello["type"] = "login";
+	hello["data"] = JSON();
+	hello["data"]["position"] = JSON();
+	hello["data"]["position"]["x"] = std::to_string(close.x);
+	hello["data"]["position"]["y"] = std::to_string(close.y);
+	hello["data"]["id"] = std::to_string(id);
+	socket.mockReceiveFromServer(hello);
+	EXPECT_EQ(player.getID(), id);
+	EXPECT_EQ(player.getPosition(), close);
+	EXPECT_EQ(player.getIntPosition(), close);
+	 
+	close = lumbridge + VTile(1, -1);
 
 	JSON data("[]");
 	JSON playerPos;

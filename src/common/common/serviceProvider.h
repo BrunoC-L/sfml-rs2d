@@ -2,17 +2,16 @@
 #include "abstractService.h"
 #include <string>
 #include <unordered_map>
-using namespace std;
 
 class ServiceProvider {
 public:
-	unordered_map<string, AbstractService*> services;
+	std::unordered_map<std::string, AbstractService*> services;
 
-	void set(string name, AbstractService* service) {
+	void set(std::string name, AbstractService* service) {
 		this->services[name] = service;
 	}
 
-	AbstractService* get(string name) {
+	AbstractService* get(std::string name) {
 		return this->services[name];
 	}
 };

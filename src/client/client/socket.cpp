@@ -90,7 +90,7 @@ bool Socket::connect() {
 void Socket::disconnect() {
     if (!state->connected())
         return;
-    state = make_shared<DisconnectedSocketState>(this);
+    state = std::make_shared<DisconnectedSocketState>(this);
     socket.disconnect();
     LogoutEvent().emit();
 }
