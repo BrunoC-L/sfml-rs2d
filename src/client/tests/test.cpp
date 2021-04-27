@@ -88,20 +88,26 @@ TEST(player_position_updates_when_server_emits, TestName) {
 
 	while (!hasStarted);
 
-	JSON hello;
-	int id = 7;
-	hello["type"] = "'login'";
-	hello["data"] = std::to_string(id);
-	socket.mockReceiveFromServer(hello);
-	EXPECT_EQ(player.getID(), id);
-
 	auto _1172 = 18 * AbstractMeasures::TilesPerChunk + 20;
 	auto _869 = 13 * AbstractMeasures::TilesPerChunk + 37;
 	VTile lumbridge(_1172, _869, 0);
-	EXPECT_EQ(player.getPosition(), lumbridge);
-	EXPECT_EQ(player.getIntPosition(), lumbridge);
 
-	auto close = lumbridge + VTile(1, -1);
+	auto close = lumbridge + VTile(3, -3);
+
+	JSON hello;
+	int id = 7;
+	hello["type"] = "login";
+	hello["data"] = JSON();
+	hello["data"]["position"] = JSON();
+	hello["data"]["position"]["x"] = std::to_string(close.x);
+	hello["data"]["position"]["y"] = std::to_string(close.y);
+	hello["data"]["id"] = std::to_string(id);
+	socket.mockReceiveFromServer(hello);
+	EXPECT_EQ(player.getID(), id);
+	EXPECT_EQ(player.getPosition(), close);
+	EXPECT_EQ(player.getIntPosition(), close);
+	 
+	close = lumbridge + VTile(1, -1);
 
 	JSON data("[]");
 	JSON playerPos;
