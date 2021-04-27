@@ -52,19 +52,29 @@ public:
             [&]() {
                 std::cout << "Tick Thread: " << std::this_thread::get_id() << std::endl;
                 while (!stop) {
-                    if (tickScheduler->shouldTick())
-                        TickEvent().emit();
+                    try {
+                        if (tickScheduler->shouldTick())
+                            TickEvent().emit();
+                    }
+                    catch (std::exception e) {
+                        std::cout << "Tick Thread Error: " << e.what() << std::endl;
+                    }
                 }
             }
         );
 
         std::cout << "Console Read Thread: " << std::this_thread::get_id() << std::endl;
         while (!stop) {
-            std::string action;
-            std::cin >> action;
-            if (action == "stop")
-                stop = true;
-            // other commands here...
+            try {
+                std::string action;
+                std::cin >> action;
+                if (action == "stop")
+                    stop = true;
+                // other commands here...
+            }
+            catch (std::exception e) {
+                std::cout << "Console Read Thread Error: " << e.what() << std::endl;
+            }
         }
     }
 };
