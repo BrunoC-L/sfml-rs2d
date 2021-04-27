@@ -10,13 +10,16 @@ void Map::init() {
 }
 
 void Map::load() {
-	chunks = std::vector<std::shared_ptr<Chunk>>(24 * 28);
-	for (int i = 17; i <= 19; ++i) { // i should be 0 to 28 in prod
-		std::cout << "Loading chunks x = " << i << std::endl;
-		for (int j = 12; j <= 14; ++j) {
+	std::cout << "Loading Map";
+	chunks = std::vector<std::shared_ptr<Chunk>>(29 * 25);
+	for (int i = 0; i < 29; ++i) {
+		std::cout << '.';
+		for (int j = 0; j < 25; ++j) {
 			chunks[24 * i + j] = std::make_shared<Chunk>(VChunk(i, j));
 		}
 	}
+	std::cout << "\rLoading Map                                          \n"
+				 "Done Loading Map\n";
 }
 
 std::shared_ptr<Chunk> Map::getChunk(VChunk v) {

@@ -288,7 +288,6 @@ namespace picosha2 {
         void hash256_impl(RaIter first, RaIter last, OutIter first2, OutIter last2, int,
             std::random_access_iterator_tag) {
             hash256_one_by_one hasher;
-            // hasher.init();
             hasher.process(first, last);
             hasher.finish();
             hasher.get_hash_bytes(first2, last2);
@@ -299,7 +298,6 @@ namespace picosha2 {
             OutIter last2, int buffer_size, std::input_iterator_tag) {
             std::vector<byte_t> buffer(buffer_size);
             hash256_one_by_one hasher;
-            // hasher.init();
             while (first != last) {
                 int size = buffer_size;
                 for (int i = 0; i != buffer_size; ++i, ++first) {

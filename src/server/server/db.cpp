@@ -10,6 +10,8 @@ void DB::init() {
 	acquire();
 	connect();
 	std::cout << "Connected to DB, Performing DB checks for version " + version << std::endl;
+	query("create database rs2d;");
+	query("use rs2d;");
 	if (isEmpty())
 		createDB();
 	else
@@ -18,24 +20,28 @@ void DB::init() {
 }
 
 void DB::connect() {
-	FILE* pFile;
-	const int s = 1000;
-	wchar_t pwszConnStr[s];
-	char* buf = nullptr;
-	size_t sz = 0;
-	std::string path;
+	std::string env = "RS2D_HOME";
 	std::string fileName = "dbinfo.txt";
-	if (_dupenv_s(&buf, &sz, "ODBC_RS2D_HOME") == 0 && buf == nullptr)
-		throw std::exception("No environment variable set for 'ODBC_RS2D_HOME'");
-	path = std::string(buf);
+
+	char* buf = nullptr;
+	if (_dupenv_s(&buf, nullptr, env.c_str()) == 0 && buf == nullptr)
+		throw std::exception(("No environment variable set for '" + env + "'").c_str());
+	std::string path(buf);
 	free(buf);
+
+	FILE* pFile;
 	auto err = fopen_s(&pFile, (path + "/" + fileName).c_str(), "r");
 	if (pFile == NULL || err != 0)
-		throw std::exception((fileName + " not found at 'ODBC_RS2D_HOME'").c_str());
+		throw std::exception((fileName + " not found at '" + env + "'").c_str());
+
+	const int s = 1000;
+	wchar_t pwszConnStr[s];
 	fgetws(pwszConnStr, s, pFile);
 	fclose(pFile);
+
 	dbthread = std::thread(
 		[&]() {
+			std::cout << "DB Thread: " << std::this_thread::get_id() << std::endl;
 			db(pwszConnStr, queryLock, queries, waiter, cv, &connected);
 		}
 	);

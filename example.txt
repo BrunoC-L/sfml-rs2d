@@ -1,0 +1,14 @@
+DRIVER=SQL Server Native Client 11.0;SERVER=localhost\SQLEXPRESS;Trusted_Connection=Yes;
+
+or
+
+DRIVER=SQL Server Native Client 11.0;SERVER=localhost;Trusted_Connection=Yes;
+
+or
+
+DRIVER=SQL Server;SERVER=localhost;Trusted_Connection=Yes;
+
+
+
+to find your driver try opening "ODBC data sources 64 bit", windows computers should have it
+then inside "drivers" see if you can find SQL Server Native Client 11.0

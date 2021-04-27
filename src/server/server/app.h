@@ -28,13 +28,16 @@ public:
     }
 
     void init() {
+        std::cout << "Main Thread: " << std::this_thread::get_id() << std::endl;
         acquire();
+        std::cout << "Initializing App\n";
         dbService->init();
         map->init();
         userService->init();
         playerActionService->init();
         server->init();
         scheduler->init();
+        std::cout << "App Initialized\n";
     }
 
     void stop() {
@@ -47,6 +50,7 @@ public:
         bool stop = false;
         gameTicks = std::thread(
             [&]() {
+                std::cout << "Tick Thread: " << std::this_thread::get_id() << std::endl;
                 while (!stop) {
                     if (tickScheduler->shouldTick())
                         TickEvent().emit();
@@ -54,12 +58,13 @@ public:
             }
         );
 
+        std::cout << "Console Read Thread: " << std::this_thread::get_id() << std::endl;
         while (!stop) {
             std::string action;
             std::cin >> action;
             if (action == "stop")
                 stop = true;
-            // send commands to executor
+            // other commands here...
         }
     }
 };
