@@ -2,7 +2,7 @@
 
 int main(int argc, char* argv[]) {
 	JSON args;
-	for (int i = 1; i < sizeof(argv); ++i) {
+	for (int i = 1; i < argc; ++i) {
 		std::string s(argv[i]);
 		auto keyValue = split(s, "=");
 		auto key = keyValue[0];
