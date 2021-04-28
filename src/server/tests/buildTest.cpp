@@ -14,7 +14,7 @@ TEST(App_builds, TestName) {
 	App app(&provider, &server, &db, &map, &playerActionService, &userService, &tickScheduler, &scheduler);
 }
 
-TEST(App_inits_starts_stops, TestName) {
+TEST(SQLDB_App_inits_starts_stops, TestName) {
 	ServiceProvider provider;
 	DB db(&provider);
 	Map map(&provider);
