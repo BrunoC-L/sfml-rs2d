@@ -1,6 +1,5 @@
 #include "gameDataService.h"
 #include "constants.h"
-#include "login.h"
 
 GameDataService::GameDataService(ServiceProvider* provider, GameTickProgress* tracker) : Service(provider), tracker(tracker) {
     provider->set("GameData", this);
@@ -13,26 +12,18 @@ void GameDataService::init() {
         tracker->onGameTick();
     });
 
-	LoginEvent::subscribe(
-		new EventObserver<LoginEvent>(
-			[&](LoginEvent* ev) {
-				loggedIn = true;
-				// Temporal link with the player subscription...
-				// maybe add a new event called when the player receives login
-				// the other solution is for the gamedataservice to own the player
-				playerPositions = std::make_unique<PlayerPositions>(player);
-			}
-		)
-	);
+	loginObserver.set([&](LoginEvent& ev) {
+		loggedIn = true;
+		// Temporal link with the player subscription...
+		// maybe add a new event called when the player receives login
+		// the other solution is for the gamedataservice to own the player
+		playerPositions = std::make_unique<PlayerPositions>(player);
+	});
 
-	LogoutEvent::subscribe(
-		new EventObserver<LogoutEvent>(
-			[&](LogoutEvent* ev) {
-				loggedIn = false;
-				playerPositions.reset();
-			}
-		)
-	);
+	logoutObserver.set([&](LogoutEvent& ev) {
+		loggedIn = false;
+		playerPositions.reset();
+	});
 }
 
 const bool& GameDataService::userIsLoggedIn() {

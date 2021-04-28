@@ -47,15 +47,15 @@ void RightBanner::draw() {
     }
 }
 
-bool RightBanner::mouseIsInRect(MouseEvent* ev) {
-    int pxFromRightBorder = window->getSize().x - ev->pos.x;
+bool RightBanner::mouseIsInRect(MouseEvent& ev) {
+    int pxFromRightBorder = window->getSize().x - ev.pos.x;
     return pxFromRightBorder <= AbstractMeasures::rightBannerWidth;
 }
 
-void RightBanner::click(MouseEvent* ev) {
+void RightBanner::click(MouseEvent& ev) {
     constexpr auto offsetx = AbstractMeasures::minimapRadius + (AbstractMeasures::rightBannerWidth - 2 * AbstractMeasures::minimapRadius) / 2;
     VPixel middleOfMinimap(window->getSize().x - offsetx, AbstractMeasures::minimapRadius);
-    VPixel vpxFromMiddleOfMinimap = ev->pos - middleOfMinimap;
+    VPixel vpxFromMiddleOfMinimap = ev.pos - middleOfMinimap;
     constexpr auto r2 = AbstractMeasures::minimapRadius * AbstractMeasures::minimapRadius;
     auto d2 = vpxFromMiddleOfMinimap.x * vpxFromMiddleOfMinimap.x + vpxFromMiddleOfMinimap.y * vpxFromMiddleOfMinimap.y;
     bool clickIsOnMinimap = r2 >= d2;

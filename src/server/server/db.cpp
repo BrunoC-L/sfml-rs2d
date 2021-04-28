@@ -2,6 +2,7 @@
 #include "odbc.h"
 #include "queryBuilder.h"
 #include "onExit.h"
+#include "print.h"
 
 DB::DB(ServiceProvider* provider) : Service(provider) {
 	provider->set("DB", this);
@@ -40,24 +41,31 @@ void DB::connect() {
 	fgetws(pwszConnStr, s, pFile);
 	fclose(pFile);
 
-	bool* failed = new bool(false);
+	std::shared_ptr<bool> failed = std::make_shared<bool>(false);
 
 	dbthread = std::thread(
-		[&]() {
-			OnExit e([&]() {
+		[&, failed]() {
+			OnExit e([&, failed]() {
 				if (failed != nullptr)
 					*failed = true;
 			});
-			std::cout << "DB Thread: " << std::this_thread::get_id() << std::endl;
+			{
+				std::ostringstream ss;
+				ss << "DB Thread: " << std::this_thread::get_id() << std::endl;
+				print(ss);
+			}
 			db(pwszConnStr, queryLock, sQueries, nsQueries, waiter, cv, &connected);
+			{
+				std::ostringstream ss;
+				ss << "DB Thread " << std::this_thread::get_id() << " Exiting" << std::endl;
+				print(ss);
+			}
 		}
 	);
+
 	while (!connected) {
-		if (*failed) {
-			delete failed;
-			failed = nullptr;
+		if (*failed)
 			throw std::exception("DB failed to start\n");
-		}
 	}
 }
 
@@ -156,4 +164,10 @@ void DB::queryPlayerByUsernameEquals(std::string username, std::function<void(Se
 void DB::queryLoginDataByUserId(int id, std::function<void(SelectQueryResult)> f) {
 	std::string s = "select * from LoginData where id = '" + std::to_string(id) + "'\n";
 	selectQuery(s, f);
+}
+
+void DB::stop() {
+	connected = false;
+	cv.notify_one();
+	dbthread.join();
 }

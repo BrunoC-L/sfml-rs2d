@@ -48,7 +48,7 @@ using NonSelectQuery = std::pair<std::string, std::function<void(NonSelectQueryR
 
 SelectQueryResult getResults(HSTMT hStmt, SQLSMALLINT cCols);
 
-int db(
+void db(
     WCHAR* connectionString,
     std::mutex& queryLock,
     std::vector<SelectQuery>& selectQueries,

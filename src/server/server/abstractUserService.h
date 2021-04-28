@@ -11,4 +11,5 @@ public:
 	virtual void saveUserPosition(User& user) = 0;
 	virtual void logout(User& user) = 0;
 	virtual std::shared_ptr<User> getUserById(int id) = 0;
+	virtual void stop() = 0;
 };

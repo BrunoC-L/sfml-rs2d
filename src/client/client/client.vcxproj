@@ -159,7 +159,6 @@
     <ClInclude Include="chat.h" />
     <ClInclude Include="chatMessage.h" />
     <ClInclude Include="chunk.h" />
-    <ClInclude Include="clearevents.h" />
     <ClInclude Include="color.h" />
     <ClInclude Include="connectedState.h" />
     <ClInclude Include="disconnectedState.h" />
@@ -208,7 +207,6 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="chat.cpp" />
     <ClCompile Include="chunk.cpp" />
-    <ClCompile Include="clearevents.cpp" />
     <ClCompile Include="connectedState.cpp" />
     <ClCompile Include="disconnectedState.cpp" />
     <ClCompile Include="gameDataService.cpp" />
@@ -219,6 +217,7 @@
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="map.cpp" />
+    <ClCompile Include="measures.cpp" />
     <ClCompile Include="minimap.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="PlayerPositions.cpp" />

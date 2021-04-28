@@ -13,8 +13,8 @@ public:
     virtual void doUpdates() = 0;
     virtual void stopUpdates() = 0;
     virtual std::shared_ptr<Tile> getTileFromVTile(VTile tilePosition) = 0;
-    unsigned chunkRadius = 0;
-    VChunk centerChunk;
-    std::vector<std::vector<Chunk*>> loaded;
-    std::mutex mutex;
+    virtual unsigned getRadius() = 0;
+    virtual VChunk getCenterChunk()= 0;
+    virtual Chunk& getLoaded(int i, int j) = 0;
+    virtual std::mutex& getChunksMutex() = 0;
 };

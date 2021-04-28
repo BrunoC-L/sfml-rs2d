@@ -9,7 +9,6 @@
 #include "mouseMoveEvent.h"
 #include "abstractServices.h"
 #include "serviceProvider.h"
-#include "clearevents.h"
 
 class App : public Service {
 public:
@@ -18,18 +17,9 @@ public:
 
     App(
         ServiceProvider* provider,
-        AbstractRenderWindow* window,
-        AbstractSocket* socket,
-        AbstractMeasures* measures,
-        AbstractMap* map,
-        AbstractPlayer* player,
-        AbstractCamera* camera,
-        AbstractChat* chat,
-        AbstractInventory* inventory,
-        AbstractGameDataService* gameData
+        AbstractRenderWindow* window
     ) : renderWindow(window),
         Service(provider) {
-		clearAllEventSubscribers();
     }
 
     void init() {

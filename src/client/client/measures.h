@@ -4,34 +4,14 @@
 #include "service.h"
 
 class Measures : public AbstractMeasures, public Service {
+	EventObserver<LeftArrowKeyPressedEvent> leftObserver;
+	EventObserver<RightArrowKeyPressedEvent> rightObserver;
+	EventObserver<MouseWheelEvent> mouseWheelObserver;
 public:
 	Measures(ServiceProvider* provider) : Service(provider) {
 		provider->set("Measures", this);
 	}
-	void init() {
-		acquire();
-		LeftArrowKeyPressedEvent::subscribe(
-			new EventObserver<LeftArrowKeyPressedEvent>(
-				[&](LeftArrowKeyPressedEvent* ev) {
-					angle -= 5;
-				}
-			)
-		);
-		RightArrowKeyPressedEvent::subscribe(
-			new EventObserver<RightArrowKeyPressedEvent>(
-				[&](RightArrowKeyPressedEvent* ev) {
-					angle += 5;
-				}
-			)
-		);
-		MouseWheelEvent::subscribe(
-			new EventObserver<MouseWheelEvent>(
-				[&](MouseWheelEvent* ev) {
-					measures->zoom = measures->zoom * (1 + (0.3 + ev->delta) * 0.1f);
-				}
-			)
-		);
-	}
+	void init();
 
 	virtual VTile getInnerWindowSizeTile() const {
 		VPixel size = windowSize;

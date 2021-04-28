@@ -1,6 +1,7 @@
 #pragma once
 #include "socket-server.h"
 #include "json.h"
+#include "print.h"
 
 struct QueueMessage {
 	sf::TcpSocket* socket;
@@ -61,24 +62,35 @@ public:
 		server.start();
 		logicThread = std::thread(
 			[&]() {
-				std::cout << "Socket Message Queue Thread: " << std::this_thread::get_id() << std::endl;
+				{
+					std::ostringstream ss;
+					ss << "Socket Message Queue Thread: " << std::this_thread::get_id() << std::endl;
+					print(ss);
+				}
 				while (!stopped) {
 					std::unique_lock<std::mutex> lock(waiter);
-					cv.wait(lock, [&]() { return messageQueue.size() != 0; });
-					lock.unlock();
+					cv.wait(lock, [&]() { return messageQueue.size() != 0 || stopped; });
+					if (stopped)
+						break;
 					queueMutex.lock();
 					auto msg = messageQueue[0];
 					messageQueue.erase(messageQueue.begin());
 					queueMutex.unlock();
 					receive(msg);
 				}
+				{
+					std::ostringstream ss;
+					ss << "Socket Message Queue Thread " << std::this_thread::get_id() << " Exiting" << std::endl;
+					print(ss);
+				}
 			}
 		);
 	}
 
 	void stop() {
-		stopped = true;
 		server.stop();
+		stopped = true;
+		cv.notify_one();
 		logicThread.join();
 	}
 };

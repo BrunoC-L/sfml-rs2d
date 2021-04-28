@@ -1,6 +1,5 @@
 #include "userService.h"
 #include "sha256.h"
-#include "loginout.h"
 
 UserService::UserService(ServiceProvider* provider) : Service(provider) {
 	provider->set("User", this);
@@ -94,13 +93,9 @@ void UserService::init() {
     };
 
     server->on("salts request", onSaltsRequest, false);
-    LogoutEvent::subscribe(
-        new EventObserver<LogoutEvent>(
-            [&](LogoutEvent* ev) {
-                logout(*(ev->user));
-            }
-        )
-    );
+    logoutObserver.set([&](LogoutEvent& ev) {
+        logout(*(ev.user));
+    });
 }
 
 void UserService::saveUserPosition(User& user) {
@@ -127,4 +122,7 @@ std::shared_ptr<User> UserService::getUserById(int id) {
         if (user->id == id)
             return user;
     throw std::exception();
+}
+
+void UserService::stop() {
 }

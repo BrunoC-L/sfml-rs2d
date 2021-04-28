@@ -3,12 +3,12 @@
 #include "teleportEvent.h"
 #include "interactionClickEvent.h"
 #include "service.h"
+#include "login.h"
+#include "keyPressedEvent.h"
 
 struct LoginData {
 	std::string username;
 	std::string password;
-	std::string tempsalt;
-	std::string permsalt;
 	bool typingUsername = true;
 };
 
@@ -19,7 +19,13 @@ protected:
 	VTile intPosition;
     void walk(VTile pos);
 	LoginData loginData;
-	virtual std::pair<std::string, std::string> getCredentials() const override;
+	virtual std::pair<std::string, std::string> getCredentials(std::string tempsalt, std::string permsalt) const override;
+	EventObserver<WalkClickEvent> walkObserver;
+	EventObserver<LoginEvent> loginObserver;
+	EventObserver<LetterKeyPressedEvent> letterObserver;
+	EventObserver<BackspaceKeyPressedEvent> backspaceObserver;
+	EventObserver<TabKeyPressedEvent> tabObserver;
+	EventObserver<EnterKeyPressedEvent> enterObserver;
 public:
     Player(ServiceProvider* provider);
     void init();
@@ -30,7 +36,7 @@ public:
 	virtual const VTile& getPosition();
 	virtual const VTile& getIntPosition();
 	virtual std::pair<std::string, std::string> getUserNamePw() const override;
-	virtual void setSalts(std::string tempsalt, std::string permsalt) override;
+	virtual void login(std::string tempsalt, std::string permsalt) override;
 	virtual void login() override;
 	virtual void signUp() override;
 };

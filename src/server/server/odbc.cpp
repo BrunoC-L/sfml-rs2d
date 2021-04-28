@@ -2,7 +2,7 @@
 #include "onExit.h"
 #include <condition_variable>
 
-int db(
+void db(
     WCHAR* connectionString,
     std::mutex& queryLock,
     std::vector<SelectQuery>& selectQueries,
@@ -53,7 +53,7 @@ int db(
         SQL_HANDLE_DBC,
         SQLAllocHandle(SQL_HANDLE_STMT, hDbc, &hStmt));
 
-    while (true) {
+    while (*connected) {
         SelectQuery sq;
         NonSelectQuery nsq;
         {
@@ -65,10 +65,12 @@ int db(
             if (wait) {
                 std::unique_lock<std::mutex> lock(waiter);
                 cv.wait(lock, [&]() {
-                    return selectQueries.size() != 0 || nonSelectQueries.size() != 0;
+                    return selectQueries.size() != 0 || nonSelectQueries.size() != 0 || !*connected;
                 });
             }
         }
+        if (!*connected)
+            return;
         bool SELECT = false;
         WCHAR wquery[SQL_QUERY_SIZE];
 

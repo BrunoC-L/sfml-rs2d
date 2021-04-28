@@ -1,6 +1,4 @@
 #include "player.h"
-#include "login.h"
-#include "keyPressedEvent.h"
 #include "sha256.h"
 
 Player::Player(ServiceProvider* provider): Service(provider) {
@@ -13,54 +11,45 @@ void Player::init() {
     VTile lumbridge(18 * AbstractMeasures::TilesPerChunk + 20, 13 * AbstractMeasures::TilesPerChunk + 37, 0);
     position = lumbridge;
     intPosition = lumbridge;
-    WalkClickEvent::subscribe(new EventObserver<WalkClickEvent>(
-        [&](WalkClickEvent* ev) {
-            walk(ev->pos);
-        }
-    ));
+    walkObserver.set([&](WalkClickEvent& ev) {
+        walk(ev.pos);
+    });
 
-	LoginEvent::subscribe(
-		new EventObserver<LoginEvent>(
-			[&](LoginEvent* ev) {
-				auto& data = ev->json;
-                auto id = data["id"];
-				setID(id.asInt());
-                JSON x = data["position"]["x"], y = data["position"]["y"];
-                player->setIntPosition(VTile(x.asInt(), y.asInt()));
-                player->setPosition(VTile(data["position"]["x"].asInt(), data["position"]["y"].asInt()));
-			}
-		)
-	);
+    loginObserver.set([&](LoginEvent& ev) {
+        auto& data = ev.json;
+        auto id = data["id"];
+        setID(id.asInt());
+        JSON x = data["position"]["x"], y = data["position"]["y"];
+        player->setIntPosition(VTile(x.asInt(), y.asInt()));
+        player->setPosition(VTile(data["position"]["x"].asInt(), data["position"]["y"].asInt()));
+    });
 
-    TabKeyPressedEvent::subscribe(
-        new EventObserver<TabKeyPressedEvent>(
-            [&](TabKeyPressedEvent* ev) {
-                loginData.typingUsername = !loginData.typingUsername;
-            }
-        )
-    );
+    tabObserver.set([&](TabKeyPressedEvent& ev) {
+        loginData.typingUsername = !loginData.typingUsername;
+    });
 
-    BackspaceKeyPressedEvent::subscribe(
-        new EventObserver<BackspaceKeyPressedEvent>(
-            [&](BackspaceKeyPressedEvent* ev) {
-                if (loginData.typingUsername)
-                    loginData.username = loginData.username.substr(0, loginData.username.length() - 1);
-                else
-                    loginData.password = loginData.password.substr(0, loginData.password.length() - 1);
-            }
-        )
-    );
 
-    LetterKeyPressedEvent::subscribe(
-        new EventObserver<LetterKeyPressedEvent>(
-            [&](LetterKeyPressedEvent* ev) {
-                if (loginData.typingUsername)
-                    loginData.username += ev->letter;
-                else
-                    loginData.password += ev->letter;
-            }
-        )
-    );
+
+    enterObserver.set([&](EnterKeyPressedEvent& ev) {
+        if (loginData.typingUsername)
+            login();
+        else
+            loginData.typingUsername = true;
+    });
+
+    backspaceObserver.set([&](BackspaceKeyPressedEvent& ev) {
+        if (loginData.typingUsername)
+            loginData.username = loginData.username.substr(0, loginData.username.length() - 1);
+        else
+            loginData.password = loginData.password.substr(0, loginData.password.length() - 1);
+    });
+
+    letterObserver.set([&](LetterKeyPressedEvent& ev) {
+        if (loginData.typingUsername)
+            loginData.username += ev.letter;
+        else
+            loginData.password += ev.letter;
+    });
 }
 
 void Player::setID(int id) {
@@ -87,8 +76,8 @@ const VTile& Player::getIntPosition() {
     return intPosition;
 }
 
-std::pair<std::string, std::string> Player::getCredentials() const {
-    return { loginData.username, picosha2::hash256_hex_string(loginData.tempsalt + picosha2::hash256_hex_string(loginData.permsalt + picosha2::hash256_hex_string(loginData.password))) };
+std::pair<std::string, std::string> Player::getCredentials(std::string tempsalt, std::string permsalt) const {
+    return { loginData.username, picosha2::hash256_hex_string(tempsalt + picosha2::hash256_hex_string(permsalt + picosha2::hash256_hex_string(loginData.password))) };
 }
 
 std::pair<std::string, std::string> Player::getUserNamePw() const {
@@ -100,14 +89,18 @@ std::pair<std::string, std::string> Player::getUserNamePw() const {
     return {loginData.username, hiddenPassword};
 }
 
-void Player::setSalts(std::string tempsalt, std::string permsalt) {
-    loginData.tempsalt = tempsalt;
-    loginData.permsalt = permsalt;
-}
-
 void Player::login() {
     JSON json;
-    auto credentials = getCredentials();
+    json["type"] = "'salts request'";
+    json["data"] = JSON();
+    auto username = player->getUserNamePw().first;
+    json["data"]["username"] = "'" + username + "'";
+    socket->send(json);
+}
+
+void Player::login(std::string tempsalt, std::string permsalt) {
+    JSON json;
+    auto credentials = getCredentials(tempsalt, permsalt);
     json["username"] = "'" + credentials.first + "'";
     json["passwordHash"] = "'" + credentials.second; +"'";
     socket->emit("login", json);

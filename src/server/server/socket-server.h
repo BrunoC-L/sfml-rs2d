@@ -7,6 +7,7 @@
 #include <iostream>
 #include <functional>
 #include <mutex>
+#include "print.h"
 
 const std::string messageEnd = "|END|";
 
@@ -58,7 +59,11 @@ public:
 
         connectionThread = std::thread(
             [&]() {
-                std::cout << "Connection Thread: " << std::this_thread::get_id() << std::endl;
+                {
+                    std::ostringstream ss;
+                    ss << "Connection Thread: " << std::this_thread::get_id() << std::endl;
+                    print(ss);
+                }
                 int id = 0;
                 while (!stopped) {
                     sf::TcpSocket* client = new sf::TcpSocket();
@@ -76,16 +81,25 @@ public:
                     onConnect(st->socket);
                     selectorMutex.unlock();
                 }
+                {
+                    std::ostringstream ss;
+                    ss << "Connection Thread " << std::this_thread::get_id() << " Exiting" << std::endl;
+                    print(ss);
+                }
             }
         );
 
         communicationThread = std::thread(
             [&]() {
-                std::cout << "Communication Thread: " << std::this_thread::get_id() << std::endl;
+                {
+                    std::ostringstream ss;
+                    ss << "Communication Thread: " << std::this_thread::get_id() << std::endl;
+                    print(ss);
+                }
                 while (!stopped) {
                     if (sockets.size() == 0)
-                        std::this_thread::sleep_for(std::chrono::seconds(1));
-                    if (!selector.wait(sf::seconds(1))) // does not wait 1 second when there are no sockets
+                        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                    if (!selector.wait(sf::milliseconds(10))) // does not wait when there are no sockets
                         continue;
                     for (int i = 0; i < sockets.size(); ++i) {
                         auto& socket = sockets[i];
@@ -100,6 +114,11 @@ public:
                         delete socket->socket;
                         selectorMutex.unlock();
                     }
+                }
+                {
+                    std::ostringstream ss;
+                    ss << "Communication Thread " << std::this_thread::get_id() << " Exiting" << std::endl;
+                    print(ss);
                 }
             }
         );

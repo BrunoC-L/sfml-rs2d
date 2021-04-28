@@ -55,3 +55,7 @@ void SocketServerService::init() {
     acquire();
     server->start();
 }
+
+void SocketServerService::stop() {
+    server->stop();
+}

@@ -261,9 +261,6 @@
     <ClInclude Include="PlayerPositions.h">
       <Filter>Source Files\playerPositions</Filter>
     </ClInclude>
-    <ClInclude Include="clearevents.h">
-      <Filter>Source Files\events</Filter>
-    </ClInclude>
     <ClInclude Include="gameResourceObject.h">
       <Filter>Source Files\gameObjects</Filter>
     </ClInclude>
@@ -335,9 +332,6 @@
     <ClCompile Include="PlayerPositions.cpp">
       <Filter>Source Files\playerPositions</Filter>
     </ClCompile>
-    <ClCompile Include="clearevents.cpp">
-      <Filter>Source Files\events</Filter>
-    </ClCompile>
     <ClCompile Include="gameResourceObject.cpp">
       <Filter>Source Files\gameObjects</Filter>
     </ClCompile>
@@ -346,6 +340,9 @@
     </ClCompile>
     <ClCompile Include="connectedState.cpp">
       <Filter>Source Files\services\socket\socketState</Filter>
+    </ClCompile>
+    <ClCompile Include="measures.cpp">
+      <Filter>Source Files\services\measures</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

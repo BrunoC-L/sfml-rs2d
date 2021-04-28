@@ -13,13 +13,14 @@ TEST(app_builds, TestName) {
 	AbstractChat& chat = Chat(&provider);
 	AbstractCamera& camera = Camera(&provider);
 	AbstractPlayer& player = Player(&provider);
-	AbstractMap& map = Map(&provider);
+	AbstractMap& map = Map(&provider, 1);
 	AbstractInventory& inventory = Inventory(&provider);
 	GameTickProgress& tracker = ClockGameTickProgress();
 	AbstractGameDataService& gameData = GameDataService(&provider, &tracker);
 
 	AbstractRenderWindow& window = SFRenderWindow(&provider, *globalWindow);
-	App app(&provider, &window, &socket, &measures, &map, &player, &camera, &chat, &inventory, &gameData);
+
+	App app(&provider, &window);
 }
 
 TEST(app_runs_with_socket_mock_1, TestName) {
@@ -30,15 +31,14 @@ TEST(app_runs_with_socket_mock_1, TestName) {
 	AbstractChat& chat = Chat(&provider);
 	AbstractCamera& camera = Camera(&provider);
 	AbstractPlayer& player = Player(&provider);
-	AbstractMap& map = Map(&provider);
+	AbstractMap& map = Map(&provider, 1);
 	AbstractInventory& inventory = Inventory(&provider);
 	GameTickProgress& tracker = ClockGameTickProgress();
 	AbstractGameDataService& gameData = GameDataService(&provider, &tracker);
 
 	AbstractRenderWindow& window = SFRenderWindow(&provider, *globalWindow);
 
-
-	App app(&provider, &window, &socket, &measures, &map, &player, &camera, &chat, &inventory, &gameData);
+	App app(&provider, &window);
 
 	bool hasStarted = false;
 	bool done = false;
@@ -55,7 +55,7 @@ TEST(app_runs_with_socket_mock_1, TestName) {
 	);
 
 	while (!hasStarted && !done); // if something goes wrong, done will go through
-
+	std::this_thread::sleep_for(std::chrono::seconds(1));
 	app.stop();
 	t.join();
 }
@@ -68,14 +68,14 @@ TEST(player_position_updates_when_server_emits, TestName) {
 	AbstractChat& chat = Chat(&provider);
 	AbstractCamera& camera = Camera(&provider);
 	AbstractPlayer& player = Player(&provider);
-	AbstractMap& map = Map(&provider);
+	AbstractMap& map = Map(&provider, 1);
 	AbstractInventory& inventory = Inventory(&provider);
 	GameTickProgress& tracker = ClockGameTickProgress();
 	AbstractGameDataService& gameData = GameDataService(&provider, &tracker);
 
 	AbstractRenderWindow& window = SFRenderWindow(&provider, *globalWindow);
 
-	App app(&provider, &window, &socket, &measures, &map, &player, &camera, &chat, &inventory, &gameData);
+	App app(&provider, &window);
 
 	bool hasStarted = false;
 	bool done = false;
@@ -126,13 +126,10 @@ TEST(player_position_updates_when_server_emits, TestName) {
 	socket.mockReceiveFromServer(json);
 
 	int frames = 0;
-	FrameEvent::subscribe(
-		new EventObserver<FrameEvent>(
-			[&](FrameEvent* ev) {
-				++frames;
-			}
-		)
-	);
+
+	EventObserver<FrameEvent> frameObserver([&](FrameEvent& ev) {
+		++frames;
+	});
 
 	while (!frames);
 	VTile playerIntPos = player.getIntPosition();

@@ -35,4 +35,6 @@ public:
 
 	virtual void queryPlayerByUsernameEquals(std::string username, std::function<void(SelectQueryResult)>) override;
 	virtual void queryLoginDataByUserId(int id, std::function<void(SelectQueryResult)> f) override;
+
+	virtual void stop() override;
 };

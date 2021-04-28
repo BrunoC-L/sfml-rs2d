@@ -6,5 +6,5 @@
 
 class AbstractPlayerActionService : public AbstractService {
 public:
-	virtual void onGameTick() = 0;
+	virtual void stop() = 0;
 };

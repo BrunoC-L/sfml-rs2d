@@ -155,6 +155,7 @@
   <ItemGroup>
     <ClInclude Include="abstractService.h" />
     <ClInclude Include="onExit.h" />
+    <ClInclude Include="print.h" />
     <ClInclude Include="serviceProvider.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="event.h" />
@@ -178,6 +179,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="print.cpp" />
     <ClCompile Include="splitString.cpp" />
     <ClCompile Include="units.cpp" />
   </ItemGroup>

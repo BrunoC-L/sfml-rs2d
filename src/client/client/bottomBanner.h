@@ -9,8 +9,8 @@ class BottomBanner : public Service {
 public:
     BottomBanner(ServiceProvider* provider, AbstractRenderWindow* window);
     void draw() const;
-    void click(MouseEvent* ev);
-    bool mouseIsInRect(MouseEvent* ev);
+    void click(MouseEvent& ev);
+    bool mouseIsInRect(MouseEvent& ev);
 private:
     AbstractRenderWindow* window;
     BottomBanner();

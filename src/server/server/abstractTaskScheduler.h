@@ -9,4 +9,5 @@ public:
 		provider->set("Scheduler", this);
 	}
 	virtual void callInTicks(int nTicks, std::function<void()> subscriber) = 0;
+	virtual void stop() = 0;
 };

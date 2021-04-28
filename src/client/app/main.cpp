@@ -20,17 +20,17 @@ int main(int argc, char* argv[]) {
 	auto local = args["local"].asBool();
 	std::string ip = args["ip"].asBool() ? args["ip"].asString() : local ? "localhost" : "35.182.111.227";
 	auto port = args["port"].asBool() ? args["port"].asInt() : 38838;
-
-	ServiceProvider* provider = new ServiceProvider();
-	AbstractSocket* socket = new Socket(provider, ip, port);
-	AbstractMeasures* measures = new Measures(provider);
-	AbstractChat* chat = new Chat(provider);
-	AbstractCamera* camera = new Camera(provider);
-	AbstractPlayer* player = new Player(provider);
-	AbstractMap* map = new Map(provider);
-	AbstractInventory* inventory = new Inventory(provider);
-	GameTickProgress* tracker = new ClockGameTickProgress();
-	AbstractGameDataService* gameData = new GameDataService(provider, tracker);
+	auto radius = args["radius"].asBool() ? args["radius"].asInt() : 1; // if someone wants radius 0 this will fail lol
+	ServiceProvider provider;
+	Socket s(&provider, ip, port);
+	Measures me(&provider);
+	Chat chat(&provider);
+	Camera camera(&provider);
+	Player player(&provider);
+	Map map(&provider, radius);
+	Inventory i(&provider);
+	ClockGameTickProgress cgtp;
+	GameDataService g(&provider, &cgtp);
 
 	sf::RenderWindow sfWindow(
 		sf::VideoMode(
@@ -39,9 +39,9 @@ int main(int argc, char* argv[]) {
 		),
 		"RS2D"
 	);
-	AbstractRenderWindow* window = new SFRenderWindow(provider, sfWindow);
+	SFRenderWindow window(&provider, sfWindow);
 
-	App app(provider, window, socket, measures, map, player, camera, chat, inventory, gameData);
+	App app(&provider, &window);
 
     app.init();
     app.start();

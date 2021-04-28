@@ -1,7 +1,7 @@
 #include "map.h"
 #include <iostream>
 
-Map::Map(ServiceProvider* provider) : Service(provider) {
+Map::Map(ServiceProvider* provider, int chunkRadius) : Service(provider), chunkRadius(chunkRadius) {
 	provider->set("Map", this);
 };
 
@@ -9,7 +9,6 @@ void Map::init() {
 	acquire();
 	const VTile& pos = camera->getPosition();
 	centerChunk = VChunk(int(pos.x / AbstractMeasures::TilesPerChunk), int(pos.y / AbstractMeasures::TilesPerChunk), int(pos.z));
-	chunkRadius = 1;
 	doUpdates();
 }
 
@@ -85,4 +84,20 @@ std::shared_ptr<Tile> Map::getTileFromVTile(VTile tilePosition) {
 void Map::stopUpdates() {
 	this->shouldStop = true;
 	updateThread.join();
+}
+
+unsigned Map::getRadius() {
+	return chunkRadius;
+}
+
+VChunk Map::getCenterChunk() {
+	return centerChunk;
+}
+
+Chunk& Map::getLoaded(int i, int j) {
+	return *loaded[i][j];
+}
+
+std::mutex& Map::getChunksMutex() {
+	return mutex;
 }

@@ -1,7 +1,4 @@
 #include "sfRenderWindow.h"
-#include "keyPressedEvent.h"
-#include "resizeEvent.h"
-#include "frameEvent.h"
 
 SFRenderWindow::SFRenderWindow(
 	ServiceProvider* provider,
@@ -26,7 +23,7 @@ void SFRenderWindow::init() {
 	loginTexture.loadFromFile("../../../assets/login.png");
 	loginPage.setTexture(&loginTexture);
 
-	MouseLeftClickEvent::subscribe(new EventObserver<MouseLeftClickEvent>([&](MouseLeftClickEvent* ev) {
+	leftClickObserver.set([&](MouseLeftClickEvent& ev) {
 		if (gameData->userIsLoggedIn()) {
 			bool clickedOnRightClickInterface = rightClickInterface->active && rightClickInterface->mouseIsInRect(ev);
 			if (clickedOnRightClickInterface) {
@@ -43,13 +40,13 @@ void SFRenderWindow::init() {
 				bottomBanner->click(ev);
 				return;
 			}
-			VTile tileClicked = converter.getPositionInGame(ev->pos);
+			VTile tileClicked = converter.getPositionInGame(ev.pos);
 			std::shared_ptr<Tile> t = map->getTileFromVTile(tileClicked);
 			if (t)
-				t->onLeftClick(*ev);
+				t->onLeftClick(ev);
 		}
 		else {
-			auto abs = ev->pos / measures->stretch;
+			auto abs = ev.pos / measures->stretch;
 			int newUserButton[2][2] = { {407, 659}, {495, 565} };
 			bool clickedOnNewUser =
 				abs.x > newUserButton[0][0] &&
@@ -67,33 +64,25 @@ void SFRenderWindow::init() {
 				abs.y > existingUserButton[1][0] &&
 				abs.y < existingUserButton[1][1];
 			if (clickedOnExistingUser) {
-				JSON json;
-				json["type"] = "'salts request'";
-				json["data"] = JSON();
-				auto username = player->getUserNamePw().first;
-				json["data"]["username"] = "'" + username + "'";
-				socket->send(json);
+				player->login();
 				return;
 			}
 		}
-	}));
+	});
 
-	MouseRightClickEvent::subscribe(new EventObserver<MouseRightClickEvent>([&](MouseRightClickEvent* ev) {
+	rightClickObserver.set([&](MouseRightClickEvent& ev) {
 		if (gameData->userIsLoggedIn()) {
 			if (!rightClickInterface->active || !rightClickInterface->mouseIsInRect(ev)) {
-				rightClickInterface->setPosition(ev->pos);
-				VTile tileClicked = converter.getPositionInGame(ev->pos);
+				rightClickInterface->setPosition(ev.pos);
+				VTile tileClicked = converter.getPositionInGame(ev.pos);
 				std::shared_ptr<Tile> t = map->getTileFromVTile(tileClicked);
 				if (t)
-					t->onRightClick(*ev);
+					t->onRightClick(ev);
 			}
 		}
-		else {
+	});
 
-		}
-	}));
-
-	MouseMiddleClickEvent::subscribe(new EventObserver<MouseMiddleClickEvent>([&](MouseMiddleClickEvent* ev) {
+	middleClickObserver.set([&](MouseMiddleClickEvent& ev) {
 		if (gameData->userIsLoggedIn()) {
 			auto clickedOnRightClickInterface = rightClickInterface->active && rightClickInterface->mouseIsInRect(ev);
 			if (clickedOnRightClickInterface)
@@ -101,31 +90,25 @@ void SFRenderWindow::init() {
 			auto clickedOnRightBanner = rightBanner->mouseIsInRect(ev);
 			if (clickedOnRightBanner)
 				return;
-			VTile tileClicked = converter.getPositionInGame(ev->pos);
+			VTile tileClicked = converter.getPositionInGame(ev.pos);
 			std::shared_ptr<Tile> t = map->getTileFromVTile(tileClicked);
 			if (t)
-				t->onMiddleClick(*ev);
+				t->onMiddleClick(ev);
 		}
-		else {
+	});
 
-		}
-	}));
-
-	MouseMoveEvent::subscribe(new EventObserver<MouseMoveEvent>([&](MouseMoveEvent* ev) {
+	mouseMoveObserver.set([&](MouseMoveEvent& ev) {
 		if (gameData->userIsLoggedIn()) {
 			// add top left indicator of what your mouse is over + left click option + options.length
 			if (rightClickInterface->active && !rightClickInterface->mouseIsInRect(ev)) {
 				rightClickInterface->active = false;
 			}
 		}
-		else {
+	});
 
-		}
-	}));
-
-	ResizeEvent::subscribe(new EventObserver<ResizeEvent>([&](ResizeEvent* ev) {
+	resizeObserver.set([&](ResizeEvent& ev) {
 		updateWindowSize();
-	}));
+	});
 }
 
 void SFRenderWindow::draw(sf::VertexArray v, sf::RenderStates s) {
@@ -259,8 +242,8 @@ void SFRenderWindow::draw() {
 		auto playerPositions = gameData->getPlayerPositions();
 		const VTile pos = camera->getPosition();
 		VTile relativePos(
-			pos.x - map->centerChunk.x * AbstractMeasures::TilesPerChunk - measures->getInnerWindowSizeTile().x / 2,
-			pos.y - map->centerChunk.y * AbstractMeasures::TilesPerChunk - measures->getInnerWindowSizeTile().y / 2
+			pos.x - map->getCenterChunk().x * AbstractMeasures::TilesPerChunk - measures->getInnerWindowSizeTile().x / 2,
+			pos.y - map->getCenterChunk().y * AbstractMeasures::TilesPerChunk - measures->getInnerWindowSizeTile().y / 2
 		);
 		auto getTransform = [&](const VTile& relativePos, const VChunk& chunkOffset) {
 			const float scale = measures->zoom;
@@ -283,15 +266,16 @@ void SFRenderWindow::draw() {
 		};
 
 		{
-			std::lock_guard<std::mutex> lock(map->mutex);
-			for (int i = 0; i < 2 * map->chunkRadius + 1; ++i)
-				for (int j = 0; j < 2 * map->chunkRadius + 1; ++j) {
-					auto* chunk = map->loaded[i][j];
-					if (chunk->deleted)
+			std::lock_guard<std::mutex> lock(map->getChunksMutex());
+			auto radius = map->getRadius();
+			for (int i = 0; i < 2 * radius + 1; ++i)
+				for (int j = 0; j < 2 * radius + 1; ++j) {
+					auto& chunk = map->getLoaded(i, j);
+					if (chunk.deleted)
 						return;
-					sf::Transform transform = getTransform(relativePos + VTile(0.5, 0.5), VChunk(i, j) - VChunk(map->chunkRadius, map->chunkRadius));
-					draw(&chunk->map, transform);
-					chunk->wallmap.draw(*this, transform);
+					sf::Transform transform = getTransform(relativePos + VTile(0.5, 0.5), VChunk(i, j) - VChunk(radius, radius));
+					draw(&chunk.map, transform);
+					chunk.wallmap.draw(*this, transform);
 				}
 		}
 		for (int i = 0; i < playerPositions.size(); ++i)

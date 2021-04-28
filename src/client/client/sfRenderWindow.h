@@ -6,9 +6,16 @@
 #include "bottomBanner.h"
 #include "rightClickInterface.h"
 #include "VPixelToVTileConverter.h"
+#include "keyPressedEvent.h"
+#include "resizeEvent.h"
+#include "frameEvent.h"
 
 class SFRenderWindow : public AbstractRenderWindow, public Service {
-public:
+	EventObserver<MouseLeftClickEvent> leftClickObserver;
+	EventObserver<MouseRightClickEvent> rightClickObserver;
+	EventObserver<MouseMiddleClickEvent> middleClickObserver;
+	EventObserver<MouseMoveEvent> mouseMoveObserver;
+	EventObserver<ResizeEvent> resizeObserver;
 	VPixelToVTileConverter converter;
 	RightBanner* rightBanner;
 	BottomBanner* bottomBanner;
@@ -16,6 +23,9 @@ public:
 	sf::RenderWindow& window;
 	sf::RectangleShape loginPage;
 	sf::Texture loginTexture = sf::Texture();
+	sf::Texture p_t;
+	sf::Sprite playerSprite;
+public:
 	SFRenderWindow(ServiceProvider* provider, sf::RenderWindow& window);
 	void init();
 	virtual void draw(sf::VertexArray v, sf::RenderStates s);
@@ -34,6 +44,4 @@ public:
 	virtual void update();
 	virtual void setActive(bool newState);
 	void updateWindowSize();
-	sf::Texture p_t;
-	sf::Sprite playerSprite;
 };

@@ -9,16 +9,16 @@
 #include "service.h"
 
 class RightBanner : public Service {
-public:
-    RightBanner(ServiceProvider* provider, AbstractRenderWindow* window);
-    void draw();
-    bool mouseIsInRect(MouseEvent* ev);
-    void click(MouseEvent* ev);
-    void update();
 private:
     AbstractRenderWindow* window;
     Minimap minimap;
     RightBanner();
     sf::RectangleShape banner;
     std::vector<std::pair<Item, sf::RectangleShape>> inventoryItems;
+public:
+    RightBanner(ServiceProvider* provider, AbstractRenderWindow* window);
+    void draw();
+    bool mouseIsInRect(MouseEvent& ev);
+    void click(MouseEvent& ev);
+    void update();
 };

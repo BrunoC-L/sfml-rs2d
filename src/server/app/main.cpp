@@ -1,4 +1,5 @@
 #include "main.h"
+#include "onExit.h"
 
 int main() {
 	ServiceProvider provider;
@@ -12,5 +13,4 @@ int main() {
 	App app(&provider, &server, &db, &map, &playerActionService, &userService, &tickScheduler, &scheduler);
 	app.init();
 	app.start();
-	app.stop();
 }

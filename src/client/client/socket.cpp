@@ -20,8 +20,7 @@ void Socket::init() {
 
     on("salts",
         [&](JSON& data) {
-            player->setSalts(data["tempsalt"].asString(), data["permsalt"].asString());
-            player->login();
+            player->login(data["tempsalt"].asString(), data["permsalt"].asString());
         }
     );
 }

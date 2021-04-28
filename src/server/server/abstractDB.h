@@ -18,4 +18,6 @@ public:
 
 	virtual void queryPlayerByUsernameEquals(std::string username, std::function<void(SelectQueryResult)>) = 0;
 	virtual void queryLoginDataByUserId(int id, std::function<void(SelectQueryResult)> f) = 0;
+
+	virtual void stop() = 0;
 };

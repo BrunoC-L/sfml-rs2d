@@ -6,10 +6,11 @@
 #include "abstractServices.h"
 #include "tickScheduler.h"
 #include "tick.h"
+#include "print.h"
 
 class App : public ServiceProvider, private Service {
-    std::thread gameTicks;
     TickScheduler* tickScheduler;
+    bool running = false;
 public:
     App(
         ServiceProvider* provider,
@@ -28,53 +29,51 @@ public:
     }
 
     void init() {
-        std::cout << "Main Thread: " << std::this_thread::get_id() << std::endl;
+        std::ostringstream ss;
+        ss << "Main Thread: " << std::this_thread::get_id() << std::endl;
+        print(ss);
         acquire();
         std::cout << "Initializing App\n";
         dbService->init();
         map->init();
-        userService->init();
-        playerActionService->init();
         server->init();
         scheduler->init();
+        userService->init();
+        playerActionService->init();
         std::cout << "App Initialized\n";
     }
 
     void stop() {
-        throw std::exception("Not implemented");
-        //server->stop();
-        gameTicks.join();
+        running = false;
+        std::cout << "Stopping app\n";
+        playerActionService->stop();
+        userService->stop();
+        scheduler->stop();
+        server->stop();
+        map->stop();
+        dbService->stop();
     }
 
     void start() {
-        bool stop = false;
-        gameTicks = std::thread(
-            [&]() {
-                std::cout << "Tick Thread: " << std::this_thread::get_id() << std::endl;
-                while (!stop) {
-                    try {
-                        if (tickScheduler->shouldTick())
-                            TickEvent().emit();
-                    }
-                    catch (std::exception e) {
-                        std::cout << "Tick Thread Error: " << e.what() << std::endl;
-                    }
-                }
-            }
-        );
-
-        std::cout << "Console Read Thread: " << std::this_thread::get_id() << std::endl;
-        while (!stop) {
+        running = true;
+        {
+            std::ostringstream ss;
+            ss << "Tick Thread: " << std::this_thread::get_id() << std::endl;
+            print(ss);
+        }
+        while (running) {
             try {
-                std::string action;
-                std::cin >> action;
-                if (action == "stop")
-                    stop = true;
-                // other commands here...
+                if (tickScheduler->shouldTick() && running)
+                    TickEvent().emit();
             }
             catch (std::exception e) {
-                std::cout << "Console Read Thread Error: " << e.what() << std::endl;
+                std::cout << "Tick Thread Error: " << e.what() << std::endl;
             }
+        }
+        {
+            std::ostringstream ss;
+            ss << "Tick Thread " << std::this_thread::get_id() << " Exiting" << std::endl;
+            print(ss);
         }
     }
 };
