@@ -240,11 +240,6 @@ void SFRenderWindow::draw() {
 	if (gameData->userIsLoggedIn()) {
 		update();
 		auto playerPositions = gameData->getPlayerPositions();
-		const VTile pos = camera->getPosition();
-		VTile relativePos(
-			pos.x - map->getCenterChunk().x * AbstractMeasures::TilesPerChunk - measures->getInnerWindowSizeTile().x / 2,
-			pos.y - map->getCenterChunk().y * AbstractMeasures::TilesPerChunk - measures->getInnerWindowSizeTile().y / 2
-		);
 		auto getTransform = [&](const VTile& relativePos, const VChunk& chunkOffset) {
 			const float scale = measures->zoom;
 			VTile offsetTiles = VTile(chunkOffset.x * AbstractMeasures::TilesPerChunk, chunkOffset.y * AbstractMeasures::TilesPerChunk) - relativePos;
@@ -265,9 +260,14 @@ void SFRenderWindow::draw() {
 			return transform;
 		};
 
+		const VTile pos = camera->getPosition();
+		VTile relativePos(
+			pos.x - map->getCenterChunk().x * AbstractMeasures::TilesPerChunk - measures->getInnerWindowSizeTile().x / 2,
+			pos.y - map->getCenterChunk().y * AbstractMeasures::TilesPerChunk - measures->getInnerWindowSizeTile().y / 2
+		);
+		auto radius = map->getRadius();
 		{
 			std::lock_guard<std::mutex> lock(map->getChunksMutex());
-			auto radius = map->getRadius();
 			for (int i = 0; i < 2 * radius + 1; ++i)
 				for (int j = 0; j < 2 * radius + 1; ++j) {
 					auto& chunk = map->getLoaded(i, j);
@@ -275,7 +275,7 @@ void SFRenderWindow::draw() {
 						return;
 					sf::Transform transform = getTransform(relativePos + VTile(0.5, 0.5), VChunk(i, j) - VChunk(radius, radius));
 					draw(&chunk.map, transform);
-					chunk.wallmap.draw(*this, transform);
+					//chunk.wallmap.draw(*this, transform);
 				}
 		}
 		for (int i = 0; i < playerPositions.size(); ++i)

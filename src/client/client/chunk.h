@@ -16,7 +16,7 @@ public:
 	bool deleted = false;
 	sf::Texture mapTexture;
 	sf::RectangleShape map;
-	TileMap wallmap;
+	//TileMap wallmap;
 	//int walls[int(AbstractMeasures::TilesPerChunk * AbstractMeasures::TilesPerChunk)];
 private:
 	std::string getGroundTexturesetFileName() const;

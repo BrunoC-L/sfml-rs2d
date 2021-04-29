@@ -17,7 +17,7 @@ public:
 		VPixel size = windowSize;
 		VPixel banners(rightBannerWidth, bottomBannerHeight);
 		size -= banners;
-		return VTile(size.x, size.y) / 32;
+		return VTile(size.x, size.y) / pixelsPerTile;
 	}
 
 	virtual VPixel getInnerWindowSize() const {

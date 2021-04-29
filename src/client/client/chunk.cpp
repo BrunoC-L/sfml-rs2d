@@ -10,14 +10,19 @@ void Chunk::loadTexture() {
     auto file = getGroundTexturesetFileName();
     mapTexture.loadFromFile(file);
     map.setTexture(&mapTexture);
-    map.setSize(sf::Vector2f(AbstractMeasures::pixelsPerTile * AbstractMeasures::TilesPerChunk, AbstractMeasures::pixelsPerTile * AbstractMeasures::TilesPerChunk));
-        for (int x = 0; x < AbstractMeasures::TilesPerChunk; ++x) {
-            for (int y = 0; y < AbstractMeasures::TilesPerChunk; ++y) {
-                int absx = AbstractMeasures::TilesPerChunk * chunkpos.x + x;
-                int absy = AbstractMeasures::TilesPerChunk * chunkpos.y + y;
-                tiles[x][y] = std::make_shared<Tile>(absx, absy);
-            }
+    map.setSize(
+        sf::Vector2f(
+            AbstractMeasures::pixelsPerTile * AbstractMeasures::TilesPerChunk,
+            AbstractMeasures::pixelsPerTile * AbstractMeasures::TilesPerChunk
+        )
+    );
+    for (int x = 0; x < AbstractMeasures::TilesPerChunk; ++x) {
+        for (int y = 0; y < AbstractMeasures::TilesPerChunk; ++y) {
+            int absx = AbstractMeasures::TilesPerChunk * chunkpos.x + x;
+            int absy = AbstractMeasures::TilesPerChunk * chunkpos.y + y;
+            tiles[x][y] = std::make_shared<Tile>(absx, absy);
         }
+    }
 }
 
 //void Chunk::loadWalls() {
