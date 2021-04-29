@@ -37,6 +37,7 @@ private:
 	EventObserver<ResizeEvent> resizeObserver;
 	EventObserver<MouseWheelEvent> wheelObserver;
 	EventObserver<MouseLeftClickEvent> leftClickObserver;
+	EventObserver<MouseRightClickEvent> rightClickObserver;
 
 	VPixel stretch = VPixel(1, 1);
 	float zoom = 1;

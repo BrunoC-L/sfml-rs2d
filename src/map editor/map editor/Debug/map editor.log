@@ -318,11 +318,13 @@ C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEdito
               T=float
           ]
 C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(231,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(237,17): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(238,17): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
           with
           [
               T=float
           ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(242,37): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(243,37): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\event.h(63,2): warning C4018: '<': signed/unsigned mismatch
 C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\event.h(61): message : while compiling class template member function 'void EventEmitter<ResizeEvent>::emit(T &)'
           with

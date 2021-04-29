@@ -30,7 +30,7 @@ void MapEditor::draw() {
 			t.scale(2.f / PIXELS_PER_TILE, 2.f / PIXELS_PER_TILE);
 			window->draw(chunks[x][y], t);
 			t.scale(0.5, 0.5);
-			if (displayWalls && zoom > 10)
+			if (displayWalls && zoom > 5)
 				walls[x][y].draw(*window, t);
 		}
 	}
@@ -231,6 +231,7 @@ void MapEditor::setupObservers() {
 		for (int i = 0; i < buttonCallbacks.size(); ++i) {
 			if ((ev.pos.x >= left - 1) && (ev.pos.x <= right + 1) && (ev.pos.y >= top - 1) && (ev.pos.y <= bottom + 1)) {
 				buttonCallbacks[i]();
+				drawn = false;
 				return;
 			}
 			top = bottom + spacing;
@@ -238,11 +239,16 @@ void MapEditor::setupObservers() {
 		}
 		VPixel delta = ev.pos - getSize() / 2;
 		pos += delta / zoom;
-		pos.x = std::max(pos.x, 0.f);
-		pos.y = std::max(pos.y, 0.f);
+		pos.x = (int)std::max(pos.x, 0.f) + 0.5;
+		pos.y = (int)std::max(pos.y, 0.f) + 0.5;
 		//pos.x = std::min(pos.x, getSize().x);
 		//pos.y = std::min(pos.y, getSize().y);
 		drawn = false;
+	});
+
+	rightClickObserver.set([&](MouseRightClickEvent& ev) {
+		MouseLeftClickEvent(ev.pos).emit();
+		std::cout << pos.x << ", " << pos.y << std::endl;
 	});
 }
 
