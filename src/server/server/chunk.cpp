@@ -27,4 +27,5 @@ void Chunk::loadWalls() {
             tiles[x][y] = std::make_shared<Tile>(absx, absy, std::min(15, borders));
         }
     }
+    file.close();
 }

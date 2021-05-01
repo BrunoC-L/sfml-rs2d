@@ -1,20 +1,22 @@
 from constants import CHUNKS
 
 '''
-This file is meant to be ran once with all chunks enabled in constants.py
-And all options enabled (no disabling scripts through sys.argv)
-
-The result from doing this is the generation of the textures for each chunk,
-The objects in each chunk, the monsters, the NPC, the items, the walls, etc
+This script  is the basis for the game data
+It uses the RS Map to split it into chunks
+So that the client can load only some chunks
+And it uses map coloring to try to place walls
+This process takes a while So I recommend
+not trying it yourself, the data it
+generates is already on git!
 '''
 
 def main(args):
     args = [a.lower() for a in args]
     verbose = not 'silence' in args
-    texture = not 'notext' in args
-    objects = not 'noobj' in args
-    walls   = not 'nowall' in args
     esttime = not 'notime' in args
+
+    texture = not 'notext' in args
+    walls   = not 'nowall' in args
 
     ops = []
     l = len(CHUNKS)
@@ -30,9 +32,6 @@ def main(args):
     if texture:
         from chunks.texturer import texturer
         ops += [texturer]
-    if objects:
-        from chunks.objecter import objecter
-        ops += [objecter]
     if walls:
         from chunks.waller import waller
         ops += [waller]
@@ -44,7 +43,7 @@ def main(args):
         if verbose: print(f'\r{l} / {l}')
 
     if esttime:
-        from timer import TimeLogger
+        from timeLogger import TimeLogger
         with TimeLogger(l, 29 * 25, 'chunk'): operate()
     else:
         operate()

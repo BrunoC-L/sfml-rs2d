@@ -1,9 +1,7 @@
 #pragma once
 #include "app.h"
-
 #include "sfRenderWindow.h"
-#include "socket.h"
-
+#include "socketService.h"
 #include "measures.h"
 #include "map.h"
 #include "player.h"

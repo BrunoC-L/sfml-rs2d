@@ -17,9 +17,9 @@ class SFRenderWindow : public AbstractRenderWindow, public Service {
 	EventObserver<MouseMoveEvent> mouseMoveObserver;
 	EventObserver<ResizeEvent> resizeObserver;
 	VPixelToVTileConverter converter;
-	RightBanner* rightBanner;
-	BottomBanner* bottomBanner;
-	RightClickInterface* rightClickInterface;
+	std::shared_ptr<RightBanner> rightBanner;
+	std::shared_ptr<BottomBanner> bottomBanner;
+	std::shared_ptr<RightClickInterface> rightClickInterface;
 	sf::RenderWindow& window;
 	sf::RectangleShape loginPage;
 	sf::Texture loginTexture = sf::Texture();

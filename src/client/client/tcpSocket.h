@@ -1,16 +1,15 @@
 #pragma once
 #include <SFML/Network.hpp>
-#include "json.h"
 
 const std::string messageEnd = "|END|";
 
-class JSONTCPSocket {
+class TCPSocket {
 public:
-	sf::TcpSocket* socket;
+	std::unique_ptr<sf::TcpSocket> socket;
 	bool connect(std::string ip, unsigned port) {
 		if (socket)
 			disconnect();
-		socket = new sf::TcpSocket();
+		socket = std::make_unique<sf::TcpSocket>();
 		const auto status = socket->connect(ip, port);
 		if (status != sf::Socket::Done) {
 			std::cout << "Could not connect to the server\n";
@@ -22,8 +21,7 @@ public:
 
 	void disconnect() {
 		socket->disconnect();
-		delete socket;
-		socket = nullptr;
+		socket.reset();
 	}
 
 	void send(std::string str) {

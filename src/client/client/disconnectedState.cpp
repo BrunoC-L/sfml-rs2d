@@ -1,6 +1,6 @@
 #include "disconnectedState.h"
 
-void DisconnectedSocketState::send(std::string str) {
+void DisconnectedSocketState::send(const std::string& str) {
 	// copying in a lambda because this object gets deleted upon connection!
 	auto* ctx = context;
 	[ctx, str]() {

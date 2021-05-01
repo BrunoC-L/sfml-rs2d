@@ -12,9 +12,9 @@ void SFRenderWindow::init() {
 	setFramerateLimit(60);
 	updateWindowSize();
 
-	rightBanner = new RightBanner(provider, this);
-	bottomBanner = new BottomBanner(provider, this);
-	rightClickInterface = new RightClickInterface(provider, this);
+	rightBanner = std::make_shared<RightBanner>(provider, this);
+	bottomBanner = std::make_shared<BottomBanner>(provider, this);
+	rightClickInterface = std::make_shared<RightClickInterface>(provider, this);
 
 	p_t.loadFromFile("../../../assets/player.png");
 	playerSprite = sf::Sprite(p_t);

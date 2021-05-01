@@ -3,7 +3,7 @@
 
 std::vector<std::string> split(const std::string& s, const std::string& divider) {
     if (divider.length() == 0)
-        throw new std::exception("Tried splitting with empty divider");
+        throw std::exception("Tried splitting with empty divider");
     std::string remainder = s;
     std::vector<std::string> v = {};
     int index = 0;

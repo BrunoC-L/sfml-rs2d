@@ -2,7 +2,7 @@
 #include "main.h"
 #include "globalWindow.h"
 
-sf::RenderWindow* globalWindow = new sf::RenderWindow(
+std::shared_ptr<sf::RenderWindow> globalWindow = std::make_shared<sf::RenderWindow>(
 	sf::VideoMode(
 		AbstractMeasures::startingScreenSize().x,
 		AbstractMeasures::startingScreenSize().y

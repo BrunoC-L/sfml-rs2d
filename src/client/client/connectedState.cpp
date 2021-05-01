@@ -1,6 +1,6 @@
 #include "connectedState.h"
 
-void ConnectedSocketState::send(std::string str) {
+void ConnectedSocketState::send(const std::string& str) {
 	context->sendNoCheck(str);
 }
 

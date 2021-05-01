@@ -10,10 +10,7 @@
 #include "resizeEvent.h"
 #include <tuple>
 #include "Tilemap.h"
-
-const int TILES_PER_CHUNK = 64;
-const int PIXELS_PER_TILE = 32;
-const int PIXELS_PER_TILE_ON_IMAGE = 4;
+#include "fileEditor.h"
 
 using ColoredTextRect = std::pair<sf::RectangleShape, sf::Text>;
 
@@ -22,12 +19,14 @@ private:
 	sf::Font font;
 	bool drawn = false;
 
-	std::vector<std::function<void()>> buttonCallbacks;
-	ColoredTextRect reloadButton;
-	ColoredTextRect toggleWallsButton;
-	// ColoredTextRect toggleResources;
-	// ColoredTextRect highlightResources;
-	// toggle monsters, toggle  item spawns, toggle NPCS
+	std::vector<std::function<void()>> leftButtonCallbacks;
+	std::vector<ColoredTextRect> leftButtons;
+	std::vector<std::function<void()>> rightButtonCallbacks;
+	std::vector<ColoredTextRect> rightButtons;
+	void reload();
+	void toggleWalls();
+	void toggleObjects();
+	void save();
 
 	sf::Texture map;
 	sf::RectangleShape chunks[29][25];
@@ -42,10 +41,11 @@ private:
 	VPixel stretch = VPixel(1, 1);
 	float zoom = 1;
 	const VPixel startingSize = VPixel(1160, 1000);
-	VPixel pos = startingSize / 2;
 	int margin = 10;
 	int spacing = 10;
 	sf::Vector2f size = sf::Vector2f(200, 44);
+	int scroll = 0;
+	VPixel pos = VTile(1172.5, 869.5, 0);
 
 	std::shared_ptr<sf::RenderWindow> window;
 	void pollEvents();
@@ -55,9 +55,8 @@ private:
 	void setupButtons();
 	void setupMap();
 	void setupObservers();
-	void reload();
-	void toggleWalls();
 	std::string getWallsFileName(int x, int y, int z) const;
+	std::shared_ptr<editor::FileEditor> currentFile;
 public:
 	MapEditor();
 	void run();

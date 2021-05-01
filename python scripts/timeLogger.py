@@ -18,7 +18,16 @@ class TimeLogger:
         print(f'operation took {self.formatTimeDelta(delta)}')
         print(f'estimating {self.formatTimeDelta(cdelta)} per {self.what}')
         print(f'estimating {self.formatTimeDelta(tdelta)} for {self.maxCount} {self.plural(self.what)}')
-    
+
+    def formatTimeDelta(self, timeDelta):
+        h, m, s = str(timeDelta).split(':')
+        if h != '0':
+            return f'{int(h)} hours and {int(m)} minutes'
+        elif m != '00':
+            return f'{int(m)} minutes and {float(s):.0f} seconds'
+        else:
+            return f'{float(s):.2f} seconds'
+
     def plural(self, s):
         if s[-3:] == 'oot':
             return s[:-3] + 'eet'
@@ -27,12 +36,3 @@ class TimeLogger:
         elif s[-1] == 'y':
             return s[:-1] + 'ies'
         return s + 's'
-
-    def formatTimeDelta(self, timeDelta):
-        h, m, s = str(timeDelta).split(':')
-        if h != '0':
-            return f'{h} hours and {m} minutes'
-        elif m != '00':
-            return f'{m} minutes and {float(s):.0f} seconds'
-        else:
-            return f'{float(s):.2f} seconds'

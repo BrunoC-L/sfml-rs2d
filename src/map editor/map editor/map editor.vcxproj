@@ -142,10 +142,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="fileEditor.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="mapEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="fileEditor.h" />
     <ClInclude Include="mapEditor.h" />
   </ItemGroup>
   <ItemGroup>

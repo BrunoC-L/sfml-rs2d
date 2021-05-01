@@ -21,9 +21,15 @@
     <ClCompile Include="mapEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="fileEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mapEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fileEditor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

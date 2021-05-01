@@ -1,0 +1,4 @@
+tree
+tree stump
+copper ore
+depleted copper ore

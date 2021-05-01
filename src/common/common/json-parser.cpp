@@ -48,7 +48,7 @@ void JSONParser::parseJSON() {
 			++index;
 		}
 		if (!inString || propertyName.length() == 0)
-			throw new JSONException(("No property name in json while parsing " + self).c_str());
+			throw JSONException(("No property name in json while parsing " + self).c_str());
 		inString = false;
 		++index;
 		bool found = false;

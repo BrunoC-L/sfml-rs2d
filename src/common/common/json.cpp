@@ -49,13 +49,31 @@ JSON& JSON::operator[](std::string propertyName) {
 	}
 };
 
+const JSON& JSON::get(std::string propertyName) const {
+	if (!defined)
+		throw JSONException("Attempting to access inactive property");
+	if (type != OBJECT)
+		throw JSONException("this JSON is either an array, string or number");
+	auto index = indices.at(propertyName);
+	return children[index];
+}
+
 JSON& JSON::operator[](int x) {
 	if (!defined)
 		throw JSONException("Attempting to access inactive property");
 	if (type != ARRAY)
 		throw JSONException("this JSON is not an array");
 	return children[x];
-};
+}
+
+const JSON& JSON::get(int x) const {
+	if (!defined)
+		throw JSONException("Attempting to access inactive property");
+	if (type != ARRAY)
+		throw JSONException("this JSON is not an array");
+	return children[x];
+}
+
 void JSON::push(JSON json) {
 	if (type != ARRAY)
 		throw JSONException("this JSON object is not an array");

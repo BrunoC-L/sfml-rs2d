@@ -1,5 +1,4 @@
 #include "mapEditor.h"
-#include <fstream>
 
 MapEditor::MapEditor(): window(std::make_shared<sf::RenderWindow>(sf::VideoMode(startingSize.x, startingSize.y), "RS2D Map Editor")) {
 	setupMap();
@@ -36,10 +35,8 @@ void MapEditor::draw() {
 	}
 	sf::Transform buttonTransform;
 	buttonTransform.scale(1 / stretch.x, 1 / stretch.y);
-	window->draw(reloadButton.first, buttonTransform);
-	window->draw(reloadButton.second, buttonTransform);
-	window->draw(toggleWallsButton.first, buttonTransform);
-	window->draw(toggleWallsButton.second, buttonTransform);
+	for (auto& button : leftButtons)
+		window->draw(button.second, buttonTransform);
 }
 
 void MapEditor::pollEvents() {
@@ -93,7 +90,7 @@ void MapEditor::pollEvents() {
 		}
 		else if (event.type == sf::Event::Resized)
 			ResizeEvent().emit();
-		else if (event.type == sf::Event::MouseWheelMoved)
+		else if (event.type == sf::Event::MouseWheelMoved) 
 			MouseWheelEvent(VPixel(event.mouseWheel.x, event.mouseWheel.y), event.mouseWheel.delta).emit();
 		else if (event.type == sf::Event::MouseMoved)
 			MouseMoveEvent(VPixel(event.mouseMove.x, event.mouseMove.y)).emit();
@@ -127,32 +124,32 @@ void MapEditor::setupButtons() {
 	auto pos = sf::Vector2f(margin, margin);
 	int correctionYtext = 8;
 
-	reloadButton.second.setString("Reload Objects");
-	reloadButton.second.setFont(font);
-	reloadButton.second.setFillColor(sf::Color::Green);
-	reloadButton.second.setPosition(pos + sf::Vector2f(3, -4));
-	reloadButton.second.setCharacterSize(35);
-	reloadButton.first.setPosition(pos);
-	reloadButton.first.setFillColor(sf::Color::Red);
-	reloadButton.first.setSize(size);
+	leftButtonCallbacks = {
+		[&]() {reload(); },
+		[&]() {toggleWalls(); },
+		[&]() {toggleObjects(); },
+		[&]() {save(); }
+	};
 
-	pos.y += size.y + spacing;
-	toggleWallsButton.second.setString("Toggle Walls");
-	toggleWallsButton.second.setFont(font);
-	toggleWallsButton.second.setFillColor(sf::Color::Green);
-	toggleWallsButton.second.setPosition(pos + sf::Vector2f(3, -4));
-	toggleWallsButton.second.setCharacterSize(35);
-	toggleWallsButton.first.setPosition(pos);
-	toggleWallsButton.first.setFillColor(sf::Color::Red);
-	toggleWallsButton.first.setSize(size);
+	std::vector<std::string> leftButtonTexts = { "Reload", "Toggle Walls", "Toggle Objects", "Save" };
 
-	buttonCallbacks.reserve(2);
-	buttonCallbacks.emplace_back([&]() {
-		reload();
-	});
-	buttonCallbacks.emplace_back([&]() {
-		toggleWalls();
-	});
+	_ASSERT(leftButtonTexts.size() == leftButtonCallbacks.size());
+
+	leftButtons.reserve(leftButtonCallbacks.size());
+
+	for (auto& buttonText : leftButtonTexts) {
+		leftButtons.push_back(ColoredTextRect());
+		auto& button = leftButtons.back();
+		button.second.setString(buttonText);
+		button.second.setFont(font);
+		button.second.setFillColor(sf::Color::Green);
+		button.second.setPosition(pos + sf::Vector2f(3, -4));
+		button.second.setCharacterSize(35);
+		button.first.setPosition(pos);
+		button.first.setFillColor(sf::Color::Red);
+		button.first.setSize(size);
+		pos.y += size.y + spacing;
+	}
 }
 
 void MapEditor::setupMap() {
@@ -160,7 +157,7 @@ void MapEditor::setupMap() {
 
 	for (int x = 0; x < 29; ++x) {
 		for (int y = 0; y < 25; ++y) {
-			std::cout << "Loading chunk " << x << ", " << y << std::endl;
+			std::cout << "\rLoading chunk " << x << ", " << y << "   ";
 
 			chunks[x][y].setTexture(&map);
 			chunks[x][y].setTextureRect(
@@ -192,6 +189,7 @@ void MapEditor::setupMap() {
 					//wallTypes[tx * TILES_PER_CHUNK + ty] = (tx == 0 || ty == 0 || tx == 63 || ty == 63) ? 15 : borders;
 				}
 			}
+			file.close();
 
 			walls[x][y].load(
 				"../../../assets/textures/red_walls.png",
@@ -202,6 +200,7 @@ void MapEditor::setupMap() {
 			);
 		}
 	}
+	std::cout << "\rDone Loading Map        \n";
 }
 
 void MapEditor::setupObservers() {
@@ -214,10 +213,11 @@ void MapEditor::setupObservers() {
 
 	wheelObserver.set([&](MouseWheelEvent& ev) {
 		if (ev.delta == 0)
-			return;
-		zoom = zoom * (1 + (0.3 + ev.delta) * 0.1f);
-		std::cout << ev.delta << std::endl;
-		zoom = std::max(1.f, zoom);
+			ev.delta = scroll;
+		else
+			scroll = ev.delta;
+		zoom = zoom * (1 + ev.delta * 0.05f);
+		zoom = std::max(0.1f, zoom);
 		zoom = std::min(1000.f, zoom);
 		drawn = false;
 	});
@@ -228,9 +228,9 @@ void MapEditor::setupObservers() {
 		right = left + size.x;
 		top = margin;
 		bottom = top + size.y;
-		for (int i = 0; i < buttonCallbacks.size(); ++i) {
+		for (int i = 0; i < leftButtonCallbacks.size(); ++i) {
 			if ((ev.pos.x >= left - 1) && (ev.pos.x <= right + 1) && (ev.pos.y >= top - 1) && (ev.pos.y <= bottom + 1)) {
-				buttonCallbacks[i]();
+				leftButtonCallbacks[i]();
 				drawn = false;
 				return;
 			}
@@ -239,26 +239,32 @@ void MapEditor::setupObservers() {
 		}
 		VPixel delta = ev.pos - getSize() / 2;
 		pos += delta / zoom;
-		pos.x = (int)std::max(pos.x, 0.f) + 0.5;
-		pos.y = (int)std::max(pos.y, 0.f) + 0.5;
-		//pos.x = std::min(pos.x, getSize().x);
-		//pos.y = std::min(pos.y, getSize().y);
+		pos.x = (int)pos.x + 0.5;
+		pos.y = (int)pos.y + 0.5;
 		drawn = false;
 	});
 
 	rightClickObserver.set([&](MouseRightClickEvent& ev) {
 		MouseLeftClickEvent(ev.pos).emit();
-		std::cout << pos.x << ", " << pos.y << std::endl;
+		currentFile = std::make_shared<editor::FileEditor>(pos);
 	});
 }
 
 void MapEditor::reload() {
-	std::cout << "Reloaded\n";
+
 }
 
 void MapEditor::toggleWalls() {
 	displayWalls = !displayWalls;
-	std::cout << "Toggled Walls to " << (displayWalls ? "true" : "false") << std::endl;
+}
+
+void MapEditor::toggleObjects() {
+
+}
+
+void MapEditor::save() {
+	if (currentFile)
+		currentFile->save();
 }
 
 std::string MapEditor::getWallsFileName(int x, int y, int z) const {
