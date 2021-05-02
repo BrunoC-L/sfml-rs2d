@@ -7,15 +7,15 @@ GameDataService::GameDataService(ServiceProvider* provider, GameTickProgress* tr
 
 void GameDataService::init() {
     acquire();
-    socket->on("positions", [&](JSON& json) {
-        storePositions(json);
+    socket->on("positions", [&](std::shared_ptr<const JSON> json) {
+        storePositions(*json);
         tracker->onGameTick();
     });
 
 	loginObserver.set([&](LoginEvent& ev) {
 		loggedIn = true;
 		// Temporal link with the player subscription...
-		// maybe add a new event called when the player receives login
+		// maybe add an event called when the player receives login
 		// the other solution is for the gamedataservice to own the player
 		playerPositions = std::make_unique<PlayerPositions>(player);
 	});
@@ -36,7 +36,7 @@ std::vector<playerIdAndPosition> GameDataService::getPlayerPositions() {
     return playerPositions->getPlayerPositions(tracker->getTickFraction());
 }
 
-void GameDataService::storePositions(JSON& json) {
+void GameDataService::storePositions(const JSON& json) {
 	if (playerPositions == nullptr)
 		throw std::exception("Giving positions before login");
     playerPositions->update(json);

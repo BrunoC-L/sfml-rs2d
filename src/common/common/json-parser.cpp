@@ -1,8 +1,7 @@
 #include "pch.h"
 #include "json-parser.h"
 
-JSONParser::JSONParser(JSON* json) {
-	this->json = json;
+JSONParser::JSONParser(JSON& json) : json(json) {
 }
 
 void JSONParser::parse(std::string str) {
@@ -11,10 +10,10 @@ void JSONParser::parse(std::string str) {
 	switch (self[0]) {
 		case '{':
 			parseJSON();
-			json->setType(Primitives::OBJECT);
+			json.setType(Primitives::OBJECT);
 			break;
 		case '[':
-			json->setType(Primitives::ARRAY);
+			json.setType(Primitives::ARRAY);
 			parseArray();
 			break;
 		case '\'':
@@ -22,11 +21,11 @@ void JSONParser::parse(std::string str) {
 			self.erase(0, 1);
 			if (self[self.length() - 1] == '\'' || self[self.length() - 1] == '"')
 				self.erase(self.length() - 1);
-			json->setSelf(self);
-			json->setType(Primitives::STRING);
+			json.setSelf(self);
+			json.setType(Primitives::STRING);
 			break;
 		default:
-			json->setType(Primitives::NUMBER);
+			json.setType(Primitives::NUMBER);
 			break;
 	}
 }
@@ -48,7 +47,7 @@ void JSONParser::parseJSON() {
 			++index;
 		}
 		if (!inString || propertyName.length() == 0)
-			throw new JSONException(("No property name in json while parsing " + self).c_str());
+			throw JSONException(("No property name in json while parsing " + self).c_str());
 		inString = false;
 		++index;
 		bool found = false;
@@ -90,8 +89,8 @@ void JSONParser::parseJSON() {
 			}
 			break;
 		}
-		json->children.push_back(JSON(buffer, propertyName));
-		json->indices.insert(make_pair(propertyName, json->children.size() - 1));
+		json.children.push_back(JSON(buffer, propertyName));
+		json.indices.insert(make_pair(propertyName, json.children.size() - 1));
 		parseSpaces();
 		if (self[index] == '}')
 			break;
@@ -107,7 +106,7 @@ void JSONParser::parseArray() {
 		parseSpaces();
 		if (self[index] == ']')
 			break;
-		json->children.push_back(readElement());
+		json.children.push_back(readElement());
 		parseSpaces();
 		if (self[index] != ',')
 			break;

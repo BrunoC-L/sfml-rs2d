@@ -14,7 +14,7 @@ bool Inventory::has(std::vector<std::pair<Item, unsigned>> items) {
 	for (auto i = 0; i < items.size(); ++i)
 		for (auto j = i + 1; j < items.size(); ++j)
 			if (items[i].first.isSameType(items[j].first))
-				throw new std::exception("vector for inventory::has has duplicates");
+				throw std::exception("vector for inventory::has has duplicates");
 	for (auto p : items)
 		if (!has(p.first,  p.second))
 			return false;
@@ -30,7 +30,7 @@ bool Inventory::add(std::vector<std::pair<Item, unsigned>> items) {
 	for (auto p : items)
 		for (auto i = 0; i < p.second; ++i)
 			if (!add(p.first, p.second))
-				throw new std::exception("Failed to add item");
+				throw std::exception("Failed to add item");
 	return true;
 }
 
@@ -41,7 +41,7 @@ bool Inventory::remove(std::vector<std::pair<Item, unsigned>> items) {
 	for (auto p : items)
 		for (auto i = 0; i < p.second; ++i)
 			if (!remove(p.first))
-				throw new std::exception("Failed to remove item");
+				throw std::exception("Failed to remove item");
 	return true;
 }
 
@@ -65,7 +65,7 @@ bool Inventory::add(Item item, unsigned quantity) {
 			_space -= 1;
 			return true;
 		}
-	throw new std::exception("space check passed but couldnt find empty space for item to be added");
+	throw std::exception("space check passed but couldnt find empty space for item to be added");
 }
 
 bool Inventory::remove(Item item) {

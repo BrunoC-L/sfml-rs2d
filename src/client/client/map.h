@@ -10,7 +10,7 @@ class Map: public AbstractMap, public Service {
     bool shouldStop = false;
     unsigned chunkRadius;
     VChunk centerChunk;
-    std::vector<std::vector<Chunk*>> loaded;
+    std::vector<std::vector<std::shared_ptr<Chunk>>> loaded;
     std::mutex mutex;
 public:
     Map(ServiceProvider* provider, int chunkRadius);

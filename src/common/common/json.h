@@ -37,6 +37,9 @@ public:
 	JSON& operator[](std::string propertyName);
 	JSON& operator[](int x);
 
+	const JSON& get(std::string propertyName) const;
+	const JSON& get(int x) const;
+
 	void push(JSON json);
 	void push(std::string str);
 

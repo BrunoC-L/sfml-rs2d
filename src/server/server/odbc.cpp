@@ -57,26 +57,20 @@ void db(
         SelectQuery sq;
         NonSelectQuery nsq;
         {
-            bool wait;
-            {
+            std::unique_lock<std::mutex> lock(waiter);
+            cv.wait(lock, [&]() {
                 std::lock_guard<std::mutex> g(queryLock);
-                wait = selectQueries.size() == 0 && nonSelectQueries.size() == 0;
-            }
-            if (wait) {
-                std::unique_lock<std::mutex> lock(waiter);
-                cv.wait(lock, [&]() {
-                    return selectQueries.size() != 0 || nonSelectQueries.size() != 0 || !*connected;
-                });
-            }
+                return selectQueries.size() != 0 || nonSelectQueries.size() != 0 || !*connected;
+            });
         }
         if (!*connected)
             return;
         bool SELECT = false;
         WCHAR wquery[SQL_QUERY_SIZE];
+        std::string q;
 
         {
             std::lock_guard<std::mutex> g(queryLock);
-            std::string q;
             if (selectQueries.size() > nonSelectQueries.size()) {
                 sq = selectQueries[0];
                 SELECT = true;
@@ -94,12 +88,10 @@ void db(
             wquery[q.length()] = 0;
         }
 
-        bool* CALLED = new bool(false);
-        OnExit _([CALLED, SELECT, sq, nsq]() {
-            bool called = *CALLED;
-            delete CALLED;
-            if (!called)
-                throw std::exception(("Callback never called after query: " + SELECT ? sq.first : nsq.first).c_str());
+        std::shared_ptr<bool> called = std::make_shared<bool>(false);
+        OnExit _([called, q]() {
+            if (!*called)
+                throw std::exception(("Callback never called after query: " + q).c_str());
         });
 
         RETCODE     RetCode;
@@ -114,7 +106,7 @@ void db(
             if (SELECT)
                 throw std::exception((info + " encountered during select: '" + sq.first + "'\n").c_str());
             else {
-                *CALLED = true;
+                *called = true;
                 nsq.second(info);
             }
             break;
@@ -132,12 +124,12 @@ void db(
                 // Does not mean that select has to return at least 1 element, I'm not sure what sNumResults stands for
                 // But select queries that return empty go through here still
                 _ASSERT(SELECT);
-                *CALLED = true;
+                *called = true;
                 sq.second(getResults(hStmt, sNumResults));
             }
             else {
                 _ASSERT(!SELECT);
-                *CALLED = true;
+                *called = true;
                 nsq.second(NonSelectQueryResult()); // TODO: pass the message
                 SQLLEN cRowCount;
                 TRYODBC(hStmt,
@@ -153,7 +145,7 @@ void db(
             if (SELECT)
                 throw std::exception((err + " encountered during select: '" + sq.first + "'\n").c_str());
             else {
-                *CALLED = true;
+                *called = true;
                 nsq.second(err);
             }
             break;

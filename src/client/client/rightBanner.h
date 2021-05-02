@@ -14,7 +14,6 @@ private:
     Minimap minimap;
     RightBanner();
     sf::RectangleShape banner;
-    std::vector<std::pair<Item, sf::RectangleShape>> inventoryItems;
 public:
     RightBanner(ServiceProvider* provider, AbstractRenderWindow* window);
     void draw();

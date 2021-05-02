@@ -57,7 +57,6 @@
     <ClInclude Include="playerAction.h" />
     <ClInclude Include="playerActionService.h" />
     <ClInclude Include="playerWalkAction.h" />
-    <ClInclude Include="queryBuilder.h" />
     <ClInclude Include="socket-server.h" />
     <ClInclude Include="socketServer.h" />
     <ClInclude Include="taskScheduler.h" />

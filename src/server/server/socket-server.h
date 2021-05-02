@@ -12,7 +12,7 @@
 const std::string messageEnd = "|END|";
 
 struct SocketTuple {
-    sf::TcpSocket* socket;
+    std::shared_ptr<sf::TcpSocket> socket;
     std::string buffer;
     std::mutex mutex;
 };
@@ -20,17 +20,17 @@ struct SocketTuple {
 class SocketServer {
 private:
     sf::TcpListener listener;
-    sf::Mutex selectorMutex;
+    std::mutex selectorMutex;
     sf::SocketSelector selector;
     unsigned port;
     std::thread connectionThread;
     std::thread communicationThread;
     bool stopped = true;
-    std::function<void(sf::TcpSocket*, std::string)> onMessage;
-    std::function<void(sf::TcpSocket*)> onDisconnect;
-    std::function<void(sf::TcpSocket*)> onConnect;
+    std::function<void(std::shared_ptr<sf::TcpSocket>, std::string)> onMessage;
+    std::function<void(std::shared_ptr<sf::TcpSocket>)> onDisconnect;
+    std::function<void(std::shared_ptr<sf::TcpSocket>)> onConnect;
 
-    bool receive(SocketTuple* socket) {
+    bool receive(std::shared_ptr<SocketTuple> socket) {
         std::lock_guard<std::mutex> guard(socket->mutex);
         const int maxSize = 1024;
         char buffer[maxSize] = { 0 };
@@ -47,8 +47,12 @@ private:
         return true;
     }
 public:
-    std::vector<SocketTuple*> sockets;
-    SocketServer(unsigned port, std::function<void(sf::TcpSocket*, std::string)> onMessage, std::function<void(sf::TcpSocket*)> onConnect, std::function<void(sf::TcpSocket*)> onDisconnect) :
+    std::vector<std::shared_ptr<SocketTuple>> sockets;
+    SocketServer(
+        unsigned port,
+        std::function<void(std::shared_ptr<sf::TcpSocket>, std::string)> onMessage,
+        std::function<void(std::shared_ptr<sf::TcpSocket>)> onConnect,
+        std::function<void(std::shared_ptr<sf::TcpSocket>)> onDisconnect) :
     port(port), onMessage(onMessage), onConnect(onConnect), onDisconnect(onDisconnect) { }
 
     void start() {
@@ -66,20 +70,16 @@ public:
                 }
                 int id = 0;
                 while (!stopped) {
-                    sf::TcpSocket* client = new sf::TcpSocket();
-                    bool acceptFailed = listener.accept(*client) != sf::Socket::Done;
-                    if (acceptFailed) {
-                        delete client;
+                    std::shared_ptr<sf::TcpSocket> client = std::make_shared<sf::TcpSocket>();
+                    if (listener.accept(*client) != sf::Socket::Done)
                         continue;
-                    }
-                    selectorMutex.lock();
-                    SocketTuple* st = new SocketTuple;
+                    std::lock_guard<std::mutex> lock(selectorMutex);
+                    std::shared_ptr<SocketTuple> st = std::make_shared<SocketTuple>();
                     st->socket = client;
                     st->buffer = "";
                     sockets.push_back(st);
                     selector.add(*client);
                     onConnect(st->socket);
-                    selectorMutex.unlock();
                 }
                 {
                     std::ostringstream ss;
@@ -107,12 +107,10 @@ public:
                             continue;
                         if (receive(socket))
                             continue;
-                        selectorMutex.lock();
+                        std::lock_guard<std::mutex> lock(selectorMutex);
                         onDisconnect(socket->socket);
-                        sockets.erase(sockets.begin() + i);
                         selector.remove(*socket->socket);
-                        delete socket->socket;
-                        selectorMutex.unlock();
+                        sockets.erase(sockets.begin() + i);
                     }
                 }
                 {

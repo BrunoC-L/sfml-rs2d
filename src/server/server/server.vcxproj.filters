@@ -182,9 +182,6 @@
     <ClInclude Include="main.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="queryBuilder.h">
-      <Filter>Source Files\services\db</Filter>
-    </ClInclude>
     <ClInclude Include="costLogger.h">
       <Filter>Source Files</Filter>
     </ClInclude>

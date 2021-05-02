@@ -1,5 +1,6 @@
 from PIL import Image
 from constants import NORTH, SOUTH, EAST, WEST, TILES, TPC
+from scipy.stats import mode
 
 '''
 This script will open the world map and generate a file for each chunk's walls
@@ -57,6 +58,13 @@ eastWalls = [
     [ (3, 0), (3, 1), (3, 2), (3, 3) ],
 ]
 
+baseWaterColor = (98, 118, 168)
+baseLavaColor  = (249, 205, 18)
+kindaGraySnow  = (230, 230, 230)
+
+def distance(color1, color2):
+    return sum([abs(c1-c2) for c1, c2 in zip(color1, color2)]) 
+
 def hasWall(tile, setOfWalls):
     for possibleWall in setOfWalls:
         # Note the - 1, we allow 1 pixel to be off, otherwise its much too strict
@@ -65,6 +73,16 @@ def hasWall(tile, setOfWalls):
     return False
 
 def classify(x, y):
+    pixels = [pix[4 * x + i, 4 * y + j] for i in range(4) for j in range(4)]
+    # snow would be counted as walls, lets avoid that
+    hasSnow = True in [[distance(kindaGraySnow, pixel) < 50 for pixel in pixels].count(True) > 8]
+    if hasSnow:
+        # Let's assume you can walk on snow because there is too much to remove manually otherwise
+        return 0
+    # Check for 8 out of 16 pixels matching
+    hasWaterOrLava = True in [[distance(baseColor, pixel) < 50 for pixel in pixels].count(True) > 8 for baseColor in (baseLavaColor, baseWaterColor)]
+    if hasWaterOrLava:
+        return EAST | WEST | NORTH | SOUTH
     # This is the criteria to turn a pixel into a boolean that dictates if we think there is a wall piece on that pixel
     # We check if the color value (0 to 255 RGB) is greater than 150 on R, G & B
     # Range 4 is because each tile is 4x4 pixels
@@ -85,6 +103,8 @@ def classify(x, y):
 def waller(cx, cy):
     with open(f"../assets/walls/{cx}-{cy}-0.txt","w+") as f:
         walls = [classify(x + TPC * cx, y + TPC * cy) for x, y in TILES]
+        wmode = mode(walls)[0][0]
+        f.write(f"{wmode}\n")
         for x, y in TILES:
             w = walls[64 * x + y]
 
@@ -96,13 +116,16 @@ def waller(cx, cy):
             # and assume the neighbor's walls are consistent with ours
 
             # TODO
-            # This process is done per CHUNK so tile neighbors in different chunks
-            # Are ignored, this is a HUGE flaw
+            # This process is done per chunk, so tile neighbors in
+            # different chunks Are ignored, this is a HUGE flaw
             # One idea is to reconcialiate both files as you go, this would fit better
             # Than doing once each file is processed with the current state of chunker.py
             # The idea is that you could always try to reconciliate only with the chunks
             # west or north of you, eventually leading to the last chunk, all the way
             # south east, closing the last borders
+
+            # TODO
+            # only write down the tiles that have walls on them, not zeros
 
             if x >  0:
                 neighbor = walls[64 * (x - 1) + y]
@@ -120,4 +143,5 @@ def waller(cx, cy):
                 neighbor = walls[64 * x + (y + 1)]
                 if neighbor & NORTH:
                     w |= SOUTH
-            f.write(f"{w}\n")
+            if w != wmode:
+                f.write(f"{x} {y} {w}\n")

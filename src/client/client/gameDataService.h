@@ -11,7 +11,7 @@ class GameDataService : public Service, public AbstractGameDataService {
 	std::unique_ptr<PlayerPositions> playerPositions;
 	EventObserver<LoginEvent> loginObserver;
 	EventObserver<LogoutEvent> logoutObserver;
-	void storePositions(JSON& json);
+	void storePositions(const JSON& json);
 public:
 	GameDataService(ServiceProvider* provider, GameTickProgress* tracker);
 	virtual void init();

@@ -186,12 +186,6 @@
     <ClInclude Include="abstractSocket.h">
       <Filter>Source Files\services\socket</Filter>
     </ClInclude>
-    <ClInclude Include="socket.h">
-      <Filter>Source Files\services\socket</Filter>
-    </ClInclude>
-    <ClInclude Include="jsonSocket.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="abstractGameDataService.h">
       <Filter>Source Files\services\gameData</Filter>
     </ClInclude>
@@ -273,6 +267,12 @@
     <ClInclude Include="connectedState.h">
       <Filter>Source Files\services\socket\socketState</Filter>
     </ClInclude>
+    <ClInclude Include="tcpSocket.h">
+      <Filter>Source Files\services\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="socketService.h">
+      <Filter>Source Files\services\socket</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="chunk.cpp">
@@ -311,9 +311,6 @@
     <ClCompile Include="tile.cpp">
       <Filter>Source Files\tile</Filter>
     </ClCompile>
-    <ClCompile Include="socket.cpp">
-      <Filter>Source Files\services\socket</Filter>
-    </ClCompile>
     <ClCompile Include="gameDataService.cpp">
       <Filter>Source Files\services\gameData</Filter>
     </ClCompile>
@@ -343,6 +340,9 @@
     </ClCompile>
     <ClCompile Include="measures.cpp">
       <Filter>Source Files\services\measures</Filter>
+    </ClCompile>
+    <ClCompile Include="socketService.cpp">
+      <Filter>Source Files\services\socket</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

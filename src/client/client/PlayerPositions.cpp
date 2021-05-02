@@ -47,7 +47,7 @@ void PlayerPositions::update(std::vector<playerIdAndPosition> newPositions) {
 	data.second = std::make_unique<std::vector<playerIdAndPosition>>(newPositions);
 }
 
-void PlayerPositions::update(JSON& json) {
+void PlayerPositions::update(const JSON& json) {
 	auto positions = json.children;
 	std::vector<playerIdAndPosition> newPositions;
 	for (auto& pos : positions) {

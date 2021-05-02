@@ -17,5 +17,5 @@ public:
 	PlayerPositions(AbstractPlayer* player);
 	std::vector<playerIdAndPosition> getPlayerPositions(double tickFraction);
 	void update(std::vector<playerIdAndPosition> newPositions);
-	void update(JSON& json);
+	void update(const JSON& json);
 };

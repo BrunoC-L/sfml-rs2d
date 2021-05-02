@@ -1,6 +1,7 @@
 #pragma once
 #include <mutex>
 #include <chrono>
+#include <SFML/System.hpp>
 
 class TickScheduler {
 public:
@@ -32,18 +33,5 @@ public:
 
 	bool shouldTick() {
 		return shouldtick ^ (shouldtick = false);
-	}
-};
-
-class MutexTickScheduler : public TickScheduler {
-public:
-	std::mutex m;
-	MutexTickScheduler() {
-		m.lock();
-	}
-
-	bool shouldTick() {
-		m.lock();
-		return true;
 	}
 };

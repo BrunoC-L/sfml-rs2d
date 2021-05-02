@@ -172,7 +172,7 @@
     <ClInclude Include="interactionClickEvent.h" />
     <ClInclude Include="inventory.h" />
     <ClInclude Include="item.h" />
-    <ClInclude Include="jsonSocket.h" />
+    <ClInclude Include="tcpSocket.h" />
     <ClInclude Include="keyPressedEvent.h" />
     <ClInclude Include="login.h" />
     <ClInclude Include="main.h" />
@@ -194,7 +194,7 @@
     <ClInclude Include="rightClickTileEvent.h" />
     <ClInclude Include="service.h" />
     <ClInclude Include="sfRenderWindow.h" />
-    <ClInclude Include="socket.h" />
+    <ClInclude Include="socketService.h" />
     <ClInclude Include="socketState.h" />
     <ClInclude Include="teleportEvent.h" />
     <ClInclude Include="tile.h" />
@@ -224,7 +224,7 @@
     <ClCompile Include="rightBanner.cpp" />
     <ClCompile Include="rightClickInterface.cpp" />
     <ClCompile Include="sfRenderWindow.cpp" />
-    <ClCompile Include="socket.cpp" />
+    <ClCompile Include="socketService.cpp" />
     <ClCompile Include="tile.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -2,4 +2,4 @@
 #include "pch.h"
 #include "main.h"
 
-extern sf::RenderWindow* globalWindow;
+extern std::shared_ptr<sf::RenderWindow> globalWindow;
