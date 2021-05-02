@@ -22,20 +22,19 @@ def main(args):
     args = [a.lower() for a in args]
     verbose = not 'silence' in args
     
-    from os import listdir, remove
+    from os import listdir
     changesDir = '../assets/editor/changes'
     changes = listdir(changesDir)
     changesDone = listdir(changesDir + ' done')
+    changes = [c for c in changes if c not in changesDone]
     if verbose:
         print(f'Applying {len(changes)} changes')
 
-    keys = ['walls', 'monsters', 'npcs', 'objects', 'items']
+    keys = ['wall', 'monster', 'npc', 'object', 'item']
 
     for change in changes: # yes, the changes are filenames
-        if change in changesDone:
-            continue
-        cx, cy, x, y, z = change.split()
-        with open(f'../assets/editor/data/chunks/{cx}-{cy}-{z}/{x}-{y}.json') as f:
+        cx, cy, cz, x, y = change.split()
+        with open(f'../assets/editor/data/chunks/{cx}-{cy}-{cz}/{x}-{y}.json') as f:
             content  = json.load(f)
             # get walls, objects, monsters, npcs, put them in their file
             for key in keys:
@@ -44,12 +43,20 @@ def main(args):
                 # not much to be gained from not reading duplicate entries in the file,
                 # where there is alot to be gained from not having to read the entire file now
                 # (in program complexity and execution time)
-                with open(f'../assets/{key}/{cx}-{cy}-{z}.txt', 'a') as chunk:
-                    # for walls value is between 0 and 15
-                    # for other types it's a list of folder names in the key folder
-                    # ex [tree] would indicate a list of 1 tree, very complicated I KNOW
-                    chunk.write(f'{x}-{y}: {value}\n')
-        open(f'{changesDir} done/{cx} {cy} {z} {x} {y}', 'w+')
+
+                # TODO add a switch to clear the files generated here and re run from scratch
+                # to avoid duplicate entries
+                for m in ['a', 'w+']:
+                    try :
+                        with open(f'../assets/{key}s/{cx}-{cy}-{cz}.txt', m) as chunk:
+                            # for walls value is between 0 and 15
+                            # for other types it's a list of folder names in the key folder
+                            # ex [tree] would indicate a list of 1 tree, very complicated I KNOW
+                            chunk.write(f'{x} {y} {value}\n')
+                        break
+                    except:
+                        pass
+        open(f'{changesDir} done/{cx} {cy} {cz} {x} {y}', 'w+')
 
 if __name__ == '__main__':
     import sys

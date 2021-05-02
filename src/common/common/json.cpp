@@ -4,18 +4,18 @@
 
 JSON::JSON(std::string json) {
 	self = json;
-	JSONParser(this).parse(self);
+	JSONParser(*this).parse(self);
 }
 
 JSON::JSON() {
 	self = "{}";
-	JSONParser(this).parse(self);
+	JSONParser(*this).parse(self);
 }
 
 JSON::JSON(std::string json, std::string propertyName) {
 	this->propertyName = propertyName;
 	self = json;
-	JSONParser(this).parse(self);
+	JSONParser(*this).parse(self);
 }
 
 void JSON::operator=(JSON other) {

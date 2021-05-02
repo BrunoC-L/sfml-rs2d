@@ -13,16 +13,12 @@ void Map::init() {
 }
 
 void Map::load() {
-	loaded = std::vector<std::vector<std::shared_ptr<Chunk>>>(2 * chunkRadius + 1);
-	mutex.lock();
-	for (int i = 0; i < 2 * chunkRadius + 1; ++i) {
-		loaded[i] = std::vector<std::shared_ptr<Chunk>>(2 * chunkRadius + 1);
-		for (int j = 0; j < 2 * chunkRadius + 1; ++j) {
-			VChunk chunkPos = centerChunk + VChunk(i, j) - VChunk(chunkRadius, chunkRadius);
-			loaded[i][j] = std::make_shared<Chunk>(chunkPos);
-		}
-	}
-	mutex.unlock();
+	auto diameter = 2 * chunkRadius + 1;
+	loaded = std::vector<std::vector<std::shared_ptr<Chunk>>>(diameter, std::vector<std::shared_ptr<Chunk>>(diameter, nullptr));
+	std::lock_guard<std::mutex> lock(mutex);
+	for (int i = 0; i < diameter; ++i)
+		for (int j = 0; j < diameter; ++j)
+			loaded[i][j] = std::make_shared<Chunk>(centerChunk + VChunk(i, j) - VChunk(chunkRadius, chunkRadius));
 }
 
 void Map::update() {
@@ -38,20 +34,14 @@ void Map::update() {
 void Map::updateChunks(const VChunk& difference, const VChunk& tempCenter) {
 	auto diameter = 2 * chunkRadius + 1;
 	std::vector<std::vector<std::shared_ptr<Chunk>>> newChunks(diameter, std::vector<std::shared_ptr<Chunk>>(diameter, nullptr));
-	for (int i = 0; i < diameter; ++i) {
-		for (int j = 0; j < diameter; ++j) {
-			VChunk chunkPos = tempCenter + VChunk(i, j) - VChunk(chunkRadius, chunkRadius);
-			if (i + difference.x >= 0 && i + difference.x < diameter && j + difference.y >= 0 && j + difference.y < diameter) {
-				std::shared_ptr<Chunk>& l = loaded[i + difference.x][j + difference.y];
-				newChunks[i][j] = l;
-			}
+	for (int i = 0; i < diameter; ++i)
+		for (int j = 0; j < diameter; ++j)
+			if (i + difference.x >= 0 && i + difference.x < diameter && j + difference.y >= 0 && j + difference.y < diameter)
+				newChunks[i][j] = loaded[i + difference.x][j + difference.y];
 			else
-				newChunks[i][j] = std::make_shared<Chunk>(chunkPos);
-		}
-	}
-	mutex.lock();
+				newChunks[i][j] = std::make_shared<Chunk>(tempCenter + VChunk(i, j) - VChunk(chunkRadius, chunkRadius));
+	std::lock_guard<std::mutex> lock(mutex);
 	std::swap(loaded, newChunks);
-	mutex.unlock();
 }
 
 void Map::doUpdates() {

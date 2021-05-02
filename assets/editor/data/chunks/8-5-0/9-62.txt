@@ -1,0 +1,1 @@
+{"resource" : [], "wall" : 15, "monster" : [], "npc" : [], "object" : [], "item" : []}

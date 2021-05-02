@@ -3,9 +3,9 @@
 class JSONParser {
 	unsigned index;
 	std::string self;
-	JSON* json;
+	JSON& json;
 public:
-	JSONParser(JSON* json);
+	JSONParser(JSON& json);
 	void parse(std::string str);
 	void parseJSON();
 	void parseArray();

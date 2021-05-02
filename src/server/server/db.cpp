@@ -1,8 +1,8 @@
 #include "db.h"
 #include "odbc.h"
-#include "queryBuilder.h"
 #include "onExit.h"
 #include "print.h"
+#include "getenv.h"
 
 DB::DB(ServiceProvider* provider) : Service(provider) {
 	provider->set("DB", this);
@@ -25,11 +25,7 @@ void DB::connect() {
 	std::string env = "RS2D_HOME";
 	std::string fileName = "dbinfo.txt";
 
-	char* buf = nullptr;
-	if (_dupenv_s(&buf, nullptr, env.c_str()) == 0 && buf == nullptr)
-		throw std::exception(("No environment variable set for '" + env + "'").c_str());
-	std::string path(buf);
-	free(buf);
+	std::string path = getenv(env);
 
 	FILE* pFile;
 	auto err = fopen_s(&pFile, (path + "/" + fileName).c_str(), "r");
@@ -97,16 +93,18 @@ void DB::updateVersion(std::string version) {
 }
 
 void DB::selectQuery(std::string s, std::function<void(SelectQueryResult)> f) {
-	queryLock.lock();
-	sQueries.push_back(std::make_pair(s, f));
-	queryLock.unlock();
+	{
+		std::lock_guard<std::mutex> lock(queryLock);
+		sQueries.push_back(std::make_pair(s, f));
+	}
 	cv.notify_one();
 }
 
 void DB::nonSelectQuery(std::string s, std::function<void(NonSelectQueryResult)> f) {
-	queryLock.lock();
-	nsQueries.push_back(std::make_pair(s, f));
-	queryLock.unlock();
+	{
+		std::lock_guard<std::mutex> lock(queryLock);
+		nsQueries.push_back(std::make_pair(s, f));
+	}
 	cv.notify_one();
 }
 

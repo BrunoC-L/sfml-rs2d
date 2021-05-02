@@ -1,0 +1,10 @@
+Copper rock: 0-0: 1
+Rock: 0-0: 2
+Tree: 0-0: 3
+Tree: 0-1: 4
+Tree: 1-0: 5
+Tree: 1-1: 6
+Tree stump: 0-0: 7
+Tree stump: 0-1: 8
+Tree stump: 1-0: 9
+Tree stump: 1-1: 10

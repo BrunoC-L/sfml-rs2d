@@ -1,5 +1,345 @@
-﻿  fileEditor.cpp
-C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\fileEditor.h(22): warning C4091: 'static ': ignored on left of 'editor::FileEditor::ObjectType' when no variable is declared
-C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\fileEditor.cpp(7,23): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\fileEditor.cpp(8,23): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+﻿  mapEditor.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\keyPressedEvent.h(9,1): warning C4003: not enough arguments for function-like macro invocation 'EVENT_CLASS'
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\keyPressedEvent.h(10,1): warning C4003: not enough arguments for function-like macro invocation 'EVENT_CLASS'
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\keyPressedEvent.h(11,1): warning C4003: not enough arguments for function-like macro invocation 'EVENT_CLASS'
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\keyPressedEvent.h(12,1): warning C4003: not enough arguments for function-like macro invocation 'EVENT_CLASS'
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\keyPressedEvent.h(13,1): warning C4003: not enough arguments for function-like macro invocation 'EVENT_CLASS'
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\keyPressedEvent.h(14,1): warning C4003: not enough arguments for function-like macro invocation 'EVENT_CLASS'
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\keyPressedEvent.h(15,1): warning C4003: not enough arguments for function-like macro invocation 'EVENT_CLASS'
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\keyPressedEvent.h(16,1): warning C4003: not enough arguments for function-like macro invocation 'EVENT_CLASS'
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\keyPressedEvent.h(17,1): warning C4003: not enough arguments for function-like macro invocation 'EVENT_CLASS'
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(29,67): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(29,51): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(30,73): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(30,57): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(31,79): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(31,57): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(32,73): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(32,51): warning C4244: 'argument': conversion from 'unsigned int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(38,70): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(38,53): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(39,76): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(39,59): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(40,82): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(40,59): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(41,76): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(41,53): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(62,74): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(62,51): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(63,74): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(63,51): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(64,74): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(64,51): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(65,74): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(65,51): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(67,74): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(67,51): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(68,74): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(68,51): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(69,74): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(69,51): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(70,74): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\Tilemap.h(70,51): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\fileEditor.h(20): warning C4091: 'static ': ignored on left of 'editor::FileEditor::ObjectType' when no variable is declared
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(4,110): warning C4244: 'argument': conversion from 'const float' to 'unsigned int', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(4,94): warning C4244: 'argument': conversion from 'const float' to 'unsigned int', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(31,66): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(31,45): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(92,70): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(92,49): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(95,71): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(95,50): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(98,72): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(98,51): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(105,63): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(105,43): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(107,60): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(107,41): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(113,12): warning C4244: '=': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(114,12): warning C4244: '=': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(135,34): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(135,26): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(206,16): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(208,16): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(209,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(216,17): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(220,22): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(221,22): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(224,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(225,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(226,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(227,20): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\map editor\mapEditor.cpp(228,20): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\event.h(64,2): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\event.h(62): message : while compiling class template member function 'void EventEmitter<ResizeEvent>::emit(T &)'
+          with
+          [
+              T=ResizeEvent
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\resizeEvent.h(16): message : see reference to function template instantiation 'void EventEmitter<ResizeEvent>::emit(T &)' being compiled
+          with
+          [
+              T=ResizeEvent
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\client\client\resizeEvent.h(16): message : see reference to class template instantiation 'EventEmitter<ResizeEvent>' being compiled
   map editor.vcxproj -> C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\Debug\map editor.exe

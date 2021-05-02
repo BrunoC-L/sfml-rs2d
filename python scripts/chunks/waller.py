@@ -1,5 +1,6 @@
 from PIL import Image
 from constants import NORTH, SOUTH, EAST, WEST, TILES, TPC
+from scipy.stats import mode
 
 '''
 This script will open the world map and generate a file for each chunk's walls
@@ -102,6 +103,8 @@ def classify(x, y):
 def waller(cx, cy):
     with open(f"../assets/walls/{cx}-{cy}-0.txt","w+") as f:
         walls = [classify(x + TPC * cx, y + TPC * cy) for x, y in TILES]
+        wmode = mode(walls)[0][0]
+        f.write(f"{wmode}\n")
         for x, y in TILES:
             w = walls[64 * x + y]
 
@@ -140,4 +143,5 @@ def waller(cx, cy):
                 neighbor = walls[64 * x + (y + 1)]
                 if neighbor & NORTH:
                     w |= SOUTH
-            f.write(f"{w}\n")
+            if w != wmode:
+                f.write(f"{x} {y} {w}\n")

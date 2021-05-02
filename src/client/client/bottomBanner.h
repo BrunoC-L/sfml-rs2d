@@ -13,6 +13,5 @@ public:
     bool mouseIsInRect(MouseEvent& ev);
 private:
     AbstractRenderWindow* window;
-    BottomBanner();
     sf::RectangleShape banner;
 };

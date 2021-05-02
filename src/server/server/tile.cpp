@@ -17,7 +17,7 @@ bool Tile::canMoveFrom(Tile from) {
 }
 
 bool Tile::canMove(VTile delta, int bordersTo, int bordersFrom) {
-	constexpr int east = 10,     north = -1,     west = -10,    south = 1;
+	constexpr int                north = -1,     west = -10,    south = 1;
 	constexpr int EAST = 0b1000, NORTH = 0b0100, WEST = 0b0010, SOUTH = 0b0001;
 	const int encoding = 10 * delta.x + delta.y;
 	if (encoding > 0)
@@ -29,6 +29,6 @@ bool Tile::canMove(VTile delta, int bordersTo, int bordersFrom) {
 		case  west         : return !(bordersTo &  WEST          || bordersFrom &  EAST);
 		case  north        : return !(bordersTo &  NORTH         || bordersFrom &  SOUTH);
 		default:
-			throw new std::exception("This should never happen");
+			throw std::exception("This should never happen");
 	}
 }

@@ -10,16 +10,14 @@ public:
     unsigned sizex, sizey;
     sf::Vector2u tileSize;
     sf::VertexArray m_vertices;
-    sf::Texture m_tileset;
+    sf::Texture* m_tileset;
 
-    bool load(const std::string& tileset, sf::Vector2u tileSize, int* tiles, unsigned sizex, unsigned sizey) {
+    bool load(sf::Texture* tileset, sf::Vector2u tileSize, int* tiles, unsigned sizex, unsigned sizey) {
         this->tileSize = tileSize;
+        m_tileset = tileset;
         this->tiles = tiles;
         this->sizex = sizex;
         this->sizey = sizey;
-
-        if (!m_tileset.loadFromFile(tileset))
-            return false;
 
         m_vertices.setPrimitiveType(sf::Quads);
         m_vertices.resize(sizex * sizey * 4);
@@ -34,8 +32,8 @@ public:
                 quad[3].position = sf::Vector2f(i * tileSize.x, (j + 1) * tileSize.y);
 
                 int textureNumber = tiles[sizex * i + j];
-                int tu = textureNumber % (m_tileset.getSize().x / tileSize.x);
-                int tv = textureNumber / (m_tileset.getSize().x / tileSize.x);
+                int tu = textureNumber % (m_tileset->getSize().x / tileSize.x);
+                int tv = textureNumber / (m_tileset->getSize().x / tileSize.x);
 
                 quad[0].texCoords = sf::Vector2f(tu * tileSize.x, tv * tileSize.y);
                 quad[1].texCoords = sf::Vector2f((tu + 1) * tileSize.x, tv * tileSize.y);
@@ -45,7 +43,7 @@ public:
         return true;
     }
 
-    bool load(const std::string& tileset, sf::Vector2u tileSize, int* tiles, unsigned size) {
+    bool load(sf::Texture* tileset, sf::Vector2u tileSize, int* tiles, unsigned size) {
         return load(tileset, tileSize, tiles, size, size);
     }
 
@@ -56,8 +54,8 @@ public:
 
         int tileNumber = tiles[index];
 
-        int tu = tileNumber % (m_tileset.getSize().x / tileSize.x);
-        int tv = tileNumber / (m_tileset.getSize().x / tileSize.x);
+        int tu = tileNumber % (m_tileset->getSize().x / tileSize.x);
+        int tv = tileNumber / (m_tileset->getSize().x / tileSize.x);
 
         sf::Vertex* quad = &m_vertices[index * 4];
 
@@ -74,14 +72,14 @@ public:
 
     void draw(AbstractRenderWindow& w, const sf::Transform& t) const {
         sf::RenderStates states = sf::RenderStates();
-        states.texture = &m_tileset;
+        states.texture = m_tileset;
         states.transform = t;
         w.draw(m_vertices, states);
     }
 
     void draw(sf::RenderWindow& w, const sf::Transform& t) const {
         sf::RenderStates states = sf::RenderStates();
-        states.texture = &m_tileset;
+        states.texture = m_tileset;
         states.transform = t;
         w.draw(m_vertices, states);
     }

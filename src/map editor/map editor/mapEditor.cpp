@@ -1,9 +1,12 @@
 #include "mapEditor.h"
+#include "splitString.h"
 
-MapEditor::MapEditor(): window(std::make_shared<sf::RenderWindow>(sf::VideoMode(startingSize.x, startingSize.y), "RS2D Map Editor")) {
+MapEditor::MapEditor() : window(std::make_shared<sf::RenderWindow>(sf::VideoMode(startingSize.x, startingSize.y), "RS2D Map Editor")) {
+	keys = { {"walls", true}, {"objects", false} };
 	setupMap();
 	setupButtons();
 	setupObservers();
+	se = std::make_shared<SearchEngine>(window, font, drawn, stretch);
 	ResizeEvent().emit();
 }
 
@@ -28,15 +31,23 @@ void MapEditor::draw() {
 			t.translate(sf::Vector2f(TILES_PER_CHUNK * x, TILES_PER_CHUNK * y));
 			t.scale(2.f / PIXELS_PER_TILE, 2.f / PIXELS_PER_TILE);
 			window->draw(chunks[x][y], t);
-			t.scale(0.5, 0.5);
-			if (displayWalls && zoom > 5)
-				walls[x][y].draw(*window, t);
+			if (zoom > 5) {
+				t.scale(0.5, 0.5);
+				for (const auto& key : keys)
+					if (displays.find(key.first) != displays.end())
+						values[key.first][x][y].draw(*window, t);
+			}
 		}
 	}
+	littleSquare.setPosition(pos.x, pos.y);
+	window->draw(littleSquare, transform);
 	sf::Transform buttonTransform;
 	buttonTransform.scale(1 / stretch.x, 1 / stretch.y);
-	for (auto& button : leftButtons)
+	for (auto& button : leftButtons) {
+		window->draw(button.first, buttonTransform);
 		window->draw(button.second, buttonTransform);
+	}
+	se->draw();
 }
 
 void MapEditor::pollEvents() {
@@ -125,20 +136,23 @@ void MapEditor::setupButtons() {
 	int correctionYtext = 8;
 
 	leftButtonCallbacks = {
-		[&]() {reload(); },
-		[&]() {toggleWalls(); },
-		[&]() {toggleObjects(); },
+		[&]() {toggle("walls"); },
+		[&]() {toggle("objects"); },
 		[&]() {save(); }
 	};
 
-	std::vector<std::string> leftButtonTexts = { "Reload", "Toggle Walls", "Toggle Objects", "Save" };
+	std::vector<std::string> leftButtonTexts = {
+		"Toggle Walls",
+		"Toggle Objects",
+		"Save"
+	};
 
 	_ASSERT(leftButtonTexts.size() == leftButtonCallbacks.size());
 
 	leftButtons.reserve(leftButtonCallbacks.size());
 
 	for (auto& buttonText : leftButtonTexts) {
-		leftButtons.push_back(ColoredTextRect());
+		leftButtons.push_back(std::pair<sf::RectangleShape, sf::Text>());
 		auto& button = leftButtons.back();
 		button.second.setString(buttonText);
 		button.second.setFont(font);
@@ -154,53 +168,13 @@ void MapEditor::setupButtons() {
 
 void MapEditor::setupMap() {
 	map.loadFromFile("../../../assets/mapnoraids.jpg");
-
-	for (int x = 0; x < 29; ++x) {
-		for (int y = 0; y < 25; ++y) {
-			std::cout << "\rLoading chunk " << x << ", " << y << "   ";
-
-			chunks[x][y].setTexture(&map);
-			chunks[x][y].setTextureRect(
-				sf::IntRect(
-					sf::Vector2i(x * TILES_PER_CHUNK * PIXELS_PER_TILE_ON_IMAGE, y * TILES_PER_CHUNK * PIXELS_PER_TILE_ON_IMAGE),
-					sf::Vector2i(    TILES_PER_CHUNK * PIXELS_PER_TILE_ON_IMAGE,     TILES_PER_CHUNK * PIXELS_PER_TILE_ON_IMAGE)
-				)
-			);
-			chunks[x][y].setSize(
-				sf::Vector2f(
-					PIXELS_PER_TILE * PIXELS_PER_TILE,
-					PIXELS_PER_TILE * PIXELS_PER_TILE
-				)
-			);
-
-			int* wallTypes = new int[TILES_PER_CHUNK * TILES_PER_CHUNK]; // leak but we only ever do it once so doesn't matter
-
-			std::string fileName = getWallsFileName(x, y, 0);
-			std::ifstream file(fileName);
-			std::string line;
-			if (!file.is_open())
-				throw std::exception(("Failed to open " + fileName).c_str());
-			for (int tx = 0; tx < TILES_PER_CHUNK; ++tx) {
-				for (int ty = 0; ty < TILES_PER_CHUNK; ++ty) {
-					std::getline(file, line);
-					const int borders = stoi(line);
-					wallTypes[tx * TILES_PER_CHUNK + ty] = borders;
-					// to display borders
-					//wallTypes[tx * TILES_PER_CHUNK + ty] = (tx == 0 || ty == 0 || tx == 63 || ty == 63) ? 15 : borders;
-				}
-			}
-			file.close();
-
-			walls[x][y].load(
-				"../../../assets/textures/red_walls.png",
-				sf::Vector2u(PIXELS_PER_TILE, PIXELS_PER_TILE),
-				wallTypes,
-				TILES_PER_CHUNK,
-				TILES_PER_CHUNK
-			);
-		}
-	}
-	std::cout << "\rDone Loading Map        \n";
+	loadTexture();
+	for (const auto& key : keys)
+		load(key);
+	std::cout << "\rDone Loading Map                              \n";
+	littleSquare.setFillColor(sf::Color::Cyan);
+	littleSquare.setSize(sf::Vector2f(1, 1));
+	littleSquare.setOrigin(sf::Vector2f(0.5, 0.5));
 }
 
 void MapEditor::setupObservers() {
@@ -212,6 +186,8 @@ void MapEditor::setupObservers() {
 	});
 
 	wheelObserver.set([&](MouseWheelEvent& ev) {
+		if (ev.pos.y > window->getSize().y - 300 * stretch.y)
+			return;
 		if (ev.delta == 0)
 			ev.delta = scroll;
 		else
@@ -222,7 +198,9 @@ void MapEditor::setupObservers() {
 		drawn = false;
 	});
 
-	leftClickObserver.set([&](MouseLeftClickEvent& ev) {
+	leftClickObserver.set([&](const MouseLeftClickEvent& ev) {
+		if (ev.pos.y > window->getSize().y - 300 * stretch.y)
+			return;
 		int left, right, top, bottom;
 		left = margin;
 		right = left + size.x;
@@ -241,33 +219,129 @@ void MapEditor::setupObservers() {
 		pos += delta / zoom;
 		pos.x = (int)pos.x + 0.5;
 		pos.y = (int)pos.y + 0.5;
+		VChunk chunk;
+		VTile p;
+		chunk.x = int(pos.x / TILES_PER_CHUNK);
+		chunk.y = int(pos.y / TILES_PER_CHUNK);
+		chunk.z = int(pos.z);
+		p.x = int(pos.x) % TILES_PER_CHUNK;
+		p.y = int(pos.y) % TILES_PER_CHUNK;
+		currentFile = std::make_shared<editor::FileEditor>(chunk, p, walls[int(chunk.x)][int(chunk.y)][int(p.x * TILES_PER_CHUNK + p.y)]);
+		se->reset();
+		se->set(currentFile->values);
 		drawn = false;
 	});
-
-	rightClickObserver.set([&](MouseRightClickEvent& ev) {
-		MouseLeftClickEvent(ev.pos).emit();
-		currentFile = std::make_shared<editor::FileEditor>(pos);
-	});
 }
 
-void MapEditor::reload() {
-
+void MapEditor::loadTexture() {
+	for (int x = 0; x < 29; ++x) {
+		for (int y = 0; y < 25; ++y) {
+			chunks[x][y].setTexture(&map);
+			chunks[x][y].setTextureRect(
+				sf::IntRect(
+					sf::Vector2i(x * TILES_PER_CHUNK * PIXELS_PER_TILE_ON_IMAGE, y * TILES_PER_CHUNK * PIXELS_PER_TILE_ON_IMAGE),
+					sf::Vector2i(TILES_PER_CHUNK * PIXELS_PER_TILE_ON_IMAGE, TILES_PER_CHUNK * PIXELS_PER_TILE_ON_IMAGE)
+				)
+			);
+			chunks[x][y].setSize(
+				sf::Vector2f(
+					PIXELS_PER_TILE * PIXELS_PER_TILE,
+					PIXELS_PER_TILE * PIXELS_PER_TILE
+				)
+			);
+		}
+	}
 }
 
-void MapEditor::toggleWalls() {
-	displayWalls = !displayWalls;
-}
-
-void MapEditor::toggleObjects() {
-
+void MapEditor::toggle(std::string key) {
+	if (displays.find(key) != displays.end())
+		displays.erase(key);
+	else
+		displays.insert(key);
 }
 
 void MapEditor::save() {
 	if (currentFile)
-		currentFile->save();
+		currentFile->save(se->getAdded());
 }
 
-std::string MapEditor::getWallsFileName(int x, int y, int z) const {
-	return "../../../assets/walls/" +
+void MapEditor::load(std::pair<std::string, bool> key) {
+	std::cout << "Loading " << key.first << std::endl;
+	sf::Texture* texture = new sf::Texture();
+	texture->loadFromFile("../../../assets/textures/editor_" + key.first + ".png");
+	std::unordered_map<std::string, int> name2texture;
+	std::unordered_map<std::string, int> name2count;
+	if (!key.second) {
+		std::ifstream name2textureIndex("../../../assets/data/" + key.first.substr(0, key.first.length() - 1) + "Name2texture.txt");
+		std::string nameOfTexture;
+		while (std::getline(name2textureIndex, nameOfTexture)) {
+			auto content = split(nameOfTexture, ":");
+			name2count[content[0]] += 1;
+			name2texture[content[0] + content[1]] = stoi(content[2]);
+		}
+	}
+	for (int x = 0; x < 29; ++x) {
+		for (int y = 0; y < 25; ++y) {
+			std::cout << "\rLoading chunk " << x << ", " << y << "   "; // note the \r and extra spaces
+
+			int* grid = new int[TILES_PER_CHUNK * TILES_PER_CHUNK](); // leak but we only ever do it once so doesn't matter
+			if (walls[x][y] == nullptr)
+				walls[x][y] = grid; // walls HAVE to be calculated before other tilemaps!
+			std::string fileName = getFileName(key.first, x, y, 0);
+			std::ifstream file(fileName);
+			std::string line;
+			if (!file.is_open())
+				throw std::exception(("Failed to open " + fileName).c_str());
+			if (key.second) {
+				if (std::getline(file, line)) {
+					std::vector<std::string> content = split(line, " ");
+					if (content.size() == 1) {
+						int mode = stoi(content[0]);
+						std::fill_n(grid, TILES_PER_CHUNK * TILES_PER_CHUNK, mode);
+					}
+					else {
+						const int tx = stoi(content[0]), ty = stoi(content[1]);
+						grid[tx * TILES_PER_CHUNK + ty] = stoi(content[2]);
+					}
+				}
+				while (std::getline(file, line)) {
+					std::vector<std::string> content = split(line, " ");
+					const int tx = stoi(content[0]), ty = stoi(content[1]);
+					grid[tx * TILES_PER_CHUNK + ty] = stoi(content[2]);
+				}
+			}
+			else {
+				while (std::getline(file, line)) {
+					std::vector<std::string> content = split(line, ":");
+					auto x_y = split(content[0], "-");
+					const int tx = stoi(x_y[0]), ty = stoi(x_y[1]);
+					JSON json(content[1][0] == ' ' ? content[1].substr(1) : content[1]);
+					if (json.children.size() == 0)
+						continue;
+					auto name = json.children[0].asString();
+					int count = name2count[name];
+					int s = count == 9 ? 3 : count == 4 ? 2 : 1;
+					for (int i = 0; i < count; ++i) {
+						int idx = i % s, idy = i / s;
+						grid[(tx + idx) * TILES_PER_CHUNK + (ty + idy)] = name2texture[name + " " + std::to_string(idx) + "-" + std::to_string(idy)];
+					}
+				}
+			}
+			file.close();
+
+			values[key.first][x][y].load(
+				texture,
+				sf::Vector2u(PIXELS_PER_TILE, PIXELS_PER_TILE),
+				grid,
+				TILES_PER_CHUNK,
+				TILES_PER_CHUNK
+			);
+		}
+	}
+	std::cout << "\rdone loading " << key.first << "               \n";
+}
+
+std::string MapEditor::getFileName(std::string key, int x, int y, int z) const {
+	return "../../../assets/" + key + "/" +
 		std::to_string(x) + "-" + std::to_string(y) + "-" + std::to_string(z) + ".txt";
 }

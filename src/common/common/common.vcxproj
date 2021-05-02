@@ -154,6 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="abstractService.h" />
+    <ClInclude Include="getenv.h" />
     <ClInclude Include="onExit.h" />
     <ClInclude Include="print.h" />
     <ClInclude Include="serviceProvider.h" />
@@ -171,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="common.cpp" />
+    <ClCompile Include="getenv.cpp" />
     <ClCompile Include="json-parser.cpp" />
     <ClCompile Include="json.cpp" />
     <ClCompile Include="pch.cpp">

@@ -17,14 +17,30 @@ void Chunk::loadWalls() {
         std::cout << "Failed to open " << fileName << std::endl;
         return;
     }
-    for (int x = 0; x < TilesPerChunk; ++x) {
-        for (int y = 0; y < TilesPerChunk; ++y) {
-            std::getline(file, line);
-            const int borders = stoi(line);
 
-            int absx = TilesPerChunk * chunkpos.x + x;
-            int absy = TilesPerChunk * chunkpos.y + y;
-            tiles[x][y] = std::make_shared<Tile>(absx, absy, std::min(15, borders));
+	int grid[int(TilesPerChunk) * int(TilesPerChunk)];
+
+	if (std::getline(file, line)) {
+		std::vector<std::string> content = split(line, " ");
+		if (content.size() == 1) {
+			int mode = stoi(content[0]);
+			std::fill_n(grid, int(TilesPerChunk) * int(TilesPerChunk), mode);
+		}
+		else {
+			const int tx = stoi(content[0]), ty = stoi(content[1]);
+			grid[tx * int(TilesPerChunk) + ty] = stoi(content[2]);
+		}
+	}
+	while (std::getline(file, line)) {
+		std::vector<std::string> content = split(line, " ");
+		const int tx = stoi(content[0]), ty = stoi(content[1]);
+        grid[tx * int(TilesPerChunk) + ty] = stoi(content[2]);
+	}
+    for (int tx = 0; tx < TilesPerChunk; ++tx) {
+        for (int ty = 0; ty < TilesPerChunk; ++ty) {
+            int absx = TilesPerChunk * chunkpos.x + tx;
+            int absy = TilesPerChunk * chunkpos.y + ty;
+            tiles[tx][ty] = std::make_shared<Tile>(absx, absy, grid[tx * int(TilesPerChunk) + ty]);
         }
     }
     file.close();

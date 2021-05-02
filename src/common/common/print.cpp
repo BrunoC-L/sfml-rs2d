@@ -4,7 +4,6 @@
 static std::mutex m;
 
 void print(std::ostringstream& ss) {
-	m.lock();
+	std::lock_guard<std::mutex> lock(m);
 	std::cout << ss.str();
-	m.unlock();
 }

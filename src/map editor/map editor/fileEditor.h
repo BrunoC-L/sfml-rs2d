@@ -12,31 +12,29 @@ namespace editor {
 	class FileEditor {
 	public:
 		static enum ObjectType {
-			RESOURCE,
 			MONSTER,
 			NPC,
-			GAMEOBJECT,
+			OBJECT,
 			ITEM,
-			WALL,
 			SIZE
 		};
 		const std::string StrObjectTypes[SIZE] = {
-			"resource",
 			"monster",
 			"npc",
 			"object",
 			"item",
-			"wall"
 		};
 		std::string fileName;
 		std::vector<std::string> values[SIZE];
 		VTile pos;
 		VChunk chunk;
-		FileEditor(VTile pos);
+		int wall;
+		FileEditor(VChunk chunk, VTile pos, int wall);
 		std::string getEditorTileFileName() const;
-		std::string getChangesFileName() const;
+		std::string getChangesFileName(bool done) const;
 		void read();
 		void save();
+		void save(const std::vector<std::pair<editor::FileEditor::ObjectType, std::string>>& all);
 		void add(ObjectType ty, std::string value);
 		void remove(ObjectType ty, std::string value);
 	};

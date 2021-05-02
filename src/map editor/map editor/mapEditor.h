@@ -11,32 +11,33 @@
 #include <tuple>
 #include "Tilemap.h"
 #include "fileEditor.h"
-
-using ColoredTextRect = std::pair<sf::RectangleShape, sf::Text>;
+#include <unordered_set>
+#include "searchEngine.h"
 
 class MapEditor {
 private:
+	sf::RectangleShape littleSquare;
+
 	sf::Font font;
 	bool drawn = false;
 
 	std::vector<std::function<void()>> leftButtonCallbacks;
-	std::vector<ColoredTextRect> leftButtons;
+	std::vector<std::pair<sf::RectangleShape, sf::Text>> leftButtons;
 	std::vector<std::function<void()>> rightButtonCallbacks;
-	std::vector<ColoredTextRect> rightButtons;
-	void reload();
-	void toggleWalls();
-	void toggleObjects();
+	std::vector<std::pair<sf::RectangleShape, sf::Text>> rightButtons;
+	void toggle(std::string key);
 	void save();
 
 	sf::Texture map;
+	int* walls[29][25]{ nullptr };
 	sf::RectangleShape chunks[29][25];
-	TileMap walls[29][25];
-	bool displayWalls = true;
+	std::unordered_map<std::string, TileMap[29][25]> values;
+	std::unordered_set<std::string> displays;
+	std::vector<std::pair<std::string, bool>> keys;
 
 	EventObserver<ResizeEvent> resizeObserver;
 	EventObserver<MouseWheelEvent> wheelObserver;
 	EventObserver<MouseLeftClickEvent> leftClickObserver;
-	EventObserver<MouseRightClickEvent> rightClickObserver;
 
 	VPixel stretch = VPixel(1, 1);
 	float zoom = 1;
@@ -55,8 +56,12 @@ private:
 	void setupButtons();
 	void setupMap();
 	void setupObservers();
-	std::string getWallsFileName(int x, int y, int z) const;
+	void loadTexture();
+	void load(std::pair<std::string, bool> key);
+	std::string getFileName(std::string key, int x, int y, int z) const;
+
 	std::shared_ptr<editor::FileEditor> currentFile;
+	std::shared_ptr<SearchEngine> se;
 public:
 	MapEditor();
 	void run();

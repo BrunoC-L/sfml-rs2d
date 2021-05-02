@@ -89,6 +89,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\..\..\SFML-2.5.1\include;..\..\common\common;..\..\client\client;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,12 +144,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="fileEditor.cpp" />
+    <ClCompile Include="searchEngine.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="mapEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="fileEditor.h" />
     <ClInclude Include="mapEditor.h" />
+    <ClInclude Include="searchEngine.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\client\client\client.vcxproj">
