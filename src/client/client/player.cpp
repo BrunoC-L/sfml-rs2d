@@ -103,7 +103,7 @@ void Player::login(std::string tempsalt, std::string permsalt) {
     auto credentials = getCredentials(tempsalt, permsalt);
     json["username"] = "'" + credentials.first + "'";
     json["passwordHash"] = "'" + credentials.second; +"'";
-    socket->emit("login", json);
+    socket->send("login", json);
     loginData.password = "";
     loginData.username = "";
 }
@@ -112,7 +112,7 @@ void Player::signUp() {
     JSON json;
     json["username"] = "'" + loginData.username + "'";
     json["passwordHash"] = "'" + picosha2::hash256_hex_string(loginData.password) +"'";
-    socket->emit("sign up", json);
+    socket->send("sign up", json);
     loginData.password = "";
     loginData.username = "";
 }
@@ -122,5 +122,5 @@ void Player::walk(VTile pos) {
     json["x"] = std::to_string(pos.x);
     json["y"] = std::to_string(pos.y);
     json["id"] = std::to_string(id);
-    socket->emit("walk", json);
+    socket->send("walk", json);
 }

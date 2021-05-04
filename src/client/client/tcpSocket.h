@@ -1,30 +1,26 @@
 #pragma once
 #include <SFML/Network.hpp>
+#include "socketState.h"
+#include <thread>
+#include <vector>
+#include <functional>
+#include <unordered_map>
 
 const std::string messageEnd = "|END|";
 
 class TCPSocket {
+private:
+	std::string ip;
+	unsigned port;
+	std::shared_ptr<SocketState> state;
+	std::shared_ptr<std::thread> listener;
+	std::function<void()> onDisconnect;
+	std::function<void(const std::string&)> onMessage;
 public:
 	std::unique_ptr<sf::TcpSocket> socket;
-	bool connect(std::string ip, unsigned port) {
-		if (socket)
-			disconnect();
-		socket = std::make_unique<sf::TcpSocket>();
-		const auto status = socket->connect(ip, port);
-		if (status != sf::Socket::Done) {
-			std::cout << "Could not connect to the server\n";
-			return false;
-		}
-		std::cout << "Connected to " << ip << ':' << port << std::endl;
-		return  true;
-	}
-
-	void disconnect() {
-		socket->disconnect();
-		socket.reset();
-	}
-
-	void send(std::string str) {
-		socket->send(str.c_str(), str.length());
-	}
+	TCPSocket(std::string ip, unsigned port, std::function<void()> onDisconnect, std::function<void(const std::string&)> onMessage);
+	bool connect();
+	void disconnect();
+	void send(const std::string& str);
+	void sendNoCheck(const std::string& message);
 };

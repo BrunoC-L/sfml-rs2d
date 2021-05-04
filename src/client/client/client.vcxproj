@@ -225,6 +225,7 @@
     <ClCompile Include="rightClickInterface.cpp" />
     <ClCompile Include="sfRenderWindow.cpp" />
     <ClCompile Include="socketService.cpp" />
+    <ClCompile Include="tcpSocket.cpp" />
     <ClCompile Include="tile.cpp" />
   </ItemGroup>
   <ItemGroup>
