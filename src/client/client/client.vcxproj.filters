@@ -97,6 +97,9 @@
     <Filter Include="Source Files\services\socket\socketState">
       <UniqueIdentifier>{1de0d19a-0ba3-4b7a-9fcb-f0242cc7fec5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\services\socket\tcpSocket">
+      <UniqueIdentifier>{e527902b-2ebf-43d7-9036-c516ddd47af4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="app.h">
@@ -267,11 +270,11 @@
     <ClInclude Include="connectedState.h">
       <Filter>Source Files\services\socket\socketState</Filter>
     </ClInclude>
-    <ClInclude Include="tcpSocket.h">
-      <Filter>Source Files\services\socket</Filter>
-    </ClInclude>
     <ClInclude Include="socketService.h">
       <Filter>Source Files\services\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="tcpSocket.h">
+      <Filter>Source Files\services\socket\tcpSocket</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -343,6 +346,9 @@
     </ClCompile>
     <ClCompile Include="socketService.cpp">
       <Filter>Source Files\services\socket</Filter>
+    </ClCompile>
+    <ClCompile Include="tcpSocket.cpp">
+      <Filter>Source Files\services\socket\tcpSocket</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

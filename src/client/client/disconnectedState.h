@@ -3,7 +3,7 @@
 
 class DisconnectedSocketState : public SocketState {
 public:
-	DisconnectedSocketState(AbstractSocket* context) : SocketState(context) {}
+	DisconnectedSocketState(TCPSocket& context) : SocketState(context) {}
 	virtual void send(const std::string&) override;
 	virtual std::string getName() override;
 	virtual bool connected() override;

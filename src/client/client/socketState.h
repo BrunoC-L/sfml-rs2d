@@ -1,12 +1,13 @@
 #pragma once
 #include <string>
-#include "abstractSocket.h"
+
+class TCPSocket;
 
 class SocketState {
 protected:
-	AbstractSocket* context;
+	TCPSocket& context;
 public:
-	SocketState(AbstractSocket* context) : context(context) {}
+	SocketState(TCPSocket& context) : context(context) {}
 	virtual void send(const std::string&) = 0;
 	virtual std::string getName() = 0;
 	virtual bool connected() = 0;
