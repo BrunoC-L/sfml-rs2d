@@ -81,7 +81,8 @@ void TCPSocket::sendNoCheck(const std::string& str) {
 
 void TCPSocket::stop() {
     disconnect();
-    listener->join();
+    if (listener)
+        listener->join();
 }
 
 void TCPSocket::send(const std::string& str) {
