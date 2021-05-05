@@ -2,6 +2,7 @@
 #include <iostream>
 #include "disconnectedState.h"
 #include "connectedState.h"
+#include "print.h"
 
 TCPSocket::TCPSocket(
     std::string ip,
@@ -31,6 +32,11 @@ bool TCPSocket::connect() {
         listener->join();
     listener = std::make_shared<std::thread>(
         [&]() {
+            {
+                std::ostringstream ss;
+                ss << "listener thread: " << std::this_thread::get_id() << std::endl;
+                print(ss);
+            }
             std::string buffer = "";
             while (state->connected()) {
                 char data[1024] = { 0 };
@@ -38,16 +44,21 @@ bool TCPSocket::connect() {
                 sf::Socket::Status status = socket->receive(data, 1024, received);
                 if (status != sf::Socket::Status::Done) {
                     disconnect();
-                    return;
                 }
+                else {
+                    buffer += std::string(data).substr(0, received);
+                    int index = 0;
 
-                buffer += std::string(data).substr(0, received);
-                int index = 0;
-
-                while ((index = buffer.find(messageEnd)) != -1) {
-                    onMessage(buffer.substr(0, index));
-                    buffer.erase(buffer.begin(), buffer.begin() + index + messageEnd.length());
+                    while ((index = buffer.find(messageEnd)) != -1) {
+                        onMessage(buffer.substr(0, index));
+                        buffer.erase(buffer.begin(), buffer.begin() + index + messageEnd.length());
+                    }
                 }
+            }
+            {
+                std::ostringstream ss;
+                ss << "listener thread: " << std::this_thread::get_id() << " Exiting" << std::endl;
+                print(ss);
             }
         }
     );
@@ -66,6 +77,11 @@ void TCPSocket::disconnect() {
 void TCPSocket::sendNoCheck(const std::string& str) {
     auto msg = std::string(str) + messageEnd;
     auto s = socket->send(msg.c_str(), msg.length());
+}
+
+void TCPSocket::stop() {
+    disconnect();
+    listener->join();
 }
 
 void TCPSocket::send(const std::string& str) {

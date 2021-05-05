@@ -14,7 +14,6 @@ void Socket::onMessage(const std::string& message) {
         try {
             json = JSON(message);
             type = json.get("type").asString();
-            std::cout << type << std::endl;
             data = std::make_shared<const JSON>(std::move(json["data"]));
             std::exchange(json["data"], {});
         }
@@ -54,12 +53,10 @@ void Socket::receive(const std::string& type, std::shared_ptr<const JSON> data) 
 }
 
 void Socket::send(const std::string& type, const JSON& data) {
-    std::cout << "sending " << type << std::endl;
-    socket.send("{'type':" + type + ", 'data':" + data.asString() + "}");
+    socket.send("{'type':'" + type + "', 'data':" + data.asString() + "}");
 }
 
 void Socket::send(const JSON& json) {
-    std::cout << "sending " << json.get("type").asString() << std::endl;
     socket.send(json.asString());
 }
 
@@ -73,4 +70,9 @@ bool Socket::connect() {
 
 void Socket::disconnect() {
     socket.disconnect();
+}
+
+void Socket::stop() {
+    disconnect();
+    socket.stop();
 }

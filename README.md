@@ -16,7 +16,7 @@ To run the client and server locally:
 2. Setup ODBC connection
     - Make sure you have SQL Server Running
     - look at example.txt in root for examples of connection strings
-    - add a new file called dbinfo.txt in root, by copying the example, replace the content with your connection string
+    - add a new file called config.json in root, by copying example.json, replace the content with your preferences
     - Add an environment variable called "RS2D_HOME" pointing to the root of the repo without a '/' at the end <https://i.imgur.com/3xFRSLl.png>
 3. build the server
 4. run the server (if there is a DB error, it is most likely a problem with step 1! read the first few output lines for DB errors)

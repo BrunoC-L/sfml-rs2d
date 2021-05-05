@@ -1,12 +1,12 @@
 #include "chunk.h"
 
+Chunk::Chunk(const VChunk& pos) : chunkpos(pos) {
+    loadWalls();
+}
+
 std::string Chunk::getWallsFileName() const {
     return "../../../assets/walls/" +
         std::to_string((int)chunkpos.x) + "-" + std::to_string((int)chunkpos.y) + "-" + std::to_string((int)chunkpos.z) + ".txt";
-}
-
-Chunk::Chunk(const VChunk& pos) : chunkpos(pos) {
-    loadWalls();
 }
 
 void Chunk::loadWalls() {

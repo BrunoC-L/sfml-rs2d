@@ -1,4 +1,5 @@
 #include "sfRenderWindow.h"
+#include "closeEvent.h"
 
 SFRenderWindow::SFRenderWindow(
 	ServiceProvider* provider,
@@ -181,8 +182,9 @@ void SFRenderWindow::display() {
 void SFRenderWindow::events() {
 	sf::Event event;
 	while (window.pollEvent(event))
-		if (event.type == sf::Event::Closed)
-			window.close();
+		if (event.type == sf::Event::Closed) {
+			CloseEvent().emit();
+		}
 		else if (event.type == sf::Event::KeyPressed)
 			switch (event.text.unicode) {
 				case 71:

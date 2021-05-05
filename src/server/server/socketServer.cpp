@@ -20,7 +20,6 @@ SocketServerService::SocketServerService(ServiceProvider* provider, unsigned por
         auto user = std::make_shared<User>();
         socketToUser[socket] = user;
         userToSocket[user] = socket;
-        LoginEvent(socketToUser[socket]).emit();
     };
 
     server = std::make_unique<JsonSocketServer>(port, onError, onConnect, onDisconnect);
@@ -31,6 +30,8 @@ void SocketServerService::on(std::string msgType, std::function<void(std::shared
         msgType,
         [&, callback, loggedInRequired](std::shared_ptr<sf::TcpSocket> socket, JSON& json) {
             auto user = socketToUser[socket];
+            if (!user)
+                return; // terrible patch
             if (user->isLoggedIn && loggedInRequired || !loggedInRequired)
                 callback(user, json);
             else

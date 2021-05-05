@@ -23,4 +23,5 @@ public:
 	void disconnect();
 	void send(const std::string& str);
 	void sendNoCheck(const std::string& message);
+	void stop();
 };

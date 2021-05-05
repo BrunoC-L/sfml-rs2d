@@ -40,6 +40,9 @@ void UserService::init() {
                     std::string ign = userData["username"].asString();
                     int posx = userData["posx"].asInt();
                     int posy = userData["posy"].asInt();
+                    for (const auto& user : users)
+                        if (user->ign == ign)
+                            return; // user already logged in
                     user->activate(id, packet.username, VTile(posx, posy));
                     JSON data;
                     data["id"] = "'" + std::to_string(id) + "'";
@@ -61,7 +64,7 @@ void UserService::init() {
         dbService->selectQuery("select id from player where username = '" + packet.username + "';", [&, packet, permSalt, pwHashWithPermSalt](SelectQueryResult qr) {
             if (qr.size() != 0)
                 return; // account already exists!
-            dbService->nonSelectQuery("insert into player (username) values ('" + packet.username + "');");
+            dbService->syncNonSelectQuery("insert into player (username) values ('" + packet.username + "');");
             dbService->selectQuery("select id from player where username = '" + packet.username + "';", [&, permSalt, pwHashWithPermSalt](SelectQueryResult qr) {
                 if (qr.size() == 0)
                     throw std::exception("Just created user but missing in DB");

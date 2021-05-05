@@ -19,4 +19,5 @@ public:
 	virtual void receive(const std::string& type, std::shared_ptr<const JSON> data) override;
 	virtual bool connect() override;
 	virtual void disconnect() override;
+	virtual void stop() override;
 };

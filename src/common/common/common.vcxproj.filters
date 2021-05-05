@@ -39,12 +39,6 @@
     <ClInclude Include="units.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tickScheduler.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="timer.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -54,14 +48,26 @@
     <ClInclude Include="serviceProvider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="session.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="onExit.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tickScheduler.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="print.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="getenv.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="timer.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -87,6 +93,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="getenv.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="session.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

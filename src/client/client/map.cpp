@@ -1,5 +1,6 @@
 #include "map.h"
 #include <iostream>
+#include "print.h"
 
 Map::Map(ServiceProvider* provider, int chunkRadius) : Service(provider), chunkRadius(chunkRadius) {
 	provider->set("Map", this);
@@ -47,11 +48,19 @@ void Map::updateChunks(const VChunk& difference, const VChunk& tempCenter) {
 void Map::doUpdates() {
 	updateThread = std::thread(
 		[&]() {
+			{
+				std::ostringstream ss;
+				ss << "Main Thread: " << std::this_thread::get_id() << std::endl;
+				print(ss);
+			}
 			load();
-			while (true) {
-				if (shouldStop)
-					return;
+			while (!shouldStop) {
 				update();
+			}
+			{
+				std::ostringstream ss;
+				ss << "Main Thread: " << std::this_thread::get_id() << " Exiting" << std::endl;
+				print(ss);
 			}
 		}
 	);
@@ -70,6 +79,7 @@ std::shared_ptr<Tile> Map::getTileFromVTile(VTile tilePosition) {
 }
 
 void Map::stopUpdates() {
+	print("Stopping map\n");
 	this->shouldStop = true;
 	updateThread.join();
 }

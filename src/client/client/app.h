@@ -2,18 +2,20 @@
 #include <thread>
 
 #include "mouseWheelEvent.h"
-#include "event.h"
 #include "VPixelToVTileConverter.h"
 #include "mouseLeftClickEvent.h"
 #include "mouseRightClickEvent.h"
 #include "mouseMoveEvent.h"
 #include "abstractServices.h"
 #include "serviceProvider.h"
+#include "closeEvent.h"
+#include "print.h"
 
 class App : public Service {
 public:
     AbstractRenderWindow* renderWindow;
     bool stopping = false;
+    EventObserver<CloseEvent> closeObserver;
 
     App(
         ServiceProvider* provider,
@@ -23,6 +25,20 @@ public:
     }
 
     void init() {
+        closeObserver.set([&](CloseEvent& ev) {
+            {
+                std::ostringstream ss;
+                ss << "Stopping app" << std::endl;
+                print(ss);
+            }
+            stop();
+            {
+                std::ostringstream ss;
+                ss << "Stopped app" << std::endl;
+                print(ss);
+            }
+        });
+
         acquire();
         measures->init();
         player->init();
@@ -40,7 +56,7 @@ public:
         map->stopUpdates();
         if (closeWindow)
             renderWindow->close();
-        socket->disconnect();
+        socket->stop();
     }
 
 	void start() {

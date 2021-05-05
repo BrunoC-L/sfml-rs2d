@@ -172,6 +172,7 @@
     <ClInclude Include="interactionClickEvent.h" />
     <ClInclude Include="inventory.h" />
     <ClInclude Include="item.h" />
+    <ClInclude Include="closeEvent.h" />
     <ClInclude Include="tcpSocket.h" />
     <ClInclude Include="keyPressedEvent.h" />
     <ClInclude Include="login.h" />

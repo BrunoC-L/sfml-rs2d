@@ -91,6 +91,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>..\..\..\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -155,6 +156,7 @@
   <ItemGroup>
     <ClInclude Include="abstractService.h" />
     <ClInclude Include="getenv.h" />
+    <ClInclude Include="logger.h" />
     <ClInclude Include="onExit.h" />
     <ClInclude Include="print.h" />
     <ClInclude Include="serviceProvider.h" />
@@ -164,6 +166,7 @@
     <ClInclude Include="json-parser.h" />
     <ClInclude Include="json.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="session.h" />
     <ClInclude Include="sha256.h" />
     <ClInclude Include="splitString.h" />
     <ClInclude Include="tickScheduler.h" />
@@ -175,6 +178,7 @@
     <ClCompile Include="getenv.cpp" />
     <ClCompile Include="json-parser.cpp" />
     <ClCompile Include="json.cpp" />
+    <ClCompile Include="logger.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -182,6 +186,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="print.cpp" />
+    <ClCompile Include="session.cpp" />
     <ClCompile Include="splitString.cpp" />
     <ClCompile Include="units.cpp" />
   </ItemGroup>

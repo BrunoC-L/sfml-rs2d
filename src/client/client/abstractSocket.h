@@ -13,4 +13,5 @@ public:
 	virtual void on(const std::string& type, std::function<void(const std::shared_ptr<const JSON>&)>) = 0;
 	virtual bool connect() = 0;
 	virtual void disconnect() = 0;
+	virtual void stop() = 0;
 };

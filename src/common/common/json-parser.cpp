@@ -96,8 +96,10 @@ void JSONParser::parseJSON() {
 			break;
 		else if (self[index] == ',')
 			continue;
-		else
+		else {
+			std::cout << self;
 			throw JSONException(("no stop character found after property: " + propertyName + " in " + self).c_str());
+		}
 	}
 }
 
@@ -194,7 +196,8 @@ std::string JSONParser::parseJSONOrArray() {
 
 void JSONParser::parseSpaces() {
 	while (index < self.length()) {
-		if (self[index] != ' ')
+		char c = self[index];
+		if (c != ' ' && c != '\n' && c != '\t')
 			break;
 		++index;
 	}

@@ -55,5 +55,7 @@ void db(
     std::vector<NonSelectQuery>& nonSelectQueries,
     std::mutex& waiter,
     std::condition_variable& cv,
-    bool* connected
+    bool* connected,
+    std::string queryOnConnect,
+    std::mutex& initLock
 );

@@ -28,7 +28,9 @@ private:
 		VTile current, best;
 		float bestDistance = 1000;
 
-		while (queue.size()) {
+		int step = 0;
+
+		while (queue.size() && (step++) < 10000) {
 			current = queue[0];
 			queue.erase(queue.begin());
 			for (auto target : b) {

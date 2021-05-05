@@ -2,80 +2,81 @@
 #include "odbc.h"
 #include "onExit.h"
 #include "print.h"
-#include "getenv.h"
+#include "logger.h"
+#include "session.h"
+#include <stdlib.h>
+#include <string>
+#include <codecvt>
+#include <locale>
 
 DB::DB(ServiceProvider* provider) : Service(provider) {
 	provider->set("DB", this);
 }
 
 void DB::init() {
+	defaultFolderLogger(getSession().get("logs").get("server").asString(), "db.txt", true)("db init\n");
 	acquire();
-	connect();
+	connect(1);
 	std::cout << "Connected to DB, Performing DB checks for version " + version << std::endl;
-	syncNonSelectQuery("create database rs2d;");
-	syncNonSelectQuery("use rs2d;");
 	if (isEmpty())
 		createDB();
 	else
 		checkVersion();
 	std::cout << "Database is up to date\n";
+	connect(4);
 }
 
-void DB::connect() {
-	std::string env = "RS2D_HOME";
-	std::string fileName = "dbinfo.txt";
-
-	std::string path = getenv(env);
-
-	FILE* pFile;
-	auto err = fopen_s(&pFile, (path + "/" + fileName).c_str(), "r");
-	if (pFile == NULL || err != 0)
-		throw std::exception((fileName + " not found at '" + env + "'").c_str());
-
-	const int s = 1000;
-	wchar_t pwszConnStr[s];
-	fgetws(pwszConnStr, s, pFile);
-	fclose(pFile);
-
-	std::shared_ptr<bool> failed = std::make_shared<bool>(false);
-
-	dbthread = std::thread(
-		[&, failed]() {
-			OnExit e([&, failed]() {
-				if (failed != nullptr)
-					*failed = true;
-			});
-			{
-				std::ostringstream ss;
-				ss << "DB Thread: " << std::this_thread::get_id() << std::endl;
-				print(ss);
+void DB::connect(int n) {
+	auto session = getSession();
+	auto dbcstr = session["dbconnectionstring"].asString();
+	// https://riptutorial.com/cplusplus/example/4190/conversion-to-std--wstring
+	auto ws = std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t>().from_bytes(dbcstr);
+	WCHAR* pwszConnStr = const_cast<WCHAR*>(ws.c_str());
+	for (int i = 0; i < n; ++i) {
+		dbThreadPool.push_back({});
+		auto& dbthread = dbThreadPool.back();
+		std::shared_ptr<bool> failed = std::make_shared<bool>(false);
+		dbthread.second = false;
+		auto log = defaultFolderLogger(session.get("logs").get("server").asString(), "db.txt", true);
+		dbthread.first = std::thread(
+			[&, failed]() {
+				OnExit e([&, failed]() {
+					if (failed != nullptr)
+						*failed = true;
+				});
+				{
+					std::ostringstream ss;
+					ss << "DB Thread: " << std::this_thread::get_id() << std::endl;
+					print(ss);
+					log(ss.str());
+				}
+				db(pwszConnStr, queryLock, sQueries, nsQueries, waiter, cv, &dbthread.second, "create database " + dbname + "; use " + dbname + "; SET IMPLICIT_TRANSACTIONS ON;", threadPoolInitMutex);
+				{
+					std::ostringstream ss;
+					ss << "DB Thread " << std::this_thread::get_id() << " Exiting" << std::endl;
+					print(ss);
+					log(ss.str());
+				}
 			}
-			db(pwszConnStr, queryLock, sQueries, nsQueries, waiter, cv, &connected);
-			{
-				std::ostringstream ss;
-				ss << "DB Thread " << std::this_thread::get_id() << " Exiting" << std::endl;
-				print(ss);
-			}
-		}
-	);
+		);
 
-	while (!connected) {
-		if (*failed)
-			throw std::exception("DB failed to start\n");
+		while (!dbthread.second)
+			if (*failed)
+				throw std::exception("DB failed to start\n");
 	}
 }
 
 bool DB::isEmpty() {
-	auto q = syncSelectQuery("select name from sysobjects where xtype = 'U';", false);
+	auto q = syncSelectQuery("select name from sysobjects where xtype = 'U';");
 	auto nobjects = q.size();
 	return nobjects == 0;
 }
 
 void DB::createDB() {
-	nonSelectQuery("create table version(version varchar(25) not null);");
-	nonSelectQuery("insert into version values('1');");
-	nonSelectQuery("create table player(id int not null identity, username varchar(25) not null unique, posx int default 1172, posy int default 869, primary key (id));");
-	nonSelectQuery("create table logindata(id int not null, salt varchar(64) not null, hash varchar(64) not null, primary key(id), foreign key(id) references player(id));");
+	syncNonSelectQuery("create table version(version varchar(25) not null);");
+	syncNonSelectQuery("insert into version values('1');");
+	syncNonSelectQuery("create table player(id int not null identity, username varchar(25) not null unique, posx int default 1172, posy int default 869, primary key (id));");
+	syncNonSelectQuery("create table logindata(id int not null, salt varchar(64) not null, hash varchar(64) not null, primary key(id), foreign key(id) references player(id));");
 }
 
 void DB::checkVersion() {
@@ -95,7 +96,7 @@ void DB::updateVersion(std::string version) {
 void DB::selectQuery(std::string s, std::function<void(SelectQueryResult)> f) {
 	{
 		std::lock_guard<std::mutex> lock(queryLock);
-		sQueries.push_back(std::make_pair(s, f));
+		sQueries.push_back(std::make_pair(s + "; commit;", f));
 	}
 	cv.notify_one();
 }
@@ -103,14 +104,12 @@ void DB::selectQuery(std::string s, std::function<void(SelectQueryResult)> f) {
 void DB::nonSelectQuery(std::string s, std::function<void(NonSelectQueryResult)> f) {
 	{
 		std::lock_guard<std::mutex> lock(queryLock);
-		nsQueries.push_back(std::make_pair(s, f));
+		nsQueries.push_back(std::make_pair(s + "; commit;", f));
 	}
 	cv.notify_one();
 }
 
-SelectQueryResult DB::syncSelectQuery(std::string s, bool warn) {
-	if (warn)
-		std::cout << "Synchronous DB operation on thread " << std::this_thread::get_id() << std::endl;
+SelectQueryResult DB::syncSelectQuery(std::string s) {
 	bool ready = false, completed = false;
 	SelectQueryResult result;
 	std::mutex m;
@@ -131,9 +130,7 @@ SelectQueryResult DB::syncSelectQuery(std::string s, bool warn) {
 	return result;
 }
 
-NonSelectQueryResult DB::syncNonSelectQuery(std::string s, bool warn) {
-	if (warn)
-		std::cout << "Synchronous DB operation on thread " << std::this_thread::get_id() << std::endl;
+NonSelectQueryResult DB::syncNonSelectQuery(std::string s) {
 	bool ready = false, completed = false;
 	NonSelectQueryResult result;
 	std::mutex m;
@@ -165,7 +162,9 @@ void DB::queryLoginDataByUserId(int id, std::function<void(SelectQueryResult)> f
 }
 
 void DB::stop() {
-	connected = false;
-	cv.notify_one();
-	dbthread.join();
+	for (auto& dbthread : dbThreadPool)
+		dbthread.second = false;
+	cv.notify_all();
+	for (auto& dbthread : dbThreadPool)
+		dbthread.first.join();
 }

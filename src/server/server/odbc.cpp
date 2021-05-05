@@ -1,6 +1,9 @@
 #include "odbc.h"
 #include "onExit.h"
 #include <condition_variable>
+#include "print.h"
+#include "logger.h"
+#include "session.h"
 
 void db(
     WCHAR* connectionString,
@@ -9,8 +12,20 @@ void db(
     std::vector<NonSelectQuery>& nonSelectQueries,
     std::mutex& waiter,
     std::condition_variable& cv,
-    bool* connected
+    bool* connected,
+    std::string queryOnConnect,
+    std::mutex& initLock
 ) {
+    auto log = defaultFolderLogger(getSession().get("logs").get("server").asString(), "db.txt", true);
+    std::stringstream ss;
+    ss << std::this_thread::get_id();
+    auto tid = ss.str();
+    initLock.lock();
+    bool didQueryOnConnect = false;
+    OnExit _([&]() {
+        if (!initLock.try_lock());
+            initLock.unlock();
+    });
     SQLHENV     hEnv = NULL;
     SQLHDBC     hDbc = NULL;
     SQLHSTMT    hStmt = NULL;
@@ -56,12 +71,22 @@ void db(
     while (*connected) {
         SelectQuery sq;
         NonSelectQuery nsq;
+        log(tid + " begin of while");
         {
             std::unique_lock<std::mutex> lock(waiter);
+            log(tid + " waiting on cv");
             cv.wait(lock, [&]() {
                 std::lock_guard<std::mutex> g(queryLock);
-                return selectQueries.size() != 0 || nonSelectQueries.size() != 0 || !*connected;
+                return selectQueries.size() != 0 || nonSelectQueries.size() != 0 || !*connected || !didQueryOnConnect;
             });
+            log(
+                tid +
+                " done waiting on cv:"
+                " sq = " + std::to_string(selectQueries.size()) +
+                ", nsq = " + std::to_string(nonSelectQueries.size()) +
+                ", connected = " + std::to_string(*connected) +
+                ", didqueryonconect = " + std::to_string(didQueryOnConnect)
+            );
         }
         if (!*connected)
             return;
@@ -69,7 +94,14 @@ void db(
         WCHAR wquery[SQL_QUERY_SIZE];
         std::string q;
 
-        {
+        if (!didQueryOnConnect) {
+            nsq = NonSelectQuery(queryOnConnect, [](NonSelectQueryResult) {});
+            q = queryOnConnect;
+            didQueryOnConnect = true;
+            initLock.unlock();
+            log(tid + " doing query on conect");
+        }
+        else {
             std::lock_guard<std::mutex> g(queryLock);
             if (selectQueries.size() > nonSelectQueries.size()) {
                 sq = selectQueries[0];
@@ -83,13 +115,15 @@ void db(
                 nonSelectQueries.erase(nonSelectQueries.begin());
                 q = nsq.first;
             }
-            for (int i = 0; i < q.length(); ++i)
-                wquery[i] = q[i];
-            wquery[q.length()] = 0;
         }
+        log(tid + " executing "  + q);
+        for (int i = 0; i < q.length(); ++i)
+            wquery[i] = q[i];
+        wquery[q.length()] = 0;
 
         std::shared_ptr<bool> called = std::make_shared<bool>(false);
-        OnExit _([called, q]() {
+        OnExit _([&, called, q]() {
+            log(tid + " end of while");
             if (!*called)
                 throw std::exception(("Callback never called after query: " + q).c_str());
         });
@@ -98,68 +132,71 @@ void db(
         SQLSMALLINT sNumResults;
         RetCode = SQLExecDirect(hStmt, wquery, SQL_NTS);
 
-        switch (RetCode)
-        {
-        case SQL_SUCCESS_WITH_INFO:
-        {
-            std::string info = getMessage(hStmt, SQL_HANDLE_STMT, RetCode);
-            if (SELECT)
-                throw std::exception((info + " encountered during select: '" + sq.first + "'\n").c_str());
-            else {
-                *called = true;
-                nsq.second(info);
+        switch (RetCode) {
+            case SQL_SUCCESS_WITH_INFO:
+            {
+                log(tid + " query info");
+                std::string info = getMessage(hStmt, SQL_HANDLE_STMT, RetCode);
+                if (SELECT)
+                    throw std::exception((info + " encountered during select: '" + sq.first + "'\n").c_str());
+                else {
+                    *called = true;
+                    nsq.second(info);
+                }
+                break;
+                // fall through
             }
-            break;
-            // fall through
-        }
-        case SQL_SUCCESS:
-        {
-            // If this is a row-returning query, display
-            // results
-            TRYODBC(hStmt,
-                SQL_HANDLE_STMT,
-                SQLNumResultCols(hStmt, &sNumResults));
-
-            if (sNumResults > 0) {
-                // Does not mean that select has to return at least 1 element, I'm not sure what sNumResults stands for
-                // But select queries that return empty go through here still
-                _ASSERT(SELECT);
-                *called = true;
-                sq.second(getResults(hStmt, sNumResults));
-            }
-            else {
-                _ASSERT(!SELECT);
-                *called = true;
-                nsq.second(NonSelectQueryResult()); // TODO: pass the message
-                SQLLEN cRowCount;
+            case SQL_SUCCESS:
+            {
+                log(tid + " query sucess");
+                // If this is a row-returning query, display
+                // results
                 TRYODBC(hStmt,
                     SQL_HANDLE_STMT,
-                    SQLRowCount(hStmt, &cRowCount));
+                    SQLNumResultCols(hStmt, &sNumResults));
+
+                if (sNumResults > 0) {
+                    // Does not mean that select has to return at least 1 element, I'm not sure what sNumResults stands for
+                    // But select queries that return empty go through here still
+                    _ASSERT(SELECT);
+                    *called = true;
+                    sq.second(getResults(hStmt, sNumResults));
+                }
+                else {
+                    _ASSERT(!SELECT);
+                    *called = true;
+                    nsq.second(NonSelectQueryResult(getMessage(hStmt, SQL_HANDLE_STMT, RetCode)));
+                    SQLLEN cRowCount;
+                    TRYODBC(hStmt,
+                        SQL_HANDLE_STMT,
+                        SQLRowCount(hStmt, &cRowCount));
+                }
+                break;
             }
-            break;
-        }
 
-        case SQL_ERROR:
-        {
-            std::string err = getMessage(hStmt, SQL_HANDLE_STMT, RetCode);
-            if (SELECT)
-                throw std::exception((err + " encountered during select: '" + sq.first + "'\n").c_str());
-            else {
-                *called = true;
-                nsq.second(err);
+            case SQL_ERROR:
+            {
+                log(tid + " query error");
+                std::string err = getMessage(hStmt, SQL_HANDLE_STMT, RetCode);
+                if (SELECT)
+                    throw std::exception((err + " encountered during select: '" + sq.first + "'\n").c_str());
+                else {
+                    *called = true;
+                    std::cout << err << std::endl;
+                    nsq.second(err);
+                }
+                break;
             }
-            break;
-        }
 
-        default:
-            fwprintf(stderr, L"Unexpected return code %hd!\n", RetCode);
-
+            default:
+                fwprintf(stderr, L"Unexpected return code %hd!\n", RetCode);
         }
         TRYODBC(hStmt,
             SQL_HANDLE_STMT,
             SQLFreeStmt(hStmt, SQL_CLOSE));
     }
 Exit:
+    log(tid + " exiting");
     if (hStmt)
         SQLFreeHandle(SQL_HANDLE_STMT, hStmt);
     if (hDbc) {

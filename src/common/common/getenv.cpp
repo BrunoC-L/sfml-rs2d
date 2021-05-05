@@ -3,7 +3,7 @@
 
 std::unordered_map<std::string, std::string> knownEnv;
 
-std::string getenv(std::string env) {
+std::string mygetenv(std::string env) {
 	auto it = knownEnv.find(env);
 	if (it != knownEnv.end())
 		return it->second;
