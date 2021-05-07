@@ -4,11 +4,18 @@
 #include <unordered_set>
 #include "movingPredicate.h"
 
+enum class PathFindOption { Onto, NextTo, NextToOrOnto };
+
 class Pathfinder {
 public:
-	static std::vector<VTile> pathfind(VTile a, std::vector<VTile> b, bool nextToInsteadOfOnto, AbstractMap* map) {
-		if (nextToInsteadOfOnto)
+	static std::vector<VTile> pathfind(VTile a, std::vector<VTile> b, PathFindOption opt, AbstractMap* map) {
+		if (opt == PathFindOption::NextTo)
 			b = MovingPredicate::getNextTo(b);
+		else if (opt == PathFindOption::NextToOrOnto) {
+			std::vector<VTile> nextTo = MovingPredicate::getNextTo(b);
+			for (const auto& n : nextTo)
+				b.push_back(n);
+		}
 		for (auto t : b)
 			if (a == t)
 				return {};

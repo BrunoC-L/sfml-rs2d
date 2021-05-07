@@ -6,10 +6,9 @@ class User {
 public:
 	User();
 	~User();
-	void activate(int id, std::string ign, VTile position);
+	void activate(int id, std::string ign);
 
 	bool isLoggedIn;
 	int id;
 	std::string ign;
-	VTile position;
 };

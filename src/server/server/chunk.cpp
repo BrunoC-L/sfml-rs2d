@@ -36,12 +36,12 @@ void Chunk::loadWalls() {
 		const int tx = stoi(content[0]), ty = stoi(content[1]);
         grid[tx * int(TilesPerChunk) + ty] = stoi(content[2]);
 	}
-    for (int tx = 0; tx < TilesPerChunk; ++tx) {
-        for (int ty = 0; ty < TilesPerChunk; ++ty) {
-            int absx = TilesPerChunk * chunkpos.x + tx;
-            int absy = TilesPerChunk * chunkpos.y + ty;
-            tiles[tx][ty] = std::make_shared<Tile>(absx, absy, grid[tx * int(TilesPerChunk) + ty]);
-        }
-    }
+    for (int tx = 0; tx < TilesPerChunk; ++tx)
+        for (int ty = 0; ty < TilesPerChunk; ++ty)
+            tiles[tx][ty] = std::make_shared<Tile>(
+				TilesPerChunk * chunkpos.x + tx,
+				TilesPerChunk * chunkpos.y + ty,
+				grid[tx * int(TilesPerChunk) + ty]
+			);
     file.close();
 }

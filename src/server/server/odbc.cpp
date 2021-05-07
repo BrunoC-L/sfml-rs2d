@@ -22,7 +22,10 @@ void db(
     auto tid = ss.str();
     initLock.lock();
     bool didQueryOnConnect = false;
+    std::string queryForLog = "";
+    std::string infoForLog = "";
     OnExit _([&]() {
+        log(tid + " OnExit called, last query was: " + queryForLog + " info = " + infoForLog);
         if (!initLock.try_lock());
             initLock.unlock();
     });
@@ -50,18 +53,16 @@ void db(
         SQL_HANDLE_ENV,
         SQLAllocHandle(SQL_HANDLE_DBC, hEnv, &hDbc));
 
-    TRYODBC(hDbc,
-        SQL_HANDLE_DBC,
-        SQLDriverConnect(hDbc,
-            NULL,
-            connectionString,
-            SQL_NTS,
-            NULL,
-            0,
-            NULL,
-            SQL_DRIVER_NOPROMPT));
+    SQLDriverConnect(hDbc,
+        NULL,
+        connectionString,
+        SQL_NTS,
+        NULL,
+        0,
+        NULL,
+        SQL_DRIVER_NOPROMPT);
 
-    fwprintf(stderr, L"Connected!\n");
+    //fwprintf(stderr, L"Connected!\n");
     *connected = true;
 
     TRYODBC(hDbc,
@@ -69,16 +70,20 @@ void db(
         SQLAllocHandle(SQL_HANDLE_STMT, hDbc, &hStmt));
 
     while (*connected) {
+        queryForLog = "";
+        infoForLog = std::to_string(0);
         SelectQuery sq;
         NonSelectQuery nsq;
         log(tid + " begin of while");
         {
+            infoForLog += std::to_string(1);
             std::unique_lock<std::mutex> lock(waiter);
             log(tid + " waiting on cv");
-            cv.wait(lock, [&]() {
+            cv.wait(lock, [&, connected]() {
                 std::lock_guard<std::mutex> g(queryLock);
                 return selectQueries.size() != 0 || nonSelectQueries.size() != 0 || !*connected || !didQueryOnConnect;
             });
+            infoForLog += std::to_string(2);
             log(
                 tid +
                 " done waiting on cv:"
@@ -87,36 +92,46 @@ void db(
                 ", connected = " + std::to_string(*connected) +
                 ", didqueryonconect = " + std::to_string(didQueryOnConnect)
             );
+            infoForLog += std::to_string(3);
         }
+        infoForLog += std::to_string(4);
         if (!*connected)
             return;
+        infoForLog += std::to_string(5);
         bool SELECT = false;
         WCHAR wquery[SQL_QUERY_SIZE];
         std::string q;
 
+        infoForLog += std::to_string(6);
         if (!didQueryOnConnect) {
             nsq = NonSelectQuery(queryOnConnect, [](NonSelectQueryResult) {});
             q = queryOnConnect;
             didQueryOnConnect = true;
             initLock.unlock();
             log(tid + " doing query on conect");
+            infoForLog += std::to_string(7);
         }
         else {
+            infoForLog += std::to_string(8);
             std::lock_guard<std::mutex> g(queryLock);
             if (selectQueries.size() > nonSelectQueries.size()) {
                 sq = selectQueries[0];
                 SELECT = true;
                 selectQueries.erase(selectQueries.begin());
                 q = sq.first;
+                infoForLog += std::to_string(9);
             }
             else {
+                infoForLog += std::to_string(10);
                 nsq = nonSelectQueries[0];
                 SELECT = false;
                 nonSelectQueries.erase(nonSelectQueries.begin());
                 q = nsq.first;
             }
         }
+        infoForLog += std::to_string(11);
         log(tid + " executing "  + q);
+        queryForLog = q;
         for (int i = 0; i < q.length(); ++i)
             wquery[i] = q[i];
         wquery[q.length()] = 0;
@@ -137,6 +152,7 @@ void db(
             {
                 log(tid + " query info");
                 std::string info = getMessage(hStmt, SQL_HANDLE_STMT, RetCode);
+                infoForLog = info;
                 if (SELECT)
                     throw std::exception((info + " encountered during select: '" + sq.first + "'\n").c_str());
                 else {
@@ -149,6 +165,7 @@ void db(
             case SQL_SUCCESS:
             {
                 log(tid + " query sucess");
+                infoForLog = "Query Success";
                 // If this is a row-returning query, display
                 // results
                 TRYODBC(hStmt,
@@ -177,6 +194,7 @@ void db(
             case SQL_ERROR:
             {
                 log(tid + " query error");
+                infoForLog = "query error";
                 std::string err = getMessage(hStmt, SQL_HANDLE_STMT, RetCode);
                 if (SELECT)
                     throw std::exception((err + " encountered during select: '" + sq.first + "'\n").c_str());
@@ -196,6 +214,7 @@ void db(
             SQLFreeStmt(hStmt, SQL_CLOSE));
     }
 Exit:
+    *connected = false;
     log(tid + " exiting");
     if (hStmt)
         SQLFreeHandle(SQL_HANDLE_STMT, hStmt);

@@ -24,7 +24,7 @@ JSON& getEditableSession() {
 		std::ifstream f(env + "/config.json");
 		bool readEntireFile = f.read(buf, SIZE).gcount() < SIZE;
 		if (!readEntireFile)
-			throw std::exception("Why the hell does config.json have more than 4000 characters?");
+			throw std::exception("Why the hell does config.json have more than 3999 characters?");
 		session = JSON(buf);
 		session["name"] = strtime();
 		session["RS2D_HOME"] = env;

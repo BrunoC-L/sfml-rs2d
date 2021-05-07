@@ -11,7 +11,7 @@ private:
 public:
 	UserService(ServiceProvider* provider);
 	virtual void init() override;
-	virtual void saveUserPosition(User& user) override;
+	virtual void saveUserPosition(User& user, VTile position) override;
 	virtual void logout(User& user) override;
 	virtual std::shared_ptr<User> getUserById(int id) override;
 	virtual void stop() override;

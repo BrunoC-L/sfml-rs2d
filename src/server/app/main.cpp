@@ -3,7 +3,7 @@
 
 int main() {
 	ServiceProvider provider;
-	DB db(&provider);
+	DB db(&provider, 5);
 	Map map(&provider);
 	UserService userService(&provider);
 	PlayerActionService playerActionService(&provider);

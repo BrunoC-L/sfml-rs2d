@@ -1,4 +1,4 @@
 #pragma once
 #include <string>
 
-std::string mygetenv(std::string envVarName);
+std::string mygetenv(const std::string&);

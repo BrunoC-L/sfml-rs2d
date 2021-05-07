@@ -171,7 +171,7 @@ void MapEditor::setupMap() {
 	loadTexture();
 	for (const auto& key : keys)
 		load(key);
-	std::cout << "\rDone Loading Map                              \n";
+	std::cout << "\rDone Loading Map                                         \n";
 	littleSquare.setFillColor(sf::Color::Cyan);
 	littleSquare.setSize(sf::Vector2f(1, 1));
 	littleSquare.setOrigin(sf::Vector2f(0.5, 0.5));

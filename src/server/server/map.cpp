@@ -18,13 +18,10 @@ void Map::load() {
 			chunks[24 * i + j] = std::make_shared<Chunk>(VChunk(i, j));
 		}
 	}
-	std::cout << "\rLoading Map"
-				 "                                 \n" // long string to clear the dots printed while loading
-				 "Done Loading Map\n";
+	std::cout << "\r                                               \r";
 }
 
 std::shared_ptr<Chunk> Map::getChunk(VChunk v) {
-	// check if v is valid
 	return chunks[24 * v.x + v.y];
 }
 

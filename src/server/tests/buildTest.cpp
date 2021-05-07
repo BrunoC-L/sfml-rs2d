@@ -4,7 +4,7 @@
 
 TEST(App_builds, TestName) {
 	ServiceProvider provider;
-	DB db(&provider);
+	DB db(&provider, 5);
 	Map map(&provider);
 	UserService userService(&provider);
 	PlayerActionService playerActionService(&provider);
@@ -16,7 +16,7 @@ TEST(App_builds, TestName) {
 
 TEST(SQLDB_App_inits_starts_stops, TestName) {
 	ServiceProvider provider;
-	DB db(&provider);
+	DB db(&provider, 5);
 	Map map(&provider);
 	UserService userService(&provider);
 	PlayerActionService playerActionService(&provider);

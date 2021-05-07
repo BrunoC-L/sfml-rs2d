@@ -43,7 +43,9 @@ void UserService::init() {
                     for (const auto& user : users)
                         if (user->ign == ign)
                             return; // user already logged in
-                    user->activate(id, packet.username, VTile(posx, posy));
+                    user->activate(id, packet.username);
+                    auto ev = LoginEvent(user, VTile(posx, posy));
+                    ev.emit();
                     JSON data;
                     data["id"] = "'" + std::to_string(id) + "'";
                     data["position"] = JSON();
@@ -101,11 +103,11 @@ void UserService::init() {
     });
 }
 
-void UserService::saveUserPosition(User& user) {
+void UserService::saveUserPosition(User& user, VTile position) {
     std::string q = "update Player set posx = " +
-        std::to_string(user.position.x) +
+        std::to_string(position.x) +
         ", posy = " +
-        std::to_string(user.position.y) +
+        std::to_string(position.y) +
         " where id = '" + std::to_string(user.id) + "'\n";
     dbService->nonSelectQuery(q);
 }

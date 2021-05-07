@@ -9,13 +9,14 @@
 #include <codecvt>
 #include <locale>
 
-DB::DB(ServiceProvider* provider) : Service(provider) {
+DB::DB(ServiceProvider* provider, int nThreads) : Service(provider), nThreads(nThreads) {
 	provider->set("DB", this);
 }
 
 void DB::init() {
 	defaultFolderLogger(getSession().get("logs").get("server").asString(), "db.txt", true)("db init\n");
 	acquire();
+	dbThreadPool.reserve(nThreads);
 	connect(1);
 	std::cout << "Connected to DB, Performing DB checks for version " + version << std::endl;
 	if (isEmpty())
@@ -23,7 +24,7 @@ void DB::init() {
 	else
 		checkVersion();
 	std::cout << "Database is up to date\n";
-	connect(4);
+	connect(nThreads - 1);
 }
 
 void DB::connect(int n) {
@@ -39,7 +40,7 @@ void DB::connect(int n) {
 		dbthread.second = false;
 		auto log = defaultFolderLogger(session.get("logs").get("server").asString(), "db.txt", true);
 		dbthread.first = std::thread(
-			[&, failed]() {
+			[&, failed, log]() {
 				OnExit e([&, failed]() {
 					if (failed != nullptr)
 						*failed = true;

@@ -16,6 +16,7 @@ class DB : public Service, public AbstractDB {
 
 	std::mutex threadPoolInitMutex;
 	std::vector<std::pair<std::thread, bool>> dbThreadPool;
+	int nThreads;
 
 	std::string dbname = "rs2d";
 
@@ -27,7 +28,7 @@ class DB : public Service, public AbstractDB {
 	void connect(int n);
 	bool isEmpty();
 public:
-	DB(ServiceProvider* provider);
+	DB(ServiceProvider* provider, int nThreads);
 	virtual void init();
 	virtual void nonSelectQuery(std::string, std::function<void(NonSelectQueryResult)> = [](NonSelectQueryResult) {}) override;
 	virtual NonSelectQueryResult syncNonSelectQuery(std::string s) override;
