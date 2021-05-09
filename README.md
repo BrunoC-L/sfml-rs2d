@@ -4,12 +4,6 @@ Non commercial Runescape 2D version Made with C++/SFML
 Some assets are property of Jagex: <https://www.jagex.com/en-GB/>
 Dev vlogs on <https://www.youtube.com/user/thelatestartosrs/videos>
 
-To run the client online: (server might be slow as HELL or even down)
-
-1. Build the client, lauch as many as you want without arguments
-2. type username/pw (switch with tab) and then click sign up, or just login if you already have signed up
-3. logout by clicking the bottom banner (yes... I know)
-
 To run the client and server locally:
 
 1. Contact me if you need help, eventually I will make a video tutorial on how to setup everything!
