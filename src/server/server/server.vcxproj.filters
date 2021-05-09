@@ -67,6 +67,21 @@
     <Filter Include="Source Files\services\taskScheduler">
       <UniqueIdentifier>{c16bd998-bb1d-4195-85d8-1c11eb7e01d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\objects">
+      <UniqueIdentifier>{c1e55762-f959-4922-8c59-84fe11998888}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\objects\resources">
+      <UniqueIdentifier>{16f71ad9-4839-4e29-bcab-0a29e623d661}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\objects\resources\trees">
+      <UniqueIdentifier>{c4403ec3-dff2-496a-963a-9c8c1abcf8c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\objects\resources\trees\base">
+      <UniqueIdentifier>{38811b42-703d-4b8e-b953-7e71dcb7e5be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\objects\resources\trees\regular">
+      <UniqueIdentifier>{5549625f-de66-4449-b690-5d999b63a4ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="map.cpp">
@@ -107,6 +122,15 @@
     </ClCompile>
     <ClCompile Include="taskScheduler.cpp">
       <Filter>Source Files\services\taskScheduler</Filter>
+    </ClCompile>
+    <ClCompile Include="objectFactory.cpp">
+      <Filter>Source Files\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="abstractTree.cpp">
+      <Filter>Source Files\objects\resources\trees\base</Filter>
+    </ClCompile>
+    <ClCompile Include="Tree.cpp">
+      <Filter>Source Files\objects\resources\trees\regular</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +223,21 @@
     </ClInclude>
     <ClInclude Include="abstractTaskScheduler.h">
       <Filter>Source Files\services\taskScheduler</Filter>
+    </ClInclude>
+    <ClInclude Include="objectFactory.h">
+      <Filter>Source Files\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="object.h">
+      <Filter>Source Files\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Source Files\objects\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="abstractTree.h">
+      <Filter>Source Files\objects\resources\trees\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Tree.h">
+      <Filter>Source Files\objects\resources\trees\regular</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

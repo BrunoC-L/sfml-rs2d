@@ -5,7 +5,8 @@
 TEST(App_builds, TestName) {
 	ServiceProvider provider;
 	DB db(&provider, 5);
-	Map map(&provider);
+	ObjectFactory objf;
+	Map map(&provider, objf);
 	UserService userService(&provider);
 	PlayerActionService playerActionService(&provider);
 	SocketServerService server(&provider, 38838);
@@ -17,7 +18,8 @@ TEST(App_builds, TestName) {
 TEST(SQLDB_App_inits_starts_stops, TestName) {
 	ServiceProvider provider;
 	DB db(&provider, 5);
-	Map map(&provider);
+	ObjectFactory objf;
+	Map map(&provider, objf);
 	UserService userService(&provider);
 	PlayerActionService playerActionService(&provider);
 	SocketServerService server(&provider, 38838);

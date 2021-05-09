@@ -32,3 +32,7 @@ bool Tile::canMove(VTile delta, int bordersTo, int bordersFrom) {
 			throw std::exception("This should never happen");
 	}
 }
+
+void Tile::addObject(std::shared_ptr<Object>&& object) {
+	objects.push_back(std::move(object));
+}

@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Tree",
+        "examine": "A tree",
+        "size": [2, 2],
+        "interactions": [
+            {
+                "name": "Chop",
+                "position": "nextTo",
+                "requirements": {
+                    "skills": [
+                        {
+                            "woodcutting": 1
+                        }
+                    ],
+                    "items": [
+                        {
+                            "axe": 1
+                        }
+                    ],
+                    "quests": []
+                }
+            }
+        ]
+    },
+    {
+        "name": "Tree stump",
+        "examine": "A tree stump, the tree will grow back soon",
+        "size": [2, 2],
+        "interactions": []
+    }
+]

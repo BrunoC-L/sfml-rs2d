@@ -3,8 +3,11 @@
 #include <vector>
 #include <functional>
 #include "units.h"
+#include "object.h"
 
 class Tile {
+protected:
+	std::vector<std::shared_ptr<Object>> objects;
 public:
 	Tile(int x, int y, int borders);
 	bool canMoveFrom(Tile from);
@@ -12,4 +15,5 @@ public:
 	const int borders;
 	const VTile position;
 	bool walkable;
+	void addObject(std::shared_ptr<Object>&& object);
 };

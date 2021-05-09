@@ -1,0 +1,51 @@
+[
+    {
+        "name": "Rock",
+        "examine": "A rock",
+        "size": [1, 1],
+        "interactions": [
+            {
+                "name": "Mine",
+                "position": "nextTo",
+                "requirements": {
+                    "skills": [
+                        {
+                            "mining": 1
+                        }
+                    ],
+                    "items": [
+                        {
+                            "pickaxe": 1
+                        }
+                    ],
+                    "quests": []
+                }
+            },
+            {
+                "name": "Prospect",
+                "position": "nextTo",
+                "requirements": {
+                    "skills": [],
+                    "items": [],
+                    "quests": []
+                }
+            }
+        ]
+    },
+    {
+        "name": "Rock",
+        "examine": "A rock",
+        "size": [1, 1],
+        "interactions": [
+            {
+                "name": "Prospect",
+                "position": "nextTo",
+                "requirements": {
+                    "skills": [],
+                    "items": [],
+                    "quests": []
+                }
+            }
+        ]
+    }
+]

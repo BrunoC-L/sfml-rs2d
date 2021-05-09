@@ -6,8 +6,9 @@
 
 class Map : public AbstractMap, public Service {
 	std::vector<std::shared_ptr<Chunk>> chunks;
+	ObjectFactory& objectFactory;
 public:
-	Map(ServiceProvider* provider);
+	Map(ServiceProvider* provider, ObjectFactory& objectFactory);
 	virtual void init() override;
 	virtual void load() override;
 	virtual std::shared_ptr<Chunk> getChunk(VChunk v) override;

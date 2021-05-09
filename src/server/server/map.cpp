@@ -1,6 +1,6 @@
 #include "map.h"
 
-Map::Map(ServiceProvider* provider) : Service(provider) {
+Map::Map(ServiceProvider* provider, ObjectFactory& objectFactory) : Service(provider), objectFactory(objectFactory) {
 	provider->set("Map", this);
 }
 
@@ -10,15 +10,14 @@ void Map::init() {
 }
 
 void Map::load() {
-	std::cout << "Loading Map";
 	chunks = std::vector<std::shared_ptr<Chunk>>(29 * 25);
 	for (int i = 0; i < 29; ++i) {
-		std::cout << '.';
+		std::cout << "\rLoading Map " << i << "/29 \b";
 		for (int j = 0; j < 25; ++j) {
-			chunks[24 * i + j] = std::make_shared<Chunk>(VChunk(i, j));
+			chunks[24 * i + j] = std::make_shared<Chunk>(VChunk(i, j), objectFactory);
 		}
 	}
-	std::cout << "\r                                               \r";
+	std::cout << "\r                         \r";
 }
 
 std::shared_ptr<Chunk> Map::getChunk(VChunk v) {

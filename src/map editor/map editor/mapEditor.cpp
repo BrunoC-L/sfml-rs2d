@@ -268,16 +268,21 @@ void MapEditor::save() {
 void MapEditor::load(std::pair<std::string, bool> key) {
 	std::cout << "Loading " << key.first << std::endl;
 	sf::Texture* texture = new sf::Texture();
-	texture->loadFromFile("../../../assets/textures/editor_" + key.first + ".png");
+	texture->loadFromFile("../../../assets/textures/" + key.first + ".png");
 	std::unordered_map<std::string, int> name2texture;
 	std::unordered_map<std::string, int> name2count;
 	if (!key.second) {
-		std::ifstream name2textureIndex("../../../assets/data/" + key.first.substr(0, key.first.length() - 1) + "Name2texture.txt");
+		std::ifstream name2textureIndex("../../../resource/" + key.first + "/" + key.first.substr(0, key.first.length() - 1) + "Name2texture.txt");
+		if (!name2textureIndex.is_open())
+			throw std::exception(("Failed to open ../../../resource/" + key.first + "/" + key.first.substr(0, key.first.length() - 1) + "Name2texture.txt").c_str());
 		std::string nameOfTexture;
 		while (std::getline(name2textureIndex, nameOfTexture)) {
 			auto content = split(nameOfTexture, ":");
 			name2count[content[0]] += 1;
 			name2texture[content[0] + content[1]] = stoi(content[2]);
+		}
+		for (auto it = name2texture.begin(); it != name2texture.end(); ++it) {
+			std::cout << it->first << " " << it->second << std::endl;
 		}
 	}
 	for (int x = 0; x < 29; ++x) {
@@ -305,9 +310,10 @@ void MapEditor::load(std::pair<std::string, bool> key) {
 					}
 				}
 				while (std::getline(file, line)) {
-					std::vector<std::string> content = split(line, " ");
-					const int tx = stoi(content[0]), ty = stoi(content[1]);
-					grid[tx * TILES_PER_CHUNK + ty] = stoi(content[2]);
+					std::vector<std::string> content = split(line, ":");
+					std::vector<std::string> x_y = split(content[0], "-");
+					const int tx = stoi(x_y[0]), ty = stoi(x_y[1]);
+					grid[tx * TILES_PER_CHUNK + ty] = stoi(content[1]);
 				}
 			}
 			else {
@@ -318,12 +324,13 @@ void MapEditor::load(std::pair<std::string, bool> key) {
 					JSON json(content[1][0] == ' ' ? content[1].substr(1) : content[1]);
 					if (json.children.size() == 0)
 						continue;
-					auto name = json.children[0].asString();
+					auto name = json.children[0].asString() + "-0";
 					int count = name2count[name];
 					int s = count == 9 ? 3 : count == 4 ? 2 : 1;
 					for (int i = 0; i < count; ++i) {
 						int idx = i % s, idy = i / s;
-						grid[(tx + idx) * TILES_PER_CHUNK + (ty + idy)] = name2texture[name + " " + std::to_string(idx) + "-" + std::to_string(idy)];
+						auto txtname = name + " " + std::to_string(idx) + "-" + std::to_string(idy);
+						grid[(tx + idx) * TILES_PER_CHUNK + (ty + idy)] = name2texture[txtname];
 					}
 				}
 			}
@@ -342,6 +349,6 @@ void MapEditor::load(std::pair<std::string, bool> key) {
 }
 
 std::string MapEditor::getFileName(std::string key, int x, int y, int z) const {
-	return "../../../assets/" + key + "/" +
+	return "../../../resource/chunks/" + key + "/" +
 		std::to_string(x) + "-" + std::to_string(y) + "-" + std::to_string(z) + ".txt";
 }

@@ -22,6 +22,7 @@
     <ClCompile Include="chunk.cpp" />
     <ClCompile Include="db.cpp" />
     <ClCompile Include="map.cpp" />
+    <ClCompile Include="objectFactory.cpp" />
     <ClCompile Include="odbc.cpp" />
     <ClCompile Include="packets.cpp" />
     <ClCompile Include="playerActionService.cpp" />
@@ -30,6 +31,8 @@
     <ClCompile Include="socketServer.cpp" />
     <ClCompile Include="taskScheduler.cpp" />
     <ClCompile Include="tile.cpp" />
+    <ClCompile Include="abstractTree.cpp" />
+    <ClCompile Include="Tree.cpp" />
     <ClCompile Include="user.cpp" />
     <ClCompile Include="userService.cpp" />
   </ItemGroup>
@@ -51,17 +54,22 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="movingPredicate.h" />
+    <ClInclude Include="object.h" />
+    <ClInclude Include="objectFactory.h" />
     <ClInclude Include="odbc.h" />
     <ClInclude Include="packets.h" />
     <ClInclude Include="pathfinder.h" />
     <ClInclude Include="playerAction.h" />
     <ClInclude Include="playerActionService.h" />
     <ClInclude Include="playerWalkAction.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="socket-server.h" />
     <ClInclude Include="socketServer.h" />
     <ClInclude Include="taskScheduler.h" />
     <ClInclude Include="tick.h" />
     <ClInclude Include="tile.h" />
+    <ClInclude Include="abstractTree.h" />
+    <ClInclude Include="Tree.h" />
     <ClInclude Include="user.h" />
     <ClInclude Include="userService.h" />
   </ItemGroup>

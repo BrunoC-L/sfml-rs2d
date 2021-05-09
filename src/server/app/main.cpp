@@ -4,7 +4,8 @@
 int main() {
 	ServiceProvider provider;
 	DB db(&provider, 5);
-	Map map(&provider);
+	ObjectFactory objf;
+	Map map(&provider, objf);
 	UserService userService(&provider);
 	PlayerActionService playerActionService(&provider);
 	SocketServerService server(&provider, 38838);
