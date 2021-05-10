@@ -50,7 +50,8 @@
     <ClInclude Include="costLogger.h" />
     <ClInclude Include="db.h" />
     <ClInclude Include="json-socket-server.h" />
-    <ClInclude Include="loginout.h" />
+    <ClInclude Include="loginEvent.h" />
+    <ClInclude Include="logoutEvent.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="movingPredicate.h" />
@@ -61,12 +62,13 @@
     <ClInclude Include="pathfinder.h" />
     <ClInclude Include="playerAction.h" />
     <ClInclude Include="playerActionService.h" />
+    <ClInclude Include="playerMoveEvent.h" />
     <ClInclude Include="playerWalkAction.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="socket-server.h" />
     <ClInclude Include="socketServer.h" />
     <ClInclude Include="taskScheduler.h" />
-    <ClInclude Include="tick.h" />
+    <ClInclude Include="tickEvent.h" />
     <ClInclude Include="tile.h" />
     <ClInclude Include="abstractTree.h" />
     <ClInclude Include="Tree.h" />

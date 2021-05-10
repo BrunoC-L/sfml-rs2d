@@ -2,6 +2,7 @@
 #include <mutex>
 #include <chrono>
 #include <SFML/System.hpp>
+#include "constants.h"
 
 class TickScheduler {
 public:
@@ -12,7 +13,7 @@ class ClockTickScheduler : public TickScheduler {
 	int tickTime;
 	sf::Clock clock;
 public:
-	ClockTickScheduler() : tickTime(600) {
+	ClockTickScheduler() : tickTime(MSPT) {
 		clock.restart();
 	}
 

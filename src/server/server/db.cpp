@@ -25,6 +25,18 @@ void DB::init() {
 		checkVersion();
 	std::cout << "Database is up to date\n";
 	connect(nThreads - 1);
+	logoutObserver.set([&](LogoutEvent& ev) {
+		ids[ev.user->index] = -1;
+	});
+	loginObserver.set([&](LoginEvent& ev) {
+		auto qr = syncSelectQuery("select id from player where username = '" + ev.user->ign + "'");
+		_ASSERT(qr.size() == 1);
+		auto id = qr[0]["id"].asInt();
+		ids[ev.user->index] = id;
+	});
+	playerMoveEventObserver.set([&](PlayerMoveEvent& ev) {
+		saveUserPosition(*ev.user, ev.position);
+	});
 }
 
 void DB::connect(int n) {
@@ -168,4 +180,13 @@ void DB::stop() {
 	cv.notify_all();
 	for (auto& dbthread : dbThreadPool)
 		dbthread.first.join();
+}
+
+void DB::saveUserPosition(const User& user, VTile position) {
+	std::string q = "update Player set posx = " +
+		std::to_string(position.x) +
+		", posy = " +
+		std::to_string(position.y) +
+		" where id = '" + std::to_string(ids[user.index]) + "'\n";
+	nonSelectQuery(q);
 }

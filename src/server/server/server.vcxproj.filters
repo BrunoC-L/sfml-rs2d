@@ -212,12 +212,6 @@
     <ClInclude Include="packets.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="loginout.h">
-      <Filter>Source Files\events</Filter>
-    </ClInclude>
-    <ClInclude Include="tick.h">
-      <Filter>Source Files\events</Filter>
-    </ClInclude>
     <ClInclude Include="taskScheduler.h">
       <Filter>Source Files\services\taskScheduler</Filter>
     </ClInclude>
@@ -238,6 +232,18 @@
     </ClInclude>
     <ClInclude Include="Tree.h">
       <Filter>Source Files\objects\resources\trees\regular</Filter>
+    </ClInclude>
+    <ClInclude Include="loginEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="tickEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="logoutEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="playerMoveEvent.h">
+      <Filter>Source Files\events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,9 +6,9 @@ class User {
 public:
 	User();
 	~User();
-	void activate(int id, std::string ign);
+	void activate(int index, std::string ign);
 
 	bool isLoggedIn;
-	int id;
+	int index;
 	std::string ign;
 };

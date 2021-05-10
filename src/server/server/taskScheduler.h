@@ -2,7 +2,7 @@
 #include "abstractTaskScheduler.h"
 #include "service.h"
 #include <vector>
-#include "tick.h"
+#include "tickEvent.h"
 
 class TaskScheduler : public Service, public AbstractTaskScheduler {
 private:

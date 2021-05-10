@@ -3,13 +3,12 @@
 #include <functional>
 #include "abstractService.h"
 #include "user.h"
+#include <memory>
 
 class AbstractUserService : public AbstractService {
 public:
-	std::vector<std::shared_ptr<User>> users;
 	AbstractUserService() { }
-	virtual void saveUserPosition(User& user, VTile position) = 0;
-	virtual void logout(User& user) = 0;
-	virtual std::shared_ptr<User> getUserById(int id) = 0;
 	virtual void stop() = 0;
+	virtual const std::shared_ptr<User>& getUserByIndex(int index) = 0;
+	virtual const std::vector<std::shared_ptr<User>> getAllUsers() = 0;
 };

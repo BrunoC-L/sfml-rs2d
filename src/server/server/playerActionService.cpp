@@ -2,6 +2,7 @@
 #include "pathfinder.h"
 #include "costLogger.h"
 #include "session.h"
+#include "playerMoveEvent.h"
 
 PlayerActionService::PlayerActionService(ServiceProvider* provider) : Service(provider) {
 	provider->set("PlayerAction", this);
@@ -12,27 +13,21 @@ void PlayerActionService::init() {
 
     auto onWalk = [&](std::shared_ptr<User> user, JSON& data) {
         auto packet = WalkPacket(data);
-        auto& pp = pathPositions[user];
+        auto& pp = pathPositions[user->index];
         auto p1 = pp.position;
         pp.path = Pathfinder::pathfind(VTile(p1.x, p1.y), { VTile(packet.x, packet.y) }, PathFindOption::Onto, map);
     };
 
     server->on("walk", onWalk, true);
 
-    logoutObserver.set([&](LogoutEvent& ev) {
-        pathPositions.erase(ev.user);
-        }
-    );
-
-    loginObserver.set([&](LoginEvent& ev) {
-        pathPositions[ev.user] = { {}, ev.position };
-        }
-    );
-
     tickObserver.set([&](TickEvent& ev) {
             onGameTick();
         }
     );
+
+    loginObserver.set([&](LoginEvent& ev) {
+        pathPositions[ev.user->index] = { {}, ev.position };
+    });
 }
 
 void PlayerActionService::updatePlayerPositions() {
@@ -40,15 +35,15 @@ void PlayerActionService::updatePlayerPositions() {
         for (int cy = 0; cy < 25; ++cy)
             positions[cx][cy].clear();
 
-    for (auto it = pathPositions.begin(); it != pathPositions.end(); it++) {
-        const auto& user = it->first;
-        auto& userPosition = it->second.position;
-        if (it->second.path.size()) {
-            userPosition = it->second.path[0];
-            it->second.path.erase(it->second.path.begin());
-            userService->saveUserPosition(*user, userPosition);
+    for (const auto& user : userService->getAllUsers()) {
+        auto& pathPosition = pathPositions[user->index];
+        auto& userPosition = pathPosition.position;
+        if (pathPosition.path.size()) {
+            userPosition = pathPosition.path[0];
+            pathPosition.path.erase(pathPosition.path.begin());
+            PlayerMoveEvent(user, userPosition).emit();
         }
-        positions[int(userPosition.x / 64)][int(userPosition.y / 64)].push_back({user, userPosition});
+        positions[int(userPosition.x / 64)][int(userPosition.y / 64)].push_back({ user, userPosition });
     }
 }
 
@@ -63,13 +58,14 @@ void PlayerActionService::sendPlayerPositions() {
     std::vector<JSON> chunks[29][25];
     for (int cx = 0; cx < 29; ++cx)
         for (int cy = 0; cy < 25; ++cy) {
-            if (positions[cx][cy].size() == 0)
+            if (!positions[cx][cy].size())
                 continue;
+            chunks[cx][cy].reserve(positions[cx][cy].size());
             for (const auto& userPos : positions[cx][cy]) {
                 JSON pos;
                 pos["x"] = std::to_string(userPos.second.x);
                 pos["y"] = std::to_string(userPos.second.y);
-                pos["id"] = std::to_string(userPos.first->id);
+                pos["id"] = std::to_string(userPos.first->index);
                 chunks[cx][cy].push_back(pos);
             }
         }
@@ -78,7 +74,7 @@ void PlayerActionService::sendPlayerPositions() {
 
     for (int cx = 0; cx < 29; ++cx)
         for (int cy = 0; cy < 25; ++cy) {
-            if (positions[cx][cy].size() == 0)
+            if (!positions[cx][cy].size())
                 continue;
             JSON packet;
             packet["type"] = "positions";
@@ -98,7 +94,7 @@ void PlayerActionService::sendPlayerPositions() {
 void PlayerActionService::sendGameTick() {
     JSON msg;
     msg["type"] = "tick";
-    for (auto user : userService->users)
+    for (auto user : userService->getAllUsers())
         server->send(user, msg);
 }
 

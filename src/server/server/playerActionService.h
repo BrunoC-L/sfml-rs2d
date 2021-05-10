@@ -3,8 +3,10 @@
 #include "abstractPlayerActionService.h"
 #include <vector>
 #include "units.h"
-#include "loginout.h"
-#include "tick.h"
+#include "loginEvent.h"
+#include "logoutEvent.h"
+#include "tickEvent.h"
+#include "constants.h"
 
 struct PathPosition {
 	std::vector<VTile> path;
@@ -12,7 +14,7 @@ struct PathPosition {
 };
 
 class PlayerActionService : public AbstractPlayerActionService, public Service {
-	std::unordered_map<std::shared_ptr<User>, PathPosition> pathPositions;
+	PathPosition pathPositions[MAX_PLAYERS_ONLINE];
 	std::vector<std::pair<std::shared_ptr<User>, VTile>> positions[29][25];
 	EventObserver<LogoutEvent> logoutObserver;
 	EventObserver<LoginEvent> loginObserver;

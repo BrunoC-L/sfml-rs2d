@@ -1,5 +1,5 @@
 #include "socketServer.h"
-#include "loginout.h"
+#include "logoutEvent.h"
 
 SocketServerService::SocketServerService(ServiceProvider* provider, unsigned port) : Service(provider) {
     provider->set("Server", this);

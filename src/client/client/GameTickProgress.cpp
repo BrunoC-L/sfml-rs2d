@@ -10,13 +10,13 @@ void ClockGameTickProgress::onGameTick() {
 	msBehind = msCurrentAnimWouldTakeAtNormalSpeed * (1 - getTickFraction());
 	if (msBehind < 0)
 		msBehind = 0;
-	msCurrentAnimWouldTakeAtNormalSpeed = mspt + msBehind;
+	msCurrentAnimWouldTakeAtNormalSpeed = MSPT + msBehind;
 	clock.restart();
 	tick += 1;
 }
 
 double ClockGameTickProgress::getTickFraction() {
-	auto tf = getMsSinceTick() / mspt * (1 + msBehind / mspt);
+	auto tf = getMsSinceTick() / MSPT * (1 + msBehind / MSPT);
 	return tf;
 }
 

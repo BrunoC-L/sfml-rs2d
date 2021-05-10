@@ -73,11 +73,11 @@ public:
 #define MEMBER_SET(x) this->x = x;
 #define MEMBER_INITIALIZER(x) x(x)
 
-#define EVENT_CLASS(_type, _parents, _members, _parameters, _members_set) \
+#define EVENT_CLASS(_type, _parents, _members, _parameters, _members_set, _members_initializers) \
 class _type _parents {\
 public:\
 	_members\
-	_type(_parameters) {\
+	_type(_parameters) _members_initializers {\
 	_members_set\
 	}\
 	static EventEmitter<_type>& getEmitter() {\
