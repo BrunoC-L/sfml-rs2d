@@ -17,7 +17,7 @@ std::string strtime() {
 }
 
 JSON& getEditableSession() {
-	if (session.children.size() == 0) {
+	if (session.size() == 0) {
 		auto env = mygetenv("RS2D_HOME");
 		const size_t SIZE = 4000;
 		char buf[SIZE] = { 0 };
@@ -25,7 +25,7 @@ JSON& getEditableSession() {
 		bool readEntireFile = f.read(buf, SIZE).gcount() < SIZE;
 		if (!readEntireFile)
 			throw std::exception("Why the hell does config.json have more than 3999 characters?");
-		session = JSON(buf);
+		session = std::move(JSON(buf));
 		session["name"] = strtime();
 		session["RS2D_HOME"] = env;
 	}

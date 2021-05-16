@@ -2,7 +2,7 @@
 #include "constants.h"
 
 GameDataService::GameDataService(ServiceProvider* provider, GameTickProgress* tracker) : Service(provider), tracker(tracker) {
-    provider->set("GameData", this);
+    provider->set(GAMEDATA, this);
 }
 
 void GameDataService::init() {

@@ -3,7 +3,7 @@
 #include "keyPressedEvent.h"
 
 Socket::Socket(ServiceProvider* provider, std::string ip, int port) : Service(provider), socket(ip, port, [&]() {onDisconnect(); }, [&](const std::string& msg) {onMessage(msg); }) {
-    provider->set("Socket", this);
+    provider->set(SOCKET, this);
 }
 
 void Socket::onMessage(const std::string& message) {

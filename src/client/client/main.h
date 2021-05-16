@@ -9,3 +9,4 @@
 #include "chat.h"
 #include "inventory.h"
 #include "gameDataService.h"
+#include "clientServiceProvider.h"

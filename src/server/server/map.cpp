@@ -1,7 +1,7 @@
 #include "map.h"
 
 Map::Map(ServiceProvider* provider, ObjectFactory& objectFactory) : Service(provider), objectFactory(objectFactory) {
-	provider->set("Map", this);
+	provider->set(MAP, this);
 }
 
 void Map::init() {

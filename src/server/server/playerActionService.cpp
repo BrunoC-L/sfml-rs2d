@@ -5,7 +5,7 @@
 #include "playerMoveEvent.h"
 
 PlayerActionService::PlayerActionService(ServiceProvider* provider) : Service(provider) {
-	provider->set("PlayerAction", this);
+	provider->set(PLAYERACTION, this);
 }
 
 void PlayerActionService::init() {
@@ -83,8 +83,8 @@ void PlayerActionService::sendPlayerPositions() {
                 for (int dy = -radius; dy <= radius; ++dy) {
                     int dcx = cx + dx, dcy = cy + dy;
                     if (dcx > 0 && dcx < 29 && dcy > 0 && dcy < 25)
-                        for (const auto& json : chunks[dcx][dcy])
-                            packet["data"].push(json);
+                        for (auto& json : chunks[dcx][dcy])
+                            packet["data"].push(std::move(json));
                 }
             for (const auto& userPos : positions[cx][cy])
                 server->send(userPos.first, packet);

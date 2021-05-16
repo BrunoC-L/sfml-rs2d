@@ -3,7 +3,7 @@
 #include "loginEvent.h"
 
 UserService::UserService(ServiceProvider* provider) : Service(provider) {
-	provider->set("User", this);
+	provider->set(USER, this);
 }
 
 std::string randomString64() {

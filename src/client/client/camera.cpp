@@ -2,7 +2,7 @@
 #include "camera.h"
 
 Camera::Camera(ServiceProvider* provider) : Service(provider) {
-	provider->set("Camera", this);
+	provider->set(CAMERA, this);
 }
 
 void Camera::init() {

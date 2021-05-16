@@ -159,6 +159,7 @@
     <ClInclude Include="chat.h" />
     <ClInclude Include="chatMessage.h" />
     <ClInclude Include="chunk.h" />
+    <ClInclude Include="clientServiceProvider.h" />
     <ClInclude Include="color.h" />
     <ClInclude Include="connectedState.h" />
     <ClInclude Include="disconnectedState.h" />
@@ -173,6 +174,7 @@
     <ClInclude Include="inventory.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="closeEvent.h" />
+    <ClInclude Include="services.h" />
     <ClInclude Include="tcpSocket.h" />
     <ClInclude Include="keyPressedEvent.h" />
     <ClInclude Include="login.h" />

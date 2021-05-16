@@ -8,7 +8,7 @@
 #include "tickEvent.h"
 #include "print.h"
 
-class App : public ServiceProvider, private Service {
+class App : private Service {
     TickScheduler* tickScheduler;
     bool running = false;
 public:

@@ -82,6 +82,12 @@
     <Filter Include="Source Files\objects\resources\trees\regular">
       <UniqueIdentifier>{5549625f-de66-4449-b690-5d999b63a4ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\objects\objectFactory">
+      <UniqueIdentifier>{5f343067-114b-4435-abd6-7d58bd7a36f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\services\resource">
+      <UniqueIdentifier>{037e5cd6-5c57-4f01-a177-b41927ca821b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="map.cpp">
@@ -117,20 +123,23 @@
     <ClCompile Include="playerWalkAction.cpp">
       <Filter>Source Files\playerAction\playerWalkAction</Filter>
     </ClCompile>
-    <ClCompile Include="packets.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="taskScheduler.cpp">
       <Filter>Source Files\services\taskScheduler</Filter>
-    </ClCompile>
-    <ClCompile Include="objectFactory.cpp">
-      <Filter>Source Files\objects</Filter>
     </ClCompile>
     <ClCompile Include="abstractTree.cpp">
       <Filter>Source Files\objects\resources\trees\base</Filter>
     </ClCompile>
     <ClCompile Include="Tree.cpp">
       <Filter>Source Files\objects\resources\trees\regular</Filter>
+    </ClCompile>
+    <ClCompile Include="packets.cpp">
+      <Filter>Source Files\services\socketServer</Filter>
+    </ClCompile>
+    <ClCompile Include="objectFactory.cpp">
+      <Filter>Source Files\objects\objectFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="resourceService.cpp">
+      <Filter>Source Files\services\resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -206,20 +215,11 @@
     <ClInclude Include="main.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="costLogger.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="packets.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="taskScheduler.h">
       <Filter>Source Files\services\taskScheduler</Filter>
     </ClInclude>
     <ClInclude Include="abstractTaskScheduler.h">
       <Filter>Source Files\services\taskScheduler</Filter>
-    </ClInclude>
-    <ClInclude Include="objectFactory.h">
-      <Filter>Source Files\objects</Filter>
     </ClInclude>
     <ClInclude Include="object.h">
       <Filter>Source Files\objects</Filter>
@@ -244,6 +244,27 @@
     </ClInclude>
     <ClInclude Include="playerMoveEvent.h">
       <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="packets.h">
+      <Filter>Source Files\services\socketServer</Filter>
+    </ClInclude>
+    <ClInclude Include="costLogger.h">
+      <Filter>Source Files\other</Filter>
+    </ClInclude>
+    <ClInclude Include="objectFactory.h">
+      <Filter>Source Files\objects\objectFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="abstractResourceService.h">
+      <Filter>Source Files\services\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="resourceService.h">
+      <Filter>Source Files\services\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="serverServiceProvider.h">
+      <Filter>Source Files\services\base</Filter>
+    </ClInclude>
+    <ClInclude Include="services.h">
+      <Filter>Source Files\services\base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,7 +2,7 @@
 #include "onExit.h"
 
 int main() {
-	ServiceProvider provider;
+	ServerServiceProvider provider;
 	DB db(&provider, 5);
 	ObjectFactory objf;
 	Map map(&provider, objf);

@@ -3,7 +3,7 @@
 #include "login.h"
 
 SocketMock1::SocketMock1(ServiceProvider* provider) : Socket(provider, "0", 0) {
-    provider->set("Socket", this);
+    provider->set(SOCKET, this);
 }
 
 void SocketMock1::init() {

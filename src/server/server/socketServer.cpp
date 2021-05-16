@@ -2,7 +2,7 @@
 #include "logoutEvent.h"
 
 SocketServerService::SocketServerService(ServiceProvider* provider, unsigned port) : Service(provider) {
-    provider->set("Server", this);
+    provider->set(SERVER, this);
     auto onError = [&](std::exception& e, QueueMessage qm) {
         std::cout << e.what() << std::endl;
     };

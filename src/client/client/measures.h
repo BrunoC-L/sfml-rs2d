@@ -9,7 +9,7 @@ class Measures : public AbstractMeasures, public Service {
 	EventObserver<MouseWheelEvent> mouseWheelObserver;
 public:
 	Measures(ServiceProvider* provider) : Service(provider) {
-		provider->set("Measures", this);
+		provider->set(MEASURES, this);
 	}
 	void init();
 

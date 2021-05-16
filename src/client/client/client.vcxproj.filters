@@ -282,6 +282,12 @@
     <ClInclude Include="closeEvent.h">
       <Filter>Source Files\events\closeEvent</Filter>
     </ClInclude>
+    <ClInclude Include="services.h">
+      <Filter>Source Files\services\base</Filter>
+    </ClInclude>
+    <ClInclude Include="clientServiceProvider.h">
+      <Filter>Source Files\services\base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="chunk.cpp">

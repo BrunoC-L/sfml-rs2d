@@ -1,0 +1,13 @@
+#pragma once
+
+enum SERVICES {
+	CAMERA,
+	CHAT,
+	INVENTORY,
+	MAP,
+	MEASURES,
+	PLAYER,
+	SOCKET,
+	GAMEDATA,
+	SERVICES_SIZE
+};

@@ -15,4 +15,5 @@ public:
 	virtual std::vector<std::string> getInteractions() override;
 	virtual void interact(const std::shared_ptr<User>& user, int objectState, int index) override;
 	virtual int getState() override;
+	AbstractTree(JSON&& json, const std::shared_ptr<Tile>& tile) : Resource(std::move(json), tile), state(0) {}
 };

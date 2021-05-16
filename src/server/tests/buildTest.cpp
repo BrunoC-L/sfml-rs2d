@@ -3,7 +3,7 @@
 #include "OnExit.h"
 
 TEST(App_builds, TestName) {
-	ServiceProvider provider;
+	ServerServiceProvider provider;
 	DB db(&provider, 5);
 	ObjectFactory objf;
 	Map map(&provider, objf);
@@ -16,7 +16,7 @@ TEST(App_builds, TestName) {
 }
 
 TEST(SQLDB_App_inits_starts_stops, TestName) {
-	ServiceProvider provider;
+	ServerServiceProvider provider;
 	DB db(&provider, 5);
 	ObjectFactory objf;
 	Map map(&provider, objf);

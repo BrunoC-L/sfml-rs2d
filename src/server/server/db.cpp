@@ -10,7 +10,7 @@
 #include <locale>
 
 DB::DB(ServiceProvider* provider, int nThreads) : Service(provider), nThreads(nThreads) {
-	provider->set("DB", this);
+	provider->set(DATABASE, this);
 }
 
 void DB::init() {

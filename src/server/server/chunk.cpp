@@ -60,8 +60,8 @@ void Chunk::loadObjects() {
 		std::vector<std::string> x_y = split(content[0], "-");
 		const int tx = stoi(x_y[0]), ty = stoi(x_y[1]);
 		JSON json(content[1][0] == ' ' ? content[1].substr(1) : content[1]);
-		for (auto& object : json.children)
-			tiles[tx][ty]->addObject(objectFactory.create(object));
+		for (auto& object : json.getChildren())
+			tiles[tx][ty]->addObject(objectFactory.create(object, tiles[tx][ty]));
 	}
 	file.close();
 }

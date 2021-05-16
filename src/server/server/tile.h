@@ -12,8 +12,8 @@ public:
 	Tile(int x, int y, int borders);
 	bool canMoveFrom(Tile from);
 	bool canMove(VTile delta, int bordersTo, int bordersFrom);
-	const int borders;
+	int borders;
 	const VTile position;
 	bool walkable;
-	void addObject(std::shared_ptr<Object>&& object);
+	void addObject(std::shared_ptr<Object> object);
 };

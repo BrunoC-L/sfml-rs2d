@@ -20,8 +20,8 @@ int main(int argc, char* argv[]) {
 	auto local = args["local"].asBool();
 	std::string ip = args["ip"].asBool() ? args["ip"].asString() : local ? "localhost" : "35.182.111.227";
 	auto port = args["port"].asBool() ? args["port"].asInt() : 38838;
-	auto radius = args["radius"].asBool() ? args["radius"].asInt() : 2; // if someone wants radius 0 this will fail lol
-	ServiceProvider provider;
+	auto radius = args["radius"].asBool() ? args["radius"].asInt() : 2; // if someone wants radius 0 this will fail because json 0 will eval to false!
+	ClientServiceProvider provider;
 	Socket s(&provider, ip, port);
 	Measures me(&provider);
 	Chat chat(&provider);

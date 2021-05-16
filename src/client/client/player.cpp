@@ -2,7 +2,7 @@
 #include "sha256.h"
 
 Player::Player(ServiceProvider* provider): Service(provider) {
-    provider->set("Player", this);
+    provider->set(PLAYER, this);
     position = VTile();
 }
 

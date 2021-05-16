@@ -1,6 +1,7 @@
 #pragma once
 #include "abstractServices.h"
 #include "serviceProvider.h"
+#include "services.h"
 
 class Service {
 public:
@@ -17,13 +18,13 @@ public:
 	Service(ServiceProvider* provider) : provider(provider) { }
 
 	void acquire() {
-		camera = (AbstractCamera*)provider->get("Camera");
-		chat = (AbstractChat*)provider->get("Chat");
-		inventory = (AbstractInventory*)provider->get("Inventory");
-		map = (AbstractMap*)provider->get("Map");
-		measures = (AbstractMeasures*)provider->get("Measures");
-		player = (AbstractPlayer*)provider->get("Player");
-		socket = (AbstractSocket*)provider->get("Socket");
-		gameData = (AbstractGameDataService*)provider->get("GameData");
+		camera = (AbstractCamera*)provider->get(CAMERA);
+		chat = (AbstractChat*)provider->get(CHAT);
+		inventory = (AbstractInventory*)provider->get(INVENTORY);
+		map = (AbstractMap*)provider->get(MAP);
+		measures = (AbstractMeasures*)provider->get(MEASURES);
+		player = (AbstractPlayer*)provider->get(PLAYER);
+		socket = (AbstractSocket*)provider->get(SOCKET);
+		gameData = (AbstractGameDataService*)provider->get(GAMEDATA);
 	}
 };

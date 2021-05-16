@@ -6,7 +6,7 @@
 class Chat : public AbstractChat, public Service {
 public:
 	Chat(ServiceProvider* provider) : Service(provider) {
-		provider->set("Chat", this);
+		provider->set(CHAT, this);
 	}
 	void init() {
 		acquire();

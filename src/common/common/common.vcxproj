@@ -156,6 +156,7 @@
   <ItemGroup>
     <ClInclude Include="abstractService.h" />
     <ClInclude Include="getenv.h" />
+    <ClInclude Include="json.h" />
     <ClInclude Include="logger.h" />
     <ClInclude Include="onExit.h" />
     <ClInclude Include="print.h" />
@@ -163,8 +164,6 @@
     <ClInclude Include="constants.h" />
     <ClInclude Include="event.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="json-parser.h" />
-    <ClInclude Include="json.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="session.h" />
     <ClInclude Include="sha256.h" />
@@ -176,7 +175,6 @@
   <ItemGroup>
     <ClCompile Include="common.cpp" />
     <ClCompile Include="getenv.cpp" />
-    <ClCompile Include="json-parser.cpp" />
     <ClCompile Include="json.cpp" />
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="pch.cpp">

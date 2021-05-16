@@ -48,12 +48,12 @@ void PlayerPositions::update(std::vector<playerIdAndPosition> newPositions) {
 }
 
 void PlayerPositions::update(const JSON& json) {
-	auto positions = json.children;
+	auto& positions = json.getChildren();
 	std::vector<playerIdAndPosition> newPositions;
 	for (auto& pos : positions) {
-		auto x = pos["x"].asInt();
-		auto y = pos["y"].asInt();
-		auto id = pos["id"].asInt();
+		auto x = pos.get("x").asInt();
+		auto y = pos.get("y").asInt();
+		auto id = pos.get("id").asInt();
 		auto pos = VTile(x, y);
 		newPositions.push_back(playerIdAndPosition(id, pos));
 		if (id == playerId)

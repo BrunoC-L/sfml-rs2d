@@ -33,6 +33,7 @@ bool Tile::canMove(VTile delta, int bordersTo, int bordersFrom) {
 	}
 }
 
-void Tile::addObject(std::shared_ptr<Object>&& object) {
-	objects.push_back(std::move(object));
+void Tile::addObject(std::shared_ptr<Object> object) {
+	objects.emplace_back(object);
+	objects.back()->setId(objects.size() - 1);
 }

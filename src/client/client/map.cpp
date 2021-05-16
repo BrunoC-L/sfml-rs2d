@@ -3,7 +3,7 @@
 #include "print.h"
 
 Map::Map(ServiceProvider* provider, int chunkRadius) : Service(provider), chunkRadius(chunkRadius) {
-	provider->set("Map", this);
+	provider->set(MAP, this);
 };
 
 void Map::init() {
