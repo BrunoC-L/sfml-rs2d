@@ -155,6 +155,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="abstractService.h" />
+    <ClInclude Include="clamp.h" />
     <ClInclude Include="getenv.h" />
     <ClInclude Include="json.h" />
     <ClInclude Include="logger.h" />

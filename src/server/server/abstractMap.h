@@ -7,6 +7,6 @@
 class AbstractMap : public AbstractService {
 public:
 	virtual void load() = 0;
-	virtual std::shared_ptr<Chunk> getChunk(VChunk v) = 0;
-	virtual void stop() = 0;
+	virtual std::shared_ptr<Chunk>& getChunk(VChunk v) = 0;
+	virtual Tile* getTile(VTile v) = 0;
 };

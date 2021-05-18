@@ -1,4 +1,5 @@
 #include "tile.h"
+#include "clamp.h"
 
 Tile::Tile(int x, int y, int borders) : position(x, y), borders(borders) {
 	//if (gameObjects.size())
@@ -36,4 +37,10 @@ bool Tile::canMove(VTile delta, int bordersTo, int bordersFrom) {
 void Tile::addObject(std::shared_ptr<Object> object) {
 	objects.emplace_back(object);
 	objects.back()->setId(objects.size() - 1);
+}
+
+const std::shared_ptr<Object>* Tile::getObject(int index) {
+	if (objects.size() == 0 || !clamp(index, 0, objects.size() - 1))
+		return nullptr;
+	return &objects[index];
 }

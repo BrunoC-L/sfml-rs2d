@@ -12,21 +12,7 @@ class App : private Service {
     TickScheduler* tickScheduler;
     bool running = false;
 public:
-    App(
-        ServiceProvider* provider,
-        AbstractSocketServer* server,
-        AbstractDB* dbService,
-        AbstractMap* map,
-        AbstractPlayerActionService* playerActionService,
-        AbstractUserService* userService,
-        TickScheduler* tickScheduler,
-        AbstractTaskScheduler* scheduler
-    ) : Service(provider), tickScheduler(tickScheduler) {
-        clearAllEventSubscribers();
-    }
-
-    void clearAllEventSubscribers() {
-    }
+    App(ServiceProvider* provider, TickScheduler* tickScheduler) : Service(provider), tickScheduler(tickScheduler) {}
 
     void init() {
         std::ostringstream ss;
@@ -40,17 +26,16 @@ public:
         scheduler->init();
         userService->init();
         playerActionService->init();
+        resourceService->init();
         std::cout << "App Initialized\n";
     }
 
     void stop() {
         running = false;
         std::cout << "Stopping app\n";
-        playerActionService->stop();
         userService->stop();
         scheduler->stop();
         server->stop();
-        map->stop();
         dbService->stop();
     }
 

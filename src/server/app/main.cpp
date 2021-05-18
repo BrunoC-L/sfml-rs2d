@@ -11,7 +11,8 @@ int main() {
 	SocketServerService server(&provider, 38838);
 	ClockTickScheduler tickScheduler;
 	TaskScheduler scheduler(&provider);
-	App app(&provider, &server, &db, &map, &playerActionService, &userService, &tickScheduler, &scheduler);
+	ResourceService rs(&provider);
+	App app(&provider, &tickScheduler);
 	app.init();
 	app.start();
 }

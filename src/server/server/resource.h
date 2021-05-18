@@ -7,5 +7,6 @@ protected:
 	virtual bool requirementsMet(const std::shared_ptr<User>& user) = 0;
 	virtual void giveExperience(const std::shared_ptr<User>& user) = 0;
 public:
-	Resource(JSON&& json, const std::shared_ptr<Tile>& tile) : Object(std::move(json), tile) {}
+	Resource(JSON&& json, Tile* tile) : Object(std::move(json), tile) {}
+	virtual std::vector<VTile> getInteractibleTiles() override;
 };

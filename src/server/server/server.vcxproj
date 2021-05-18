@@ -27,6 +27,7 @@
     <ClCompile Include="packets.cpp" />
     <ClCompile Include="playerActionService.cpp" />
     <ClCompile Include="playerWalkAction.cpp" />
+    <ClCompile Include="resource.cpp" />
     <ClCompile Include="resourceService.cpp" />
     <ClCompile Include="service.h" />
     <ClCompile Include="socketServer.cpp" />
@@ -38,7 +39,6 @@
     <ClCompile Include="userService.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\common\event.h" />
     <ClInclude Include="abstractDB.h" />
     <ClInclude Include="abstractMap.h" />
     <ClInclude Include="abstractPlayerActionService.h" />
@@ -51,6 +51,7 @@
     <ClInclude Include="chunk.h" />
     <ClInclude Include="costLogger.h" />
     <ClInclude Include="db.h" />
+    <ClInclude Include="goToObjectRequestEvent.h" />
     <ClInclude Include="json-socket-server.h" />
     <ClInclude Include="loginEvent.h" />
     <ClInclude Include="logoutEvent.h" />
@@ -66,6 +67,7 @@
     <ClInclude Include="playerActionService.h" />
     <ClInclude Include="playerMoveEvent.h" />
     <ClInclude Include="playerWalkAction.h" />
+    <ClInclude Include="requestEvent.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="resourceService.h" />
     <ClInclude Include="serverServiceProvider.h" />

@@ -8,5 +8,5 @@ class Tile;
 
 class ObjectFactory {
 public:
-	virtual std::shared_ptr<Object> create(JSON object, const std::shared_ptr<Tile>& tile);
+	virtual std::shared_ptr<Object> create(JSON object, Tile* tile);
 };

@@ -12,7 +12,8 @@ TEST(App_builds, TestName) {
 	SocketServerService server(&provider, 38838);
 	ClockTickScheduler tickScheduler;
 	TaskScheduler scheduler(&provider);
-	App app(&provider, &server, &db, &map, &playerActionService, &userService, &tickScheduler, &scheduler);
+	ResourceService rs(&provider);
+	App app(&provider,&tickScheduler);
 }
 
 TEST(SQLDB_App_inits_starts_stops, TestName) {
@@ -25,7 +26,8 @@ TEST(SQLDB_App_inits_starts_stops, TestName) {
 	SocketServerService server(&provider, 38838);
 	ClockTickScheduler tickScheduler;
 	TaskScheduler scheduler(&provider);
-	App app(&provider, &server, &db, &map, &playerActionService, &userService, &tickScheduler, &scheduler);
+	ResourceService rs(&provider);
+	App app(&provider, &tickScheduler);
 
 	bool hasStarted = false;
 	bool done = false;

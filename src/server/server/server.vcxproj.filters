@@ -141,6 +141,9 @@
     <ClCompile Include="resourceService.cpp">
       <Filter>Source Files\services\resource</Filter>
     </ClCompile>
+    <ClCompile Include="resource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="json-socket-server.h">
@@ -206,9 +209,6 @@
     <ClInclude Include="playerWalkAction.h">
       <Filter>Source Files\playerAction\playerWalkAction</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\common\event.h">
-      <Filter>Source Files\events</Filter>
-    </ClInclude>
     <ClInclude Include="pathfinder.h">
       <Filter>Source Files\other\pathfind</Filter>
     </ClInclude>
@@ -265,6 +265,12 @@
     </ClInclude>
     <ClInclude Include="services.h">
       <Filter>Source Files\services\base</Filter>
+    </ClInclude>
+    <ClInclude Include="requestEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="goToObjectRequestEvent.h">
+      <Filter>Source Files\events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

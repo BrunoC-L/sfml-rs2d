@@ -11,6 +11,6 @@ public:
 	Map(ServiceProvider* provider, ObjectFactory& objectFactory);
 	virtual void init() override;
 	virtual void load() override;
-	virtual std::shared_ptr<Chunk> getChunk(VChunk v) override;
-	virtual void stop() override;
+	virtual std::shared_ptr<Chunk>& getChunk(VChunk v) override;
+	virtual Tile* getTile(VTile v) override;
 };

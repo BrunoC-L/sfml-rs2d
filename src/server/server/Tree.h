@@ -9,7 +9,10 @@ protected:
 	virtual void examineUp(const std::shared_ptr<User>& user) override;
 	virtual void examineStump(const std::shared_ptr<User>& user) override;
 public:
-	Tree(JSON&& json, const std::shared_ptr<Tile>& tile);
+	Tree(JSON&& json, Tile* tile);
 	virtual int getState() override;
 	virtual std::string getName() override;
+	~Tree() {
+		throw 1;
+	}
 };

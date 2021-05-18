@@ -2,7 +2,6 @@
 #include "pathfinder.h"
 #include "costLogger.h"
 #include "session.h"
-#include "playerMoveEvent.h"
 
 PlayerActionService::PlayerActionService(ServiceProvider* provider) : Service(provider) {
 	provider->set(PLAYERACTION, this);
@@ -13,9 +12,7 @@ void PlayerActionService::init() {
 
     auto onWalk = [&](std::shared_ptr<User> user, JSON& data) {
         auto packet = WalkPacket(data);
-        auto& pp = pathPositions[user->index];
-        auto p1 = pp.position;
-        pp.path = Pathfinder::pathfind(VTile(p1.x, p1.y), { VTile(packet.x, packet.y) }, PathFindOption::Onto, map);
+        walk(user, packet);
     };
 
     server->on("walk", onWalk, true);
@@ -28,6 +25,22 @@ void PlayerActionService::init() {
     loginObserver.set([&](LoginEvent& ev) {
         pathPositions[ev.user->index] = { {}, ev.position };
     });
+
+    goToObjectObserver.set([&](GoToObjectRequest& ev) {
+        walk(ev.user, ev.object->getInteractibleTiles());
+        movementCompleteCallbacks[ev.user->index] = std::make_shared<std::function<void()>>(ev.callback);
+    });
+}
+
+void PlayerActionService::walk(std::shared_ptr<User> user, WalkPacket& packet) {
+    //resourceService->interact(user, VTile(1164, 863), 0, 0, 0);
+    walk(user, { VTile(packet.x, packet.y) });
+}
+
+void PlayerActionService::walk(std::shared_ptr<User> user, std::vector<VTile> destination) {
+    auto& pp = pathPositions[user->index];
+    auto p1 = pp.position;
+    pp.path = Pathfinder::pathfind(p1, destination, PathFindOption::Onto, map);
 }
 
 void PlayerActionService::updatePlayerPositions() {
@@ -42,6 +55,11 @@ void PlayerActionService::updatePlayerPositions() {
             userPosition = pathPosition.path[0];
             pathPosition.path.erase(pathPosition.path.begin());
             PlayerMoveEvent(user, userPosition).emit();
+        }
+        auto& s = movementCompleteCallbacks[user->index];
+        if (s) {
+            (*s)();
+            s = nullptr;
         }
         positions[int(userPosition.x / 64)][int(userPosition.y / 64)].push_back({ user, userPosition });
     }
@@ -96,7 +114,4 @@ void PlayerActionService::sendGameTick() {
     msg["type"] = "tick";
     for (auto user : userService->getAllUsers())
         server->send(user, msg);
-}
-
-void PlayerActionService::stop() {
 }

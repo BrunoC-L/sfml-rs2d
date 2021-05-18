@@ -11,9 +11,9 @@ protected:
 	const int UP = 0, STUMP = 1;
 	const int CHOP = 0, EXAMINE = 1;
 public:
+	AbstractTree(JSON&& json, Tile* tile) : Resource(std::move(json), tile), state(0) {}
 	virtual VTile size() override;
+	virtual int getState() override;
 	virtual std::vector<std::string> getInteractions() override;
 	virtual void interact(const std::shared_ptr<User>& user, int objectState, int index) override;
-	virtual int getState() override;
-	AbstractTree(JSON&& json, const std::shared_ptr<Tile>& tile) : Resource(std::move(json), tile), state(0) {}
 };

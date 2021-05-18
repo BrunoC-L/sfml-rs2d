@@ -6,6 +6,12 @@ Chunk::Chunk(const VChunk& pos, ObjectFactory& objectFactory) : chunkpos(pos), o
 	loadObjects();
 }
 
+Chunk::~Chunk() {
+	for (int i = 0; i < TilesPerChunk; ++i)
+		for (int j = 0; j < TilesPerChunk; ++j)
+			delete tiles[i][j];
+}
+
 std::string Chunk::getFileName(const std::string& type) const {
     return "../../../resource/chunks/" + type + "/" +
         std::to_string((int)chunkpos.x) + "-" + std::to_string((int)chunkpos.y) + "-" + std::to_string((int)chunkpos.z) + ".txt";
@@ -41,7 +47,7 @@ void Chunk::loadWalls() {
 	}
     for (int tx = 0; tx < TilesPerChunk; ++tx)
         for (int ty = 0; ty < TilesPerChunk; ++ty)
-            tiles[tx][ty] = std::make_shared<Tile>(
+            tiles[tx][ty] = new Tile(
 				TilesPerChunk * chunkpos.x + tx,
 				TilesPerChunk * chunkpos.y + ty,
 				grid[tx * int(TilesPerChunk) + ty]
