@@ -7,6 +7,7 @@
 #include "minimap.h"
 #include "item.h"
 #include "service.h"
+#include "chunk.h"
 
 class RightBanner : public Service {
 private:

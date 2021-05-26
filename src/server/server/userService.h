@@ -18,5 +18,5 @@ public:
 	virtual void init() override;
 	virtual void stop() override;
 	virtual const std::shared_ptr<User>& getUserByIndex(int index) override;
-	virtual const std::vector<std::shared_ptr<User>> getAllUsers() override;
+	virtual const std::vector<std::shared_ptr<User>>& getAllUsers() override;
 };

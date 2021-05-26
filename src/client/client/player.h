@@ -5,6 +5,7 @@
 #include "service.h"
 #include "login.h"
 #include "keyPressedEvent.h"
+#include "chunk.h"
 
 struct LoginData {
 	std::string username;

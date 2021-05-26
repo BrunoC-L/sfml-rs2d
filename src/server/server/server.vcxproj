@@ -22,19 +22,18 @@
     <ClCompile Include="chunk.cpp" />
     <ClCompile Include="db.cpp" />
     <ClCompile Include="map.cpp" />
+    <ClCompile Include="object.cpp" />
     <ClCompile Include="objectFactory.cpp" />
     <ClCompile Include="odbc.cpp" />
     <ClCompile Include="packets.cpp" />
     <ClCompile Include="playerActionService.cpp" />
     <ClCompile Include="playerWalkAction.cpp" />
     <ClCompile Include="resource.cpp" />
-    <ClCompile Include="resourceService.cpp" />
+    <ClCompile Include="objectService.cpp" />
     <ClCompile Include="service.h" />
     <ClCompile Include="socketServer.cpp" />
     <ClCompile Include="taskScheduler.cpp" />
     <ClCompile Include="tile.cpp" />
-    <ClCompile Include="abstractTree.cpp" />
-    <ClCompile Include="Tree.cpp" />
     <ClCompile Include="user.cpp" />
     <ClCompile Include="userService.cpp" />
   </ItemGroup>
@@ -42,14 +41,16 @@
     <ClInclude Include="abstractDB.h" />
     <ClInclude Include="abstractMap.h" />
     <ClInclude Include="abstractPlayerActionService.h" />
-    <ClInclude Include="abstractResourceService.h" />
+    <ClInclude Include="abstractObjectService.h" />
     <ClInclude Include="abstractServices.h" />
     <ClInclude Include="abstractSocketServer.h" />
     <ClInclude Include="abstractTaskScheduler.h" />
     <ClInclude Include="abstractUserService.h" />
     <ClInclude Include="app.h" />
     <ClInclude Include="chunk.h" />
+    <ClInclude Include="char_array_crc32.h" />
     <ClInclude Include="costLogger.h" />
+    <ClInclude Include="crc_table.h" />
     <ClInclude Include="db.h" />
     <ClInclude Include="goToObjectRequestEvent.h" />
     <ClInclude Include="json-socket-server.h" />
@@ -59,26 +60,28 @@
     <ClInclude Include="map.h" />
     <ClInclude Include="movingPredicate.h" />
     <ClInclude Include="object.h" />
+    <ClInclude Include="objectCreatedEvent.h" />
     <ClInclude Include="objectFactory.h" />
     <ClInclude Include="odbc.h" />
     <ClInclude Include="packets.h" />
     <ClInclude Include="pathfinder.h" />
     <ClInclude Include="playerAction.h" />
     <ClInclude Include="playerActionService.h" />
+    <ClInclude Include="playerChunkChangeEvent.h" />
     <ClInclude Include="playerMoveEvent.h" />
+    <ClInclude Include="playerPositionChangeEvent.h" />
     <ClInclude Include="playerWalkAction.h" />
     <ClInclude Include="requestEvent.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="resourceService.h" />
+    <ClInclude Include="objectService.h" />
     <ClInclude Include="serverServiceProvider.h" />
     <ClInclude Include="services.h" />
     <ClInclude Include="socket-server.h" />
     <ClInclude Include="socketServer.h" />
+    <ClInclude Include="string_crc32.h" />
     <ClInclude Include="taskScheduler.h" />
     <ClInclude Include="tickEvent.h" />
     <ClInclude Include="tile.h" />
-    <ClInclude Include="abstractTree.h" />
-    <ClInclude Include="Tree.h" />
     <ClInclude Include="user.h" />
     <ClInclude Include="userService.h" />
   </ItemGroup>
@@ -86,6 +89,9 @@
     <ProjectReference Include="..\..\common\common\common.vcxproj">
       <Project>{1c7e8b8b-b052-4b7f-ac15-d687c038ba42}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

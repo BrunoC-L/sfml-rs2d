@@ -9,7 +9,14 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "args": [
+                "all",
+                "nomonster",
+                "nowall",
+                "noitem",
+                "nonpc"
+            ]
         }
     ]
 }

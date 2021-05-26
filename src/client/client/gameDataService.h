@@ -11,6 +11,7 @@ class GameDataService : public Service, public AbstractGameDataService {
 	std::unique_ptr<PlayerPositions> playerPositions;
 	EventObserver<LoginEvent> loginObserver;
 	EventObserver<LogoutEvent> logoutObserver;
+	std::vector<std::pair<VChunk, std::pair<int*, std::vector<std::pair<VTile, ObjectInteractions>>>>> objectsReceived;
 	void storePositions(const JSON& json);
 public:
 	GameDataService(ServiceProvider* provider, GameTickProgress* tracker);
@@ -18,4 +19,6 @@ public:
 
 	virtual const bool& userIsLoggedIn() override;
 	virtual std::vector<playerIdAndPosition> getPlayerPositions() override;
+	virtual std::pair<int*, std::vector<std::pair<VTile, ObjectInteractions>>> requestObjectsForChunk(VChunk chunk) override;
+	virtual void clearObjectsCache() override;
 };

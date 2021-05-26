@@ -1,5 +1,6 @@
 #include "rightClickInterface.h"
 #include "abstractRenderWindow.h"
+#include "tile.h"
 
 RightClickInterface::RightClickInterface(ServiceProvider* provider, AbstractRenderWindow* window) : Service(provider), window(window) {
     acquire();
@@ -16,6 +17,9 @@ RightClickInterface::RightClickInterface(ServiceProvider* provider, AbstractRend
             return;
         active = true;
         resetText();
+        for (const auto& i : ev.tile->getInteractions())
+            addInteractions(i);
+        tile = ev.tile;
     });
 }
 
@@ -55,11 +59,29 @@ void RightClickInterface::draw() {
 }
 
 void RightClickInterface::click(MouseEvent& ev) {
+    active = false;
+    if (!interactions.size())
+        return;
+    auto dy = getDeltaClick(ev).y - 16;
+    int interactionIndex = dy / 16;
+    if (dy < 0 || interactionIndex >= interactions.size())
+        return;
+    auto interaction = interactions[interactionIndex];
+    JSON data;
+    data["x"] = std::to_string(interaction.tile.x);
+    data["y"] = std::to_string(interaction.tile.y);
+    data["object"] = "{}";
+    data["object"]["state"] = std::to_string(interaction.objectState);
+    data["object"]["interactionIndex"] = std::to_string(interactionIndex);
+    data["object"]["objectName"] = interaction.objectName;
+    socket->send("interact", data);
 }
 
-void RightClickInterface::addInteractions(std::string objectName, std::vector<std::pair<std::string, std::function<bool()>>> interactions) {
-    for (auto i : interactions) {
-        addText(objectName + '\t' + i.first);
-        this->interactions.push_back(i);
+void RightClickInterface::addInteractions(ObjectInteractions interactions) {
+    std::cout << "adding interactions\n";
+    for (auto i : interactions.interactions) {
+        std::cout << "adding interaction" << i << std::endl;
+        addText(interactions.objectName + '\t' + i);
+        this->interactions.push_back(ObjectInteractions(interactions.tile, interactions.objectName, { i }, interactions.objectState));
     }
 }

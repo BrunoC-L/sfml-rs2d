@@ -4,22 +4,34 @@
 
 Map::Map(ServiceProvider* provider, int chunkRadius) : Service(provider), chunkRadius(chunkRadius) {
 	provider->set(MAP, this);
+	auto fileName = "../../../assets/textures/objects.png";
+	objectTileset.loadFromFile(fileName);
+	loginObserver.set([&](LoginEvent& ev) {
+		doUpdates();
+	});
+	logoutObserver.set([&](LogoutEvent& ev) {
+		shouldStop = true;
+	});
 };
 
 void Map::init() {
 	acquire();
-	const VTile& pos = camera->getPosition();
-	centerChunk = VChunk(int(pos.x / AbstractMeasures::TilesPerChunk), int(pos.y / AbstractMeasures::TilesPerChunk), int(pos.z));
-	doUpdates();
+	centerChunk = VChunk();
 }
 
 void Map::load() {
+	while (camera->getPosition() == VChunk());
+	centerChunk = VChunk(
+			int(camera->getPosition().x / AbstractMeasures::TilesPerChunk),
+			int(camera->getPosition().y / AbstractMeasures::TilesPerChunk),
+			int(camera->getPosition().z / AbstractMeasures::TilesPerChunk)
+		);
 	auto diameter = 2 * chunkRadius + 1;
 	loaded = std::vector<std::vector<std::shared_ptr<Chunk>>>(diameter, std::vector<std::shared_ptr<Chunk>>(diameter, nullptr));
 	std::lock_guard<std::mutex> lock(mutex);
 	for (int i = 0; i < diameter; ++i)
 		for (int j = 0; j < diameter; ++j)
-			loaded[i][j] = std::make_shared<Chunk>(centerChunk + VChunk(i, j) - VChunk(chunkRadius, chunkRadius));
+			loaded[i][j] = std::make_shared<Chunk>(centerChunk + VChunk(i, j) - VChunk(chunkRadius, chunkRadius), &objectTileset, gameData);
 }
 
 void Map::update() {
@@ -33,6 +45,7 @@ void Map::update() {
 }
 
 void Map::updateChunks(const VChunk& difference, const VChunk& tempCenter) {
+	std::cout << "update\n";
 	auto diameter = 2 * chunkRadius + 1;
 	std::vector<std::vector<std::shared_ptr<Chunk>>> newChunks(diameter, std::vector<std::shared_ptr<Chunk>>(diameter, nullptr));
 	for (int i = 0; i < diameter; ++i)
@@ -40,9 +53,10 @@ void Map::updateChunks(const VChunk& difference, const VChunk& tempCenter) {
 			if (i + difference.x >= 0 && i + difference.x < diameter && j + difference.y >= 0 && j + difference.y < diameter)
 				newChunks[i][j] = loaded[i + difference.x][j + difference.y];
 			else
-				newChunks[i][j] = std::make_shared<Chunk>(tempCenter + VChunk(i, j) - VChunk(chunkRadius, chunkRadius));
+				newChunks[i][j] = std::make_shared<Chunk>(tempCenter + VChunk(i, j) - VChunk(chunkRadius, chunkRadius), &objectTileset, gameData);
 	std::lock_guard<std::mutex> lock(mutex);
 	std::swap(loaded, newChunks);
+	gameData->clearObjectsCache();
 }
 
 void Map::doUpdates() {
@@ -54,9 +68,10 @@ void Map::doUpdates() {
 				print(ss);
 			}
 			load();
-			while (!shouldStop) {
+			isLoaded = true;
+			while (!shouldStop)
 				update();
-			}
+			isLoaded = false;
 			{
 				std::ostringstream ss;
 				ss << "Main Thread: " << std::this_thread::get_id() << " Exiting" << std::endl;
@@ -98,4 +113,8 @@ Chunk& Map::getLoaded(int i, int j) {
 
 std::mutex& Map::getChunksMutex() {
 	return mutex;
+}
+
+bool Map::ready() {
+	return isLoaded;
 }

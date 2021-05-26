@@ -61,7 +61,7 @@ public:
 	}
 	void emit(T& t) {
 		// if someone unsuscribes during his callback, the next subscriber won't get the notification (or if a callback unsubscribes another!)
-		for (int index = 0; index < subscribers.size(); ++index)
+		for (unsigned index = 0; index < subscribers.size(); ++index)
 			subscribers[index]->f(t);
 	}
 

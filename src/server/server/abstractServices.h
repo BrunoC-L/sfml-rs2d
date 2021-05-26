@@ -6,5 +6,5 @@
 #include "abstractPlayerActionService.h"
 #include "abstractSocketServer.h"
 #include "abstractTaskScheduler.h"
-#include "abstractResourceService.h"
+#include "abstractObjectService.h"
 #include "services.h"

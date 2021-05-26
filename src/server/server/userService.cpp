@@ -128,6 +128,6 @@ const std::shared_ptr<User>& UserService::getUserByIndex(int index) {
     return users[index];
 }
 
-const std::vector<std::shared_ptr<User>> UserService::getAllUsers() {
+const std::vector<std::shared_ptr<User>>& UserService::getAllUsers() {
     return iteratableUsers;
 }

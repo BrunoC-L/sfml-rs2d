@@ -14,8 +14,7 @@ I didn't see my server loading 29 * 25 * 64 * 64 files and readingthrough the JS
 
 editor takes data by tile and reorganise it into type then chunk file
 ex: assets/walls/*.txt files, same for monsters, etc. those are faster to read for the
-server when booting up, otherwise it would completely kill the program... Though I should
-probably use a thread pool to load chunks... TODO
+server when booting up, otherwise it would completely kill the program.
 '''
 
 def main(args):
@@ -34,7 +33,7 @@ def main(args):
     if verbose:
         print(f'Applying {len(changes)} changes')
 
-    keys = ['wall', 'monster', 'npc', 'object', 'item']
+    keys = [k for k in ['wall', 'monster', 'npc', 'object', 'item'] if 'no' + k not in args]
     if all:
         for key in keys:
             for cx in range(29):

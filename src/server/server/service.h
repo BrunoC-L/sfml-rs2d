@@ -12,7 +12,7 @@ protected:
 	AbstractPlayerActionService* playerActionService = nullptr;
 	AbstractSocketServer* server = nullptr;
 	AbstractTaskScheduler* scheduler = nullptr;
-	AbstractResourceService* resourceService = nullptr;
+	AbstractObjectService* resourceService = nullptr;
 public:
 	Service(ServiceProvider* provider) : provider(provider) { }
 
@@ -29,7 +29,7 @@ public:
 		_ASSERT(map);
 		scheduler = (AbstractTaskScheduler*)provider->get(SCHEDULER);
 		_ASSERT(map);
-		resourceService = (AbstractResourceService*)provider->get(RESOURCE);
+		resourceService = (AbstractObjectService*)provider->get(OBJECTS);
 		_ASSERT(map);
 	}
 };

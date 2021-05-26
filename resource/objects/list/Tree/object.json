@@ -1,7 +1,7 @@
 [
     {
         "name": "Tree",
-        "examine": "A tree",
+        "examine": "A commonly found tree.",
         "size": [2, 2],
         "interactions": [
             {

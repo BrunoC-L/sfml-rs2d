@@ -16,5 +16,5 @@ public:
 	const VTile position;
 	bool walkable;
 	void addObject(std::shared_ptr<Object> object);
-	const std::shared_ptr<Object>* getObject(int index);
+	const std::shared_ptr<Object>* getObject(std::string name);
 };

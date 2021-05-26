@@ -12,6 +12,7 @@
 class Chunk {
 private:
 	std::string getFileName(const std::string& type) const;
+	std::string getObjectFileNameWithPath(const std::string& objectFileName) const;
 	void loadWalls();
 	void loadObjects();
 	VChunk chunkpos;

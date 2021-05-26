@@ -170,6 +170,7 @@
     <ClInclude Include="GameTickProgress.h" />
     <ClInclude Include="groundItem.h" />
     <ClInclude Include="groundObject.h" />
+    <ClInclude Include="objectInteractions.h" />
     <ClInclude Include="interactionClickEvent.h" />
     <ClInclude Include="inventory.h" />
     <ClInclude Include="item.h" />

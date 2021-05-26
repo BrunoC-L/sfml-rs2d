@@ -1,9 +1,13 @@
 #include "chunk.h"
 #include "gameResourceObject.h"
 
-Chunk::Chunk(const VChunk& pos) : chunkpos(pos) {
+Chunk::Chunk(const VChunk& pos, sf::Texture* objectsTexture, AbstractGameDataService* gameData) : 
+    chunkpos(pos),
+    objectsTexture(objectsTexture),
+    gameData(gameData)
+{
     loadTexture();
-    //loadWalls();
+    loadObjects();
 }
 
 void Chunk::loadTexture() {
@@ -25,43 +29,26 @@ void Chunk::loadTexture() {
     }
 }
 
-//void Chunk::loadWalls() {
-//    std::string fileName = getWallsFileName();
-//    std::ifstream file(fileName);
-//    std::string line;
-//    if (!file.is_open()) {
-//        std::cout << "Failed to open " << fileName << std::endl;
-//        return;
-//    }
-//    for (int x = 0; x < AbstractMeasures::TilesPerChunk; ++x) {
-//        for (int y = 0; y < AbstractMeasures::TilesPerChunk; ++y) {
-//            std::getline(file, line);
-//            const int borders = stoi(line);
-//
-//            int absx = AbstractMeasures::TilesPerChunk * chunkpos.x + x;
-//            int absy = AbstractMeasures::TilesPerChunk * chunkpos.y + y;
-//            walls[int(AbstractMeasures::TilesPerChunk * x + y)] = borders;
-//            tiles[x][y] = std::make_shared<Tile>(absx, absy, std::min(15, borders));
-//        }
-//    }
-//    fileName = getWallsTexturesetFileName();
-//    wallmap.load(fileName, sf::Vector2u(AbstractMeasures::pixelsPerTile, AbstractMeasures::pixelsPerTile), walls, AbstractMeasures::TilesPerChunk);
-//}
+void Chunk::loadObjects() {
+    auto x = gameData->requestObjectsForChunk(chunkpos);
+    objects = x.first;
+    for (int z = 0; z < 64 * 64; ++z) {
+        if (objects[z])
+            std::cout << (objects[z]);
+    }
+    objectMap.load(objectsTexture, sf::Vector2u(AbstractMeasures::pixelsPerTile, AbstractMeasures::pixelsPerTile), objects, AbstractMeasures::TilesPerChunk);
+    for (const auto& y : x.second) {
+        std::cout << y.first.x << ", " << y.first.y << ": " << y.second.interactions.size() << std::endl;
+        tiles[int(y.first.x)][int(y.first.y)]->addInteractions(y.second);
+    }
+}
 
 std::string Chunk::getGroundTexturesetFileName() const {
     return "../../../assets/textures/chunks/" +
         std::to_string((int)chunkpos.x) + "-" + std::to_string((int)chunkpos.y) + "-" + std::to_string((int)chunkpos.z) + ".png";
 }
 
-//std::string Chunk::getWallsTexturesetFileName() const {
-//    return "../../../assets/textures/walls.png";
-//}
-//
-//std::string Chunk::getWallsFileName() const {
-//    return "../../../assets/walls/" +
-//        std::to_string((int)chunkpos.x) + "-" + std::to_string((int)chunkpos.y) + "-" + std::to_string((int)chunkpos.z) + ".txt";
-//}
-
 Chunk::~Chunk() {
     deleted = true;
+    delete[] objects;
 }

@@ -100,9 +100,6 @@
     <Filter Include="Source Files\services\socket\tcpSocket">
       <UniqueIdentifier>{e527902b-2ebf-43d7-9036-c516ddd47af4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\events\closeEvent">
-      <UniqueIdentifier>{ff679678-3d5f-459e-ba7e-a3c75b5f3c9b}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="app.h">
@@ -279,14 +276,17 @@
     <ClInclude Include="tcpSocket.h">
       <Filter>Source Files\services\socket\tcpSocket</Filter>
     </ClInclude>
-    <ClInclude Include="closeEvent.h">
-      <Filter>Source Files\events\closeEvent</Filter>
-    </ClInclude>
     <ClInclude Include="services.h">
       <Filter>Source Files\services\base</Filter>
     </ClInclude>
     <ClInclude Include="clientServiceProvider.h">
       <Filter>Source Files\services\base</Filter>
+    </ClInclude>
+    <ClInclude Include="closeEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="objectInteractions.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

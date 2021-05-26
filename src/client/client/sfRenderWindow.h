@@ -9,6 +9,7 @@
 #include "keyPressedEvent.h"
 #include "resizeEvent.h"
 #include "frameEvent.h"
+#include "chunk.h"
 
 class SFRenderWindow : public AbstractRenderWindow, public Service {
 	EventObserver<MouseLeftClickEvent> leftClickObserver;
@@ -25,23 +26,24 @@ class SFRenderWindow : public AbstractRenderWindow, public Service {
 	sf::Texture loginTexture = sf::Texture();
 	sf::Texture p_t;
 	sf::Sprite playerSprite;
+	void updateWindowSize();
 public:
 	SFRenderWindow(ServiceProvider* provider, sf::RenderWindow& window);
 	void init();
-	virtual void draw(sf::VertexArray v, sf::RenderStates s);
-	virtual void draw(const sf::Shape* s, sf::Transform t);
-	virtual void draw(const sf::Sprite s, sf::Transform t);
-	virtual void draw(const sf::Text text, sf::Transform t);
-	virtual void draw(VTile pos, double angle, sf::Sprite s);
-	virtual VPixel getSize();
-	virtual void setFramerateLimit(int limit);
-	virtual bool isOpen();
-	virtual void close();
-	virtual void clear();
-	virtual void display();
-	virtual void events();
-	virtual void draw();
-	virtual void update();
+	virtual void draw(const sf::VertexArray& v, const sf::RenderStates& s) override;
+	virtual void draw(const sf::Shape* s, const sf::Transform& t) override;
+	virtual void draw(const sf::Sprite& s, const sf::Transform& t) override;
+	virtual void draw(const sf::Text& text, const sf::Transform& t) override;
+	virtual void draw(VTile pos, double angle, const sf::Sprite& s) override;
+	virtual void draw(TileMap* tilemap, const sf::Transform& t) override;
+	virtual VPixel getSize() override;
+	virtual void setFramerateLimit(int limit) override;
+	virtual bool isOpen() override;
+	virtual void close() override;
+	virtual void clear() override;
+	virtual void display() override;
+	virtual void events() override;
+	virtual void draw() override;
+	virtual void update() override;
 	virtual void setActive(bool newState);
-	void updateWindowSize();
 };

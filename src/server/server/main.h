@@ -9,4 +9,4 @@
 #include "taskScheduler.h"
 #include "objectFactory.h"
 #include "serverServiceProvider.h"
-#include "resourceService.h"
+#include "objectService.h"

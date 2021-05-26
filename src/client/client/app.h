@@ -10,6 +10,7 @@
 #include "serviceProvider.h"
 #include "closeEvent.h"
 #include "print.h"
+#include "chunk.h"
 
 class App : public Service {
 public:

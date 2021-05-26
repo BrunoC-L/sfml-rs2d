@@ -6,15 +6,17 @@
 #include "serviceProvider.h"
 #include "rightClickTileEvent.h"
 #include "service.h"
+#include "abstractRenderWindow.h"
 
 class RightClickInterface : public Service {
 private:
     AbstractRenderWindow* window;
-    std::vector<std::pair<std::string, std::function<bool()>>> interactions;
+    std::vector<ObjectInteractions> interactions;
     sf::Text text;
     sf::Font font;
     sf::RectangleShape rect;
     EventObserver<RightClickTileEvent> rightClickTileObserver;
+    Tile* tile;
 public:
     RightClickInterface(ServiceProvider* provider, AbstractRenderWindow* window);
     void draw();
@@ -25,5 +27,5 @@ public:
     void click(MouseEvent& ev);
     void addText(std::string text);
     void resetText();
-    void addInteractions(std::string objectName, std::vector<std::pair<std::string, std::function<bool()>>> interactions);
+    void addInteractions(ObjectInteractions interactions);
 };

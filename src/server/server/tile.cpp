@@ -39,8 +39,9 @@ void Tile::addObject(std::shared_ptr<Object> object) {
 	objects.back()->setId(objects.size() - 1);
 }
 
-const std::shared_ptr<Object>* Tile::getObject(int index) {
-	if (objects.size() == 0 || !clamp(index, 0, objects.size() - 1))
-		return nullptr;
-	return &objects[index];
+const std::shared_ptr<Object>* Tile::getObject(std::string name) {
+	for (int index = 0; index < objects.size(); ++index)
+		if (objects[index]->getName() == name)
+			return &objects[index];
+	return nullptr;
 }

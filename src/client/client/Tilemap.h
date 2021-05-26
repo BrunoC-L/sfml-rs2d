@@ -76,11 +76,4 @@ public:
         states.transform = t;
         w.draw(m_vertices, states);
     }
-
-    void draw(sf::RenderWindow& w, const sf::Transform& t) const {
-        sf::RenderStates states = sf::RenderStates();
-        states.texture = m_tileset;
-        states.transform = t;
-        w.draw(m_vertices, states);
-    }
 };

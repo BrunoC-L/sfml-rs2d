@@ -73,19 +73,10 @@
     <Filter Include="Source Files\objects\resources">
       <UniqueIdentifier>{16f71ad9-4839-4e29-bcab-0a29e623d661}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\objects\resources\trees">
-      <UniqueIdentifier>{c4403ec3-dff2-496a-963a-9c8c1abcf8c9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\objects\resources\trees\base">
-      <UniqueIdentifier>{38811b42-703d-4b8e-b953-7e71dcb7e5be}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\objects\resources\trees\regular">
-      <UniqueIdentifier>{5549625f-de66-4449-b690-5d999b63a4ad}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\objects\objectFactory">
       <UniqueIdentifier>{5f343067-114b-4435-abd6-7d58bd7a36f7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\services\resource">
+    <Filter Include="Source Files\services\objects">
       <UniqueIdentifier>{037e5cd6-5c57-4f01-a177-b41927ca821b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -126,22 +117,19 @@
     <ClCompile Include="taskScheduler.cpp">
       <Filter>Source Files\services\taskScheduler</Filter>
     </ClCompile>
-    <ClCompile Include="abstractTree.cpp">
-      <Filter>Source Files\objects\resources\trees\base</Filter>
-    </ClCompile>
-    <ClCompile Include="Tree.cpp">
-      <Filter>Source Files\objects\resources\trees\regular</Filter>
-    </ClCompile>
     <ClCompile Include="packets.cpp">
       <Filter>Source Files\services\socketServer</Filter>
     </ClCompile>
     <ClCompile Include="objectFactory.cpp">
       <Filter>Source Files\objects\objectFactory</Filter>
     </ClCompile>
-    <ClCompile Include="resourceService.cpp">
-      <Filter>Source Files\services\resource</Filter>
-    </ClCompile>
     <ClCompile Include="resource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="objectService.cpp">
+      <Filter>Source Files\services\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -227,12 +215,6 @@
     <ClInclude Include="resource.h">
       <Filter>Source Files\objects\resources</Filter>
     </ClInclude>
-    <ClInclude Include="abstractTree.h">
-      <Filter>Source Files\objects\resources\trees\base</Filter>
-    </ClInclude>
-    <ClInclude Include="Tree.h">
-      <Filter>Source Files\objects\resources\trees\regular</Filter>
-    </ClInclude>
     <ClInclude Include="loginEvent.h">
       <Filter>Source Files\events</Filter>
     </ClInclude>
@@ -254,12 +236,6 @@
     <ClInclude Include="objectFactory.h">
       <Filter>Source Files\objects\objectFactory</Filter>
     </ClInclude>
-    <ClInclude Include="abstractResourceService.h">
-      <Filter>Source Files\services\resource</Filter>
-    </ClInclude>
-    <ClInclude Include="resourceService.h">
-      <Filter>Source Files\services\resource</Filter>
-    </ClInclude>
     <ClInclude Include="serverServiceProvider.h">
       <Filter>Source Files\services\base</Filter>
     </ClInclude>
@@ -272,5 +248,32 @@
     <ClInclude Include="goToObjectRequestEvent.h">
       <Filter>Source Files\events</Filter>
     </ClInclude>
+    <ClInclude Include="playerPositionChangeEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="playerChunkChangeEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="abstractObjectService.h">
+      <Filter>Source Files\services\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="objectService.h">
+      <Filter>Source Files\services\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="objectCreatedEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="crc_table.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="string_crc32.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="char_array_crc32.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

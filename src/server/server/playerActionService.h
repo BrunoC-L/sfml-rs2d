@@ -9,7 +9,6 @@
 #include "constants.h"
 #include "playerMoveEvent.h"
 #include "goToObjectRequestEvent.h"
-#include <set>
 
 struct PathPosition {
 	std::vector<VTile> path;
@@ -18,19 +17,23 @@ struct PathPosition {
 
 class PlayerActionService : public AbstractPlayerActionService, public Service {
 	PathPosition pathPositions[MAX_PLAYERS_ONLINE];
+	VTile oldPositions[MAX_PLAYERS_ONLINE];
 	std::shared_ptr<std::function<void()>> movementCompleteCallbacks[MAX_PLAYERS_ONLINE];
 	std::vector<std::pair<std::shared_ptr<User>, VTile>> positions[29][25];
-	EventObserver<LogoutEvent> logoutObserver;
+	std::vector<std::vector<std::vector<std::shared_ptr<User>>>> chunks;
 	EventObserver<LoginEvent> loginObserver;
+	EventObserver<LogoutEvent> logoutObserver;
 	EventObserver<TickEvent> tickObserver;
 	EventObserver<GoToObjectRequest> goToObjectObserver;
 	void updatePlayerPositions();
 	void sendPlayerPositions();
 	void sendGameTick();
 	void onGameTick();
+	void checkForTileAndChunkChanges();
 	void walk(std::shared_ptr<User> user, std::vector<VTile> destination);
+	void walk(std::shared_ptr<User> user, WalkPacket& packet);
 public:
 	PlayerActionService(ServiceProvider* provider);
 	virtual void init() override;
-	virtual void walk(std::shared_ptr<User> user, WalkPacket& packet) override;
+	virtual const std::vector<std::vector<std::vector<std::shared_ptr<User>>>>& getUsersByChunk() override;
 };

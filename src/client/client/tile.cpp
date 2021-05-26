@@ -14,3 +14,11 @@ void Tile::onRightClick(MouseRightClickEvent event) {
 void Tile::onMiddleClick(MouseMiddleClickEvent event) {
 	TeleportEvent(position).emit();
 }
+
+const std::vector<ObjectInteractions>& Tile::getInteractions() {
+	return interactions;
+}
+
+void Tile::addInteractions(ObjectInteractions oi) {
+	this->interactions.push_back(oi);
+}

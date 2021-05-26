@@ -1,9 +1,12 @@
 #pragma once
+#include <SFML/Graphics.hpp>
 #include "abstractService.h"
 #include "units.h"
 #include <vector>
-#include "chunk.h"
 #include <mutex>
+
+class Chunk;
+class Tile;
 
 class AbstractMap : public AbstractService {
 public:
@@ -17,4 +20,5 @@ public:
     virtual VChunk getCenterChunk()= 0;
     virtual Chunk& getLoaded(int i, int j) = 0;
     virtual std::mutex& getChunksMutex() = 0;
+    virtual bool ready() = 0;
 };

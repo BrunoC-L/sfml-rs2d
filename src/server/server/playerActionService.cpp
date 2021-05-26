@@ -2,9 +2,12 @@
 #include "pathfinder.h"
 #include "costLogger.h"
 #include "session.h"
+#include "playerPositionChangeEvent.h"
+#include "playerChunkChangeEvent.h"
 
 PlayerActionService::PlayerActionService(ServiceProvider* provider) : Service(provider) {
 	provider->set(PLAYERACTION, this);
+    chunks = std::vector<std::vector<std::vector<std::shared_ptr<User>>>>(29, std::vector<std::vector<std::shared_ptr<User>>>(25));
 }
 
 void PlayerActionService::init() {
@@ -24,12 +27,28 @@ void PlayerActionService::init() {
 
     loginObserver.set([&](LoginEvent& ev) {
         pathPositions[ev.user->index] = { {}, ev.position };
+        oldPositions[ev.user->index] = ev.position;
+        VChunk chunk(int(ev.position.x / TilesPerChunk), int(ev.position.y / TilesPerChunk));
+        chunks[chunk.x][chunk.y].push_back(ev.user);
+        PlayerPositionChangeEvent(ev.user, ev.position, ev.position, VTile()).emit();
+        PlayerChunkChangeEvent(ev.user, chunk, chunk, VChunk()).emit();
+    });
+
+    logoutObserver.set([&](LogoutEvent& ev) {
+        VTile position = pathPositions[ev.user->index].position;
+        VChunk vchunk(int(position.x / TilesPerChunk), int(position.y / TilesPerChunk));
+        auto& chunk = chunks[vchunk.x][vchunk.y];
+        chunk.erase(std::find(chunk.begin(), chunk.end(), ev.user));
     });
 
     goToObjectObserver.set([&](GoToObjectRequest& ev) {
         walk(ev.user, ev.object->getInteractibleTiles());
         movementCompleteCallbacks[ev.user->index] = std::make_shared<std::function<void()>>(ev.callback);
     });
+}
+
+const std::vector<std::vector<std::vector<std::shared_ptr<User>>>>& PlayerActionService::getUsersByChunk() {
+    return chunks;
 }
 
 void PlayerActionService::walk(std::shared_ptr<User> user, WalkPacket& packet) {
@@ -56,12 +75,14 @@ void PlayerActionService::updatePlayerPositions() {
             pathPosition.path.erase(pathPosition.path.begin());
             PlayerMoveEvent(user, userPosition).emit();
         }
-        auto& s = movementCompleteCallbacks[user->index];
-        if (s) {
-            (*s)();
-            s = nullptr;
+        else {
+            auto& s = movementCompleteCallbacks[user->index];
+            if (s) {
+                (*s)();
+                s = nullptr;
+            }
         }
-        positions[int(userPosition.x / 64)][int(userPosition.y / 64)].push_back({ user, userPosition });
+        positions[int(userPosition.x / TilesPerChunk)][int(userPosition.y / TilesPerChunk)].push_back({ user, userPosition });
     }
 }
 
@@ -69,6 +90,7 @@ void PlayerActionService::onGameTick() {
     updatePlayerPositions();
     sendPlayerPositions();
     sendGameTick();
+    checkForTileAndChunkChanges();
 }
 
 void PlayerActionService::sendPlayerPositions() {
@@ -88,8 +110,6 @@ void PlayerActionService::sendPlayerPositions() {
             }
         }
 
-    int radius = 2;
-
     for (int cx = 0; cx < 29; ++cx)
         for (int cy = 0; cy < 25; ++cy) {
             if (!positions[cx][cy].size())
@@ -97,8 +117,8 @@ void PlayerActionService::sendPlayerPositions() {
             JSON packet;
             packet["type"] = "positions";
             packet["data"] = "[]";
-            for (int dx = -radius; dx <= radius; ++dx)
-                for (int dy = -radius; dy <= radius; ++dy) {
+            for (int dx = -CHUNK_RADIUS; dx <= CHUNK_RADIUS; ++dx)
+                for (int dy = -CHUNK_RADIUS; dy <= CHUNK_RADIUS; ++dy) {
                     int dcx = cx + dx, dcy = cy + dy;
                     if (dcx > 0 && dcx < 29 && dcy > 0 && dcy < 25)
                         for (auto& json : chunks[dcx][dcy])
@@ -114,4 +134,25 @@ void PlayerActionService::sendGameTick() {
     msg["type"] = "tick";
     for (auto user : userService->getAllUsers())
         server->send(user, msg);
+}
+
+void PlayerActionService::checkForTileAndChunkChanges() {
+    for (int x = 0; x < 29; ++x)
+        for (int y = 0; y < 25; ++y) {
+            auto& chunk = chunks[x][y];
+            for (const auto& user : chunk) {
+                VTile position = pathPositions[user->index].position;
+                if (position != oldPositions[user->index]) {
+                    VChunk newChunk(int(position.x / TilesPerChunk), int(position.y / TilesPerChunk));
+                    VChunk oldChunk(x, y);
+                    PlayerPositionChangeEvent(user, position, oldPositions[user->index], position - oldPositions[user->index]).emit();
+                    oldPositions[user->index] = position;
+                    if (newChunk != oldChunk) {
+                        chunk.erase(std::find(chunk.begin(), chunk.end(), user));
+                        chunks[newChunk.x][newChunk.y].push_back(user);
+                        PlayerChunkChangeEvent(user, newChunk, oldChunk, newChunk - oldChunk).emit();
+                    }
+                }
+            }
+        }
 }

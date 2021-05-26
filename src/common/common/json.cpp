@@ -26,6 +26,7 @@ JSON::JSON(JSON&& other) {
 	std::swap(children, other.children);
 	std::swap(indices, other.indices);
 	std::swap(self, other.self);
+	std::swap(properties, other.properties);
 	type = other.type;
 	defined = other.defined;
 }
@@ -124,7 +125,7 @@ std::string JSON::arrayAsString(unsigned tabulation, int indent) const {
 	if (children.size()) {
 		if (newLines)
 			out << "\n";
-		for (int i = 0; i < tabulation * indent; ++i)
+		for (unsigned i = 0; i < tabulation * indent; ++i)
 			out << " ";
 	}
 	bool hasChildren = false;
@@ -134,7 +135,7 @@ std::string JSON::arrayAsString(unsigned tabulation, int indent) const {
 		if (hasChildren) {
 			if (newLines) {
 				out << ",\n";
-				for (int i = 0; i < tabulation * indent; ++i)
+				for (unsigned i = 0; i < tabulation * indent; ++i)
 					out << " ";
 			}
 			else
@@ -153,7 +154,7 @@ std::string JSON::arrayAsString(unsigned tabulation, int indent) const {
 	if (hasChildren) {
 		if (newLines)
 			out << "\n";
-		for (int i = 0; i < tabulation * (indent - 1); ++i)
+		for (unsigned i = 0; i < tabulation * (indent - 1); ++i)
 			out << " ";
 	}
 	out << "]";
@@ -167,7 +168,7 @@ std::string JSON::objectAsString(unsigned tabulation, int indent) const {
 	if (children.size()) {
 		if (newLines)
 			out << "\n";
-		for (int i = 0; i < tabulation * indent; ++i)
+		for (unsigned i = 0; i < tabulation * indent; ++i)
 			out << " ";
 	}
 	bool hasChildren = false;
@@ -179,7 +180,7 @@ std::string JSON::objectAsString(unsigned tabulation, int indent) const {
 		if (hasChildren) {
 			if (newLines) {
 				out << ",\n";
-				for (int i = 0; i < tabulation * indent; ++i)
+				for (unsigned i = 0; i < tabulation * indent; ++i)
 					out << " ";
 			}
 			else
@@ -198,7 +199,7 @@ std::string JSON::objectAsString(unsigned tabulation, int indent) const {
 	if (hasChildren) {
 		if (newLines)
 			out << "\n";
-		for (int i = 0; i < tabulation * (indent - 1); ++i)
+		for (unsigned i = 0; i < tabulation * (indent - 1); ++i)
 			out << " ";
 	}
 	out << "}";
@@ -362,7 +363,6 @@ void JSON::parseJSON() {
 		else if (self[index] == ',')
 			continue;
 		else {
-			std::cout << self;
 			throw JSONException("no stop character found after property: " + pn + " in " + self);
 		}
 	}

@@ -101,7 +101,7 @@ public:
                         std::this_thread::sleep_for(std::chrono::milliseconds(10));
                     if (!selector.wait(sf::milliseconds(10))) // does not wait when there are no sockets
                         continue;
-                    for (int i = 0; i < sockets.size(); ++i) {
+                    for (unsigned i = 0; i < sockets.size(); ++i) {
                         auto& socket = sockets[i];
                         if (!selector.isReady(*socket->socket))
                             continue;

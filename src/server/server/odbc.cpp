@@ -26,7 +26,7 @@ void db(
     std::string infoForLog = "";
     OnExit _([&]() {
         log(tid + " OnExit called, last query was: " + queryForLog + " info = " + infoForLog);
-        if (!initLock.try_lock());
+        if (!didQueryOnConnect)
             initLock.unlock();
     });
     SQLHENV     hEnv = NULL;
@@ -132,7 +132,7 @@ void db(
         infoForLog += std::to_string(11);
         log(tid + " executing "  + q);
         queryForLog = q;
-        for (int i = 0; i < q.length(); ++i)
+        for (unsigned i = 0; i < q.length(); ++i)
             wquery[i] = q[i];
         wquery[q.length()] = 0;
 

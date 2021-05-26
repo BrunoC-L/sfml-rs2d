@@ -2,6 +2,7 @@
 #include "units.h"
 #include "keyPressedEvent.h"
 #include "service.h"
+#include "chunk.h"
 
 class Measures : public AbstractMeasures, public Service {
 	EventObserver<LeftArrowKeyPressedEvent> leftObserver;

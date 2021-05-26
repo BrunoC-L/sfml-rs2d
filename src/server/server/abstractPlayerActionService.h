@@ -4,5 +4,5 @@
 
 class AbstractPlayerActionService : public AbstractService {
 public:
-	virtual void walk(std::shared_ptr<User> user, WalkPacket& packet) = 0;
+	virtual const std::vector<std::vector<std::vector<std::shared_ptr<User>>>>& getUsersByChunk() = 0;
 };

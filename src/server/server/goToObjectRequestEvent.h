@@ -15,5 +15,6 @@
 #define MEMBERS std::shared_ptr<User> user; Object* object; std::function<void()> callback;
 #define PARAMETERS std::shared_ptr<User> user, Object* object, std::function<void()> callback
 #define MEMBERS_SET MEMBER_SET(user) MEMBER_SET(object) MEMBER_SET(callback)
+#define MEMBERS_INITALIZER_LIST
 
-EVENT_CLASS(TYPE, PARENTS, MEMBERS, PARAMETERS, MEMBERS_SET)
+EVENT_CLASS(TYPE, PARENTS, MEMBERS, PARAMETERS, MEMBERS_SET, MEMBERS_INITALIZER_LIST)

@@ -8,9 +8,8 @@ Player::Player(ServiceProvider* provider): Service(provider) {
 
 void Player::init() {
     acquire();
-    VTile lumbridge(18 * AbstractMeasures::TilesPerChunk + 20, 13 * AbstractMeasures::TilesPerChunk + 37, 0);
-    position = lumbridge;
-    intPosition = lumbridge;
+    position = VTile();
+    intPosition = VTile();
     walkObserver.set([&](WalkClickEvent& ev) {
         walk(ev.pos);
     });
@@ -101,8 +100,8 @@ void Player::login() {
 void Player::login(std::string tempsalt, std::string permsalt) {
     JSON json;
     auto credentials = getCredentials(tempsalt, permsalt);
-    json["username"] = "'" + credentials.first + "'";
-    json["passwordHash"] = "'" + credentials.second; +"'";
+    json["username"] = credentials.first;
+    json["passwordHash"] = credentials.second;
     socket->send("login", json);
     loginData.password = "";
     loginData.username = "";
