@@ -17,6 +17,7 @@ class Map: public AbstractMap, public Service {
     EventObserver<LogoutEvent> logoutObserver;
     std::mutex mutex;
     sf::Texture objectTileset;
+    bool initializing = false;
     bool isLoaded = false;
 public:
     Map(ServiceProvider* provider, int chunkRadius);

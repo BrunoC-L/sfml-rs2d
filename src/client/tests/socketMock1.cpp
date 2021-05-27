@@ -22,8 +22,6 @@ void SocketMock1::disconnect() {
 
 }
 
-void SocketMock1::mockReceiveFromServer(JSON& json) {
-    JSON* dummy = new JSON();
-    std::swap(*dummy, json["data"]);
-    receive(json["type"].asString(), std::shared_ptr<const JSON>(dummy));
+void SocketMock1::mockReceiveFromServer(JSON json) {
+    receive(json["type"].asString(), std::make_shared<const JSON>(json["data"]));
 }

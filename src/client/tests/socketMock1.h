@@ -10,5 +10,5 @@ public:
 	virtual void init();
 	virtual void connect(std::string ip, unsigned port);
 	virtual void disconnect();
-	virtual void mockReceiveFromServer(JSON& json);
+	virtual void mockReceiveFromServer(JSON json);
 };

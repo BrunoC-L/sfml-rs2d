@@ -4,6 +4,7 @@
 #include "socketMock1.h"
 #include "frameEvent.h"
 #include "onExit.h"
+#include "mapMock1.h"
 
 TEST(app_builds, TestName) {
 	globalWindow->setActive(false);
@@ -68,7 +69,7 @@ TEST(player_position_updates_when_server_emits, TestName) {
 	AbstractChat& chat = Chat(&provider);
 	AbstractCamera& camera = Camera(&provider);
 	AbstractPlayer& player = Player(&provider);
-	AbstractMap& map = Map(&provider, 1);
+	AbstractMap& map = MapMock(&provider, 1);
 	AbstractInventory& inventory = Inventory(&provider);
 	GameTickProgress& tracker = ClockGameTickProgress();
 	AbstractGameDataService& gameData = GameDataService(&provider, &tracker);
@@ -136,6 +137,12 @@ TEST(player_position_updates_when_server_emits, TestName) {
 	bool eq = playerIntPos == close;
 	EXPECT_EQ(playerIntPos, close);
 
-	app.stop();
+	try {
+		app.stop();
+	}
+	catch (std::exception e) {
+		std::cout << e.what();
+		EXPECT_EQ(1, 0);
+	}
 	t.join();
 }

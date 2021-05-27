@@ -20,18 +20,22 @@ void Map::init() {
 }
 
 void Map::load() {
+	std::cout << "loading\n";
+	std::lock_guard<std::mutex> lock(mutex);
+	isLoaded = true;
 	while (camera->getPosition() == VChunk());
 	centerChunk = VChunk(
 			int(camera->getPosition().x / AbstractMeasures::TilesPerChunk),
 			int(camera->getPosition().y / AbstractMeasures::TilesPerChunk),
 			int(camera->getPosition().z / AbstractMeasures::TilesPerChunk)
 		);
+	std::cout << "camera: " << centerChunk.x << ", " << centerChunk.y << "\n";
 	auto diameter = 2 * chunkRadius + 1;
 	loaded = std::vector<std::vector<std::shared_ptr<Chunk>>>(diameter, std::vector<std::shared_ptr<Chunk>>(diameter, nullptr));
-	std::lock_guard<std::mutex> lock(mutex);
 	for (int i = 0; i < diameter; ++i)
 		for (int j = 0; j < diameter; ++j)
 			loaded[i][j] = std::make_shared<Chunk>(centerChunk + VChunk(i, j) - VChunk(chunkRadius, chunkRadius), &objectTileset, gameData);
+	std::cout << "Loaded\n";
 }
 
 void Map::update() {
@@ -60,6 +64,7 @@ void Map::updateChunks(const VChunk& difference, const VChunk& tempCenter) {
 }
 
 void Map::doUpdates() {
+	initializing = true;
 	updateThread = std::thread(
 		[&]() {
 			{
@@ -68,7 +73,7 @@ void Map::doUpdates() {
 				print(ss);
 			}
 			load();
-			isLoaded = true;
+			initializing = false;
 			while (!shouldStop)
 				update();
 			isLoaded = false;
@@ -94,9 +99,11 @@ std::shared_ptr<Tile> Map::getTileFromVTile(VTile tilePosition) {
 }
 
 void Map::stopUpdates() {
-	print("Stopping map\n");
+	while (initializing);
+	std::lock_guard<std::mutex> lock(mutex);
 	this->shouldStop = true;
-	updateThread.join();
+	if (updateThread.joinable() && this->isLoaded)
+		updateThread.join();
 }
 
 unsigned Map::getRadius() {
