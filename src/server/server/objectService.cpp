@@ -21,20 +21,20 @@ void ObjectService::init() {
 	server->on("interact", [&](std::shared_ptr<User> user, JSON& json) {
 		VTile tile(json["x"].asInt(), json["y"].asInt());
 		int objectState = json["object"]["state"].asInt();
-		int interactionIndex = json["object"]["interactionIndex"].asInt();
+		std::string interaction = json["object"]["interaction"].asString();
 		std::string objectName = json["object"]["objectName"].asString();
-		interact(user, tile, objectState, interactionIndex, objectName);
+		interact(user, tile, objectState, interaction, objectName);
 	}, true);
 }
 
-void ObjectService::interact(const std::shared_ptr<User>& user, VTile v, int objectState, int interactionIndex, std::string objectName) {
+void ObjectService::interact(const std::shared_ptr<User>& user, VTile v, int objectState, const std::string& interaction, std::string objectName) {
 	Tile* tile = map->getTile(v);
 	if (!tile)
 		return;
 	const std::shared_ptr<Object>* object = tile->getObject(objectName);
 	if (!object || !*object)
 		return;
-	(*object)->interact(user, objectState, interactionIndex);
+	(*object)->interact(user, objectState, interaction);
 }
 
 void ObjectService::updatePlayerChunk(PlayerChunkChangeEvent& ev) {

@@ -4,5 +4,5 @@
 
 class AbstractObjectService : public AbstractService {
 public:
-	virtual void interact(const std::shared_ptr<User>& user, VTile v, int objectState, int interactionIndex, std::string objectName) = 0;
+	virtual void interact(const std::shared_ptr<User>& user, VTile v, int objectState, const std::string& interaction, std::string objectName) = 0;
 };

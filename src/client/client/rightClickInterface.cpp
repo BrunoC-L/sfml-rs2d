@@ -72,7 +72,7 @@ void RightClickInterface::click(MouseEvent& ev) {
     data["y"] = std::to_string(interaction.tile.y);
     data["object"] = "{}";
     data["object"]["state"] = std::to_string(interaction.objectState);
-    data["object"]["interactionIndex"] = std::to_string(interactionIndex);
+    data["object"]["interaction"] = interaction.interactions[interactionIndex];
     data["object"]["objectName"] = interaction.objectName;
     socket->send("interact", data);
 }

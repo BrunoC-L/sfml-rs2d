@@ -26,7 +26,7 @@ public:
 	virtual int getState() = 0;
 	virtual const std::string& getName() = 0;
 	virtual const std::vector<std::string>& getInteractions() = 0;
-	virtual void interact(const std::shared_ptr<User>& user, int objectState, int index) = 0;
+	virtual void interact(const std::shared_ptr<User>& user, int objectState, const std::string& interaction) = 0;
 	virtual const std::vector<VTile>& getInteractibleTiles() = 0;
 	virtual JSON asJSON();
 };

@@ -19,5 +19,5 @@ class ObjectService : public AbstractObjectService, public Service {
 public:
 	ObjectService(ServiceProvider* provider);
 	virtual void init() override;
-	virtual void interact(const std::shared_ptr<User>& user, VTile v, int objectState, int interactionIndex, std::string objectName) override;
+	virtual void interact(const std::shared_ptr<User>& user, VTile v, int objectState, const std::string& interaction, std::string objectName) override;
 };

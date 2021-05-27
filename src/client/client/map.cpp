@@ -10,7 +10,7 @@ Map::Map(ServiceProvider* provider, int chunkRadius) : Service(provider), chunkR
 		doUpdates();
 	});
 	logoutObserver.set([&](LogoutEvent& ev) {
-		shouldStop = true;
+		stopUpdates();
 	});
 };
 
