@@ -1,1 +1,0 @@
-DRIVER=SQL Server;SERVER=localhost\SQLEXPRESS;Trusted_Connection=Yes;
