@@ -51,6 +51,10 @@ const std::vector<std::vector<std::vector<std::shared_ptr<User>>>>& PlayerAction
     return chunks;
 }
 
+VTile PlayerActionService::getPlayerPosition(const std::shared_ptr<User>& user) {
+    return pathPositions[user->index].position;
+}
+
 void PlayerActionService::walk(std::shared_ptr<User> user, WalkPacket& packet) {
     //resourceService->interact(user, VTile(1164, 863), 0, 0, 0);
     walk(user, { VTile(packet.x, packet.y) });

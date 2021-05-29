@@ -13,6 +13,7 @@ class GameDataService : public Service, public AbstractGameDataService {
 	EventObserver<LogoutEvent> logoutObserver;
 	std::vector<std::pair<VChunk, std::pair<int*, std::vector<std::pair<VTile, ObjectInteractions>>>>> objectsReceived;
 	void storePositions(const JSON& json);
+	std::vector<std::pair<VTile, std::pair<int, ObjectInteractions>>> parseObject(const JSON& object, VChunk chunk);
 public:
 	GameDataService(ServiceProvider* provider, GameTickProgress* tracker);
 	virtual void init();

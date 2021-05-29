@@ -78,9 +78,7 @@ void RightClickInterface::click(MouseEvent& ev) {
 }
 
 void RightClickInterface::addInteractions(ObjectInteractions interactions) {
-    std::cout << "adding interactions\n";
     for (auto i : interactions.interactions) {
-        std::cout << "adding interaction" << i << std::endl;
         addText(interactions.objectName + '\t' + i);
         this->interactions.push_back(ObjectInteractions(interactions.tile, interactions.objectName, { i }, interactions.objectState));
     }

@@ -7,6 +7,7 @@
 
 class Chunk;
 class Tile;
+class ObjectInteractions;
 
 class AbstractMap : public AbstractService {
 public:
@@ -21,4 +22,7 @@ public:
     virtual Chunk& getLoaded(int i, int j) = 0;
     virtual std::mutex& getChunksMutex() = 0;
     virtual bool ready() = 0;
+    virtual int* getObjectsPtrForChunk(VChunk chunk) = 0;
+    virtual void updateInteractions(VChunk vc, VTile tile, ObjectInteractions* interactions) = 0;
+    virtual Chunk& getChunk(VChunk chunk) = 0;
 };

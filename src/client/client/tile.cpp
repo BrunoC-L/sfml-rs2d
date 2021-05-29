@@ -20,5 +20,6 @@ const std::vector<ObjectInteractions>& Tile::getInteractions() {
 }
 
 void Tile::addInteractions(ObjectInteractions oi) {
-	this->interactions.push_back(oi);
+	this->interactions = {};
+	this->interactions.emplace_back(std::move(oi));
 }

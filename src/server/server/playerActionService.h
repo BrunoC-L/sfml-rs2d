@@ -21,10 +21,12 @@ class PlayerActionService : public AbstractPlayerActionService, public Service {
 	std::shared_ptr<std::function<void()>> movementCompleteCallbacks[MAX_PLAYERS_ONLINE];
 	std::vector<std::pair<std::shared_ptr<User>, VTile>> positions[29][25];
 	std::vector<std::vector<std::vector<std::shared_ptr<User>>>> chunks;
+
 	EventObserver<LoginEvent> loginObserver;
 	EventObserver<LogoutEvent> logoutObserver;
 	EventObserver<TickEvent> tickObserver;
 	EventObserver<GoToObjectRequest> goToObjectObserver;
+
 	void updatePlayerPositions();
 	void sendPlayerPositions();
 	void sendGameTick();
@@ -36,4 +38,5 @@ public:
 	PlayerActionService(ServiceProvider* provider);
 	virtual void init() override;
 	virtual const std::vector<std::vector<std::vector<std::shared_ptr<User>>>>& getUsersByChunk() override;
+	virtual VTile getPlayerPosition(const std::shared_ptr<User>& user) override;
 };

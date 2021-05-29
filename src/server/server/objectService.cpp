@@ -3,16 +3,25 @@
 ObjectService::ObjectService(ServiceProvider* provider) : Service(provider) {
 	provider->set(OBJECTS, this);
 	positionChangeObserver.set([&](PlayerChunkChangeEvent& ev) {
-		updatePlayerChunk(ev);
+		statePlayerChunk(ev);
 	});
 
 	tickObserver.set([&](TickEvent& ev) {
-		sendUpdates();
+		for (const auto& user : userService->getAllUsers())
+			updatePlayerChunk(user);
+		for (int x = 0; x < 29; ++x)
+			for (int y = 0; y < 25; ++y)
+				changes[x][y] = {};
 	});
 
 	objectCreatedObserver.set([&](ObjectCreatedEvent& ev) {
 		VTile position = ev.object->getTile()->position;
 		objects[int(position.x / TilesPerChunk)][int(position.y / TilesPerChunk)].push_back(ev.object);
+	});
+
+	objectChangedObserver.set([&](ObjectStateChangedEvent& ev) {
+		VTile position = ev.object->getTile()->position;
+		changes[int(position.x / TilesPerChunk)][int(position.y / TilesPerChunk)].push_back(ev.object);
 	});
 }
 
@@ -37,7 +46,20 @@ void ObjectService::interact(const std::shared_ptr<User>& user, VTile v, int obj
 	(*object)->interact(user, objectState, interaction);
 }
 
-void ObjectService::updatePlayerChunk(PlayerChunkChangeEvent& ev) {
+void ObjectService::updatePlayerChunk(const std::shared_ptr<User>& user) {
+	auto diameter = 2 * CHUNK_RADIUS + 1;
+	const auto pos = playerActionService->getPlayerPosition(user);
+	VChunk centerChunk(int(pos.x / TilesPerChunk), int(pos.y) / TilesPerChunk);
+
+	for (int dx = -CHUNK_RADIUS; dx <= CHUNK_RADIUS; ++dx)
+		for (int dy = -CHUNK_RADIUS; dy <= CHUNK_RADIUS; ++dy) {
+			int dcx = centerChunk.x + dx, dcy = centerChunk.y + dy;
+			if (dcx > 0 && dcx < 29 && dcy > 0 && dcy < 25)
+				sendUpdates(user, VChunk(dcx, dcy));
+		}
+}
+
+void ObjectService::statePlayerChunk(PlayerChunkChangeEvent& ev) {
 	auto diameter = 2 * CHUNK_RADIUS + 1;
 
 	for (int dx = -CHUNK_RADIUS; dx <= CHUNK_RADIUS; ++dx)
@@ -48,12 +70,17 @@ void ObjectService::updatePlayerChunk(PlayerChunkChangeEvent& ev) {
 		}
 }
 
-void ObjectService::sendUpdates() {
-	//JSON msg;
-	//msg["type"] = "objectUpdates";
-	//msg["data"] = "[]";
-	//for (const auto& user : userService->getAllUsers())
-	//	server->send(user, msg);
+void ObjectService::sendUpdates(const std::shared_ptr<User>& user, VChunk chunk) {
+	JSON msg;
+	msg["type"] = "objectUpdates";
+	msg["data"] = JSON();
+	msg["data"]["cx"] = std::to_string(chunk.x);
+	msg["data"]["cy"] = std::to_string(chunk.y);
+	msg["data"]["cz"] = std::to_string(chunk.z);
+	msg["data"]["objects"] = "[]";
+	for (Object* obj : changes[int(chunk.x)][int(chunk.y)])
+		msg["data"]["objects"].push(obj->asJSON());
+	server->send(user, msg);
 }
 
 void ObjectService::sendChunkState(const std::shared_ptr<User>& user, VChunk chunk) {

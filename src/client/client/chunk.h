@@ -25,4 +25,6 @@ public:
 	bool deleted = false;
 	sf::RectangleShape map;
 	TileMap objectMap;
+	int* getObjectsPtr();
+	void updateInteractions(VTile tile, ObjectInteractions* interactions);
 };

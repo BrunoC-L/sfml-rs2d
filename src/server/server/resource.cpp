@@ -3,8 +3,8 @@
 #include "movingPredicate.h"
 #include "goToObjectRequestEvent.h"
 
-Resource::Resource(JSON&& json, Tile* tile) : Object(std::move(json), tile), state(0) {
-	const auto& objects = this->json.getChildren();
+Resource::Resource(JSON&& json, Tile* tile) : Object(tile) {
+	const auto& objects = json.getChildren();
 	states.reserve(objects.size());
 	for (const auto& objectState : objects) {
 		ObjectState state;
@@ -20,9 +20,17 @@ Resource::Resource(JSON&& json, Tile* tile) : Object(std::move(json), tile), sta
 }
 
 void Resource::collect(const std::shared_ptr<User>& user) {
+	if (state != 0)
+		return;
 	GoToObjectRequest(user, this, [&]() {
+		setState(1);
 		std::cout << "Hello World!\n";
 	}).emit();
+}
+
+void Resource::examine(const std::shared_ptr<User>& user) {
+	auto& object = states[state];
+	std::cout << object.examine << std::endl;
 }
 
 bool Resource::requirementsMet(const std::shared_ptr<User>& user) {
@@ -47,7 +55,8 @@ const std::vector<VTile>& Resource::getInteractibleTiles() {
 }
 
 VTile Resource::size() {
-	return states[state].size;
+	auto& objectState = states[state];
+	return objectState.size;
 }
 
 const std::vector<std::string>& Resource::getInteractions() {
@@ -59,19 +68,13 @@ void Resource::interact(const std::shared_ptr<User>& user, int objectState, cons
 	auto& object = states[state];
 	if (state != objectState || !object.interactions.size())
 		return;
-	// This is bad the interactions need more data to perform this dispatch
-	// such as interaction type, animation, etc
 
-	if (state == 0 && interaction == object.interactions[0]) // Chop
+	if (interaction == object.interactions[COLLECT])
 		collect(user);
-	else
-		std::cout << object.examine << std::endl;
+	else if (interaction == "Examine")
+		examine(user);
 }
 
 const std::string& Resource::getName() {
 	return states[state].name;
-}
-
-int Resource::getState() {
-	return state;
 }

@@ -32,10 +32,11 @@ JSON::JSON(JSON&& other) {
 }
 
 void JSON::operator=(const JSON& other) {
-	type = other.type;
-	self = other.self;
-	indices = other.indices;
 	children = other.children;
+	indices = other.indices;
+	self = other.self;
+	properties = other.properties;
+	type = other.type;
 	defined = true;
 }
 

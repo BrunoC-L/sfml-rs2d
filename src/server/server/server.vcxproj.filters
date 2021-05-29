@@ -272,6 +272,9 @@
     <ClInclude Include="char_array_crc32.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="objectStateChangedEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

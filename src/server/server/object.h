@@ -12,21 +12,23 @@ class Tile;
 class Object {
 protected:
 	JSON json;
-	Tile* tile;
+	const Tile* tile;
 	unsigned id;
+	std::string currentString;
+	bool upToDate = false;
+	int state;
 public:
-	Object(JSON&& json, Tile* tile) : json(json), tile(tile), id(-1) {
-		ObjectCreatedEvent(this).emit();
-	}
-	unsigned getId() { return id; }
-	void setId(unsigned id) { this->id = id; }
+	Object(Tile* tile);
+	unsigned getId();
+	void setId(unsigned id);
+	int getState();
+	void setState(int state);
+	const Tile* getTile();
+	const JSON& asJSON();
 
-	virtual VTile size() = 0;
-	virtual Tile* getTile() { return tile; }
-	virtual int getState() = 0;
 	virtual const std::string& getName() = 0;
+	virtual VTile size() = 0;
 	virtual const std::vector<std::string>& getInteractions() = 0;
 	virtual void interact(const std::shared_ptr<User>& user, int objectState, const std::string& interaction) = 0;
 	virtual const std::vector<VTile>& getInteractibleTiles() = 0;
-	virtual JSON asJSON();
 };

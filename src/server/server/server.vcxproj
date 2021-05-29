@@ -62,6 +62,7 @@
     <ClInclude Include="object.h" />
     <ClInclude Include="objectCreatedEvent.h" />
     <ClInclude Include="objectFactory.h" />
+    <ClInclude Include="objectStateChangedEvent.h" />
     <ClInclude Include="odbc.h" />
     <ClInclude Include="packets.h" />
     <ClInclude Include="pathfinder.h" />

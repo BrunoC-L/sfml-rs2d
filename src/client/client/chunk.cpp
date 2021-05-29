@@ -32,10 +32,6 @@ void Chunk::loadTexture() {
 void Chunk::loadObjects() {
     auto x = gameData->requestObjectsForChunk(chunkpos);
     objects = x.first;
-    for (int z = 0; z < 64 * 64; ++z) {
-        if (objects[z])
-            std::cout << (objects[z]);
-    }
     objectMap.load(objectsTexture, sf::Vector2u(AbstractMeasures::pixelsPerTile, AbstractMeasures::pixelsPerTile), objects, AbstractMeasures::TilesPerChunk);
     for (const auto& y : x.second) {
         std::cout << y.first.x << ", " << y.first.y << ": " << y.second.interactions.size() << std::endl;
@@ -51,4 +47,12 @@ std::string Chunk::getGroundTexturesetFileName() const {
 Chunk::~Chunk() {
     deleted = true;
     delete[] objects;
+}
+
+int* Chunk::getObjectsPtr() {
+    return objects;
+}
+
+void Chunk::updateInteractions(VTile tile, ObjectInteractions* interactions) {
+    tiles[int(tile.x)][int(tile.y)]->addInteractions(*interactions);
 }

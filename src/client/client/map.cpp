@@ -6,9 +6,11 @@ Map::Map(ServiceProvider* provider, int chunkRadius) : Service(provider), chunkR
 	provider->set(MAP, this);
 	auto fileName = "../../../assets/textures/objects.png";
 	objectTileset.loadFromFile(fileName);
+
 	loginObserver.set([&](LoginEvent& ev) {
 		doUpdates();
 	});
+
 	logoutObserver.set([&](LogoutEvent& ev) {
 		stopUpdates();
 	});
@@ -20,7 +22,6 @@ void Map::init() {
 }
 
 void Map::load() {
-	std::cout << "loading\n";
 	std::lock_guard<std::mutex> lock(mutex);
 	isLoaded = true;
 	while (camera->getPosition() == VChunk());
@@ -29,13 +30,11 @@ void Map::load() {
 			int(camera->getPosition().y / AbstractMeasures::TilesPerChunk),
 			int(camera->getPosition().z / AbstractMeasures::TilesPerChunk)
 		);
-	std::cout << "camera: " << centerChunk.x << ", " << centerChunk.y << "\n";
 	auto diameter = 2 * chunkRadius + 1;
 	loaded = std::vector<std::vector<std::shared_ptr<Chunk>>>(diameter, std::vector<std::shared_ptr<Chunk>>(diameter, nullptr));
 	for (int i = 0; i < diameter; ++i)
 		for (int j = 0; j < diameter; ++j)
 			loaded[i][j] = std::make_shared<Chunk>(centerChunk + VChunk(i, j) - VChunk(chunkRadius, chunkRadius), &objectTileset, gameData);
-	std::cout << "Loaded\n";
 }
 
 void Map::update() {
@@ -49,7 +48,6 @@ void Map::update() {
 }
 
 void Map::updateChunks(const VChunk& difference, const VChunk& tempCenter) {
-	std::cout << "update\n";
 	auto diameter = 2 * chunkRadius + 1;
 	std::vector<std::vector<std::shared_ptr<Chunk>>> newChunks(diameter, std::vector<std::shared_ptr<Chunk>>(diameter, nullptr));
 	for (int i = 0; i < diameter; ++i)
@@ -124,4 +122,24 @@ std::mutex& Map::getChunksMutex() {
 
 bool Map::ready() {
 	return isLoaded;
+}
+
+int* Map::getObjectsPtrForChunk(VChunk chunk) {
+	return getChunk(chunk).getObjectsPtr();
+}
+
+void Map::updateInteractions(VChunk vc, VTile tile, ObjectInteractions* interactions) {
+	auto& chunk = getChunk(vc);
+	chunk.updateInteractions(tile, interactions);
+}
+
+Chunk& Map::getChunk(VChunk chunk) {
+	while (initializing);
+	std::lock_guard<std::mutex> lock(mutex);
+	VChunk delta = chunk - centerChunk;
+	int dx = int(delta.x);
+	int dy = int(delta.y);
+	int x = chunkRadius + dx;
+	int y = chunkRadius + dy;
+	return *loaded[x][y];
 }
