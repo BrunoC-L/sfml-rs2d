@@ -3,6 +3,7 @@
 Non commercial Runescape 2D version Made with C++/SFML
 Some assets are property of Jagex: <https://www.jagex.com/en-GB/>
 Dev vlogs on <https://www.youtube.com/user/thelatestartosrs/videos>
+todo list on Trello <https://trello.com/b/duAZFbKg/rs2d>
 
 To run the client and server locally:
 
@@ -20,17 +21,18 @@ To run the client and server locally:
 
 TODO Short term: (few months)
 
-- Re-add resources properly server side, they used to exist client side when prototyping!
+- Chat
+- Inventory
+- Bank
 - Skill experience
-- Add monsters
-- Add basic quests
-- Add banks
+- Monsters
+- Basic quests
 
 TODO Long term: (not this year)
 
 - Instances (inferno/fight caves/raids/quest areas)
 - Multiple Quests, monsters, NPCS, Shops
-- Interfaces: shop/bank/etc.
+- Shops
 - Skills content (No construction probably)
 - Clue scrolls
 
