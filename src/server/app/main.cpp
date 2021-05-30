@@ -1,7 +1,12 @@
 #include "main.h"
 #include "onExit.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 int main() {
+	srand(time(NULL));
+
 	ServerServiceProvider provider;
 	DB db(&provider, 5);
 	ObjectFactory objf;

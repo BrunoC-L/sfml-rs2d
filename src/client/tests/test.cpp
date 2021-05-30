@@ -128,7 +128,8 @@ TEST(player_position_updates_when_server_emits, TestName) {
 
 	int frames = 0;
 
-	EventObserver<FrameEvent> frameObserver([&](FrameEvent& ev) {
+	EventObserver<FrameEvent> frameObserver;
+	frameObserver.set([&](FrameEvent& ev) {
 		++frames;
 	});
 

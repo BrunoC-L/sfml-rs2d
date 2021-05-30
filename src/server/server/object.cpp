@@ -2,22 +2,26 @@
 #include "tile.h"
 #include "objectStateChangedEvent.h"
 
-const JSON& Object::asJSON() {
-	if (!upToDate) {
-		json = JSON();
-		json["name"] = getName();
-		json["state"] = std::to_string(getState());
-		json["x"] = std::to_string(tile->position.x);
-		json["y"] = std::to_string(tile->position.y);
-		json["interactions"] = "[]";
-		for (const auto& i : getInteractions())
-			json["interactions"].push(i);
-	}
-	return json;
+Object::Object(std::string fileName, Tile* tile) : fileName(fileName), tile(tile), id(-1), state(0) {
+	ObjectCreatedEvent(this).emit();
 }
 
-Object::Object(Tile* tile) : tile(tile), id(-1), state(0) {
-	ObjectCreatedEvent(this).emit();
+const JSON& Object::asJSON() {
+	if (!upToDate) {
+		repr = JSON();
+		repr["fileName"] = fileName;
+		repr["name"] = getName();
+		repr["state"] = std::to_string(getState());
+		repr["x"] = std::to_string(tile->position.x);
+		repr["y"] = std::to_string(tile->position.y);
+		repr["size"] = "[]";
+		repr["size"].push(std::to_string(int(size().x)));
+		repr["size"].push(std::to_string(int(size().y)));
+		repr["interactions"] = "[]";
+		for (const auto& i : getInteractions())
+			repr["interactions"].push(i);
+	}
+	return repr;
 }
 
 unsigned Object::getId() {

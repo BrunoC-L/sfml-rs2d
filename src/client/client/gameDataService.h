@@ -14,6 +14,7 @@ class GameDataService : public Service, public AbstractGameDataService {
 	std::vector<std::pair<VChunk, std::pair<int*, std::vector<std::pair<VTile, ObjectInteractions>>>>> objectsReceived;
 	void storePositions(const JSON& json);
 	std::vector<std::pair<VTile, std::pair<int, ObjectInteractions>>> parseObject(const JSON& object, VChunk chunk);
+	std::unordered_map<std::string, int> name2texture;
 public:
 	GameDataService(ServiceProvider* provider, GameTickProgress* tracker);
 	virtual void init();

@@ -9,6 +9,7 @@
 #include "constants.h"
 #include "playerMoveEvent.h"
 #include "goToObjectRequestEvent.h"
+#include "subscribeToInteractionInterruption.h"
 
 struct PathPosition {
 	std::vector<VTile> path;
@@ -18,7 +19,8 @@ struct PathPosition {
 class PlayerActionService : public AbstractPlayerActionService, public Service {
 	PathPosition pathPositions[MAX_PLAYERS_ONLINE];
 	VTile oldPositions[MAX_PLAYERS_ONLINE];
-	std::shared_ptr<std::function<void()>> movementCompleteCallbacks[MAX_PLAYERS_ONLINE];
+	std::function<void()> movementCompleteCallbacks[MAX_PLAYERS_ONLINE];
+	std::function<void()> interactionInterruptionCallbacks[MAX_PLAYERS_ONLINE];
 	std::vector<std::pair<std::shared_ptr<User>, VTile>> positions[29][25];
 	std::vector<std::vector<std::vector<std::shared_ptr<User>>>> chunks;
 
@@ -26,6 +28,7 @@ class PlayerActionService : public AbstractPlayerActionService, public Service {
 	EventObserver<LogoutEvent> logoutObserver;
 	EventObserver<TickEvent> tickObserver;
 	EventObserver<GoToObjectRequest> goToObjectObserver;
+	EventObserver<SubscribeToInteractionInterruptionEvent> interruptionSubscriptionObserver;
 
 	void updatePlayerPositions();
 	void sendPlayerPositions();

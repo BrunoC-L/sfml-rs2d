@@ -33,8 +33,6 @@ public:
     void stop() {
         running = false;
         std::cout << "Stopping app\n";
-        userService->stop();
-        scheduler->stop();
         server->stop();
         dbService->stop();
     }

@@ -1,51 +1,8 @@
-[
-    {
-        "name": "Rocks",
-        "examine": "A rocky outcrop.",
-        "size": [1, 1],
-        "interactions": [
-            {
-                "name": "Mine",
-                "position": "nextTo",
-                "requirements": {
-                    "skills": [
-                        {
-                            "mining": 1
-                        }
-                    ],
-                    "items": [
-                        {
-                            "pickaxe": 1
-                        }
-                    ],
-                    "quests": []
-                }
-            },
-            {
-                "name": "Prospect",
-                "position": "nextTo",
-                "requirements": {
-                    "skills": [],
-                    "items": [],
-                    "quests": []
-                }
-            }
-        ]
-    },
-    {
-        "name": "Rocks",
-        "examine": "A rocky outcrop.",
-        "size": [1, 1],
-        "interactions": [
-            {
-                "name": "Prospect",
-                "position": "nextTo",
-                "requirements": {
-                    "skills": [],
-                    "items": [],
-                    "quests": []
-                }
-            }
-        ]
-    }
-]
+{
+    "type": "rock",
+    "prospects": ["This rock contains copper.", "This rock contained copper."],
+    "size": 1,
+    "level requirement": 1,
+    "lives": 1,
+    "reward": "Copper ore"
+}

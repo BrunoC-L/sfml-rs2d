@@ -28,6 +28,8 @@ void PlayerActionService::init() {
     loginObserver.set([&](LoginEvent& ev) {
         pathPositions[ev.user->index] = { {}, ev.position };
         oldPositions[ev.user->index] = ev.position;
+        movementCompleteCallbacks[ev.user->index] = nullptr;
+        interactionInterruptionCallbacks[ev.user->index] = nullptr;
         VChunk chunk(int(ev.position.x / TilesPerChunk), int(ev.position.y / TilesPerChunk));
         chunks[chunk.x][chunk.y].push_back(ev.user);
         PlayerPositionChangeEvent(ev.user, ev.position, ev.position, VTile()).emit();
@@ -43,7 +45,11 @@ void PlayerActionService::init() {
 
     goToObjectObserver.set([&](GoToObjectRequest& ev) {
         walk(ev.user, ev.object->getInteractibleTiles());
-        movementCompleteCallbacks[ev.user->index] = std::make_shared<std::function<void()>>(ev.callback);
+        movementCompleteCallbacks[ev.user->index] = ev.callback;
+    });
+
+    interruptionSubscriptionObserver.set([&](SubscribeToInteractionInterruptionEvent& ev) {
+        interactionInterruptionCallbacks[ev.user->index] = ev.callback;
     });
 }
 
@@ -56,11 +62,16 @@ VTile PlayerActionService::getPlayerPosition(const std::shared_ptr<User>& user) 
 }
 
 void PlayerActionService::walk(std::shared_ptr<User> user, WalkPacket& packet) {
-    //resourceService->interact(user, VTile(1164, 863), 0, 0, 0);
     walk(user, { VTile(packet.x, packet.y) });
 }
 
 void PlayerActionService::walk(std::shared_ptr<User> user, std::vector<VTile> destination) {
+    auto& s = interactionInterruptionCallbacks[user->index];
+    if (s) {
+        s();
+        s = nullptr;
+    }
+    movementCompleteCallbacks[user->index] = nullptr;
     auto& pp = pathPositions[user->index];
     auto p1 = pp.position;
     pp.path = Pathfinder::pathfind(p1, destination, PathFindOption::Onto, map);
@@ -82,7 +93,7 @@ void PlayerActionService::updatePlayerPositions() {
         else {
             auto& s = movementCompleteCallbacks[user->index];
             if (s) {
-                (*s)();
+                s();
                 s = nullptr;
             }
         }

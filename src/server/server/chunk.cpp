@@ -39,9 +39,10 @@ void Chunk::loadWalls() {
 			std::fill_n(grid, int(TilesPerChunk) * int(TilesPerChunk), mode);
 		}
 		else {
-			int tx = stoi(content[0]);
-			int ty = stoi(content[1]);
-			grid[tx * int(TilesPerChunk) + ty] = stoi(content[2]);
+			auto x_y = split(content[0], "-");
+			int tx = stoi(x_y[0]);
+			int ty = stoi(x_y[1]);
+			grid[tx * int(TilesPerChunk) + ty] = stoi(content[1]);
 		}
 	}
 	while (std::getline(file, line)) {

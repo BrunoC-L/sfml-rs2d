@@ -5,7 +5,6 @@
 #include "splitstring.h"
 #include <unordered_map>
 #include <fstream>
-#include "GameObject.h"
 #include "abstractServices.h"
 
 class Chunk {

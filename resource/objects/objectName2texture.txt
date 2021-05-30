@@ -1,5 +1,5 @@
-Copper rock-0: 0-0: 1
-Copper rock-1: 0-0: 2
+Copper Rock-0: 0-0: 1
+Copper Rock-1: 0-0: 2
 Tree-0: 0-0: 3
 Tree-0: 0-1: 4
 Tree-0: 1-0: 5

@@ -3,6 +3,9 @@
 #include <filesystem>
 #include <fstream>
 #include <sstream>
+#include <string>
+#include <iostream>
+#include <filesystem>
 
 SearchEngine::SearchEngine(std::shared_ptr<sf::RenderWindow> window, sf::Font& font, bool& drawn, VPixel& stretch) :
 	window(window),
@@ -72,19 +75,16 @@ void SearchEngine::updateResults() {
 	if (currentSearch.length() == 0)
 		return;
 	std::pair<editor::FileEditor::ObjectType, std::string> typesAndFiles[1] = {
-		{editor::FileEditor::ObjectType::OBJECT, "objectNames"}
+		{editor::FileEditor::ObjectType::OBJECT, "objects"}
 	};
-	for (const auto& typeAndFile : typesAndFiles) {
-		std::string fileName = "../../../assets/data/" + typeAndFile.second + ".txt";
-		std::ifstream file(fileName);
-		std::string line;
-		if (!file.is_open())
-			throw std::exception(("Failed to open " + fileName).c_str());
-		while (std::getline(file, line)) {
-			std::string copy = line;
+	for (const auto& typeAndFolder : typesAndFiles) {
+		std::string path = "../../../resource/" + typeAndFolder.second + "/list";
+		for (const auto& entry : std::filesystem::directory_iterator(path)) {
+			std::string name = entry.path().filename().string();
+			std::string copy = name;
 			std::transform(copy.begin(), copy.end(), copy.begin(), [](unsigned char c) { return std::tolower(c); });
 			if (copy.find(currentSearch) != std::string::npos)
-				results.push_back({ typeAndFile.first, line });
+				results.push_back({ typeAndFolder.first, name });
 		}
 	}
 	std::stringstream ss;

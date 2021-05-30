@@ -69,6 +69,15 @@
     <ClInclude Include="clamp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\server\server\string_crc32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\server\server\char_array_crc32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\server\server\crc_table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="common.cpp">

@@ -28,12 +28,15 @@
     <ClCompile Include="packets.cpp" />
     <ClCompile Include="playerActionService.cpp" />
     <ClCompile Include="playerWalkAction.cpp" />
+    <ClCompile Include="random.cpp" />
     <ClCompile Include="resource.cpp" />
     <ClCompile Include="objectService.cpp" />
+    <ClCompile Include="rock.cpp" />
     <ClCompile Include="service.h" />
     <ClCompile Include="socketServer.cpp" />
     <ClCompile Include="taskScheduler.cpp" />
     <ClCompile Include="tile.cpp" />
+    <ClCompile Include="tree.cpp" />
     <ClCompile Include="user.cpp" />
     <ClCompile Include="userService.cpp" />
   </ItemGroup>
@@ -48,11 +51,10 @@
     <ClInclude Include="abstractUserService.h" />
     <ClInclude Include="app.h" />
     <ClInclude Include="chunk.h" />
-    <ClInclude Include="char_array_crc32.h" />
     <ClInclude Include="costLogger.h" />
-    <ClInclude Include="crc_table.h" />
     <ClInclude Include="db.h" />
     <ClInclude Include="goToObjectRequestEvent.h" />
+    <ClInclude Include="rock.h" />
     <ClInclude Include="json-socket-server.h" />
     <ClInclude Include="loginEvent.h" />
     <ClInclude Include="logoutEvent.h" />
@@ -72,17 +74,20 @@
     <ClInclude Include="playerMoveEvent.h" />
     <ClInclude Include="playerPositionChangeEvent.h" />
     <ClInclude Include="playerWalkAction.h" />
+    <ClInclude Include="random.h" />
     <ClInclude Include="requestEvent.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="objectService.h" />
+    <ClInclude Include="scheduleTaskEvent.h" />
     <ClInclude Include="serverServiceProvider.h" />
     <ClInclude Include="services.h" />
     <ClInclude Include="socket-server.h" />
     <ClInclude Include="socketServer.h" />
-    <ClInclude Include="string_crc32.h" />
+    <ClInclude Include="subscribeToInteractionInterruption.h" />
     <ClInclude Include="taskScheduler.h" />
     <ClInclude Include="tickEvent.h" />
     <ClInclude Include="tile.h" />
+    <ClInclude Include="tree.h" />
     <ClInclude Include="user.h" />
     <ClInclude Include="userService.h" />
   </ItemGroup>

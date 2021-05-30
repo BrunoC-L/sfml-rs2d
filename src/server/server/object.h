@@ -11,20 +11,23 @@ class Tile;
 
 class Object {
 protected:
-	JSON json;
+	std::string fileName;
+	JSON repr;
 	const Tile* tile;
 	unsigned id;
 	std::string currentString;
 	bool upToDate = false;
 	int state;
 public:
-	Object(Tile* tile);
+	Object(std::string fileName, Tile* tile);
 	unsigned getId();
 	void setId(unsigned id);
 	int getState();
-	void setState(int state);
+	virtual void setState(int state);
 	const Tile* getTile();
 	const JSON& asJSON();
+
+	virtual void build() = 0;
 
 	virtual const std::string& getName() = 0;
 	virtual VTile size() = 0;

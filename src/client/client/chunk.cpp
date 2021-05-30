@@ -1,5 +1,4 @@
 #include "chunk.h"
-#include "gameResourceObject.h"
 
 Chunk::Chunk(const VChunk& pos, sf::Texture* objectsTexture, AbstractGameDataService* gameData) : 
     chunkpos(pos),
@@ -33,10 +32,8 @@ void Chunk::loadObjects() {
     auto x = gameData->requestObjectsForChunk(chunkpos);
     objects = x.first;
     objectMap.load(objectsTexture, sf::Vector2u(AbstractMeasures::pixelsPerTile, AbstractMeasures::pixelsPerTile), objects, AbstractMeasures::TilesPerChunk);
-    for (const auto& y : x.second) {
-        std::cout << y.first.x << ", " << y.first.y << ": " << y.second.interactions.size() << std::endl;
+    for (const auto& y : x.second)
         tiles[int(y.first.x)][int(y.first.y)]->addInteractions(y.second);
-    }
 }
 
 std::string Chunk::getGroundTexturesetFileName() const {

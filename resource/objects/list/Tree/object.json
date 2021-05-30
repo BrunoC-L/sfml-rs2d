@@ -1,32 +1,9 @@
-[
-    {
-        "name": "Tree",
-        "examine": "A commonly found tree.",
-        "size": [2, 2],
-        "interactions": [
-            {
-                "name": "Chop",
-                "position": "nextTo",
-                "requirements": {
-                    "skills": [
-                        {
-                            "woodcutting": 1
-                        }
-                    ],
-                    "items": [
-                        {
-                            "axe": 1
-                        }
-                    ],
-                    "quests": []
-                }
-            }
-        ]
-    },
-    {
-        "name": "Tree stump",
-        "examine": "A tree stump, the tree will grow back soon",
-        "size": [2, 2],
-        "interactions": []
-    }
-]
+{
+    "type": "tree",
+    "size": 2,
+    "names": ["Tree", "Tree stump"],
+    "examines": [ "A commonly found tree.", "A tree stump, the tree will grow back soon"],
+    "level requirement": 1,
+    "lives": 1,
+    "reward": "Logs"
+}

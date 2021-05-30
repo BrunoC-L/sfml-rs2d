@@ -56,14 +56,14 @@ void UserService::init() {
                     availableIndices.erase(availableIndices.end() - 1);
                     user->activate(index, packet.username);
                     iteratableUsers.push_back(user);
-                    auto ev = LoginEvent(user, VTile(posx, posy));
-                    ev.emit();
                     JSON data;
                     data["id"] = std::to_string(index);
                     data["position"] = JSON();
                     data["position"]["x"] = std::to_string(posx);
                     data["position"]["y"] = std::to_string(posy);
                     server->send(user, "login", data);
+                    auto ev = LoginEvent(user, VTile(posx, posy));
+                    ev.emit();
                 });
             }
         );
@@ -119,9 +119,6 @@ void UserService::logout(const std::shared_ptr<User>& user) {
     users[user->index].reset();
     iteratableUsers.erase(std::find(iteratableUsers.begin(), iteratableUsers.end(), user));
     availableIndices.push_back(user->index);
-}
-
-void UserService::stop() {
 }
 
 const std::shared_ptr<User>& UserService::getUserByIndex(int index) {

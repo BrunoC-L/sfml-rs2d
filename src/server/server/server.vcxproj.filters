@@ -123,13 +123,22 @@
     <ClCompile Include="objectFactory.cpp">
       <Filter>Source Files\objects\objectFactory</Filter>
     </ClCompile>
-    <ClCompile Include="resource.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="objectService.cpp">
       <Filter>Source Files\services\objects</Filter>
     </ClCompile>
     <ClCompile Include="object.cpp">
+      <Filter>Source Files\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="resource.cpp">
+      <Filter>Source Files\objects\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="tree.cpp">
+      <Filter>Source Files\objects\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="rock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="random.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -263,17 +272,23 @@
     <ClInclude Include="objectCreatedEvent.h">
       <Filter>Source Files\events</Filter>
     </ClInclude>
-    <ClInclude Include="crc_table.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="string_crc32.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="char_array_crc32.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="objectStateChangedEvent.h">
       <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="random.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scheduleTaskEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="subscribeToInteractionInterruption.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="tree.h">
+      <Filter>Source Files\objects\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="rock.h">
+      <Filter>Source Files\objects\resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

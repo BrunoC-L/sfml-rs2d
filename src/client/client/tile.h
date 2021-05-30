@@ -2,8 +2,6 @@
 #include <vector>
 #include <functional>
 #include "NPC.h"
-#include "groundItem.h"
-#include "GameObject.h"
 #include "units.h"
 #include "abstractPlayer.h"
 #include "mouseEvent.h"

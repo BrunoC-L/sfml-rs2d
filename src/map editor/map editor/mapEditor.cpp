@@ -281,9 +281,6 @@ void MapEditor::load(std::pair<std::string, bool> key) {
 			name2count[content[0]] += 1;
 			name2texture[content[0] + content[1]] = stoi(content[2]);
 		}
-		for (auto it = name2texture.begin(); it != name2texture.end(); ++it) {
-			std::cout << it->first << " " << it->second << std::endl;
-		}
 	}
 	for (int x = 0; x < 29; ++x) {
 		for (int y = 0; y < 25; ++y) {
@@ -321,10 +318,10 @@ void MapEditor::load(std::pair<std::string, bool> key) {
 					std::vector<std::string> content = split(line, ":");
 					auto x_y = split(content[0], "-");
 					const int tx = stoi(x_y[0]), ty = stoi(x_y[1]);
-					JSON json(content[1][0] == ' ' ? content[1].substr(1) : content[1]);
-					if (json.children.size() == 0)
+					JSON json(content[1]);
+					if (json.getChildren().size() == 0)
 						continue;
-					auto name = json.children[0].asString() + "-0";
+					auto name = json.getChildren()[0].asString() + "-0";
 					int count = name2count[name];
 					int s = count == 9 ? 3 : count == 4 ? 2 : 1;
 					for (int i = 0; i < count; ++i) {

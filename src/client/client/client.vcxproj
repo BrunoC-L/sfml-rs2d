@@ -165,11 +165,7 @@
     <ClInclude Include="disconnectedState.h" />
     <ClInclude Include="frameEvent.h" />
     <ClInclude Include="gameDataService.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="gameResourceObject.h" />
     <ClInclude Include="GameTickProgress.h" />
-    <ClInclude Include="groundItem.h" />
-    <ClInclude Include="groundObject.h" />
     <ClInclude Include="objectInteractions.h" />
     <ClInclude Include="interactionClickEvent.h" />
     <ClInclude Include="inventory.h" />
@@ -214,10 +210,7 @@
     <ClCompile Include="connectedState.cpp" />
     <ClCompile Include="disconnectedState.cpp" />
     <ClCompile Include="gameDataService.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="gameResourceObject.cpp" />
     <ClCompile Include="GameTickProgress.cpp" />
-    <ClCompile Include="groundObject.cpp" />
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="map.cpp" />

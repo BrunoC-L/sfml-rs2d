@@ -4,6 +4,14 @@
 
 GameDataService::GameDataService(ServiceProvider* provider, GameTickProgress* tracker) : Service(provider), tracker(tracker) {
     provider->set(GAMEDATA, this);
+	std::ifstream name2textureIndex("../../../resource/objects/objectName2texture.txt");
+	if (!name2textureIndex.is_open())
+		throw std::exception("Failed to open ../../../resource/objects/objectName2texture.txt");
+	std::string nameOfTexture;
+	while (std::getline(name2textureIndex, nameOfTexture)) {
+		auto content = split(nameOfTexture, ":");
+		name2texture[content[0] + content[1]] = stoi(content[2]);
+	}
 }
 
 void GameDataService::init() {
@@ -101,11 +109,15 @@ std::vector<std::pair<VTile, std::pair<int, ObjectInteractions>>> GameDataServic
 	std::vector<std::string> interactions;
 	for (const auto& i : object.get("interactions").getChildren())
 		interactions.push_back(i.asString());
+	interactions.push_back("Examine");
 	ObjectInteractions oi(VTile(AbstractMeasures::TilesPerChunk * chunk.x + x, AbstractMeasures::TilesPerChunk * chunk.y + y), object.get("name").asString(), interactions, object.get("state").asInt());
-	int c = 7;
-	if (object.get("name").asString() == "Tree")
-		c = 3;
-	for (int dx = 0; dx < 2; ++dx) for (int dy = 0; dy < 2; ++dy)
-		res.push_back({ VTile(x + dx, y + dy), { c + 2 * dx + dy, oi} });
+	int sizeX = object.get("size").getChildren()[0].asInt();
+	int sizeY = object.get("size").getChildren()[1].asInt();
+	std::string fileName = object.get("fileName").asString();
+	std::string nameInFile = fileName + "-" + object.get("state").asString() + " 0-0";
+	int c = name2texture[nameInFile];
+	for (int dx = 0; dx < sizeX; ++dx)
+		for (int dy = 0; dy < sizeY; ++dy)
+			res.push_back({ VTile(x + dx, y + dy), { c + sizeY * dx + dy, oi} });
 	return res;
 }

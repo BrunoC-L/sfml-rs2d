@@ -20,49 +20,53 @@ public:
 template <class T>
 class EventObserver {
 	void subscribe() {
-		if (observer != nullptr)
-			T::getEmitter().subscribe(observer);
+		T::getEmitter().subscribe(observer);
+		_isSet = true;
 	}
 	void unsubscribe() {
-		if (observer != nullptr)
-			T::getEmitter().unsubscribe(observer);
+		T::getEmitter().unsubscribe(observer);
+		_isSet = false;
+		observer.reset();
 	}
+	bool _isSet = false;
 	std::shared_ptr<_EventObserver<T>> observer;
 public:
-	EventObserver(std::function<void(T&)> f) {
-		observer = std::make_shared<_EventObserver<T>>(f);
-		subscribe();
-	}
-	EventObserver() {
-
-	}
 	~EventObserver() {
-		unsubscribe();
+		if (observer)
+			unsubscribe();
 	}
 	void set(std::function<void(T&)> f) {
-		unsubscribe();
 		observer = std::make_shared<_EventObserver<T>>(f);
 		subscribe();
+	}
+	void unset() {
+		unsubscribe();
+	}
+	bool isSet() {
+		return _isSet;
 	}
 };
 
 template <typename T>
 class EventEmitter {
 private:
-	std::vector<std::shared_ptr<_EventObserver<T>>> subscribers;
+	std::vector<std::shared_ptr<_EventObserver<T>>>   subscribers;
+	std::vector<std::shared_ptr<_EventObserver<T>>> unsubscribers;
 public:
 	void subscribe(std::shared_ptr<_EventObserver<T>> obv) {
 		subscribers.push_back(obv);
 	}
 	void unsubscribe(std::shared_ptr<_EventObserver<T>> obv) {
-		for (int index = subscribers.size() - 1; index >= 0; --index)
-			if (obv == subscribers[index])
-				subscribers.erase(subscribers.begin() + index);
+		unsubscribers.push_back(obv);
 	}
 	void emit(T& t) {
 		// if someone unsuscribes during his callback, the next subscriber won't get the notification (or if a callback unsubscribes another!)
-		for (unsigned index = 0; index < subscribers.size(); ++index)
-			subscribers[index]->f(t);
+		for (const auto& obv : subscribers)
+			if (std::find(unsubscribers.begin(), unsubscribers.end(), obv) == unsubscribers.end())
+				obv->f(t);
+		for (const auto& obv : unsubscribers)
+			subscribers.erase(std::find(subscribers.begin(), subscribers.end(), obv));
+		unsubscribers = {};
 	}
 
 	void clear() {

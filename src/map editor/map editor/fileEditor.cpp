@@ -14,7 +14,7 @@ namespace editor {
 		if (str.length()) {
 			JSON content(str);
 			for (int i = 0; i < SIZE; ++i) {
-				for (const auto& child : content[StrObjectTypes[i]].children)
+				for (const auto& child : content[StrObjectTypes[i]].getChildren())
 					values[i].push_back(child.asString());
 			}
 		}
@@ -34,7 +34,7 @@ namespace editor {
 			for (const auto& v : values[i])
 				content[StrObjectTypes[i]].push(JSON('"' + v + '"'));
 		}
-		auto str = content.objectAsString();
+		auto str = content.asString();
 
 		std::ofstream writer(fileName, std::ios::out);
 		auto u = writer.is_open();
@@ -66,13 +66,13 @@ namespace editor {
 	}
 
 	std::string FileEditor::getEditorTileFileName() const {
-		return "../../../assets/editor/data/chunks/" +
+		return "../../../resource/editor/data/chunks/" +
 			std::to_string(int(chunk.x)) + "-" + std::to_string(int(chunk.y)) + "-" + std::to_string(int(chunk.z)) + "/" +
 			std::to_string(int(pos.x)) + "-" + std::to_string(int(pos.y)) + ".json";
 	}
 
 	std::string FileEditor::getChangesFileName(bool done) const {
-		return "../../../assets/editor/changes" + std::string(done ? " done/" : "/") +
+		return "../../../resource/editor/changes" + std::string(done ? " done/" : "/") +
 			std::to_string(int(chunk.x)) + " " + std::to_string(int(chunk.y)) + " " + std::to_string(int(pos.z)) + " " +
 			std::to_string(int(pos.x)) + " " + std::to_string(int(pos.y));
 	}

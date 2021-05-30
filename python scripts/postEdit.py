@@ -25,7 +25,6 @@ def main(args):
     changesDir = '../resource/editor/changes'
     changes = listdir(changesDir)
 
-
     if not all:
         changesDone = listdir(changesDir + ' done')
         changes = [c for c in changes if c not in changesDone]

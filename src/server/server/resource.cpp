@@ -1,9 +1,8 @@
 #include "resource.h"
-#include "tile.h"
-#include "movingPredicate.h"
-#include "goToObjectRequestEvent.h"
 
-Resource::Resource(JSON&& json, Tile* tile) : Object(tile) {
+Resource::Resource(std::string&& fileName, JSON&& json, Tile* tile) : Object(fileName, tile), json(json) { }
+
+void Resource::build() {
 	const auto& objects = json.getChildren();
 	states.reserve(objects.size());
 	for (const auto& objectState : objects) {
@@ -12,9 +11,8 @@ Resource::Resource(JSON&& json, Tile* tile) : Object(tile) {
 		state.name = objectState.get("name").asString();
 		state.examine = objectState.get("examine").asString();
 		state.size = VTile(objectState.get("size").getChildren()[0].asInt(), objectState.get("size").getChildren()[1].asInt());
-		for (const auto& i : objectState.get("interactions").getChildren()) {
+		for (const auto& i : objectState.get("interactions").getChildren())
 			state.interactions.push_back(i.get("name").asString());
-		}
 		states.push_back(state);
 	}
 }
@@ -22,9 +20,15 @@ Resource::Resource(JSON&& json, Tile* tile) : Object(tile) {
 void Resource::collect(const std::shared_ptr<User>& user) {
 	if (state != 0)
 		return;
-	GoToObjectRequest(user, this, [&]() {
-		setState(1);
-		std::cout << "Hello World!\n";
+	GoToObjectRequest(user, this, [user, this]() {
+		interactors.push_back({ 0, user });
+		if (!tickObserver.isSet())
+			tickObserver.set([&](TickEvent& ev) { tick(); });
+	}).emit();
+	SubscribeToInteractionInterruptionEvent(user, [&]() {
+		auto it = std::find(interactors.begin(), interactors.end(), std::pair<int, std::shared_ptr<User>>(0, user));
+		if (it != interactors.end())
+			interactors.erase(it);
 	}).emit();
 }
 
@@ -64,17 +68,18 @@ const std::vector<std::string>& Resource::getInteractions() {
 	return objectState.interactions;
 }
 
-void Resource::interact(const std::shared_ptr<User>& user, int objectState, const std::string& interaction) {
-	auto& object = states[state];
-	if (state != objectState || !object.interactions.size())
-		return;
-
-	if (interaction == object.interactions[COLLECT])
-		collect(user);
-	else if (interaction == "Examine")
-		examine(user);
-}
-
 const std::string& Resource::getName() {
 	return states[state].name;
+}
+
+void Resource::setState(int state) {
+	interactors = {};
+	Object::setState(state);
+}
+
+void Resource::tick() {
+	if (!interactors.size())
+		tickObserver.unset();
+	for (auto& i : interactors)
+		tick(i.first, i.second);
 }
