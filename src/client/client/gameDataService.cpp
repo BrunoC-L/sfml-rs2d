@@ -6,7 +6,7 @@ GameDataService::GameDataService(ServiceProvider* provider, GameTickProgress* tr
     provider->set(GAMEDATA, this);
 	std::ifstream name2textureIndex("../../../resource/objects/objectName2texture.txt");
 	if (!name2textureIndex.is_open())
-		throw std::exception("Failed to open ../../../resource/objects/objectName2texture.txt");
+		return;
 	std::string nameOfTexture;
 	while (std::getline(name2textureIndex, nameOfTexture)) {
 		auto content = split(nameOfTexture, ":");
