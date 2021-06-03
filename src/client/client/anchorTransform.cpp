@@ -9,7 +9,11 @@ void AnchorTransform::update() {
 	t.scale(1 / measures->stretch.x, 1 / measures->stretch.y);
 	t.translate(anchor.x, anchor.y);
 	auto sizeChange = AbstractMeasures::startingScreenSize() * (measures->stretch - VPixel(1, 1));
-	t.translate(sizeChange.x, sizeChange.y);
+	auto effectiveSizeChange = VPixel(
+		sizeChange.x * anchor.x / AbstractMeasures::startingScreenSize().x,
+		sizeChange.y * anchor.y / AbstractMeasures::startingScreenSize().y
+	);
+	t.translate(effectiveSizeChange.x, effectiveSizeChange.y);
 	transform = t;
 }
 
