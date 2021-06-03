@@ -3,7 +3,7 @@
 #include <string>
 #include "color.h"
 
-enum ChatMessageType { PlayerMessage };
+enum class ChatMessageType { PlayerMessage, GameMessage };
 
 class ChatMessage {
 public:

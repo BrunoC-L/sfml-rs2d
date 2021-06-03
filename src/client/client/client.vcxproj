@@ -153,6 +153,8 @@
     <ClInclude Include="abstractRenderWindow.h" />
     <ClInclude Include="abstractServices.h" />
     <ClInclude Include="abstractSocket.h" />
+    <ClInclude Include="anchoredOffsetTransform.h" />
+    <ClInclude Include="anchorTransform.h" />
     <ClInclude Include="app.h" />
     <ClInclude Include="bottomBanner.h" />
     <ClInclude Include="camera.h" />
@@ -203,6 +205,8 @@
     <ClInclude Include="walkClickEvent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="anchoredOffsetTransform.cpp" />
+    <ClCompile Include="anchorTransform.cpp" />
     <ClCompile Include="bottomBanner.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="chat.cpp" />

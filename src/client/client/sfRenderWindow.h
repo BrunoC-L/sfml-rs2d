@@ -10,6 +10,7 @@
 #include "resizeEvent.h"
 #include "frameEvent.h"
 #include "chunk.h"
+#include "anchoredOffsetTransform.h"
 
 class SFRenderWindow : public AbstractRenderWindow, public Service {
 	EventObserver<MouseLeftClickEvent> leftClickObserver;
@@ -26,7 +27,22 @@ class SFRenderWindow : public AbstractRenderWindow, public Service {
 	sf::Texture loginTexture = sf::Texture();
 	sf::Texture p_t;
 	sf::Sprite playerSprite;
+	sf::Font loginfont;
 	void updateWindowSize();
+
+
+	sf::RectangleShape red;
+	AnchoredOffsetTransform redt;
+	sf::RectangleShape blue;
+	AnchoredOffsetTransform bluet;
+	sf::RectangleShape green;
+	AnchoredOffsetTransform greent;
+	sf::RectangleShape yellow;
+	AnchoredOffsetTransform yellowt;
+
+
+
+
 public:
 	SFRenderWindow(ServiceProvider* provider, sf::RenderWindow& window);
 	void init();

@@ -12,7 +12,8 @@ void RightBanner::draw() {
     sf::Transform transform;
     transform.scale(sf::Vector2f(1 / measures->stretch.x, 1 / measures->stretch.y));
     transform.translate(sf::Vector2f(measures->getRightBannerStartingX(), 0));
-    transform.translate(window->getSize().x - AbstractMeasures::startingScreenSize().x, 0);
+    auto sizeChange = window->getSize().x - AbstractMeasures::startingScreenSize().x;
+    transform.translate(sizeChange, 0);
     window->draw(&banner, transform);
     minimap.draw();
 }

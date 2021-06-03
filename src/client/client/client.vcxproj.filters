@@ -97,6 +97,12 @@
     <Filter Include="Source Files\services\socket\tcpSocket">
       <UniqueIdentifier>{e527902b-2ebf-43d7-9036-c516ddd47af4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\UI\GUIElements">
+      <UniqueIdentifier>{888a0899-15be-4f1e-8938-ffde1f4c6223}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\GUIElements\AnchorTransforms">
+      <UniqueIdentifier>{5e8f33c2-d393-4039-aaa8-9374720990e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="app.h">
@@ -273,6 +279,12 @@
     <ClInclude Include="objectInteractions.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="anchorTransform.h">
+      <Filter>Source Files\UI\GUIElements\AnchorTransforms</Filter>
+    </ClInclude>
+    <ClInclude Include="anchoredOffsetTransform.h">
+      <Filter>Source Files\UI\GUIElements\AnchorTransforms</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="chunk.cpp">
@@ -337,6 +349,12 @@
     </ClCompile>
     <ClCompile Include="tcpSocket.cpp">
       <Filter>Source Files\services\socket\tcpSocket</Filter>
+    </ClCompile>
+    <ClCompile Include="anchorTransform.cpp">
+      <Filter>Source Files\UI\GUIElements\AnchorTransforms</Filter>
+    </ClCompile>
+    <ClCompile Include="anchoredOffsetTransform.cpp">
+      <Filter>Source Files\UI\GUIElements\AnchorTransforms</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

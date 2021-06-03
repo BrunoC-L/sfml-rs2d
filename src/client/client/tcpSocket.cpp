@@ -42,9 +42,8 @@ bool TCPSocket::connect() {
                 char data[1024] = { 0 };
                 std::size_t received;
                 sf::Socket::Status status = socket->receive(data, 1024, received);
-                if (status != sf::Socket::Status::Done) {
+                if (status != sf::Socket::Status::Done)
                     disconnect();
-                }
                 else {
                     buffer += std::string(data).substr(0, received);
                     int index = 0;
@@ -81,7 +80,7 @@ void TCPSocket::sendNoCheck(const std::string& str) {
 
 void TCPSocket::stop() {
     disconnect();
-    if (listener)
+    if (listener && listener->joinable())
         listener->join();
 }
 

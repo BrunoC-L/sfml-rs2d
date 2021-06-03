@@ -13,5 +13,6 @@ public:
     bool mouseIsInRect(MouseEvent& ev);
 private:
     AbstractRenderWindow* window;
+    AbstractChat* chat;
     sf::RectangleShape banner;
 };

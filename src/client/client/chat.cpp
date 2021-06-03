@@ -1,13 +1,15 @@
 #include "chat.h"
 
-void Chat::addMessage(ChatMessage m) {
-	messages.push_back(m);
+Chat::Chat(ServiceProvider* provider) : Service(provider) {
+	provider->set(CHAT, this);
+	messages.push_back(ChatMessage({ {"Hello World!", Color::BLUE } }, ChatMessageType::PlayerMessage));
+	messages.push_back(ChatMessage({ {"This is PERFECT", Color::YELLOW } }, ChatMessageType::GameMessage));
 }
 
-std::vector<ChatMessage> Chat::getFilteredMessagesList(int filter) {
-	std::vector<ChatMessage> filteredList = {};
-	for (const auto& m : messages)
-		if (m.type & filter)
-			filteredList.push_back(m);
-	return filteredList;
+void Chat::init() {
+	acquire();
+}
+
+const std::vector<ChatMessage>& Chat::getMessages() {
+	return messages;
 }

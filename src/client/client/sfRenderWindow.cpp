@@ -1,29 +1,18 @@
 #include "sfRenderWindow.h"
 #include "closeEvent.h"
 #include "tileMap.h"
+#include "anchorTransform.h"
 
 SFRenderWindow::SFRenderWindow(
 	ServiceProvider* provider,
 	sf::RenderWindow& window
 ) : Service(provider),
 	converter(provider),
-	window(window) { }
-
-void SFRenderWindow::init() {
-	acquire();
-	setFramerateLimit(60);
-	updateWindowSize();
-
-	rightBanner = std::make_shared<RightBanner>(provider, this);
-	bottomBanner = std::make_shared<BottomBanner>(provider, this);
-	rightClickInterface = std::make_shared<RightClickInterface>(provider, this);
-
-	p_t.loadFromFile("../../../assets/player.png");
-	playerSprite = sf::Sprite(p_t);
-
-	loginPage = sf::RectangleShape(sf::Vector2f(measures->windowSize.x, measures->windowSize.y));
-	loginTexture.loadFromFile("../../../assets/login.png");
-	loginPage.setTexture(&loginTexture);
+	window(window),
+	redt(BottomRightAnchorTransform, VPixel(-200, -200)),
+	bluet(BottomLeftAnchorTransform, VPixel(200, -200)),
+	greent(TopRightAnchorTransform, VPixel(-200, 200)),
+	yellowt(TopLeftAnchorTransform, VPixel(200, 200)) {
 
 	leftClickObserver.set([&](MouseLeftClickEvent& ev) {
 		if (gameData->userIsLoggedIn()) {
@@ -111,6 +100,39 @@ void SFRenderWindow::init() {
 	resizeObserver.set([&](ResizeEvent& ev) {
 		updateWindowSize();
 	});
+}
+
+void SFRenderWindow::init() {
+	acquire();
+	setFramerateLimit(60);
+	updateWindowSize();
+
+	BottomRightAnchorTransform.setMeasures(measures);
+	BottomLeftAnchorTransform.setMeasures(measures);
+	TopRightAnchorTransform.setMeasures(measures);
+	TopLeftAnchorTransform.setMeasures(measures);
+
+	rightBanner = std::make_shared<RightBanner>(provider, this);
+	bottomBanner = std::make_shared<BottomBanner>(provider, this);
+	rightClickInterface = std::make_shared<RightClickInterface>(provider, this);
+
+	red.setSize(sf::Vector2f(100, 100));
+	red.setFillColor(sf::Color::Red);
+	blue.setSize(sf::Vector2f(100, 100));
+	blue.setFillColor(sf::Color::Blue);
+	green.setSize(sf::Vector2f(100, 100));
+	green.setFillColor(sf::Color::Green);
+	yellow.setSize(sf::Vector2f(100, 100));
+	yellow.setFillColor(sf::Color::Yellow);
+
+	p_t.loadFromFile("../../../assets/player.png");
+	playerSprite = sf::Sprite(p_t);
+
+	loginPage = sf::RectangleShape(sf::Vector2f(measures->windowSize.x, measures->windowSize.y));
+	loginTexture.loadFromFile("../../../assets/login.png");
+	loginPage.setTexture(&loginTexture);
+
+	loginfont.loadFromFile("../../../assets/runescape_uf.ttf");
 }
 
 void SFRenderWindow::draw(const sf::VertexArray& v, const sf::RenderStates& s) {
@@ -292,14 +314,16 @@ void SFRenderWindow::draw() {
 		bottomBanner->draw();
 		rightBanner->draw();
 		rightClickInterface->draw();
+		window.draw(red, redt.getTransform());
+		window.draw(blue, bluet.getTransform());
+		window.draw(green, greent.getTransform());
+		window.draw(yellow, yellowt.getTransform());
 	}
 	else {
 		window.draw(loginPage);
 
-		sf::Font font;
-		font.loadFromFile("../../../assets/runescape_uf.ttf");
 		auto credentials = player->getUserNamePw();
-		sf::Text username(credentials.first + "\n" + credentials.second, font);
+		sf::Text username(credentials.first + "\n" + credentials.second, loginfont);
 		const auto scale = measures->stretch;
 		sf::Transform transform;
 		transform.translate(500, 400);

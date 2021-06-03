@@ -6,6 +6,7 @@ a file like that because the relationship between objects
 and textures is not 1 to 1, the textures are in a tilemap, and
 some objects are larger than 1 tile, for example trees are 2x2
 tiles so they will use up 4 textures, but a tree is a single object.
+Also multi-state objects can use mutiple textures per tile
 '''
 
 def objecter(args):

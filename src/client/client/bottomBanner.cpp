@@ -4,6 +4,7 @@ BottomBanner::BottomBanner(ServiceProvider* provider, AbstractRenderWindow* wind
     acquire();
     banner = sf::RectangleShape(sf::Vector2f(window->getSize().x, measures->bottomBannerHeight));
     banner.setPosition(0, measures->getBottomBannerStartingY());
+    this->chat = (AbstractChat*)provider->get(SERVICES::CHAT);
 }
 
 void BottomBanner::draw() const {
