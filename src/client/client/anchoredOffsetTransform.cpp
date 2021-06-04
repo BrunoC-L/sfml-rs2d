@@ -4,8 +4,12 @@ AnchoredOffsetTransform::AnchoredOffsetTransform(const AnchorTransform& anchorTr
 
 }
 
-sf::Transform&& AnchoredOffsetTransform::getTransform() {
+sf::Transform AnchoredOffsetTransform::getTransform() const {
 	sf::Transform t(anchorTransform.getTransform());
 	t.translate(offset.x, offset.y);
 	return std::move(t);
+}
+
+VPixel AnchoredOffsetTransform::getPosition() const {
+	return anchorTransform.getPosition() + offset;
 }

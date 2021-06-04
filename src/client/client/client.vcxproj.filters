@@ -103,6 +103,12 @@
     <Filter Include="Source Files\UI\GUIElements\AnchorTransforms">
       <UniqueIdentifier>{5e8f33c2-d393-4039-aaa8-9374720990e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\UI\GUIElements\Button">
+      <UniqueIdentifier>{9ec5fecc-28bd-462b-b454-3b4b6fd4adff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\GUIElements\Components">
+      <UniqueIdentifier>{c8051aa9-b1d5-4241-b706-6a967b9a2a5f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="app.h">
@@ -285,6 +291,18 @@
     <ClInclude Include="anchoredOffsetTransform.h">
       <Filter>Source Files\UI\GUIElements\AnchorTransforms</Filter>
     </ClInclude>
+    <ClInclude Include="clickableComponent.h">
+      <Filter>Source Files\UI\GUIElements\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="component.h">
+      <Filter>Source Files\UI\GUIElements\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="hoverableComponent.h">
+      <Filter>Source Files\UI\GUIElements\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="button.h">
+      <Filter>Source Files\UI\GUIElements\Button</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="chunk.cpp">
@@ -355,6 +373,18 @@
     </ClCompile>
     <ClCompile Include="anchoredOffsetTransform.cpp">
       <Filter>Source Files\UI\GUIElements\AnchorTransforms</Filter>
+    </ClCompile>
+    <ClCompile Include="clickableComponent.cpp">
+      <Filter>Source Files\UI\GUIElements\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="hoverableComponent.cpp">
+      <Filter>Source Files\UI\GUIElements\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="button.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="component.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -11,6 +11,7 @@
 #include "frameEvent.h"
 #include "chunk.h"
 #include "anchoredOffsetTransform.h"
+#include "button.h"
 
 class SFRenderWindow : public AbstractRenderWindow, public Service {
 	EventObserver<MouseLeftClickEvent> leftClickObserver;
@@ -37,9 +38,10 @@ class SFRenderWindow : public AbstractRenderWindow, public Service {
 	AnchoredOffsetTransform bluet;
 	sf::RectangleShape green;
 	AnchoredOffsetTransform greent;
-	sf::RectangleShape yellow;
-	AnchoredOffsetTransform yellowt;
-
+	//sf::RectangleShape yellow;
+	//AnchoredOffsetTransform yellowt;
+	sf::RectangleShape pink;
+	std::shared_ptr<Button> yellowButton;
 
 
 
@@ -48,6 +50,7 @@ public:
 	void init();
 	virtual void draw(const sf::VertexArray& v, const sf::RenderStates& s) override;
 	virtual void draw(const sf::Shape* s, const sf::Transform& t) override;
+	virtual void draw(const sf::Shape& s, sf::Transform t) override;
 	virtual void draw(const sf::Sprite& s, const sf::Transform& t) override;
 	virtual void draw(const sf::Text& text, const sf::Transform& t) override;
 	virtual void draw(VTile pos, double angle, const sf::Sprite& s) override;

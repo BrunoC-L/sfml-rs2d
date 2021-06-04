@@ -16,6 +16,7 @@ public:
 	AnchorTransform(VPixel anchor);
 	const sf::Transform& getTransform() const;
 	void setMeasures(AbstractMeasures* m);
+	VPixel getPosition() const;
 };
 
 extern AnchorTransform BottomRightAnchorTransform;

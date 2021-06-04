@@ -11,9 +11,9 @@ SFRenderWindow::SFRenderWindow(
 	window(window),
 	redt(BottomRightAnchorTransform, VPixel(-200, -200)),
 	bluet(BottomLeftAnchorTransform, VPixel(200, -200)),
-	greent(TopRightAnchorTransform, VPixel(-200, 200)),
-	yellowt(TopLeftAnchorTransform, VPixel(200, 200)) {
-
+	greent(TopRightAnchorTransform, VPixel(-200, 200))
+	//yellowt(TopLeftAnchorTransform, VPixel(200, 200))
+{
 	leftClickObserver.set([&](MouseLeftClickEvent& ev) {
 		if (gameData->userIsLoggedIn()) {
 			bool clickedOnRightClickInterface = rightClickInterface->active && rightClickInterface->mouseIsInRect(ev);
@@ -122,8 +122,15 @@ void SFRenderWindow::init() {
 	blue.setFillColor(sf::Color::Blue);
 	green.setSize(sf::Vector2f(100, 100));
 	green.setFillColor(sf::Color::Green);
-	yellow.setSize(sf::Vector2f(100, 100));
-	yellow.setFillColor(sf::Color::Yellow);
+	//yellow.setSize(sf::Vector2f(100, 100));
+	//yellow.setFillColor(sf::Color::Yellow);
+	pink.setSize(sf::Vector2f(200, 200));
+	pink.setFillColor(sf::Color::Magenta);
+
+	yellowButton = std::make_shared<Button>(AnchoredOffsetTransform(BottomRightAnchorTransform, VPixel(-250, -250)), VPixel(150, 150), sf::Color::Yellow);
+	yellowButton->onClick([&]() {
+		std::cout << "click!\n";
+	});
 
 	p_t.loadFromFile("../../../assets/player.png");
 	playerSprite = sf::Sprite(p_t);
@@ -141,6 +148,10 @@ void SFRenderWindow::draw(const sf::VertexArray& v, const sf::RenderStates& s) {
 
 void SFRenderWindow::draw(const sf::Shape* s, const sf::Transform& t) {
 	window.draw(*s, t);
+}
+
+void SFRenderWindow::draw(const sf::Shape& s, sf::Transform t) {
+	window.draw(s, t);
 }
 
 void SFRenderWindow::draw(const sf::Sprite& s, const sf::Transform& t) {
@@ -317,7 +328,13 @@ void SFRenderWindow::draw() {
 		window.draw(red, redt.getTransform());
 		window.draw(blue, bluet.getTransform());
 		window.draw(green, greent.getTransform());
-		window.draw(yellow, yellowt.getTransform());
+		//window.draw(yellow, yellowt.getTransform());
+		sf::Transform t;
+		t.scale(1 / measures->stretch.x, 1 / measures->stretch.y);
+		t.translate((getSize().x - AbstractMeasures::rightBannerWidth) / 2, 0);
+		t.translate(-100, 100);
+		window.draw(pink, t);
+		yellowButton->draw(*this);
 	}
 	else {
 		window.draw(loginPage);

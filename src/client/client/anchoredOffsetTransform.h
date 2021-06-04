@@ -7,5 +7,6 @@ private:
 	const VPixel offset;
 public:
 	AnchoredOffsetTransform(const AnchorTransform& anchorTransform, VPixel offset);
-	sf::Transform&& getTransform();
+	sf::Transform getTransform() const;
+	VPixel getPosition() const;
 };

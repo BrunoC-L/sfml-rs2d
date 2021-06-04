@@ -29,7 +29,16 @@ void AnchorTransform::setMeasures(AbstractMeasures* m) {
 	update();
 }
 
-AnchorTransform BottomRightAnchorTransform = AnchorTransform(VPixel(AbstractMeasures::startingScreenSize().x, AbstractMeasures::startingScreenSize().y));
-AnchorTransform BottomLeftAnchorTransform  = AnchorTransform(VPixel(                                       0, AbstractMeasures::startingScreenSize().y));
-AnchorTransform TopRightAnchorTransform    = AnchorTransform(VPixel(AbstractMeasures::startingScreenSize().x,                                        0));
+VPixel AnchorTransform::getPosition() const {
+	auto sizeChange = AbstractMeasures::startingScreenSize() * (measures->stretch - VPixel(1, 1));
+	auto effectiveSizeChange = VPixel(
+		sizeChange.x * anchor.x / AbstractMeasures::startingScreenSize().x,
+		sizeChange.y * anchor.y / AbstractMeasures::startingScreenSize().y
+	);
+	return anchor + effectiveSizeChange;
+}
+
 AnchorTransform TopLeftAnchorTransform     = AnchorTransform(VPixel(                                       0,                                        0));
+AnchorTransform TopRightAnchorTransform    = AnchorTransform(VPixel(AbstractMeasures::startingScreenSize().x,                                        0));
+AnchorTransform BottomLeftAnchorTransform  = AnchorTransform(VPixel(                                       0, AbstractMeasures::startingScreenSize().y));
+AnchorTransform BottomRightAnchorTransform = AnchorTransform(VPixel(AbstractMeasures::startingScreenSize().x, AbstractMeasures::startingScreenSize().y));
