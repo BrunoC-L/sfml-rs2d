@@ -38,7 +38,8 @@ VPixel AnchorTransform::getPosition() const {
 	return anchor + effectiveSizeChange;
 }
 
-AnchorTransform TopLeftAnchorTransform     = AnchorTransform(VPixel(                                       0,                                        0));
-AnchorTransform TopRightAnchorTransform    = AnchorTransform(VPixel(AbstractMeasures::startingScreenSize().x,                                        0));
-AnchorTransform BottomLeftAnchorTransform  = AnchorTransform(VPixel(                                       0, AbstractMeasures::startingScreenSize().y));
-AnchorTransform BottomRightAnchorTransform = AnchorTransform(VPixel(AbstractMeasures::startingScreenSize().x, AbstractMeasures::startingScreenSize().y));
+AnchorTransform TopLeftAnchorTransform     (VPixel(                                       0    ,                                        0    ));
+AnchorTransform TopRightAnchorTransform    (VPixel(AbstractMeasures::startingScreenSize().x    ,                                        0    ));
+AnchorTransform BottomLeftAnchorTransform  (VPixel(                                       0    , AbstractMeasures::startingScreenSize().y    ));
+AnchorTransform BottomRightAnchorTransform (VPixel(AbstractMeasures::startingScreenSize().x    , AbstractMeasures::startingScreenSize().y    ));
+AnchorTransform MiddleAnchorTransform      (VPixel(AbstractMeasures::startingScreenSize().x / 2, AbstractMeasures::startingScreenSize().y / 2));

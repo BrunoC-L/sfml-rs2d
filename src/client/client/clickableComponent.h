@@ -8,5 +8,5 @@ protected:
 	std::function<void()> onClick;
 	EventObserver<MouseLeftClickEvent> clickObserver;
 public:
-	ClickableComponent(std::function<void()> onClick, const AnchoredOffsetTransform& aot, VPixel size);
+	ClickableComponent(std::function<void()> onClick, const AnchorTransform& aot, VPixel size);
 };

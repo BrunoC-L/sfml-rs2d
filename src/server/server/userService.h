@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include "logoutEvent.h"
 #include "constants.h"
+#include "gameMessageEvent.h"
 
 class UserService : public AbstractUserService, public Service {
 private:
@@ -13,6 +14,7 @@ private:
 	std::vector<int> availableIndices;
 	std::vector<std::shared_ptr<User>> iteratableUsers;
 	virtual void logout(const std::shared_ptr<User>& user);
+	EventObserver<GameMessageEvent> gameMessageObserver;
 public:
 	UserService(ServiceProvider* provider);
 	virtual void init() override;

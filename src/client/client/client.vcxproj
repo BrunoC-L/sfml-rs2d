@@ -167,11 +167,14 @@
     <ClInclude Include="component.h" />
     <ClInclude Include="connectedState.h" />
     <ClInclude Include="disconnectedState.h" />
+    <ClInclude Include="font.h" />
     <ClInclude Include="frameEvent.h" />
     <ClInclude Include="gameDataService.h" />
     <ClInclude Include="GameTickProgress.h" />
     <ClInclude Include="clickableComponent.h" />
     <ClInclude Include="hoverableComponent.h" />
+    <ClInclude Include="innerRightBanner.h" />
+    <ClInclude Include="logoutInnerBanner.h" />
     <ClInclude Include="objectInteractions.h" />
     <ClInclude Include="interactionClickEvent.h" />
     <ClInclude Include="inventory.h" />
@@ -203,6 +206,7 @@
     <ClInclude Include="socketService.h" />
     <ClInclude Include="socketState.h" />
     <ClInclude Include="teleportEvent.h" />
+    <ClInclude Include="textures.h" />
     <ClInclude Include="tile.h" />
     <ClInclude Include="Tilemap.h" />
     <ClInclude Include="VPixelToVTileConverter.h" />
@@ -220,11 +224,13 @@
     <ClCompile Include="component.cpp" />
     <ClCompile Include="connectedState.cpp" />
     <ClCompile Include="disconnectedState.cpp" />
+    <ClCompile Include="font.cpp" />
     <ClCompile Include="gameDataService.cpp" />
     <ClCompile Include="GameTickProgress.cpp" />
     <ClCompile Include="hoverableComponent.cpp" />
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="item.cpp" />
+    <ClCompile Include="logoutInnerBanner.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="measures.cpp" />
     <ClCompile Include="minimap.cpp" />
@@ -235,6 +241,7 @@
     <ClCompile Include="sfRenderWindow.cpp" />
     <ClCompile Include="socketService.cpp" />
     <ClCompile Include="tcpSocket.cpp" />
+    <ClCompile Include="textures.cpp" />
     <ClCompile Include="tile.cpp" />
   </ItemGroup>
   <ItemGroup>

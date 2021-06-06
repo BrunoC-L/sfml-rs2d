@@ -5,6 +5,6 @@ std::pair<VPixel, VPixel> Component::getRect() {
 	return { pos, pos + size };
 }
 
-Component::Component(const AnchoredOffsetTransform& aot, VPixel size) : aot(aot), size(size) {
+Component::Component(const AnchorTransform& aot, VPixel size) : aot(aot), size(size) {
 	
 }

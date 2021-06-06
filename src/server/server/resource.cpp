@@ -1,4 +1,5 @@
 #include "resource.h"
+#include "gameMessageEvent.h"
 
 Resource::Resource(std::string&& fileName, JSON&& json, Tile* tile) : Object(fileName, tile), json(json) { }
 
@@ -34,7 +35,7 @@ void Resource::collect(const std::shared_ptr<User>& user) {
 
 void Resource::examine(const std::shared_ptr<User>& user) {
 	auto& object = states[state];
-	std::cout << object.examine << std::endl;
+	GameMessageEvent(user, object.examine).emit();
 }
 
 bool Resource::requirementsMet(const std::shared_ptr<User>& user) {

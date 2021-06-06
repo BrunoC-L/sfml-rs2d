@@ -33,7 +33,7 @@ public:
 	VPixel windowSize;
 	float angle = 0;
 	float zoom = 1;
-	static constexpr float rightBannerWidth = 230;
+	static constexpr float rightBannerWidth = 245;
 	static constexpr float bottomBannerHeight = 180;
 	static constexpr float TilesPerChunk = 64;
 	static constexpr float pixelsPerTileOnMap = 4;

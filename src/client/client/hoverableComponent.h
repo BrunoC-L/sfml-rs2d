@@ -10,5 +10,5 @@ protected:
 	EventObserver<MouseMoveEvent> moveObserver;
 	bool hovered;
 public:
-	HoverableComponent(std::function<void()> onHover, std::function<void()> offHover, const AnchoredOffsetTransform& aot, VPixel size);
+	HoverableComponent(std::function<void()> onHover, std::function<void()> offHover, const AnchorTransform& aot, VPixel size);
 };

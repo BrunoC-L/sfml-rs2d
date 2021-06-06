@@ -1,4 +1,5 @@
 #include "rock.h"
+#include "gameMessageEvent.h"
 
 void Rock::build() {
 	states.reserve(2);
@@ -47,8 +48,8 @@ void Rock::prospect(const std::shared_ptr<User>& user) {
 	}).emit();
 }
 
-void Rock::tick(int i, const std::shared_ptr<User>& user) {
-	if (i == 0) {
+void Rock::tick(int interactionId, const std::shared_ptr<User>& user) {
+	if (interactionId == 0) {
 		if (state == 1)
 			return;
 		if (rollPercent(30)) {
@@ -57,7 +58,7 @@ void Rock::tick(int i, const std::shared_ptr<User>& user) {
 		}
 	}
 	else {
-		std::cout << prospects[state] << std::endl;
+		GameMessageEvent(user, prospects[state]).emit();
 		auto it = std::find(interactors.begin(), interactors.end(), std::pair<int, std::shared_ptr<User>>(1, user));
 		if (it != interactors.end())
 			interactors.erase(it);

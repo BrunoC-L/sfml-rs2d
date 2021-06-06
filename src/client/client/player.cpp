@@ -27,13 +27,10 @@ void Player::init() {
         loginData.typingUsername = !loginData.typingUsername;
     });
 
-
-
     enterObserver.set([&](EnterKeyPressedEvent& ev) {
-        if (loginData.typingUsername)
+        if (!loginData.typingUsername)
             login();
-        else
-            loginData.typingUsername = true;
+        loginData.typingUsername = !loginData.typingUsername;
     });
 
     backspaceObserver.set([&](BackspaceKeyPressedEvent& ev) {

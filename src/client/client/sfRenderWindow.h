@@ -12,6 +12,7 @@
 #include "chunk.h"
 #include "anchoredOffsetTransform.h"
 #include "button.h"
+#include "login.h"
 
 class SFRenderWindow : public AbstractRenderWindow, public Service {
 	EventObserver<MouseLeftClickEvent> leftClickObserver;
@@ -28,23 +29,13 @@ class SFRenderWindow : public AbstractRenderWindow, public Service {
 	sf::Texture loginTexture = sf::Texture();
 	sf::Texture p_t;
 	sf::Sprite playerSprite;
-	sf::Font loginfont;
 	void updateWindowSize();
 
+	std::shared_ptr<Button> signUpButton;
+	std::shared_ptr<Button> loginButton;
 
-	sf::RectangleShape red;
-	AnchoredOffsetTransform redt;
-	sf::RectangleShape blue;
-	AnchoredOffsetTransform bluet;
-	sf::RectangleShape green;
-	AnchoredOffsetTransform greent;
-	//sf::RectangleShape yellow;
-	//AnchoredOffsetTransform yellowt;
-	sf::RectangleShape pink;
-	std::shared_ptr<Button> yellowButton;
-
-
-
+	EventObserver<LoginEvent>  loginObserver;
+	EventObserver<LogoutEvent> logoutObserver;
 public:
 	SFRenderWindow(ServiceProvider* provider, sf::RenderWindow& window);
 	void init();

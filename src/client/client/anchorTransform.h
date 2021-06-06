@@ -14,12 +14,13 @@ private:
 	void update();
 public:
 	AnchorTransform(VPixel anchor);
-	const sf::Transform& getTransform() const;
 	void setMeasures(AbstractMeasures* m);
-	VPixel getPosition() const;
+	virtual const sf::Transform& getTransform() const;
+	virtual VPixel getPosition() const;
 };
 
 extern AnchorTransform BottomRightAnchorTransform;
 extern AnchorTransform BottomLeftAnchorTransform;
 extern AnchorTransform TopRightAnchorTransform;
 extern AnchorTransform TopLeftAnchorTransform;
+extern AnchorTransform MiddleAnchorTransform;

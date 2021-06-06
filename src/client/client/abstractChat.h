@@ -6,4 +6,5 @@
 class AbstractChat : public AbstractService {
 public:
 	virtual const std::vector<ChatMessage>& getMessages() = 0;
+	virtual const std::string& getCurrentMessage() = 0;
 };

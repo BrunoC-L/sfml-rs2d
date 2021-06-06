@@ -4,9 +4,9 @@
 
 class Component {
 protected:
-	const AnchoredOffsetTransform& aot;
+	const AnchorTransform& aot;
 	VPixel size;
 	virtual std::pair<VPixel, VPixel> getRect();
 public:
-	Component(const AnchoredOffsetTransform& aot, VPixel size);
+	Component(const AnchorTransform& aot, VPixel size);
 };

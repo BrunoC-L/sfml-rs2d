@@ -121,13 +121,15 @@ void db(
                 q = sq.first;
                 infoForLog += std::to_string(9);
             }
-            else {
+            else if (selectQueries.size() < nonSelectQueries.size()) {
                 infoForLog += std::to_string(10);
                 nsq = nonSelectQueries[0];
                 SELECT = false;
                 nonSelectQueries.erase(nonSelectQueries.begin());
                 q = nsq.first;
             }
+            else
+                continue;
         }
         infoForLog += std::to_string(11);
         log(tid + " executing "  + q);

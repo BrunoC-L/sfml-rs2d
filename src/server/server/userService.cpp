@@ -4,6 +4,11 @@
 
 UserService::UserService(ServiceProvider* provider) : Service(provider) {
 	provider->set(USER, this);
+    gameMessageObserver.set([&](GameMessageEvent& ev) {
+        JSON data;
+        data["message"] = ev.message;
+        server->send(ev.user, "chat", data);
+    });
 }
 
 std::string randomString64() {
@@ -112,6 +117,16 @@ void UserService::init() {
     logoutObserver.set([&](LogoutEvent& ev) {
         logout(ev.user);
     });
+
+    server->on("chat", [&](std::shared_ptr<User> user, JSON& json) {
+        JSON reply;
+        reply["type"] = "chat";
+        reply["data"] = JSON();
+        reply["data"]["message"] = json["message"];
+        reply["data"]["sender"] = user->ign;
+        for (const auto& user : getAllUsers())
+            server->send(user, reply);
+    }, true);
 }
 
 void UserService::logout(const std::shared_ptr<User>& user) {

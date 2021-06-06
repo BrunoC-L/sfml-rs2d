@@ -109,6 +109,18 @@
     <Filter Include="Source Files\UI\GUIElements\Components">
       <UniqueIdentifier>{c8051aa9-b1d5-4241-b706-6a967b9a2a5f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\UI\font">
+      <UniqueIdentifier>{818a81ab-92b2-4731-bcda-3d72d46f4af4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\textures">
+      <UniqueIdentifier>{d068cac6-15c6-4ed2-8140-24df2c8d68d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\rightBanner\innerRightBanners">
+      <UniqueIdentifier>{1fa33b5c-3734-47d9-8866-a773c316cf5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\rightBanner\innerRightBanners\logout">
+      <UniqueIdentifier>{7c56a69a-4cdf-4047-98f3-2a61c4e2ce57}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="app.h">
@@ -303,6 +315,18 @@
     <ClInclude Include="button.h">
       <Filter>Source Files\UI\GUIElements\Button</Filter>
     </ClInclude>
+    <ClInclude Include="font.h">
+      <Filter>Source Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="textures.h">
+      <Filter>Source Files\UI\textures</Filter>
+    </ClInclude>
+    <ClInclude Include="innerRightBanner.h">
+      <Filter>Source Files\UI\rightBanner\innerRightBanners</Filter>
+    </ClInclude>
+    <ClInclude Include="logoutInnerBanner.h">
+      <Filter>Source Files\UI\rightBanner\innerRightBanners\logout</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="chunk.cpp">
@@ -383,8 +407,17 @@
     <ClCompile Include="button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="component.cpp">
+    <ClCompile Include="font.cpp">
+      <Filter>Source Files\UI\font</Filter>
+    </ClCompile>
+    <ClCompile Include="textures.cpp">
+      <Filter>Source Files\UI\textures</Filter>
+    </ClCompile>
+    <ClCompile Include="logoutInnerBanner.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="component.cpp">
+      <Filter>Source Files\UI\GUIElements\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

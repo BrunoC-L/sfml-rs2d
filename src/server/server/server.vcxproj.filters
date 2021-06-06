@@ -290,6 +290,9 @@
     <ClInclude Include="rock.h">
       <Filter>Source Files\objects\resources</Filter>
     </ClInclude>
+    <ClInclude Include="gameMessageEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

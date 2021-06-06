@@ -2,18 +2,32 @@
 #include "closeEvent.h"
 #include "tileMap.h"
 #include "anchorTransform.h"
+#include "font.h"
+#include "textures.h"
 
 SFRenderWindow::SFRenderWindow(
 	ServiceProvider* provider,
 	sf::RenderWindow& window
 ) : Service(provider),
 	converter(provider),
-	window(window),
-	redt(BottomRightAnchorTransform, VPixel(-200, -200)),
-	bluet(BottomLeftAnchorTransform, VPixel(200, -200)),
-	greent(TopRightAnchorTransform, VPixel(-200, 200))
-	//yellowt(TopLeftAnchorTransform, VPixel(200, 200))
+	window(window)
 {
+	font.loadFromFile("../../../assets/runescape_uf.ttf");
+	clanTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/clan.png");
+	friendsTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/friends.png");
+	ignoreTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/ignore.png");
+	logoutTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/logout.png");
+	settingsTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/settings.png");
+	emotesTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/emotes.png");
+	musicTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/music.png");
+	combatTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/combat.png");
+	skillsTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/skills.png");
+	questsTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/quests.png");
+	inventoryTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/inventory.png");
+	equipmentTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/equipment.png");
+	prayersTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/prayers.png");
+	magicTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/magic.png");
+
 	leftClickObserver.set([&](MouseLeftClickEvent& ev) {
 		if (gameData->userIsLoggedIn()) {
 			bool clickedOnRightClickInterface = rightClickInterface->active && rightClickInterface->mouseIsInRect(ev);
@@ -100,6 +114,28 @@ SFRenderWindow::SFRenderWindow(
 	resizeObserver.set([&](ResizeEvent& ev) {
 		updateWindowSize();
 	});
+	
+	loginObserver.set([&](LoginEvent& ev) {
+		rightBanner = std::make_shared<RightBanner>(this->provider, this);
+		bottomBanner = std::make_shared<BottomBanner>(this->provider, this);
+		rightClickInterface = std::make_shared<RightClickInterface>(this->provider, this);
+		/*signUpButton = nullptr;
+		loginButton = nullptr;*/
+	});
+
+	logoutObserver.set([&](LogoutEvent& ev) {
+		rightBanner = nullptr;
+		bottomBanner = nullptr;
+		rightClickInterface = nullptr;
+
+		/*signUpButton = std::make_shared<Button>(AnchoredOffsetTransform(MiddleAnchorTransform, VPixel(-300, 0)), VPixel(200, 100), sf::Color::Yellow);
+		signUpButton->onClick([&]() { player->signUp(); });
+		signUpButton->text("Sign Up", sf::Color::Red);
+
+		loginButton = std::make_shared<Button>(AnchoredOffsetTransform(MiddleAnchorTransform, VPixel(100, 0)), VPixel(200, 100), sf::Color::Yellow);
+		loginButton->onClick([&]() { player->login(); });
+		loginButton->text("Login", sf::Color::Red);*/
+	});
 }
 
 void SFRenderWindow::init() {
@@ -111,26 +147,15 @@ void SFRenderWindow::init() {
 	BottomLeftAnchorTransform.setMeasures(measures);
 	TopRightAnchorTransform.setMeasures(measures);
 	TopLeftAnchorTransform.setMeasures(measures);
+	MiddleAnchorTransform.setMeasures(measures);
 
-	rightBanner = std::make_shared<RightBanner>(provider, this);
-	bottomBanner = std::make_shared<BottomBanner>(provider, this);
-	rightClickInterface = std::make_shared<RightClickInterface>(provider, this);
+	signUpButton = std::make_shared<Button>(std::make_shared<AnchoredOffsetTransform>(MiddleAnchorTransform, VPixel(-300, 0)), VPixel(200, 100), sf::Color::Yellow);
+	signUpButton->onClick([&]() { player->signUp(); });
+	signUpButton->text("Sign Up", sf::Color::Red);
 
-	red.setSize(sf::Vector2f(100, 100));
-	red.setFillColor(sf::Color::Red);
-	blue.setSize(sf::Vector2f(100, 100));
-	blue.setFillColor(sf::Color::Blue);
-	green.setSize(sf::Vector2f(100, 100));
-	green.setFillColor(sf::Color::Green);
-	//yellow.setSize(sf::Vector2f(100, 100));
-	//yellow.setFillColor(sf::Color::Yellow);
-	pink.setSize(sf::Vector2f(200, 200));
-	pink.setFillColor(sf::Color::Magenta);
-
-	yellowButton = std::make_shared<Button>(AnchoredOffsetTransform(BottomRightAnchorTransform, VPixel(-250, -250)), VPixel(150, 150), sf::Color::Yellow);
-	yellowButton->onClick([&]() {
-		std::cout << "click!\n";
-	});
+	loginButton = std::make_shared<Button>(std::make_shared<AnchoredOffsetTransform>(MiddleAnchorTransform, VPixel(100, 0)), VPixel(200, 100), sf::Color::Yellow);
+	loginButton->onClick([&]() { player->login(); });
+	loginButton->text("Login", sf::Color::Red);
 
 	p_t.loadFromFile("../../../assets/player.png");
 	playerSprite = sf::Sprite(p_t);
@@ -138,8 +163,6 @@ void SFRenderWindow::init() {
 	loginPage = sf::RectangleShape(sf::Vector2f(measures->windowSize.x, measures->windowSize.y));
 	loginTexture.loadFromFile("../../../assets/login.png");
 	loginPage.setTexture(&loginTexture);
-
-	loginfont.loadFromFile("../../../assets/runescape_uf.ttf");
 }
 
 void SFRenderWindow::draw(const sf::VertexArray& v, const sf::RenderStates& s) {
@@ -325,27 +348,18 @@ void SFRenderWindow::draw() {
 		bottomBanner->draw();
 		rightBanner->draw();
 		rightClickInterface->draw();
-		window.draw(red, redt.getTransform());
-		window.draw(blue, bluet.getTransform());
-		window.draw(green, greent.getTransform());
-		//window.draw(yellow, yellowt.getTransform());
-		sf::Transform t;
-		t.scale(1 / measures->stretch.x, 1 / measures->stretch.y);
-		t.translate((getSize().x - AbstractMeasures::rightBannerWidth) / 2, 0);
-		t.translate(-100, 100);
-		window.draw(pink, t);
-		yellowButton->draw(*this);
 	}
 	else {
-		window.draw(loginPage);
-
 		auto credentials = player->getUserNamePw();
-		sf::Text username(credentials.first + "\n" + credentials.second, loginfont);
+		sf::Text credentialsText(credentials.first + "\n" + credentials.second, font);
 		const auto scale = measures->stretch;
-		sf::Transform transform;
-		transform.translate(500, 400);
-		transform.scale(sf::Vector2f(1 / scale.x, 1 / scale.y));
-		draw(username, transform);
+		sf::Transform t(MiddleAnchorTransform.getTransform());
+		t.translate(-200, -200);
+		draw(credentialsText, t);
+		if (signUpButton)
+			signUpButton->draw(*this);
+		if (loginButton)
+			loginButton->draw(*this);
 	}
 	display();
 }
