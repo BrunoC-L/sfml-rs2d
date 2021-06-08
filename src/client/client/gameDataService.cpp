@@ -78,15 +78,15 @@ std::vector<playerIdAndPosition> GameDataService::getPlayerPositions() {
 }
 
 std::pair<int*, std::vector<std::pair<VTile, ObjectInteractions>>> GameDataService::requestObjectsForChunk(VChunk chunk) {
-	for (int i = 0; i < objectsReceived.size(); ++i) {
-		const auto& pair = objectsReceived[i];
-		if (pair.first == chunk) {
-			auto temp = pair.second;
-			objectsReceived.erase(objectsReceived.begin() + i);
-			return temp;
+	while (true)
+		for (int i = 0; i < objectsReceived.size(); ++i) {
+			const auto& pair = objectsReceived[i];
+			if (pair.first == chunk) {
+				auto temp = pair.second;
+				objectsReceived.erase(objectsReceived.begin() + i);
+				return temp;
+			}
 		}
-	}
-	throw std::exception();
 }
 
 void GameDataService::clearObjectsCache() {

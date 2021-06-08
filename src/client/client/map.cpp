@@ -63,11 +63,12 @@ void Map::updateChunks(const VChunk& difference, const VChunk& tempCenter) {
 
 void Map::doUpdates() {
 	initializing = true;
+	shouldStop = false;
 	updateThread = std::thread(
 		[&]() {
 			{
 				std::ostringstream ss;
-				ss << "Main Thread: " << std::this_thread::get_id() << std::endl;
+				ss << "Map update thread: " << std::this_thread::get_id() << std::endl;
 				print(ss);
 			}
 			load();
@@ -77,7 +78,7 @@ void Map::doUpdates() {
 			isLoaded = false;
 			{
 				std::ostringstream ss;
-				ss << "Main Thread: " << std::this_thread::get_id() << " Exiting" << std::endl;
+				ss << "Map update thread: " << std::this_thread::get_id() << " Exiting" << std::endl;
 				print(ss);
 			}
 		}

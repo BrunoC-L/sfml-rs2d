@@ -152,22 +152,31 @@ void PlayerActionService::sendGameTick() {
 }
 
 void PlayerActionService::checkForTileAndChunkChanges() {
-    for (int x = 0; x < 29; ++x)
+    std::vector<std::pair<const std::shared_ptr<User>*, std::pair<VChunk, VChunk>>> toUpdate;
+    for (int x = 0; x < 29; ++x) {
         for (int y = 0; y < 25; ++y) {
+            VChunk oldChunk(x, y);
             auto& chunk = chunks[x][y];
             for (const auto& user : chunk) {
                 VTile position = pathPositions[user->index].position;
                 if (position != oldPositions[user->index]) {
                     VChunk newChunk(int(position.x / TilesPerChunk), int(position.y / TilesPerChunk));
-                    VChunk oldChunk(x, y);
                     PlayerPositionChangeEvent(user, position, oldPositions[user->index], position - oldPositions[user->index]).emit();
                     oldPositions[user->index] = position;
                     if (newChunk != oldChunk) {
-                        chunk.erase(std::find(chunk.begin(), chunk.end(), user));
-                        chunks[newChunk.x][newChunk.y].push_back(user);
+                        toUpdate.push_back({ &user, {oldChunk, newChunk} });
                         PlayerChunkChangeEvent(user, newChunk, oldChunk, newChunk - oldChunk).emit();
                     }
                 }
             }
         }
+    }
+    for (const auto& e : toUpdate) {
+        VChunk oldChunk = e.second.first;
+        VChunk newChunk = e.second.second;
+        const auto& user = *e.first;
+        auto& chunk = chunks[oldChunk.x][oldChunk.y];
+        chunk.erase(std::find(chunk.begin(), chunk.end(), user));
+        chunks[newChunk.x][newChunk.y].push_back(user);
+    }
 }

@@ -26,12 +26,6 @@ RightBanner::RightBanner(ServiceProvider* provider, AbstractRenderWindow* window
             std::make_shared<AnchoredOffsetTransform>(BottomRightAnchorTransform, VPixel(-innerTabSize.x, -innerTabSize.y - buttonSize.y))
         );
     });
-
-    logoutTabButton->onOffHover([&]() {
-        std::cout << "ON\n";
-    }, [&]() {
-        std::cout << "OFF\n";
-    });
 }
 
 void RightBanner::draw() {
