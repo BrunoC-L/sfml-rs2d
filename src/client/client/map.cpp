@@ -38,7 +38,7 @@ void Map::load() {
 }
 
 void Map::update() {
-	const VTile pos = camera->getPosition() + VTile(0.5, 0.5); // to account for player centered on tile
+	const VTile pos = player->getIntPosition();
 	const VChunk newChunk(int(pos.x / AbstractMeasures::TilesPerChunk), int(pos.y / AbstractMeasures::TilesPerChunk), int(pos.z));
 	const VChunk difference = newChunk - centerChunk;
 	if (!difference.x && !difference.y && !difference.z)

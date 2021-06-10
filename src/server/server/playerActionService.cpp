@@ -7,7 +7,7 @@
 
 PlayerActionService::PlayerActionService(ServiceProvider* provider) : Service(provider) {
 	provider->set(PLAYERACTION, this);
-    chunks = std::vector<std::vector<std::vector<std::shared_ptr<User>>>>(29, std::vector<std::vector<std::shared_ptr<User>>>(25));
+    usersByChunk = std::vector<std::vector<std::vector<std::shared_ptr<User>>>>(29, std::vector<std::vector<std::shared_ptr<User>>>(25));
 }
 
 void PlayerActionService::init() {
@@ -31,7 +31,7 @@ void PlayerActionService::init() {
         movementCompleteCallbacks[ev.user->index] = nullptr;
         interactionInterruptionCallbacks[ev.user->index] = nullptr;
         VChunk chunk(int(ev.position.x / TilesPerChunk), int(ev.position.y / TilesPerChunk));
-        chunks[chunk.x][chunk.y].push_back(ev.user);
+        usersByChunk[chunk.x][chunk.y].push_back(ev.user);
         PlayerPositionChangeEvent(ev.user, ev.position, ev.position, VTile()).emit();
         PlayerChunkChangeEvent(ev.user, chunk, chunk, VChunk()).emit();
     });
@@ -39,7 +39,7 @@ void PlayerActionService::init() {
     logoutObserver.set([&](LogoutEvent& ev) {
         VTile position = pathPositions[ev.user->index].position;
         VChunk vchunk(int(position.x / TilesPerChunk), int(position.y / TilesPerChunk));
-        auto& chunk = chunks[vchunk.x][vchunk.y];
+        auto& chunk = usersByChunk[vchunk.x][vchunk.y];
         chunk.erase(std::find(chunk.begin(), chunk.end(), ev.user));
     });
 
@@ -51,10 +51,6 @@ void PlayerActionService::init() {
     interruptionSubscriptionObserver.set([&](SubscribeToInteractionInterruptionEvent& ev) {
         interactionInterruptionCallbacks[ev.user->index] = ev.callback;
     });
-}
-
-const std::vector<std::vector<std::vector<std::shared_ptr<User>>>>& PlayerActionService::getUsersByChunk() {
-    return chunks;
 }
 
 VTile PlayerActionService::getPlayerPosition(const std::shared_ptr<User>& user) {
@@ -156,7 +152,7 @@ void PlayerActionService::checkForTileAndChunkChanges() {
     for (int x = 0; x < 29; ++x) {
         for (int y = 0; y < 25; ++y) {
             VChunk oldChunk(x, y);
-            auto& chunk = chunks[x][y];
+            auto& chunk = usersByChunk[x][y];
             for (const auto& user : chunk) {
                 VTile position = pathPositions[user->index].position;
                 if (position != oldPositions[user->index]) {
@@ -175,8 +171,8 @@ void PlayerActionService::checkForTileAndChunkChanges() {
         VChunk oldChunk = e.second.first;
         VChunk newChunk = e.second.second;
         const auto& user = *e.first;
-        auto& chunk = chunks[oldChunk.x][oldChunk.y];
+        auto& chunk = usersByChunk[oldChunk.x][oldChunk.y];
         chunk.erase(std::find(chunk.begin(), chunk.end(), user));
-        chunks[newChunk.x][newChunk.y].push_back(user);
+        usersByChunk[newChunk.x][newChunk.y].push_back(user);
     }
 }

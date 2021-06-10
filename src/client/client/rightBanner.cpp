@@ -20,7 +20,6 @@ RightBanner::RightBanner(ServiceProvider* provider, AbstractRenderWindow* window
     }
 
     logoutTabButton->onClick([&]() {
-        std::cout << "click\n";
         innerBanner = std::make_shared<LogoutInnerBanner>(
             this->provider,
             std::make_shared<AnchoredOffsetTransform>(BottomRightAnchorTransform, VPixel(-innerTabSize.x, -innerTabSize.y - buttonSize.y))

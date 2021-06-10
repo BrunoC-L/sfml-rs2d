@@ -18,20 +18,23 @@ std::vector<playerIdAndPosition> PlayerPositions::getPlayerPositions(double tick
 	int l1 = oldpositions.size(), l2 = newpositions.size();
 	int i = 0, j = 0;
 	while (i < l1 && j < l2) {
-		auto& p1 = oldpositions[i], p2 = newpositions[i];
+		auto& p1 = oldpositions[i];
+		auto& p2 = newpositions[j];
 		if (p1.first == p2.first) {
-			result.push_back(playerIdAndPosition(p1.first, weightedAverage(p1.second, p2.second, tickFraction)));
+			auto pos = weightedAverage(p1.second, p2.second, tickFraction);
+			result.emplace_back(p1.first, pos);
 			++i;
 			++j;
+			if (p2.first == playerId)
+				player->setPosition(pos);
 		}
 		else if (p2.first < p1.first) { // new player, wasnt there previous tick, we just have the most recent data
 			result.push_back(p2);
 			++j;
 		}
-		else
+		else {
 			++i; // old player, is not in most recent data, keep going
-		if (p2.first == playerId)
-			player->setPosition(result.back().second);
+		}
 	}
 	while (j < l2) {
 		auto& p2 = newpositions[i];

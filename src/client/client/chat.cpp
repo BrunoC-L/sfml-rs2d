@@ -49,7 +49,7 @@ void Chat::init() {
 	acquire();
 
 	socket->on("chat", [&](const std::shared_ptr<const JSON> json) {
-		messages.push_back(ChatMessage({ {json->get("sender").asString(), Color::BLACK}, {json->get("message").asString(), Color::BLUE } }, ChatMessageType::PlayerMessage));
+		messages.push_back(ChatMessage({ { json->has("sender") ? json->get("sender").asString() + ": " : "", Color::BLACK}, {json->get("message").asString(), Color::BLUE } }, ChatMessageType::PlayerMessage));
 	});
 }
 

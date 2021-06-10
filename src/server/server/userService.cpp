@@ -39,7 +39,7 @@ void UserService::init() {
             packet.username,
             [&, user, packet, tempsalt](SelectQueryResult qr) {
                 if (qr.size() == 0)
-                    throw std::exception("User does not exist");
+                    return; // TODO alert client that his credentials are bad
                 auto userData = qr[0];
                 int id = userData["id"].asInt();
 
@@ -49,18 +49,17 @@ void UserService::init() {
                     auto userHash = packet.passwordHashWithBothSalts;
                     auto expectedHash = picosha2::hash256_hex_string(tempsalt + qr[0]["hash"].asString());
                     if (userHash != expectedHash)
-                        return; // silent fail, terrible for the client, will do later
+                        return; // TODO alert client that his credentials are bad
 
                     std::string ign = userData["username"].asString();
                     int posx = userData["posx"].asInt();
                     int posy = userData["posy"].asInt();
                     for (const auto& user : iteratableUsers)
                         if (user->ign == ign)
-                            return; // user already logged in, TODO alert client
+                            return; // TODO alert client that his account is already logged in
                     auto index = availableIndices.back();
                     availableIndices.erase(availableIndices.end() - 1);
                     user->activate(index, packet.username);
-                    iteratableUsers.push_back(user);
                     JSON data;
                     data["id"] = std::to_string(index);
                     data["position"] = JSON();
@@ -69,6 +68,7 @@ void UserService::init() {
                     server->send(user, "login", data);
                     auto ev = LoginEvent(user, VTile(posx, posy));
                     ev.emit();
+                    iteratableUsers.push_back(user);
                 });
             }
         );

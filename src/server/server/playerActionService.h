@@ -22,7 +22,7 @@ class PlayerActionService : public AbstractPlayerActionService, public Service {
 	std::function<void()> movementCompleteCallbacks[MAX_PLAYERS_ONLINE];
 	std::function<void()> interactionInterruptionCallbacks[MAX_PLAYERS_ONLINE];
 	std::vector<std::pair<std::shared_ptr<User>, VTile>> positions[29][25];
-	std::vector<std::vector<std::vector<std::shared_ptr<User>>>> chunks;
+	std::vector<std::vector<std::vector<std::shared_ptr<User>>>> usersByChunk;
 
 	EventObserver<LoginEvent> loginObserver;
 	EventObserver<LogoutEvent> logoutObserver;
@@ -40,6 +40,5 @@ class PlayerActionService : public AbstractPlayerActionService, public Service {
 public:
 	PlayerActionService(ServiceProvider* provider);
 	virtual void init() override;
-	virtual const std::vector<std::vector<std::vector<std::shared_ptr<User>>>>& getUsersByChunk() override;
 	virtual VTile getPlayerPosition(const std::shared_ptr<User>& user) override;
 };
