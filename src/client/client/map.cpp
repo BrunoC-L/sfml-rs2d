@@ -85,6 +85,14 @@ void Map::doUpdates() {
 	);
 }
 
+void Map::stopUpdates() {
+	while (initializing);
+	this->shouldStop = true;
+	std::lock_guard<std::mutex> lock(mutex);
+	if (updateThread.joinable() && this->isLoaded)
+		updateThread.join();
+}
+
 std::shared_ptr<Tile> Map::getTileFromVTile(VTile tilePosition) {
 	VChunk chunkOfTileClicked = VChunk(int(tilePosition.x / AbstractMeasures::TilesPerChunk), int(tilePosition.y / AbstractMeasures::TilesPerChunk));
 	VChunk deltaChunkOffsetWithMiddleChunk = chunkOfTileClicked - centerChunk + VChunk(loaded.size() / 2, loaded.size() / 2);
@@ -95,14 +103,6 @@ std::shared_ptr<Tile> Map::getTileFromVTile(VTile tilePosition) {
 		t = chunk->tiles[int(tilePosition.x - chunkOfTileClicked.x * AbstractMeasures::TilesPerChunk)][int(tilePosition.y - chunkOfTileClicked.y * AbstractMeasures::TilesPerChunk)];
 	}
 	return t;
-}
-
-void Map::stopUpdates() {
-	while (initializing);
-	std::lock_guard<std::mutex> lock(mutex);
-	this->shouldStop = true;
-	if (updateThread.joinable() && this->isLoaded)
-		updateThread.join();
 }
 
 unsigned Map::getRadius() {
