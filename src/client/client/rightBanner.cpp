@@ -1,5 +1,4 @@
 #include "rightBanner.h"
-#include "abstractInventory.h"
 #include "abstractRenderWindow.h"
 #include "abstractPlayer.h"
 #include "logoutInnerBanner.h"

@@ -28,7 +28,6 @@ int main(int argc, char* argv[]) {
 	Camera camera(&provider);
 	Player player(&provider);
 	Map map(&provider, radius);
-	Inventory i(&provider);
 	ClockGameTickProgress cgtp;
 	GameDataService g(&provider, &cgtp);
 
