@@ -110,7 +110,12 @@ std::vector<std::pair<VTile, std::pair<int, ObjectInteractions>>> GameDataServic
 	for (const auto& i : object.get("interactions").getChildren())
 		interactions.push_back(i.asString());
 	interactions.push_back("Examine");
-	ObjectInteractions oi(VTile(AbstractMeasures::TilesPerChunk * chunk.x + x, AbstractMeasures::TilesPerChunk * chunk.y + y), object.get("name").asString(), interactions, object.get("state").asInt());
+	ObjectInteractions oi(
+		VTile(AbstractMeasures::TilesPerChunk * chunk.x + x, AbstractMeasures::TilesPerChunk * chunk.y + y),
+		object.get("name").asString(),
+		interactions,
+		object.get("state").asInt()
+	);
 	int sizeX = object.get("size").getChildren()[0].asInt();
 	int sizeY = object.get("size").getChildren()[1].asInt();
 	std::string fileName = object.get("fileName").asString();

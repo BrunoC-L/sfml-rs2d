@@ -12,6 +12,9 @@
     <ClCompile Include="player positions.cpp">
       <Filter>tests\player positions</Filter>
     </ClCompile>
+    <ClCompile Include="resources1.cpp">
+      <Filter>tests\resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -26,6 +29,9 @@
     </ClInclude>
     <ClInclude Include="windowMock1.h">
       <Filter>mocks\window</Filter>
+    </ClInclude>
+    <ClInclude Include="socketMock2.h">
+      <Filter>mocks\socket</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +64,9 @@
     </Filter>
     <Filter Include="mocks\window">
       <UniqueIdentifier>{4f8a1c88-cda8-47c6-8053-81ca4fd9aedb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests\resources">
+      <UniqueIdentifier>{eabf01ae-c681-4142-8830-59e9d3728155}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

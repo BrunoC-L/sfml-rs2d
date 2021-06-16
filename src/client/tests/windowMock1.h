@@ -1,11 +1,13 @@
 #pragma once
 #include "abstractRenderWindow.h"
+#include "frameEvent.h"
+#include "abstractMeasures.h"
 
 class MockWindow : public AbstractRenderWindow {
 private:
-	bool open = true;
+	bool open = false;
 public:
-	virtual VPixel getSize() { return VPixel(); };
+	virtual VPixel getSize() { return AbstractMeasures::startingScreenSize(); };
 	virtual void setFramerateLimit(int limit) {};
 	virtual bool isOpen() { return open; };
 	virtual void close() { open = false; };
@@ -19,8 +21,12 @@ public:
 	virtual void draw(const sf::Text& text, const sf::Transform& t) {};
 	virtual void draw(VTile pos, double angle, const sf::Sprite& s) {};
 	virtual void draw(TileMap* tilemap, const sf::Transform& t) {};
-	virtual void draw() {};
+	virtual void draw() {
+		FrameEvent().emit();
+	};
 	virtual void update() {};
-	virtual void init() {};
+	virtual void init() {
+		open = true;
+	};
 	virtual void setActive(bool newState) {};
 };

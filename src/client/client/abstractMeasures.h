@@ -1,6 +1,7 @@
 #pragma once
 #include "units.h"
 #include "abstractService.h"
+#include "constants.h"
 
 enum MouseClickType { Left, Right, Middle };
 
@@ -35,7 +36,7 @@ public:
 	float zoom = 1;
 	static constexpr float rightBannerWidth = 245;
 	static constexpr float bottomBannerHeight = 180;
-	static constexpr float TilesPerChunk = 64;
+	static constexpr float TilesPerChunk = TILES_PER_CHUNK;
 	static constexpr float pixelsPerTileOnMap = 4;
 	static constexpr float minimapRadius = 100;
 	static constexpr float pixelsPerTile = 32;

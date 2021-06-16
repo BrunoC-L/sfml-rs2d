@@ -19,6 +19,8 @@ Map::Map(ServiceProvider* provider, int chunkRadius) : Service(provider), chunkR
 void Map::init() {
 	acquire();
 	centerChunk = VChunk();
+	auto diameter = 2 * chunkRadius + 1;
+	loaded = std::vector<std::vector<std::shared_ptr<Chunk>>>(diameter, std::vector<std::shared_ptr<Chunk>>(diameter, nullptr));
 }
 
 void Map::load() {
@@ -31,7 +33,6 @@ void Map::load() {
 			int(camera->getPosition().z / AbstractMeasures::TilesPerChunk)
 		);
 	auto diameter = 2 * chunkRadius + 1;
-	loaded = std::vector<std::vector<std::shared_ptr<Chunk>>>(diameter, std::vector<std::shared_ptr<Chunk>>(diameter, nullptr));
 	for (int i = 0; i < diameter; ++i)
 		for (int j = 0; j < diameter; ++j)
 			loaded[i][j] = std::make_shared<Chunk>(centerChunk + VChunk(i, j) - VChunk(chunkRadius, chunkRadius), &objectTileset, gameData);
@@ -75,7 +76,6 @@ void Map::doUpdates() {
 			initializing = false;
 			while (!shouldStop)
 				update();
-			isLoaded = false;
 			{
 				std::ostringstream ss;
 				ss << "Map update thread: " << std::this_thread::get_id() << " Exiting" << std::endl;
@@ -89,8 +89,13 @@ void Map::stopUpdates() {
 	while (initializing);
 	this->shouldStop = true;
 	std::lock_guard<std::mutex> lock(mutex);
-	if (updateThread.joinable() && this->isLoaded)
-		updateThread.join();
+	if (isLoaded) {
+		isLoaded = false;
+		if (updateThread.joinable()) {
+			std::cout << "joining Map update thread\n";
+			updateThread.join();
+		}
+	}
 }
 
 std::shared_ptr<Tile> Map::getTileFromVTile(VTile tilePosition) {

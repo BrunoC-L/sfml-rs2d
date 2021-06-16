@@ -5,8 +5,9 @@
 #include "onExit.h"
 #include "mapMock1.h"
 #include "windowMock1.h"
+#include "constants.h"
 
-TEST(player_position_updates_when_server_emits, TestName) {
+TEST(player_position_updates_on_socket_receive_positions, TestName) {
 	ServiceProvider& provider = ClientServiceProvider();
 	SocketMock1& socket = SocketMock1(&provider);
 	AbstractMeasures& measures = Measures(&provider);
@@ -79,4 +80,62 @@ TEST(player_position_updates_when_server_emits, TestName) {
 		EXPECT_EQ(1, 0);
 	}
 	t.join();
+}
+
+TEST(PlayerPositions_updates_as_expected, TestName) {
+	ServiceProvider& provider = ClientServiceProvider();
+	SocketMock1& socket = SocketMock1(&provider);
+	AbstractMeasures& measures = Measures(&provider);
+	AbstractChat& chat = Chat(&provider);
+	AbstractCamera& camera = Camera(&provider);
+	AbstractPlayer& player = Player(&provider);
+	AbstractMap& map = MapMock(&provider, 1);
+	GameTickProgress& tracker = ClockGameTickProgress();
+	AbstractGameDataService& gameData = GameDataService(&provider, &tracker);
+
+	measures.init();
+	player.init();
+	camera.init();
+	map.init();
+	chat.init();
+	gameData.init();
+	socket.init();
+
+	socket.mockReceiveFromServer(JSON("{'type':'login', 'data':{'id':3, 'position':{'x':123,'y':456}}}"));
+
+	PlayerPositions p(&player);
+	p.update(JSON("[]"));
+	EXPECT_EQ(p.getPlayerPositions(0).size(), 0);
+	p.update(JSON("[\
+		{\
+			'x': 1,\
+			'y': 1,\
+			'id': 1\
+		}\
+	]"));
+	EXPECT_EQ(p.getPlayerPositions(0).size(), 1);
+	EXPECT_EQ(player.getIntPosition(), VTile(123, 456));
+	p.update(JSON("[\
+		{\
+			'x': 123,\
+			'y': 456,\
+			'id': 3\
+		}\
+	]"));
+	p.update(JSON("[\
+		{\
+			'x': 321,\
+			'y': 654,\
+			'id': 3\
+		}\
+	]"));
+	p.getPlayerPositions(0);
+	EXPECT_EQ(player.getIntPosition(), VTile(321, 654));
+	EXPECT_EQ(player.getPosition(), VTile(123, 456));
+	p.getPlayerPositions(0.5);
+	EXPECT_EQ(player.getIntPosition(), VTile(321, 654));
+	EXPECT_EQ(player.getPosition(), VTile(222, 555));
+	p.getPlayerPositions(1);
+	EXPECT_EQ(player.getIntPosition(), VTile(321, 654));
+	EXPECT_EQ(player.getPosition(), VTile(321, 654));
 }

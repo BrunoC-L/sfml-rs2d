@@ -211,11 +211,8 @@ void SFRenderWindow::draw(VTile pos, double angle, const sf::Sprite& s) {
 }
 
 VPixel SFRenderWindow::getSize() {
-	VPixel v;
 	auto size = window.getSize();
-	v.x = size.x;
-	v.y = size.y;
-	return v;
+	return VPixel(size.x, size.y);
 }
 
 void SFRenderWindow::setFramerateLimit(int limit) {
@@ -243,9 +240,8 @@ void SFRenderWindow::display() {
 void SFRenderWindow::events() {
 	sf::Event event;
 	while (window.pollEvent(event))
-		if (event.type == sf::Event::Closed) {
+		if (event.type == sf::Event::Closed)
 			CloseEvent().emit();
-		}
 		else if (event.type == sf::Event::KeyPressed)
 			switch (event.text.unicode) {
 				case 71:
@@ -276,20 +272,19 @@ void SFRenderWindow::events() {
 						break;
 					}
 			}
-		else if (event.type == sf::Event::MouseButtonPressed) {
+		else if (event.type == sf::Event::MouseButtonPressed)
 			switch (event.mouseButton.button) {
-			default:
-			case Left:
-				MouseLeftClickEvent(VPixel(event.mouseButton.x, event.mouseButton.y)).emit();
-				break;
-			case Right:
-				MouseRightClickEvent(VPixel(event.mouseButton.x, event.mouseButton.y)).emit();
-				break;
-			case Middle:
-				MouseMiddleClickEvent(VPixel(event.mouseButton.x, event.mouseButton.y)).emit();
-				break;
+				default:
+				case Left:
+					MouseLeftClickEvent(VPixel(event.mouseButton.x, event.mouseButton.y)).emit();
+					break;
+				case Right:
+					MouseRightClickEvent(VPixel(event.mouseButton.x, event.mouseButton.y)).emit();
+					break;
+				case Middle:
+					MouseMiddleClickEvent(VPixel(event.mouseButton.x, event.mouseButton.y)).emit();
+					break;
 			}
-		}
 		else if (event.type == sf::Event::Resized)
 			ResizeEvent().emit();
 		else if (event.type == sf::Event::MouseWheelMoved)

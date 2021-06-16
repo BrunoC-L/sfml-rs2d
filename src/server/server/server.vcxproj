@@ -28,7 +28,6 @@
     <ClCompile Include="packets.cpp" />
     <ClCompile Include="playerActionService.cpp" />
     <ClCompile Include="playerWalkAction.cpp" />
-    <ClCompile Include="random.cpp" />
     <ClCompile Include="resource.cpp" />
     <ClCompile Include="objectService.cpp" />
     <ClCompile Include="rock.cpp" />
@@ -75,7 +74,6 @@
     <ClInclude Include="playerMoveEvent.h" />
     <ClInclude Include="playerPositionChangeEvent.h" />
     <ClInclude Include="playerWalkAction.h" />
-    <ClInclude Include="random.h" />
     <ClInclude Include="requestEvent.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="objectService.h" />

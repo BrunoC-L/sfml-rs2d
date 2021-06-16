@@ -87,21 +87,19 @@ std::pair<std::string, std::string> Player::getUserNamePw() const {
 
 void Player::login() {
     JSON json;
-    json["type"] = "'salts request'";
-    json["data"] = JSON();
     auto username = player->getUserNamePw().first;
-    json["data"]["username"] = "'" + username + "'";
-    socket->send(json);
+    json["username"] = username;
+    socket->send("salts request", json);
 }
 
 void Player::login(std::string tempsalt, std::string permsalt) {
     JSON json;
     auto credentials = getCredentials(tempsalt, permsalt);
+    loginData.password = "";
+    loginData.username = "";
     json["username"] = credentials.first;
     json["passwordHash"] = credentials.second;
     socket->send("login", json);
-    loginData.password = "";
-    loginData.username = "";
 }
 
 void Player::signUp() {
