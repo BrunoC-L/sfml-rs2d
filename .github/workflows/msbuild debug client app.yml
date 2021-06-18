@@ -17,14 +17,15 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Set env
-        run: echo ::set-env name=RS2D_HOME::$GITHUB_WORKSPACE
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(env) }}
-        run: echo "$GITHUB_CONTEXT"
-        run: echo $RS2D_HOME
-        run: echo "$GITHUB_WORKSPACE"
-
+            run: echo ::set-env name=workspace::$GITHUB_WORKSPACE
+          - name: Dump GitHub context
+            env:
+              GITHUB_CONTEXT: ${{ toJson(env) }}
+            run: echo "$GITHUB_CONTEXT"
+          - run: echo $RS2D_HOME
+            env:
+              RS2D_HOME: ${{ env.workspace }}
+    
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1
 
