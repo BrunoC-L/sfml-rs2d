@@ -1,10 +1,11 @@
 #include "map.h"
 #include <iostream>
 #include "print.h"
+#include "session.h"
 
 Map::Map(ServiceProvider* provider, int chunkRadius) : Service(provider), chunkRadius(chunkRadius) {
 	provider->set(MAP, this);
-	auto fileName = "../../../assets/textures/objects.png";
+	auto fileName = getSession().get("RS2D_HOME").asString() + "/assets/textures/objects.png";
 	objectTileset.loadFromFile(fileName);
 
 	loginObserver.set([&](LoginEvent& ev) {

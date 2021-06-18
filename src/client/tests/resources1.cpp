@@ -9,58 +9,59 @@
 #include "globalWindow.h"
 
 TEST(clicking_on_resources_received_from_server_sends_correct_interaction_current, TestName) {
-	globalWindow->setActive(false);
-	ServiceProvider& provider = ClientServiceProvider();
-	SocketMock2& socket = SocketMock2(&provider);
-	AbstractMeasures& measures = Measures(&provider);
-	AbstractChat& chat = Chat(&provider);
-	AbstractCamera& camera = Camera(&provider);
-	AbstractPlayer& player = Player(&provider);
-	AbstractMap& map = Map(&provider, CHUNK_RADIUS);
-	GameTickProgress& tracker = ClockGameTickProgress();
-	AbstractGameDataService& gameData = GameDataService(&provider, &tracker);
+	try {
+		globalWindow->setActive(false);
+		ServiceProvider& provider = ClientServiceProvider();
+		SocketMock2& socket = SocketMock2(&provider);
+		AbstractMeasures& measures = Measures(&provider);
+		AbstractChat& chat = Chat(&provider);
+		AbstractCamera& camera = Camera(&provider);
+		AbstractPlayer& player = Player(&provider);
+		AbstractMap& map = Map(&provider, CHUNK_RADIUS);
+		GameTickProgress& tracker = ClockGameTickProgress();
+		AbstractGameDataService& gameData = GameDataService(&provider, &tracker);
 
-	AbstractRenderWindow& window = SFRenderWindow(&provider, *globalWindow);
+		AbstractRenderWindow& window = SFRenderWindow(&provider, *globalWindow);
 
-	App app(&provider, &window);
+		App app(&provider, &window);
 
-	bool hasStarted = false;
-	bool done = false;
+		bool hasStarted = false;
+		bool done = false;
 
-	std::thread t(
-		[&]() {
-			OnExit _([&]() { done = true; });
-			globalWindow->setActive(true);
-			app.init();
-			hasStarted = true;
-			app.start();
-			globalWindow->setActive(false);
-		}
-	);
+		std::thread t(
+			[&]() {
+				OnExit _([&]() { done = true; });
+				globalWindow->setActive(true);
+				app.init();
+				hasStarted = true;
+				app.start();
+				globalWindow->setActive(false);
+			}
+		);
 
-	while (!hasStarted && !done); // if something goes wrong, done will go through
+		while (!hasStarted && !done); // if something goes wrong, done will go through
 
-	int messagesReceived = 0;
-	bool testWorked = false;
-	int cx = randint(CHUNK_RADIUS, 29 - CHUNK_RADIUS), cy = randint(CHUNK_RADIUS, 25 - CHUNK_RADIUS);
-	int x = randint(TILES_PER_CHUNK), y = randint(TILES_PER_CHUNK);
+		int messagesReceived = 0;
+		bool testWorked = false;
+		int cx = randint(CHUNK_RADIUS, 29 - CHUNK_RADIUS), cy = randint(CHUNK_RADIUS, 25 - CHUNK_RADIUS);
+		int x = randint(TILES_PER_CHUNK), y = randint(TILES_PER_CHUNK);
 
-	JSON object;
-	object["x"] = std::to_string(x);
-	object["y"] = std::to_string(y);
-	object["size"] = "[2, 2]";
-	object["state"] = "0";
-	std::string bonk = "bonk";
-	object["interactions"] = "[" + bonk + "]";
-	object["fileName"] = "Tree";
-	std::string resourceName = "Tree";
-	object["name"] = resourceName;
+		JSON object;
+		object["x"] = std::to_string(x);
+		object["y"] = std::to_string(y);
+		object["size"] = "[2, 2]";
+		object["state"] = "0";
+		std::string bonk = "bonk";
+		object["interactions"] = "[" + bonk + "]";
+		object["fileName"] = "Tree";
+		std::string resourceName = "Tree";
+		object["name"] = resourceName;
 
-	socket._send = [&](const std::string& type, const JSON& json) {};
+		socket._send = [&](const std::string& type, const JSON& json) {};
 
-	socket._send = [&](const std::string& type, const JSON& json) {
-		messagesReceived += 1;
-		switch (messagesReceived - 1) {
+		socket._send = [&](const std::string& type, const JSON& json) {
+			messagesReceived += 1;
+			switch (messagesReceived - 1) {
 			case 0: // when client sends salts request
 				socket.mockReceiveFromServer("salts", JSON("{'tempsalt':'123','permsalt':'321'}"));
 				break;
@@ -74,7 +75,7 @@ TEST(clicking_on_resources_received_from_server_sends_correct_interaction_curren
 					)
 				);
 				for (int dx = -CHUNK_RADIUS; dx <= CHUNK_RADIUS; ++dx)
-					for (int dy = -CHUNK_RADIUS; dy <= CHUNK_RADIUS; ++dy)
+					for (int dy = -CHUNK_RADIUS; dy <= CHUNK_RADIUS; ++dy) {
 						socket.mockReceiveFromServer(
 							"objectStates",
 							JSON(
@@ -89,6 +90,7 @@ TEST(clicking_on_resources_received_from_server_sends_correct_interaction_curren
 								"]}"
 							)
 						);
+					}
 				{
 					using namespace std::chrono_literals;
 					std::this_thread::sleep_for(5000ms);
@@ -105,27 +107,26 @@ TEST(clicking_on_resources_received_from_server_sends_correct_interaction_curren
 			default:
 				testWorked = false;
 				throw std::exception();
+			}
+		};
+
+		for (const auto key : "username")
+			LetterKeyPressedEvent(key, false).emit();
+		EnterKeyPressedEvent().emit();
+		for (const auto key : "password")
+			LetterKeyPressedEvent(key, false).emit();
+		EnterKeyPressedEvent().emit();
+		{
+			using namespace std::chrono_literals;
+			std::this_thread::sleep_for(2000ms);
 		}
-	};
 
-	for (const auto key : "username")
-		LetterKeyPressedEvent(key, false).emit();
-	EnterKeyPressedEvent().emit();
-	for (const auto key : "password")
-		LetterKeyPressedEvent(key, false).emit();
-	EnterKeyPressedEvent().emit();
-	{
-		using namespace std::chrono_literals;
-		std::this_thread::sleep_for(2000ms);
-	}
-
-	try {
+		EXPECT_TRUE(testWorked);
 		app.stop();
+		t.join();
 	}
 	catch (std::exception e) {
 		std::cout << e.what();
 		EXPECT_TRUE(false);
 	}
-	EXPECT_TRUE(testWorked);
-	t.join();
 }
