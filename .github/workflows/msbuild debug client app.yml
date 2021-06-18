@@ -16,6 +16,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Set env
+        run: echo ::set-env name=RS2D_HOME::$GITHUB_WORKSPACE
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(env) }}
+        run: echo "$GITHUB_CONTEXT"
+        run: echo $RS2D_HOME
+        run: echo "$GITHUB_WORKSPACE"
+
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1
 
@@ -36,8 +45,7 @@ jobs:
       run: msbuild /m /t:tests:Rebuild /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
       
     - name: Test
-      env:
-        RS2D_HOME: ${{env.GITHUB_WORKSPACE}}
+        
       working-directory: ${{env.GITHUB_WORKSPACE}}
       # Add additional options to the MSBuild command line here (like platform or verbosity level).
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
