@@ -11,9 +11,9 @@ env:
   # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
   BUILD_CONFIGURATION: Debug
 jobs:
-  env:
-    RS2D_HOME: ${{env.GITHUB_WORKSPACE}}
   build:
+    env:
+      RS2D_HOME: ${{env.GITHUB_WORKSPACE}}
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
