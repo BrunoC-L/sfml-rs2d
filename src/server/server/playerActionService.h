@@ -1,6 +1,4 @@
 #pragma once
-#include "service.h"
-#include "abstractPlayerActionService.h"
 #include <vector>
 #include "units.h"
 #include "loginEvent.h"
@@ -10,13 +8,15 @@
 #include "playerMoveEvent.h"
 #include "goToObjectRequestEvent.h"
 #include "subscribeToInteractionInterruption.h"
+#include "service.h"
+#include "packets.h"
 
 struct PathPosition {
 	std::vector<VTile> path;
 	VTile position;
 };
 
-class PlayerActionService : public AbstractPlayerActionService, public Service {
+class PlayerActionService : public Service {
 	PathPosition pathPositions[MAX_PLAYERS_ONLINE];
 	VTile oldPositions[MAX_PLAYERS_ONLINE];
 	std::function<void()> movementCompleteCallbacks[MAX_PLAYERS_ONLINE];
@@ -39,6 +39,6 @@ class PlayerActionService : public AbstractPlayerActionService, public Service {
 	void walk(std::shared_ptr<User> user, WalkPacket& packet);
 public:
 	PlayerActionService(ServiceProvider* provider);
-	virtual void init() override;
-	virtual VTile getPlayerPosition(const std::shared_ptr<User>& user) override;
+	virtual void init();
+	virtual VTile getPlayerPosition(const std::shared_ptr<User>& user);
 };

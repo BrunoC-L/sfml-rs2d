@@ -1,14 +1,14 @@
 #pragma once
-#include "constants.h"
 #include "service.h"
-#include "abstractObjectService.h"
+#include <string>
+#include "constants.h"
 #include "playerChunkChangeEvent.h"
 #include "loginEvent.h"
 #include "tickEvent.h"
 #include "objectCreatedEvent.h"
 #include "objectStateChangedEvent.h"
 
-class ObjectService : public AbstractObjectService, public Service {
+class ObjectService : public Service {
 	virtual void updatePlayerChunk(const std::shared_ptr<User>& user);
 	virtual void statePlayerChunk(PlayerChunkChangeEvent& ev);
 	virtual void sendUpdates(const std::shared_ptr<User>& user, VChunk chunk);
@@ -23,6 +23,6 @@ class ObjectService : public AbstractObjectService, public Service {
 	EventObserver<ObjectStateChangedEvent> objectChangedObserver;
 public:
 	ObjectService(ServiceProvider* provider);
-	virtual void init() override;
-	virtual void interact(const std::shared_ptr<User>& user, VTile v, int objectState, const std::string& interaction, std::string objectName) override;
+	virtual void init();
+	virtual void interact(const std::shared_ptr<User>& user, VTile v, int objectState, const std::string& interaction, std::string objectName);
 };

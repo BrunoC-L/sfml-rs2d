@@ -138,6 +138,18 @@
     <ClCompile Include="rock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="movingPredicate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pathfinder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="app.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="service.cpp">
+      <Filter>Source Files\services\base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="json-socket-server.h">
@@ -146,14 +158,8 @@
     <ClInclude Include="socket-server.h">
       <Filter>Source Files\socket-server</Filter>
     </ClInclude>
-    <ClInclude Include="abstractMap.h">
-      <Filter>Source Files\services\map</Filter>
-    </ClInclude>
     <ClInclude Include="map.h">
       <Filter>Source Files\services\map</Filter>
-    </ClInclude>
-    <ClInclude Include="abstractServices.h">
-      <Filter>Source Files\services\base</Filter>
     </ClInclude>
     <ClInclude Include="tile.h">
       <Filter>Source Files\tile</Filter>
@@ -167,17 +173,11 @@
     <ClInclude Include="app.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="abstractDB.h">
-      <Filter>Source Files\services\db</Filter>
-    </ClInclude>
     <ClInclude Include="db.h">
       <Filter>Source Files\services\db</Filter>
     </ClInclude>
     <ClInclude Include="odbc.h">
       <Filter>Source Files\services\db</Filter>
-    </ClInclude>
-    <ClInclude Include="abstractUserService.h">
-      <Filter>Source Files\services\users</Filter>
     </ClInclude>
     <ClInclude Include="userService.h">
       <Filter>Source Files\services\users</Filter>
@@ -185,14 +185,8 @@
     <ClInclude Include="user.h">
       <Filter>Source Files\user</Filter>
     </ClInclude>
-    <ClInclude Include="abstractSocketServer.h">
-      <Filter>Source Files\services\socketServer</Filter>
-    </ClInclude>
     <ClInclude Include="socketServer.h">
       <Filter>Source Files\services\socketServer</Filter>
-    </ClInclude>
-    <ClInclude Include="abstractPlayerActionService.h">
-      <Filter>Source Files\services\playerAction</Filter>
     </ClInclude>
     <ClInclude Include="playerActionService.h">
       <Filter>Source Files\services\playerAction</Filter>
@@ -210,9 +204,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="taskScheduler.h">
-      <Filter>Source Files\services\taskScheduler</Filter>
-    </ClInclude>
-    <ClInclude Include="abstractTaskScheduler.h">
       <Filter>Source Files\services\taskScheduler</Filter>
     </ClInclude>
     <ClInclude Include="object.h">
@@ -245,9 +236,6 @@
     <ClInclude Include="serverServiceProvider.h">
       <Filter>Source Files\services\base</Filter>
     </ClInclude>
-    <ClInclude Include="services.h">
-      <Filter>Source Files\services\base</Filter>
-    </ClInclude>
     <ClInclude Include="requestEvent.h">
       <Filter>Source Files\events</Filter>
     </ClInclude>
@@ -259,9 +247,6 @@
     </ClInclude>
     <ClInclude Include="playerChunkChangeEvent.h">
       <Filter>Source Files\events</Filter>
-    </ClInclude>
-    <ClInclude Include="abstractObjectService.h">
-      <Filter>Source Files\services\objects</Filter>
     </ClInclude>
     <ClInclude Include="objectService.h">
       <Filter>Source Files\services\objects</Filter>
@@ -286,6 +271,12 @@
     </ClInclude>
     <ClInclude Include="gameMessageEvent.h">
       <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="servicesEnum.h">
+      <Filter>Source Files\services\base</Filter>
+    </ClInclude>
+    <ClInclude Include="services.h">
+      <Filter>Source Files\services\base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

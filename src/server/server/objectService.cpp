@@ -1,4 +1,5 @@
 #include "objectService.h"
+#include "services.h"
 
 ObjectService::ObjectService(ServiceProvider* provider) : Service(provider) {
 	provider->set(OBJECTS, this);

@@ -4,6 +4,7 @@
 #include "session.h"
 #include "playerPositionChangeEvent.h"
 #include "playerChunkChangeEvent.h"
+#include "services.h"
 
 PlayerActionService::PlayerActionService(ServiceProvider* provider) : Service(provider) {
 	provider->set(PLAYERACTION, this);

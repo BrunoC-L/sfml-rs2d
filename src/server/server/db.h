@@ -1,16 +1,21 @@
 #pragma once
-#include "service.h"
-#include "abstractDB.h"
 #include <mutex>
 #include "loginEvent.h"
 #include "logoutEvent.h"
 #include "constants.h"
 #include "playerMoveEvent.h"
+#include <vector>
+#include <functional>
+#include "json.h"
+#include "service.h"
+
+using SelectQueryResult = std::vector<JSON>;
+using NonSelectQueryResult = std::string;
 
 using SelectQuery = std::pair<std::string, std::function<void(SelectQueryResult)>>;
 using NonSelectQuery = std::pair<std::string, std::function<void(NonSelectQueryResult)>>;
 
-class DB : public Service, public AbstractDB {
+class DB : public Service {
 	std::mutex queryLock;
 	std::vector<SelectQuery> sQueries;
 	std::vector<NonSelectQuery> nsQueries;
@@ -36,18 +41,21 @@ class DB : public Service, public AbstractDB {
 	bool isEmpty();
 	void saveUserPosition(const User& user, VTile position);
 public:
-	int ids[MAX_PLAYERS_ONLINE];
+	int ids[MAX_PLAYERS_ONLINE]{ 0 };
 
 	DB(ServiceProvider* provider, int nThreads);
+	~DB() {
+		throw 1;
+	}
 	virtual void init();
-	virtual void nonSelectQuery(std::string, std::function<void(NonSelectQueryResult)> = [](NonSelectQueryResult) {}) override;
-	virtual NonSelectQueryResult syncNonSelectQuery(std::string s) override;
+	virtual void nonSelectQuery(std::string, std::function<void(NonSelectQueryResult)> = [](NonSelectQueryResult) {});
+	virtual NonSelectQueryResult syncNonSelectQuery(std::string s);
 
-	virtual void selectQuery(std::string, std::function<void(SelectQueryResult)>) override;
-	virtual SelectQueryResult syncSelectQuery(std::string s) override;
+	virtual void selectQuery(std::string, std::function<void(SelectQueryResult)>);
+	virtual SelectQueryResult syncSelectQuery(std::string s);
 
-	virtual void queryPlayerByUsernameEquals(std::string username, std::function<void(SelectQueryResult)>) override;
-	virtual void queryLoginDataByUserId(int id, std::function<void(SelectQueryResult)> f) override;
+	virtual void queryPlayerByUsernameEquals(std::string username, std::function<void(SelectQueryResult)>);
+	virtual void queryLoginDataByUserId(int id, std::function<void(SelectQueryResult)> f);
 
-	virtual void stop() override;
+	virtual void stop();
 };

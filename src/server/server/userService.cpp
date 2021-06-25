@@ -1,6 +1,7 @@
 #include "userService.h"
 #include "sha256.h"
 #include "loginEvent.h"
+#include "services.h"
 
 UserService::UserService(ServiceProvider* provider) : Service(provider) {
 	provider->set(USER, this);
