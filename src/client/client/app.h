@@ -46,6 +46,7 @@ public:
         camera->init();
         map->init();
         chat->init();
+        inventory->init();
         gameData->init();
         socket->init();
         renderWindow->init();

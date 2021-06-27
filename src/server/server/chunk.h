@@ -6,8 +6,7 @@
 #include <fstream>
 #include <memory>
 #include "objectFactory.h"
-
- constexpr float TilesPerChunk = 64;
+#include "constants.h"
 
 class Chunk {
 private:
@@ -21,5 +20,5 @@ private:
 public:
 	Chunk(const VChunk& pos, ObjectFactory& objectFactory);
 	~Chunk();
-	Tile* tiles[int(TilesPerChunk)][int(TilesPerChunk)];
+	Tile* tiles[int(TILES_PER_CHUNK)][int(TILES_PER_CHUNK)];
 };

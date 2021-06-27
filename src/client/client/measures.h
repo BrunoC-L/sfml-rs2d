@@ -18,7 +18,7 @@ public:
 		VPixel size = windowSize;
 		VPixel banners(rightBannerWidth, bottomBannerHeight);
 		size -= banners;
-		return VTile(size.x, size.y) / pixelsPerTile;
+		return VTile(size.x, size.y) / PIXELS_PER_TILE;
 	}
 
 	virtual VPixel getInnerWindowSize() const {
@@ -28,7 +28,7 @@ public:
 	}
 
 	virtual VPixel getTileSize() const {
-		return VPixel(pixelsPerTile, pixelsPerTile);
+		return VPixel(PIXELS_PER_TILE, PIXELS_PER_TILE);
 	}
 
 	virtual float getRightBannerStartingX()  const {

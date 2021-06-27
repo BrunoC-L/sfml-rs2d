@@ -7,8 +7,8 @@ Chunk::Chunk(const VChunk& pos, ObjectFactory& objectFactory) : chunkpos(pos), o
 }
 
 Chunk::~Chunk() {
-	for (int i = 0; i < TilesPerChunk; ++i)
-		for (int j = 0; j < TilesPerChunk; ++j)
+	for (int i = 0; i < TILES_PER_CHUNK; ++i)
+		for (int j = 0; j < TILES_PER_CHUNK; ++j)
 			delete tiles[i][j];
 }
 
@@ -27,7 +27,7 @@ void Chunk::loadWalls() {
 	if (!file.is_open())
 		throw std::exception();
 
-	int* grid = new int[int(TilesPerChunk) * int(TilesPerChunk)]();
+	int* grid = new int[int(TILES_PER_CHUNK) * int(TILES_PER_CHUNK)]();
 
 	// the code here is terrible
 
@@ -36,13 +36,13 @@ void Chunk::loadWalls() {
 		std::vector<std::string> content = split(line, ":");
 		if (content.size() == 1) {
 			int mode = stoi(content[0]);
-			std::fill_n(grid, int(TilesPerChunk) * int(TilesPerChunk), mode);
+			std::fill_n(grid, int(TILES_PER_CHUNK) * int(TILES_PER_CHUNK), mode);
 		}
 		else {
 			auto x_y = split(content[0], "-");
 			int tx = stoi(x_y[0]);
 			int ty = stoi(x_y[1]);
-			grid[tx * int(TilesPerChunk) + ty] = stoi(content[1]);
+			grid[tx * int(TILES_PER_CHUNK) + ty] = stoi(content[1]);
 		}
 	}
 	while (std::getline(file, line)) {
@@ -50,14 +50,14 @@ void Chunk::loadWalls() {
 		std::vector<std::string> x_y = split(content[0], "-");
 		int tx = stoi(x_y[0]);
 		int ty = stoi(x_y[1]);
-        grid[tx * int(TilesPerChunk) + ty] = stoi(content[1]);
+        grid[tx * int(TILES_PER_CHUNK) + ty] = stoi(content[1]);
 	}
-    for (int tx = 0; tx < TilesPerChunk; ++tx)
-        for (int ty = 0; ty < TilesPerChunk; ++ty)
+    for (int tx = 0; tx < TILES_PER_CHUNK; ++tx)
+        for (int ty = 0; ty < TILES_PER_CHUNK; ++ty)
             tiles[tx][ty] = new Tile(
-				int(TilesPerChunk * chunkpos.x + tx),
-				int(TilesPerChunk * chunkpos.y + ty),
-				grid[tx * int(TilesPerChunk) + ty]
+				int(TILES_PER_CHUNK * chunkpos.x + tx),
+				int(TILES_PER_CHUNK * chunkpos.y + ty),
+				grid[tx * int(TILES_PER_CHUNK) + ty]
 			);
     file.close();
 }

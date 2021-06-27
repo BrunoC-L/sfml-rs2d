@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -19,22 +19,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="app.cpp" />
     <ClCompile Include="chunk.cpp" />
     <ClCompile Include="db.cpp" />
     <ClCompile Include="map.cpp" />
-    <ClCompile Include="movingPredicate.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="objectFactory.cpp" />
     <ClCompile Include="odbc.cpp" />
     <ClCompile Include="packets.cpp" />
-    <ClCompile Include="pathfinder.cpp" />
     <ClCompile Include="playerActionService.cpp" />
     <ClCompile Include="playerWalkAction.cpp" />
+    <ClCompile Include="random.cpp" />
     <ClCompile Include="resource.cpp" />
     <ClCompile Include="objectService.cpp" />
     <ClCompile Include="rock.cpp" />
-    <ClCompile Include="service.cpp" />
     <ClCompile Include="service.h" />
     <ClCompile Include="socketServer.cpp" />
     <ClCompile Include="taskScheduler.cpp" />
@@ -44,6 +41,14 @@
     <ClCompile Include="userService.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="abstractDB.h" />
+    <ClInclude Include="abstractMap.h" />
+    <ClInclude Include="abstractPlayerActionService.h" />
+    <ClInclude Include="abstractObjectService.h" />
+    <ClInclude Include="abstractServices.h" />
+    <ClInclude Include="abstractSocketServer.h" />
+    <ClInclude Include="abstractTaskScheduler.h" />
+    <ClInclude Include="abstractUserService.h" />
     <ClInclude Include="app.h" />
     <ClInclude Include="chunk.h" />
     <ClInclude Include="costLogger.h" />
@@ -70,13 +75,13 @@
     <ClInclude Include="playerMoveEvent.h" />
     <ClInclude Include="playerPositionChangeEvent.h" />
     <ClInclude Include="playerWalkAction.h" />
+    <ClInclude Include="random.h" />
     <ClInclude Include="requestEvent.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="objectService.h" />
     <ClInclude Include="scheduleTaskEvent.h" />
     <ClInclude Include="serverServiceProvider.h" />
     <ClInclude Include="services.h" />
-    <ClInclude Include="servicesEnum.h" />
     <ClInclude Include="socket-server.h" />
     <ClInclude Include="socketServer.h" />
     <ClInclude Include="subscribeToInteractionInterruption.h" />

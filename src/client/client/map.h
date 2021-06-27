@@ -10,7 +10,6 @@
 class Map: public AbstractMap, public Service {
     std::thread updateThread;
     bool shouldStop = false;
-    unsigned chunkRadius;
     VChunk centerChunk;
     std::vector<std::vector<std::shared_ptr<Chunk>>> loaded;
     EventObserver<LoginEvent> loginObserver;
@@ -20,7 +19,7 @@ class Map: public AbstractMap, public Service {
     bool initializing = false;
     bool isLoaded = false;
 public:
-    Map(ServiceProvider* provider, int chunkRadius);
+    Map(ServiceProvider* provider);
     void init();
     virtual void load();
     virtual void update();
@@ -28,7 +27,6 @@ public:
     virtual void doUpdates();
     virtual std::shared_ptr<Tile> getTileFromVTile(VTile tilePosition);
     virtual void stopUpdates();
-    virtual unsigned getRadius() override;
     virtual VChunk getCenterChunk() override;
     virtual Chunk& getLoaded(int i, int j) override;
     virtual std::mutex& getChunksMutex() override;

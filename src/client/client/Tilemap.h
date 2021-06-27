@@ -48,7 +48,7 @@ public:
     }
 
     void update(VTile position, int newTextureIndex) {
-        int i = (int)position.x % (int)AbstractMeasures::TilesPerChunk, j = (int)position.y % (int)AbstractMeasures::TilesPerChunk;
+        int i = (int)position.x % TILES_PER_CHUNK, j = (int)position.y % TILES_PER_CHUNK;
         int index = i + sizex * j;
         tiles[index] = newTextureIndex;
 

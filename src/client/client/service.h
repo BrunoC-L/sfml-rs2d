@@ -8,6 +8,7 @@ public:
 	ServiceProvider* provider;
 	AbstractCamera* camera;
 	AbstractChat* chat;
+	AbstractInventory* inventory;
 	AbstractMap* map;
 	AbstractMeasures* measures;
 	AbstractPlayer* player;
@@ -19,6 +20,7 @@ public:
 	void acquire() {
 		camera = (AbstractCamera*)provider->get(CAMERA);
 		chat = (AbstractChat*)provider->get(CHAT);
+		inventory = (AbstractInventory*)provider->get(INVENTORY);
 		map = (AbstractMap*)provider->get(MAP);
 		measures = (AbstractMeasures*)provider->get(MEASURES);
 		player = (AbstractPlayer*)provider->get(PLAYER);

@@ -1,12 +1,22 @@
 #pragma once
 #include "units.h"
 #include "chunk.h"
+#include "abstractMap.h"
 
-class Map;
 
 class MovingPredicate {
 public:
-    static bool canMoveFromTo(VTile a, VTile b, Map* map);
+    static bool canMoveFromTo(VTile a, VTile b, AbstractMap* map) {
+        VChunk ca = VChunk(int(a.x / TILES_PER_CHUNK), int(a.y / TILES_PER_CHUNK));
+        VChunk cb = VChunk(int(b.x / TILES_PER_CHUNK), int(b.y / TILES_PER_CHUNK));
+        std::shared_ptr<Chunk> tileAChunk = map->getChunk(ca);
+        std::shared_ptr<Chunk> tileBChunk = map->getChunk(cb);
+        if (!tileAChunk || !tileBChunk)
+            return false;
+        Tile* ta = tileAChunk->tiles[int(a.x - ca.x * TILES_PER_CHUNK)][int(a.y - ca.y * TILES_PER_CHUNK)];
+        Tile* tb = tileBChunk->tiles[int(b.x - cb.x * TILES_PER_CHUNK)][int(b.y - cb.y * TILES_PER_CHUNK)];
+        return ta->canMoveFrom(*tb);
+    }
 
     static std::vector<VTile> getNextTo(std::vector<VTile> tiles) {
         std::vector<VTile> adjacent = {};

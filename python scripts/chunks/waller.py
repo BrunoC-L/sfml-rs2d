@@ -106,7 +106,7 @@ def waller(cx, cy):
         wmode = mode(walls)[0][0]
         f.write(f"{wmode}\n")
         for x, y in TILES:
-            w = walls[64 * x + y]
+            w = walls[TPC * x + y]
 
             # The following process is to facilitate the pathfinding algorithm
             # Essentially so far, we might have a tile A next to B from west to east
@@ -128,19 +128,19 @@ def waller(cx, cy):
             # only write down the tiles that have walls on them, not zeros
 
             if x >  0:
-                neighbor = walls[64 * (x - 1) + y]
+                neighbor = walls[TPC * (x - 1) + y]
                 if neighbor &  EAST:
                     w |=  WEST
             if x < 63:
-                neighbor = walls[64 * (x + 1) + y]
+                neighbor = walls[TPC * (x + 1) + y]
                 if neighbor &  WEST:
                     w |=  EAST
             if y >  0:
-                neighbor = walls[64 * x + (y - 1)]
+                neighbor = walls[TPC * x + (y - 1)]
                 if neighbor & SOUTH:
                     w |= NORTH
             if y < 63:
-                neighbor = walls[64 * x + (y + 1)]
+                neighbor = walls[TPC * x + (y + 1)]
                 if neighbor & NORTH:
                     w |= SOUTH
             if w != wmode:

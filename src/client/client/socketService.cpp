@@ -33,10 +33,7 @@ void Socket::onDisconnect() {
 
 void Socket::init() {
 	acquire();
-    subscribeToLoginAndSalts();
-}
 
-void Socket::subscribeToLoginAndSalts() {
     on("login",
         [&](const std::shared_ptr<const JSON>& data) {
             LoginEvent(*data).emit();
@@ -57,6 +54,10 @@ void Socket::receive(const std::string& type, std::shared_ptr<const JSON> data) 
 
 void Socket::send(const std::string& type, const JSON& data) {
     socket.send("{'type':'" + type + "', 'data':" + data.asString() + "}");
+}
+
+void Socket::send(const JSON& json) {
+    socket.send(json.asString());
 }
 
 void Socket::on(const std::string& type, std::function<void(const std::shared_ptr<const JSON>&)> callback) {

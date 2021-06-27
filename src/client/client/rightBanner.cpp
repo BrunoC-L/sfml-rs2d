@@ -1,4 +1,5 @@
 #include "rightBanner.h"
+#include "abstractInventory.h"
 #include "abstractRenderWindow.h"
 #include "abstractPlayer.h"
 #include "logoutInnerBanner.h"
@@ -67,7 +68,7 @@ void RightBanner::click(MouseEvent& ev) {
         VPixel rotatedDelta = VPixel(cos(angle), sin(angle)) * radius;
         vpxFromMiddleOfMinimap = rotatedDelta;
 
-        VTile position = player->getPosition() + vpxFromMiddleOfMinimap / AbstractMeasures::pixelsPerTileOnMap;
+        VTile position = player->getPosition() + vpxFromMiddleOfMinimap / PIXELS_PER_TILE_ON_MAP;
         WalkClickEvent(position).emit();
     }
 }

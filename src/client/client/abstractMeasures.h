@@ -18,7 +18,7 @@ public:
 	}
 
 	static VPixel startingInnerScreenSize() {
-		return VPixel(startingInnerScreenSizeTile() * pixelsPerTile);
+		return VPixel(startingInnerScreenSizeTile() * PIXELS_PER_TILE);
 	}
 
 	static VPixel banners() {
@@ -26,8 +26,8 @@ public:
 	}
 
 	static VPixel startingScreenSize() {
-		return VPixel(startingInnerScreenSizeTile().x * pixelsPerTile,
-			startingInnerScreenSizeTile().y * pixelsPerTile) + banners();
+		return VPixel(startingInnerScreenSizeTile().x * PIXELS_PER_TILE,
+			startingInnerScreenSizeTile().y * PIXELS_PER_TILE) + banners();
 	}
 
 	VPixel stretch = VPixel(1, 1);
@@ -36,11 +36,6 @@ public:
 	float zoom = 1;
 	static constexpr float rightBannerWidth = 245;
 	static constexpr float bottomBannerHeight = 180;
-	static constexpr float TilesPerChunk = TILES_PER_CHUNK;
-	static constexpr float pixelsPerTileOnMap = 4;
 	static constexpr float minimapRadius = 100;
-	static constexpr float pixelsPerTile = 32;
 	static constexpr float framesPerTick = 60;
-	static constexpr float itemsSizePx = 128;
-	static constexpr float itemsSizeInInventory = 55;
 };

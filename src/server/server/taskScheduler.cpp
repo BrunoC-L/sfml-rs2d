@@ -1,7 +1,6 @@
 #include "taskScheduler.h"
 
-TaskScheduler::TaskScheduler(ServiceProvider* provider) : Service(provider) {
-	provider->set(SERVICES::SCHEDULER, this);
+TaskScheduler::TaskScheduler(ServiceProvider* provider) : Service(provider), AbstractTaskScheduler(provider) {
 	scheduleObserver.set([&](ScheduleTaskEvent& ev) {
 		callInTicks(ev.nTicks, ev.task);
 	});

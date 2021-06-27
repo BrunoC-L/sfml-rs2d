@@ -25,10 +25,12 @@ Chat::Chat(ServiceProvider* provider) : Service(provider) {
 	enterObserver.set([&](EnterKeyPressedEvent& ev) {
 		if (!gameData->userIsLoggedIn())
 			return;
-		JSON json;
-		json["message"] = currentlyTyped;
+		JSON message;
+		message["type"] = "chat";
+		message["data"] = JSON();
+		message["data"]["message"] = currentlyTyped;
+		socket->send(message);
 		currentlyTyped = "";
-		socket->send("chat", json);
 	});
 
 	backspaceObserver.set([&](BackspaceKeyPressedEvent& ev) {

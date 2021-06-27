@@ -1,16 +1,15 @@
 #pragma once
 #include "serviceProvider.h"
-
-class Service;
+#include "service.h"
 
 class ServerServiceProvider : public ServiceProvider {
-	Service* services[SERVICES::SERVICES_SIZE];
+	AbstractService* services[SERVICES::SERVICES_SIZE];
 public:
-	virtual void set(int serviceIndex, Service* service) override {
+	virtual void set(int serviceIndex, AbstractService* service) override {
 		services[serviceIndex] = service;
 	}
 
-	virtual Service* get(int serviceIndex) override {
+	virtual AbstractService* get(int serviceIndex) override {
 		return this->services[serviceIndex];
 	}
 };

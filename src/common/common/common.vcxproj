@@ -154,13 +154,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\server\server\random.h" />
     <ClInclude Include="abstractService.h" />
     <ClInclude Include="clamp.h" />
     <ClInclude Include="crc_table.h" />
     <ClInclude Include="getenv.h" />
     <ClInclude Include="char_array_crc32.h" />
-    <ClInclude Include="random.h" />
     <ClInclude Include="string_crc32.h" />
     <ClInclude Include="json.h" />
     <ClInclude Include="logger.h" />
@@ -190,7 +188,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="print.cpp" />
-    <ClCompile Include="random.cpp" />
     <ClCompile Include="session.cpp" />
     <ClCompile Include="splitString.cpp" />
     <ClCompile Include="units.cpp" />

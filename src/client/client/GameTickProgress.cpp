@@ -17,7 +17,7 @@ void ClockGameTickProgress::onGameTick() {
 
 double ClockGameTickProgress::getTickFraction() {
 	auto tf = getMsSinceTick() / MSPT * (1 + msBehind / MSPT);
-	return tf < 1 ? tf : 1;
+	return tf;
 }
 
 double ClockGameTickProgress::getMsSinceTick() {

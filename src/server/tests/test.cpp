@@ -1,5 +1,5 @@
 #include "pch.h"
 
-TEST(TestCaseName, TestName) {
+TEST(TestCaseName2, TestName) {
   EXPECT_TRUE(true);
 }

@@ -20,17 +20,17 @@ int main(int argc, char* argv[]) {
 	auto local = args["local"].asBool();
 	std::string ip = args["ip"].asBool() ? args["ip"].asString() : local ? "localhost" : "35.182.111.227";
 	auto port = args["port"].asBool() ? args["port"].asInt() : 38838;
-	auto radius = args["radius"].asBool() ? args["radius"].asInt() : 2; // if someone wants radius 0 this will fail because json 0 will eval to false!
 	ClientServiceProvider provider;
 	Socket s(&provider, ip, port);
 	Measures me(&provider);
 	Chat chat(&provider);
 	Camera camera(&provider);
 	Player player(&provider);
-	Map map(&provider, radius);
+	Map map(&provider);
+	Inventory i(&provider);
 	ClockGameTickProgress cgtp;
 	GameDataService g(&provider, &cgtp);
-
+	std::cout << "1\n";
 	sf::RenderWindow sfWindow(
 		sf::VideoMode(
 			AbstractMeasures::startingScreenSize().x,
@@ -38,6 +38,7 @@ int main(int argc, char* argv[]) {
 		),
 		"RS2D"
 	);
+	std::cout << "1\n";
 	SFRenderWindow window(&provider, sfWindow);
 
 	App app(&provider, &window);

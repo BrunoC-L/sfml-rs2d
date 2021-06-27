@@ -17,7 +17,7 @@ public:
 		VTile signs(rotatedDelta.x > 0 ? 1 : -1, rotatedDelta.y > 0 ? 1 : -1);
 		rotatedDelta *= VPixel(signs.x, signs.y);
 		rotatedDelta /= measures->zoom;
-		VTile deltaTilesFloat = VTile(rotatedDelta.x, rotatedDelta.y) / AbstractMeasures::pixelsPerTile;
+		VTile deltaTilesFloat = VTile(rotatedDelta.x, rotatedDelta.y) / PIXELS_PER_TILE;
 		VTile tileClicked = camera->getPosition() + VTile(deltaTilesFloat.x * signs.x, deltaTilesFloat.y * signs.y) + VTile(0.5, 0.5);
 		return tileClicked;
 	}

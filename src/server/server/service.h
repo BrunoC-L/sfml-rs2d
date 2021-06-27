@@ -1,27 +1,35 @@
 #pragma once
-#include "serviceProvider.h"
-#include "servicesEnum.h"
-
-class Map;
-class DB;
-class UserService;
-class PlayerActionService;
-class SocketServerService;
-class TaskScheduler;
-class ObjectService;
+#include "abstractServices.h"
+#include "ServiceProvider.h"
+#include "services.h"
 
 class Service {
 protected:
 	ServiceProvider* provider = nullptr;
-	Map* map = nullptr;
-	DB* dbService = nullptr;
-	UserService* userService = nullptr;
-	PlayerActionService* playerActionService = nullptr;
-	SocketServerService* server = nullptr;
-	TaskScheduler* scheduler = nullptr;
-	ObjectService* resourceService = nullptr;
+	AbstractMap* map = nullptr;
+	AbstractDB* dbService = nullptr;
+	AbstractUserService* userService = nullptr;
+	AbstractPlayerActionService* playerActionService = nullptr;
+	AbstractSocketServer* server = nullptr;
+	AbstractTaskScheduler* scheduler = nullptr;
+	AbstractObjectService* resourceService = nullptr;
 public:
 	Service(ServiceProvider* provider) : provider(provider) { }
 
-	void acquire();
+	void acquire() {
+		map = (AbstractMap*)provider->get(MAP);
+		_ASSERT(map);
+		dbService = (AbstractDB*)provider->get(DATABASE);
+		_ASSERT(map);
+		userService = (AbstractUserService*)provider->get(USER);
+		_ASSERT(map);
+		playerActionService = (AbstractPlayerActionService*)provider->get(PLAYERACTION);
+		_ASSERT(map);
+		server = (AbstractSocketServer*)provider->get(SERVER);
+		_ASSERT(map);
+		scheduler = (AbstractTaskScheduler*)provider->get(SCHEDULER);
+		_ASSERT(map);
+		resourceService = (AbstractObjectService*)provider->get(OBJECTS);
+		_ASSERT(map);
+	}
 };

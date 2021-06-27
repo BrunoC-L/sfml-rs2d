@@ -1,4 +1,5 @@
 import json
+from constants import MAP_SIZE_CHUNKS
 
 '''
 This file is meant to be ran once after modifying data, either adding new
@@ -10,7 +11,7 @@ The UI from the Editor Program in src/map editor, there is a file that stores
 the name of each file that has been modified since this script was last ran.
 The editor script uses data from /resource/editor/data/ that data is organised
 by chunk but separated in 1 file per tile, it is better for the editor but
-I didn't see my server loading 29 * 25 * 64 * 64 files and readingthrough the JSON!
+I couldn't see my server loading 29 * 25 * 64 * 64 files
 
 editor takes data by tile and reorganise it into type then chunk file
 ex: assets/walls/*.txt files, same for monsters, etc. those are faster to read for the
@@ -35,8 +36,8 @@ def main(args):
     keys = [k for k in ['wall', 'monster', 'npc', 'object', 'item'] if 'no' + k not in args]
     if all:
         for key in keys:
-            for cx in range(29):
-                for cy in range(29):
+            for cx in range(MAP_SIZE_CHUNKS["x"]):
+                for cy in range(MAP_SIZE_CHUNKS["y"]):
                     for cz in range(1):
                         try:
                             open(f'../resource/chunks/{key}s/{cx}-{cy}-{cz}.txt', 'w+')

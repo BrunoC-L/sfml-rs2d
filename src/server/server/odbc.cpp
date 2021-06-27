@@ -6,7 +6,7 @@
 #include "session.h"
 
 void db(
-    WCHAR* connectionString,
+    const WCHAR* connectionString,
     std::mutex& queryLock,
     std::vector<SelectQuery>& selectQueries,
     std::vector<NonSelectQuery>& nonSelectQueries,
@@ -55,7 +55,7 @@ void db(
 
     SQLDriverConnect(hDbc,
         NULL,
-        connectionString,
+        const_cast<WCHAR*>(connectionString),
         SQL_NTS,
         NULL,
         0,
