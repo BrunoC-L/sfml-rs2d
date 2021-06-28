@@ -13,7 +13,7 @@ Chunk::~Chunk() {
 }
 
 std::string Chunk::getFileName(const std::string& type) const {
-	return "../../../resource/chunks/" + type + "/" +
+	return "../../../resource/" + CHUNKS_FOLDER + "/" + type + "/" +
 		std::to_string((int)chunkpos.x) + "-" + std::to_string((int)chunkpos.y) + "-" + std::to_string((int)chunkpos.z) + ".txt";
 }
 

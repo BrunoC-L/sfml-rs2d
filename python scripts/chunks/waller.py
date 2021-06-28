@@ -101,7 +101,7 @@ def classify(x, y):
     return walls
 
 def waller(cx, cy):
-    with open(f"../resource/chunks/walls/{cx}-{cy}-0.txt","w+") as f:
+    with open(f"../resource/chunks-{TPC}/walls/{cx}-{cy}-0.txt","w+") as f:
         walls = [classify(x + TPC * cx, y + TPC * cy) for x, y in TILES]
         wmode = mode(walls)[0][0]
         f.write(f"{wmode}\n")

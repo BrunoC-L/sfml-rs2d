@@ -13,20 +13,20 @@ SFRenderWindow::SFRenderWindow(
 	window(window)
 {
 	font.loadFromFile("../../../assets/runescape_uf.ttf");
-	clanTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/clan.png");
-	friendsTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/friends.png");
-	ignoreTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/ignore.png");
-	logoutTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/logout.png");
-	settingsTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/settings.png");
-	emotesTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/emotes.png");
-	musicTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/music.png");
-	combatTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/combat.png");
-	skillsTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/skills.png");
-	questsTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/quests.png");
-	inventoryTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/inventory.png");
-	equipmentTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/equipment.png");
-	prayersTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/prayers.png");
-	magicTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/magic.png");
+	clanTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/clan.png");
+	friendsTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/friends.png");
+	ignoreTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/ignore.png");
+	logoutTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/logout.png");
+	settingsTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/settings.png");
+	emotesTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/emotes.png");
+	musicTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/music.png");
+	combatTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/combat.png");
+	skillsTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/skills.png");
+	questsTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/quests.png");
+	inventoryTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/inventory.png");
+	equipmentTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/equipment.png");
+	prayersTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/prayers.png");
+	magicTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/magic.png");
 
 	leftClickObserver.set([&](MouseLeftClickEvent& ev) {
 		if (gameData->userIsLoggedIn()) {
@@ -159,6 +159,8 @@ void SFRenderWindow::init() {
 
 	p_t.loadFromFile("../../../assets/player.png");
 	playerSprite = sf::Sprite(p_t);
+	float playerScale = PIXELS_PER_TILE / 32.f; // player texture is correctly scaled when PPT = 32
+	playerSprite.setScale(playerScale, playerScale);
 
 	loginPage = sf::RectangleShape(sf::Vector2f(measures->windowSize.x, measures->windowSize.y));
 	loginTexture.loadFromFile("../../../assets/login.png");

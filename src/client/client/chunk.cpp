@@ -15,8 +15,8 @@ void Chunk::loadTexture() {
     map.setTexture(&mapTexture);
     map.setSize(
         sf::Vector2f(
-            TILES_PER_CHUNK * TILES_PER_CHUNK,
-            TILES_PER_CHUNK * TILES_PER_CHUNK
+            TILES_PER_CHUNK * PIXELS_PER_TILE,
+            TILES_PER_CHUNK * PIXELS_PER_TILE
         )
     );
     for (int x = 0; x < TILES_PER_CHUNK; ++x) {
@@ -37,7 +37,7 @@ void Chunk::loadObjects() {
 }
 
 std::string Chunk::getGroundTexturesetFileName() const {
-    return "../../../assets/textures/chunks/" +
+    return "../../../assets/" + TEXTURES_FOLDER + "/" + CHUNKS_FOLDER + "/" +
         std::to_string((int)chunkpos.x) + "-" + std::to_string((int)chunkpos.y) + "-" + std::to_string((int)chunkpos.z) + ".png";
 }
 

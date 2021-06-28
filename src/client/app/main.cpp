@@ -30,7 +30,6 @@ int main(int argc, char* argv[]) {
 	Inventory i(&provider);
 	ClockGameTickProgress cgtp;
 	GameDataService g(&provider, &cgtp);
-	std::cout << "1\n";
 	sf::RenderWindow sfWindow(
 		sf::VideoMode(
 			AbstractMeasures::startingScreenSize().x,
@@ -38,7 +37,6 @@ int main(int argc, char* argv[]) {
 		),
 		"RS2D"
 	);
-	std::cout << "1\n";
 	SFRenderWindow window(&provider, sfWindow);
 
 	App app(&provider, &window);

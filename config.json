@@ -4,7 +4,7 @@
         "server" : "C:/Users/Bruno/Desktop/rs2d/logs/server",
         "client" : "C:/Users/Bruno/Desktop/rs2d/logs/client"
     },
-    "PixelsPerTile":  32,
+    "PixelsPerTile":  4,
     "OriginalMapPixelsPerTile": 4,
     "TilesPerChunk": 64,
     "ObjectFileWidthHeightItems": 16,

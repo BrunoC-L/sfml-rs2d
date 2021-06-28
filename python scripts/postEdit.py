@@ -1,5 +1,5 @@
 import json
-from constants import MAP_SIZE_CHUNKS
+from constants import MAP_SIZE_CHUNKS, TPC
 
 '''
 This file is meant to be ran once after modifying data, either adding new
@@ -21,7 +21,7 @@ server when booting up, otherwise it would completely kill the program.
 def main(args):
     args = [a.lower() for a in args]
     verbose = not 'silence' in args
-    all   = 'all' in args
+    all = 'all' in args
     from os import listdir
     changesDir = '../resource/editor/changes'
     changes = listdir(changesDir)
@@ -40,13 +40,13 @@ def main(args):
                 for cy in range(MAP_SIZE_CHUNKS["y"]):
                     for cz in range(1):
                         try:
-                            open(f'../resource/chunks/{key}s/{cx}-{cy}-{cz}.txt', 'w+')
+                            open(f'../resource/chunks-{TPC}/{key}s/{cx}-{cy}-{cz}.txt', 'w+')
                         except:
                             pass
 
     for change in changes:
         cx, cy, cz, x, y = change.split()
-        with open(f'../resource/editor/data/chunks/{cx}-{cy}-{cz}/{x}-{y}.json') as f:
+        with open(f'../resource/editor/data/chunks-{TPC}/{cx}-{cy}-{cz}/{x}-{y}.json') as f:
             content  = json.load(f)
             # get walls, objects, monsters, npcs, put them in their file
             for key in keys:
@@ -60,7 +60,7 @@ def main(args):
                 # (in program complexity and execution time)
                 for m in ['a', 'w+']: # first try to append, otherwise create file
                     try :
-                        with open(f'../resource/chunks/{key}s/{cx}-{cy}-{cz}.txt', m) as chunk:
+                        with open(f'../resource/chunks-{TPC}/{key}s/{cx}-{cy}-{cz}.txt', m) as chunk:
                             chunk.write(f'{x}-{y}:{value}\n')
                             break
                     except:

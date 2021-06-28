@@ -14,7 +14,6 @@ def main(args):
     args = [a.lower() for a in args]
     verbose = not 'silence' in args
     esttime = not 'notime' in args
-
     texture = not 'notext' in args
     walls   = not 'nowall' in args
 

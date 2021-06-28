@@ -4,7 +4,7 @@
 
 Map::Map(ServiceProvider* provider) : Service(provider) {
 	provider->set(MAP, this);
-	auto fileName = "../../../assets/textures/objects.png";
+	auto fileName = "../../../assets/" + TEXTURES_FOLDER + "/objects.png";
 	objectTileset.loadFromFile(fileName);
 
 	loginObserver.set([&](LoginEvent& ev) {

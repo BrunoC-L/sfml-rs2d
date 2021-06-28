@@ -23,4 +23,4 @@ def texturer(cx, cy):
 
                 px, py = (PPT * x + i, PPT * y + j)
                 pixout[px, py] = pxValue
-        output.save(f"../assets/textures/chunks/{cx}-{cy}-0.png")
+        output.save(f"../assets/textures-{PPT}/chunks-{TPC}/{cx}-{cy}-0.png")
