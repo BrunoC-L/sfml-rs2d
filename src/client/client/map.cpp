@@ -1,10 +1,13 @@
 #include "map.h"
 #include <iostream>
 #include "print.h"
+#include "mapUpdatedChunksEvent.h"
+#include "logger.h"
+#include "session.h"
 
 Map::Map(ServiceProvider* provider) : Service(provider) {
 	provider->set(MAP, this);
-	auto fileName = "../../../assets/" + TEXTURES_FOLDER + "/objects.png";
+	auto fileName = getSession().get("RS2D_HOME").asString() + "/assets/" + TEXTURES_FOLDER + "/objects.png";
 	objectTileset.loadFromFile(fileName);
 
 	loginObserver.set([&](LoginEvent& ev) {
@@ -22,19 +25,23 @@ void Map::init() {
 }
 
 void Map::load() {
+	auto log = clientDefaultFolderLogger("map.txt", true);
+	log("acquiring map mutex");
 	std::lock_guard<std::mutex> lock(mutex);
 	isLoaded = true;
 	while (camera->getPosition() == VChunk());
 	centerChunk = VChunk(
-			int(camera->getPosition().x / TILES_PER_CHUNK),
-			int(camera->getPosition().y / TILES_PER_CHUNK),
-			int(camera->getPosition().z / TILES_PER_CHUNK)
-		);
+		int(camera->getPosition().x / TILES_PER_CHUNK),
+		int(camera->getPosition().y / TILES_PER_CHUNK),
+		int(camera->getPosition().z / TILES_PER_CHUNK)
+	);
 	auto diameter = 2 * CHUNK_RADIUS + 1;
 	loaded = std::vector<std::vector<std::shared_ptr<Chunk>>>(diameter, std::vector<std::shared_ptr<Chunk>>(diameter, nullptr));
+	log("creating chunks");
 	for (int i = 0; i < diameter; ++i)
 		for (int j = 0; j < diameter; ++j)
 			loaded[i][j] = std::make_shared<Chunk>(centerChunk + VChunk(i, j) - VChunk(CHUNK_RADIUS, CHUNK_RADIUS), &objectTileset, gameData);
+	MapUpdatedChunksEvent().emit();
 }
 
 void Map::update() {
@@ -59,19 +66,25 @@ void Map::updateChunks(const VChunk& difference, const VChunk& tempCenter) {
 	std::lock_guard<std::mutex> lock(mutex);
 	std::swap(loaded, newChunks);
 	gameData->clearObjectsCache();
+	MapUpdatedChunksEvent().emit();
 }
 
 void Map::doUpdates() {
 	initializing = true;
 	shouldStop = false;
+	auto log = clientDefaultFolderLogger("map.txt", true);
+	log("starting update thread");
 	updateThread = std::thread(
-		[&]() {
+		[&, log]() {
+			log("started update thread");
 			{
 				std::ostringstream ss;
 				ss << "Map update thread: " << std::this_thread::get_id() << std::endl;
 				print(ss);
 			}
+			log("loading map");
 			load();
+			log("loaded map");
 			initializing = false;
 			while (!shouldStop)
 				update();
@@ -86,11 +99,17 @@ void Map::doUpdates() {
 }
 
 void Map::stopUpdates() {
-	while (initializing);
+	auto log = clientDefaultFolderLogger("map.txt", true);
+	log("stopping map updates");
 	this->shouldStop = true;
+	while (initializing);
+	log("acquiring map mutex");
 	std::lock_guard<std::mutex> lock(mutex);
-	if (updateThread.joinable() && this->isLoaded)
+	if (updateThread.joinable()) {
+		log("joining update thread");
 		updateThread.join();
+	}
+	log("stopped map updates");
 }
 
 std::shared_ptr<Tile> Map::getTileFromVTile(VTile tilePosition) {

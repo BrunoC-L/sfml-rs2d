@@ -11,6 +11,8 @@
 #include "closeEvent.h"
 #include "print.h"
 #include "chunk.h"
+#include "logger.h"
+#include "session.h"
 
 class App : public Service {
 public:
@@ -46,7 +48,6 @@ public:
         camera->init();
         map->init();
         chat->init();
-        inventory->init();
         gameData->init();
         socket->init();
         renderWindow->init();
@@ -61,9 +62,14 @@ public:
     }
 
 	void start() {
+        auto log = clientDefaultFolderLogger("app.txt", true);
+        log("Starting frames");
         while (renderWindow->isOpen() && !stopping) {
+            log("Frame events");
             renderWindow->events();
+            log("Frame draw");
             renderWindow->draw();
         }
+        log("Stopping frames");
     }
 };

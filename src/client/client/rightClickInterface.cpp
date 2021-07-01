@@ -1,13 +1,14 @@
 #include "rightClickInterface.h"
 #include "abstractRenderWindow.h"
 #include "tile.h"
+#include "session.h"
 
 RightClickInterface::RightClickInterface(ServiceProvider* provider, AbstractRenderWindow* window) : Service(provider), window(window) {
     acquire();
     active = false;
     AbstractMeasures& measures = *(AbstractMeasures*)nullptr;
     rect = sf::RectangleShape(sf::Vector2f(100, 100));
-    font.loadFromFile("../../../assets/runescape_uf.ttf");
+    font.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/runescape_uf.ttf");
     text.setFont(font);
     text.setFillColor(sf::Color::Red);
     text.setCharacterSize(16);

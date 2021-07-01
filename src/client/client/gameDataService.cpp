@@ -1,10 +1,11 @@
 #include "gameDataService.h"
 #include "constants.h"
 #include "chunk.h"
+#include "session.h"
 
 GameDataService::GameDataService(ServiceProvider* provider, GameTickProgress* tracker) : Service(provider), tracker(tracker) {
     provider->set(GAMEDATA, this);
-	std::ifstream name2textureIndex("../../../resource/objects/objectName2texture.txt");
+	std::ifstream name2textureIndex(getSession().get("RS2D_HOME").asString() + "/resource/objects/objectName2texture.txt");
 	if (!name2textureIndex.is_open())
 		return;
 	std::string nameOfTexture;

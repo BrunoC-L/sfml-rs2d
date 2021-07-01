@@ -56,10 +56,6 @@ void Socket::send(const std::string& type, const JSON& data) {
     socket.send("{'type':'" + type + "', 'data':" + data.asString() + "}");
 }
 
-void Socket::send(const JSON& json) {
-    socket.send(json.asString());
-}
-
 void Socket::on(const std::string& type, std::function<void(const std::shared_ptr<const JSON>&)> callback) {
 	callbacks[type].push_back(callback);
 }

@@ -11,3 +11,5 @@ void log(std::string filename, const std::string& text);
 void log(std::string filename, const std::stringstream& text);
 std::function<void(const std::string& text)> logger(std::string filename, bool addNewLines);
 std::function<void(const std::string& text)> defaultFolderLogger(std::string basepath, std::string filename, bool addNewLines);
+std::function<void(const std::string& text)> clientDefaultFolderLogger(std::string filename, bool addNewLines);
+std::function<void(const std::string& text)> serverDefaultFolderLogger(std::string filename, bool addNewLines);

@@ -1,4 +1,5 @@
 #include "chunk.h"
+#include "session.h"
 
 Chunk::Chunk(const VChunk& pos, sf::Texture* objectsTexture, AbstractGameDataService* gameData) : 
     chunkpos(pos),
@@ -37,7 +38,7 @@ void Chunk::loadObjects() {
 }
 
 std::string Chunk::getGroundTexturesetFileName() const {
-    return "../../../assets/" + TEXTURES_FOLDER + "/" + CHUNKS_FOLDER + "/" +
+    return getSession().get("RS2D_HOME").asString() + "/assets/" + TEXTURES_FOLDER + "/" + CHUNKS_FOLDER + "/" +
         std::to_string((int)chunkpos.x) + "-" + std::to_string((int)chunkpos.y) + "-" + std::to_string((int)chunkpos.z) + ".png";
 }
 

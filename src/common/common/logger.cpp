@@ -43,6 +43,14 @@ std::function<void(const std::string& text)> defaultFolderLogger(std::string bas
 	return logger(path + "/" + filename, addNewLines);
 }
 
+std::function<void(const std::string& text)> clientDefaultFolderLogger(std::string filename, bool addNewLines) {
+	return defaultFolderLogger(getSession().get("logs").get("client").asString(), filename, addNewLines);
+}
+
+std::function<void(const std::string& text)> serverDefaultFolderLogger(std::string filename, bool addNewLines) {
+	return defaultFolderLogger(getSession().get("logs").get("server").asString(), filename, addNewLines);
+}
+
 void log(std::ofstream& out, const std::stringstream& text) {
 	log(out, text.str());
 }

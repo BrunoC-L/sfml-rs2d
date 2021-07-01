@@ -4,6 +4,7 @@
 #include "anchorTransform.h"
 #include "font.h"
 #include "textures.h"
+#include "session.h"
 
 SFRenderWindow::SFRenderWindow(
 	ServiceProvider* provider,
@@ -12,21 +13,21 @@ SFRenderWindow::SFRenderWindow(
 	converter(provider),
 	window(window)
 {
-	font.loadFromFile("../../../assets/runescape_uf.ttf");
-	clanTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/clan.png");
-	friendsTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/friends.png");
-	ignoreTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/ignore.png");
-	logoutTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/logout.png");
-	settingsTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/settings.png");
-	emotesTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/emotes.png");
-	musicTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/music.png");
-	combatTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/combat.png");
-	skillsTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/skills.png");
-	questsTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/quests.png");
-	inventoryTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/inventory.png");
-	equipmentTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/equipment.png");
-	prayersTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/prayers.png");
-	magicTabButtonTexture.loadFromFile("../../../assets/buttons/tabButtons/magic.png");
+	font.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/runescape_uf.ttf");
+	clanTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/clan.png");
+	friendsTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/friends.png");
+	ignoreTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/ignore.png");
+	logoutTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/logout.png");
+	settingsTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/settings.png");
+	emotesTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/emotes.png");
+	musicTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/music.png");
+	combatTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/combat.png");
+	skillsTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/skills.png");
+	questsTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/quests.png");
+	inventoryTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/inventory.png");
+	equipmentTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/equipment.png");
+	prayersTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/prayers.png");
+	magicTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/magic.png");
 
 	leftClickObserver.set([&](MouseLeftClickEvent& ev) {
 		if (gameData->userIsLoggedIn()) {
@@ -157,13 +158,13 @@ void SFRenderWindow::init() {
 	loginButton->onClick([&]() { player->login(); });
 	loginButton->text("Login", sf::Color::Red);
 
-	p_t.loadFromFile("../../../assets/player.png");
+	p_t.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/player.png");
 	playerSprite = sf::Sprite(p_t);
 	float playerScale = PIXELS_PER_TILE / 32.f; // player texture is correctly scaled when PPT = 32
 	playerSprite.setScale(playerScale, playerScale);
 
 	loginPage = sf::RectangleShape(sf::Vector2f(measures->windowSize.x, measures->windowSize.y));
-	loginTexture.loadFromFile("../../../assets/login.png");
+	loginTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/login.png");
 	loginPage.setTexture(&loginTexture);
 }
 
