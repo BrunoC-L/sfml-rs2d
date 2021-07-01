@@ -20,7 +20,7 @@ private:
 public:
 	Chunk(const VChunk& pos, sf::Texture* objectsTexture, AbstractGameDataService* gameData);
 	~Chunk();
-	std::shared_ptr<Tile> tiles[int(AbstractMeasures::TilesPerChunk)][int(AbstractMeasures::TilesPerChunk)];
+	std::shared_ptr<Tile> tiles[TILES_PER_CHUNK][TILES_PER_CHUNK];
 	bool deleted = false;
 	sf::RectangleShape map;
 	TileMap objectMap;

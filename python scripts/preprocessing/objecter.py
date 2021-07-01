@@ -12,7 +12,7 @@ Also multi-state objects can use mutiple textures per tile
 def objecter(args):
     verbose = not 'silence' in args
     
-    from os import listdir
+    from os import listdir, path
     import json
     from PIL import Image
     from constants import PPT, OBJECT_TEXTURE_FILE_SIZE
@@ -30,15 +30,18 @@ def objecter(args):
             with open(f'{objectsDir}/{object}/object.json', 'r') as f:
                 if verbose:
                     print(object)
-                content = json.load(f)
-                for i, c in enumerate(content):
-                    imageNames = listdir(f'{objectsDir}/{object}/img/{i}')
+                for dir in [dir for dir in listdir(f'{objectsDir}/{object}/img/') if path.isdir(f'{objectsDir}/{object}/img/{dir}')]:
+                    imageNames = listdir(f'{objectsDir}/{object}/img/{dir}')
                     for imageName in imageNames:
-                        image = Image.open(f'{objectsDir}/{object}/img/{i}/{imageName}')
+                        image = Image.open(f'{objectsDir}/{object}/img/{dir}/{imageName}')
+                        image.thumbnail((PPT, PPT))
                         x_offset = PPT * (textureIndex  % OBJECT_TEXTURE_FILE_SIZE)
                         y_offset = PPT * (textureIndex // OBJECT_TEXTURE_FILE_SIZE)
                         textures.paste(image, (x_offset, y_offset))
                         x_y = imageName.split('.')[0] # 0-0.png -> 0-0
-                        map.write(f'{object}-{i}: {x_y}: {textureIndex}\n')
+                        map.write(f'{object}-{dir}: {x_y}: {textureIndex}\n')
                         textureIndex += 1
-    textures.save('../assets/textures/objects.png', 'png')
+    textures.save(f'../assets/textures-{PPT}/objects.png', 'png')
+
+if __name__ == '__main__':
+    objecter([])

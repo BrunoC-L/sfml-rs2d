@@ -16,12 +16,12 @@ ObjectService::ObjectService(ServiceProvider* provider) : Service(provider) {
 
 	objectCreatedObserver.set([&](ObjectCreatedEvent& ev) {
 		VTile position = ev.object->getTile()->position;
-		objects[int(position.x / TilesPerChunk)][int(position.y / TilesPerChunk)].push_back(ev.object);
+		objects[int(position.x / TILES_PER_CHUNK)][int(position.y / TILES_PER_CHUNK)].push_back(ev.object);
 	});
 
 	objectChangedObserver.set([&](ObjectStateChangedEvent& ev) {
 		VTile position = ev.object->getTile()->position;
-		changes[int(position.x / TilesPerChunk)][int(position.y / TilesPerChunk)].push_back(ev.object);
+		changes[int(position.x / TILES_PER_CHUNK)][int(position.y / TILES_PER_CHUNK)].push_back(ev.object);
 	});
 }
 
@@ -47,9 +47,8 @@ void ObjectService::interact(const std::shared_ptr<User>& user, VTile v, int obj
 }
 
 void ObjectService::updatePlayerChunk(const std::shared_ptr<User>& user) {
-	auto diameter = 2 * CHUNK_RADIUS + 1;
 	const auto pos = playerActionService->getPlayerPosition(user);
-	VChunk centerChunk(int(pos.x / TilesPerChunk), int(pos.y) / TilesPerChunk);
+	VChunk centerChunk(int(pos.x / TILES_PER_CHUNK), int(pos.y) / TILES_PER_CHUNK);
 
 	for (int dx = -CHUNK_RADIUS; dx <= CHUNK_RADIUS; ++dx)
 		for (int dy = -CHUNK_RADIUS; dy <= CHUNK_RADIUS; ++dy) {
@@ -60,8 +59,6 @@ void ObjectService::updatePlayerChunk(const std::shared_ptr<User>& user) {
 }
 
 void ObjectService::statePlayerChunk(PlayerChunkChangeEvent& ev) {
-	auto diameter = 2 * CHUNK_RADIUS + 1;
-
 	for (int dx = -CHUNK_RADIUS; dx <= CHUNK_RADIUS; ++dx)
 		for (int dy = -CHUNK_RADIUS; dy <= CHUNK_RADIUS; ++dy) {
 			int dcx = ev.newChunk.x + dx, dcy = ev.newChunk.y + dy;

@@ -4,6 +4,7 @@
 #include "anchorTransform.h"
 #include "font.h"
 #include "textures.h"
+#include "session.h"
 
 SFRenderWindow::SFRenderWindow(
 	ServiceProvider* provider,
@@ -12,21 +13,21 @@ SFRenderWindow::SFRenderWindow(
 	converter(provider),
 	window(window)
 {
-	font.loadFromFile("../../../assets/runescape_uf.ttf");
-	clanTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/clan.png");
-	friendsTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/friends.png");
-	ignoreTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/ignore.png");
-	logoutTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/logout.png");
-	settingsTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/settings.png");
-	emotesTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/emotes.png");
-	musicTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/music.png");
-	combatTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/combat.png");
-	skillsTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/skills.png");
-	questsTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/quests.png");
-	inventoryTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/inventory.png");
-	equipmentTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/equipment.png");
-	prayersTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/prayers.png");
-	magicTabButtonTexture.loadFromFile("../../../assets/textures/buttons/tabButtons/magic.png");
+	font.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/runescape_uf.ttf");
+	clanTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/clan.png");
+	friendsTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/friends.png");
+	ignoreTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/ignore.png");
+	logoutTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/logout.png");
+	settingsTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/settings.png");
+	emotesTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/emotes.png");
+	musicTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/music.png");
+	combatTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/combat.png");
+	skillsTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/skills.png");
+	questsTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/quests.png");
+	inventoryTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/inventory.png");
+	equipmentTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/equipment.png");
+	prayersTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/prayers.png");
+	magicTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/magic.png");
 
 	leftClickObserver.set([&](MouseLeftClickEvent& ev) {
 		if (gameData->userIsLoggedIn()) {
@@ -157,11 +158,13 @@ void SFRenderWindow::init() {
 	loginButton->onClick([&]() { player->login(); });
 	loginButton->text("Login", sf::Color::Red);
 
-	p_t.loadFromFile("../../../assets/player.png");
+	p_t.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/player.png");
 	playerSprite = sf::Sprite(p_t);
+	float playerScale = PIXELS_PER_TILE / 32.f; // player texture is correctly scaled when PPT = 32
+	playerSprite.setScale(playerScale, playerScale);
 
 	loginPage = sf::RectangleShape(sf::Vector2f(measures->windowSize.x, measures->windowSize.y));
-	loginTexture.loadFromFile("../../../assets/login.png");
+	loginTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/login.png");
 	loginPage.setTexture(&loginTexture);
 }
 
@@ -194,13 +197,13 @@ void SFRenderWindow::draw(VTile pos, double angle, const sf::Sprite& s) {
 	const auto scale = measures->stretch;
 	const auto cameraPos = camera->getPosition();
 	VTile tileDelta(pos.x - cameraPos.x, pos.y - cameraPos.y);
-	VPixel delta(tileDelta * AbstractMeasures::pixelsPerTile);
+	VPixel delta(tileDelta * PIXELS_PER_TILE);
 	const auto transform = sf::RenderStates().transform
 		.rotate(angle)
 		.scale(1 / scale.x, 1 / scale.y)
 		.translate(
-			measures->getInnerWindowSizeTile().x * AbstractMeasures::pixelsPerTile / 2,
-			measures->getInnerWindowSizeTile().y * AbstractMeasures::pixelsPerTile / 2
+			measures->getInnerWindowSizeTile().x * PIXELS_PER_TILE / 2,
+			measures->getInnerWindowSizeTile().y * PIXELS_PER_TILE / 2
 		)
 		.scale(zoomScale, zoomScale)
 		.rotate(measures->angle)
@@ -305,16 +308,16 @@ void SFRenderWindow::draw() {
 		auto playerPositions = gameData->getPlayerPositions();
 		auto getTransform = [&](const VTile& relativePos, const VChunk& chunkOffset) {
 			const float scale = measures->zoom;
-			VTile offsetTiles = VTile(chunkOffset.x * AbstractMeasures::TilesPerChunk, chunkOffset.y * AbstractMeasures::TilesPerChunk) - relativePos;
-			const auto offset = VPixel(AbstractMeasures::pixelsPerTile * offsetTiles.x * scale, AbstractMeasures::pixelsPerTile * offsetTiles.y * scale);
+			VTile offsetTiles = VTile(chunkOffset.x * TILES_PER_CHUNK, chunkOffset.y * TILES_PER_CHUNK) - relativePos;
+			const auto offset = VPixel(PIXELS_PER_TILE * offsetTiles.x * scale, PIXELS_PER_TILE * offsetTiles.y * scale);
 			const VTile scalingDiff = measures->getInnerWindowSizeTile() * VTile(1 - scale, 1 - scale);
-			const VPixel scalingDiffPx = VPixel(AbstractMeasures::pixelsPerTile * scalingDiff.x, AbstractMeasures::pixelsPerTile * scalingDiff.y) / 2;
+			const VPixel scalingDiffPx = VPixel(PIXELS_PER_TILE * scalingDiff.x, PIXELS_PER_TILE * scalingDiff.y) / 2;
 			const auto finalOffset = offset + scalingDiffPx;
 
 			sf::Transform transform;
 			const sf::Vector2f middleOfInnerWindow(
-				measures->getInnerWindowSizeTile().x * AbstractMeasures::pixelsPerTile / 2,
-				measures->getInnerWindowSizeTile().y * AbstractMeasures::pixelsPerTile / 2
+				measures->getInnerWindowSizeTile().x * PIXELS_PER_TILE / 2,
+				measures->getInnerWindowSizeTile().y * PIXELS_PER_TILE / 2
 			);
 			transform.scale(sf::Vector2f(1 / measures->stretch.x, 1 / measures->stretch.y));
 			transform.rotate(measures->angle, middleOfInnerWindow);
@@ -325,18 +328,17 @@ void SFRenderWindow::draw() {
 		if (map->ready()) {
 			const VTile pos = camera->getPosition();
 			VTile relativePos(
-				pos.x - map->getCenterChunk().x * AbstractMeasures::TilesPerChunk - measures->getInnerWindowSizeTile().x / 2,
-				pos.y - map->getCenterChunk().y * AbstractMeasures::TilesPerChunk - measures->getInnerWindowSizeTile().y / 2
+				pos.x - map->getCenterChunk().x * TILES_PER_CHUNK - measures->getInnerWindowSizeTile().x / 2,
+				pos.y - map->getCenterChunk().y * TILES_PER_CHUNK - measures->getInnerWindowSizeTile().y / 2
 			);
-			auto radius = map->getRadius();
 			{
 				std::lock_guard<std::mutex> lock(map->getChunksMutex());
-				for (int i = 0; i < 2 * radius + 1; ++i)
-					for (int j = 0; j < 2 * radius + 1; ++j) {
+				for (int i = 0; i < 2 * CHUNK_RADIUS + 1; ++i)
+					for (int j = 0; j < 2 * CHUNK_RADIUS + 1; ++j) {
 						auto& chunk = map->getLoaded(i, j);
 						if (chunk.deleted)
 							return;
-						sf::Transform transform = getTransform(relativePos + VTile(0.5, 0.5), VChunk(i, j) - VChunk(radius, radius));
+						sf::Transform transform = getTransform(relativePos + VTile(0.5, 0.5), VChunk(i, j) - VChunk(CHUNK_RADIUS, CHUNK_RADIUS));
 						draw(&chunk.map, transform);
 						draw(&chunk.objectMap, transform);
 					}

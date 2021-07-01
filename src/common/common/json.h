@@ -19,8 +19,10 @@ private:
 	Primitives type;
 	bool defined = true;
 
-	std::string arrayAsString(unsigned tabulation, int indent) const;
-	std::string objectAsString(unsigned tabulation, int indent) const;
+	std::string _arrayAsString(std::string tabulation, int indent, bool replaceEscapeSequences) const;
+	std::string _objectAsString(std::string tabulation, int indent, bool replaceEscapeSequences) const;
+	std::string _asString(std::string tabulation, int indent, bool replaceEscapeSequences) const;
+	std::string replaceEscapeSequences() const;
 
 	void parse(const std::string& str);
 	void parseJSON();
@@ -39,7 +41,6 @@ private:
 	void setSelf(std::string str);
 	void assertType(Primitives type) const;
 	bool isNumber() const;
-	std::string asString(unsigned tabulation, int indent) const;
 	std::vector<JSON> children;
 public:
 
@@ -49,8 +50,8 @@ public:
 	JSON(const std::string& json, std::string propertyName);
 	JSON(JSON&& other);
 	JSON(const JSON& other) = default;
-	void operator=(const JSON & other);
-	void operator=(const std::string & other);
+	void operator=(const JSON& other);
+	void operator=(const std::string& other);
 
 	unsigned size() const;
 	const std::vector<std::string>& getProperties() const;
@@ -70,6 +71,8 @@ public:
 	bool asBool() const;
 	int asInt() const;
 	double asDouble() const;
+
 	std::string asString() const;
-	std::string asString(unsigned tabulation) const;
+	std::string asString(bool replaceEscapeSequences) const;
+	std::string asString(std::string tabulation, bool replaceEscapeSequences) const;
 };

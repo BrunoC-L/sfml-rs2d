@@ -12,9 +12,7 @@ private:
 public:
 	Socket(ServiceProvider*, std::string ip, int port);
 	virtual void init() override;
-	virtual void send(const JSON& message) override;
 	virtual void send(const std::string& type, const JSON& data) override;
-	//virtual void send(const std::string& message) override;
 	virtual void on(const std::string& type, std::function<void(const std::shared_ptr<const JSON>&)>) override;
 	virtual void receive(const std::string& type, std::shared_ptr<const JSON> data) override;
 	virtual bool connect() override;

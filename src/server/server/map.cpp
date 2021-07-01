@@ -26,7 +26,7 @@ std::shared_ptr<Chunk>& Map::getChunk(VChunk v) {
 }
 
 Tile* Map::getTile(VTile v) {
-	if (clamp(v.x, 0, 29 * TilesPerChunk - 1) && clamp(v.y, 0, 25 * TilesPerChunk - 1))
-		return getChunk(VChunk(int(v.x / TilesPerChunk), int(v.y / TilesPerChunk)))->tiles[int(v.x) % int(TilesPerChunk)][int(v.y) % int(TilesPerChunk)];
+	if (clamp(v.x, 0, 29 * TILES_PER_CHUNK - 1) && clamp(v.y, 0, 25 * TILES_PER_CHUNK - 1))
+		return getChunk(VChunk(int(v.x / TILES_PER_CHUNK), int(v.y / TILES_PER_CHUNK)))->tiles[int(v.x) % int(TILES_PER_CHUNK)][int(v.y) % int(TILES_PER_CHUNK)];
 	return nullptr;
 }

@@ -111,23 +111,19 @@ void JSON::push(std::string str) {
 	push(JSON(str));
 }
 
-std::string JSON::asString() const {
-	return asString(0);
+std::string JSON::asString(std::string tabulation, bool replaceEscapeSequences) const {
+	return _asString(tabulation, 0, replaceEscapeSequences);
 }
 
-std::string JSON::asString(unsigned tabulation) const {
-	return asString(tabulation, 0);
-}
-
-std::string JSON::arrayAsString(unsigned tabulation, int indent) const {
-	bool newLines = tabulation > 0;
+std::string JSON::_arrayAsString(std::string tabulation, int indent, bool replaceEscapeSequences) const {
+	bool newLines = tabulation.length() > 0;
 	std::stringstream out;
 	out << "[";
 	if (children.size()) {
 		if (newLines)
 			out << "\n";
-		for (unsigned i = 0; i < tabulation * indent; ++i)
-			out << " ";
+		for (unsigned i = 0; i < indent; ++i)
+			out << tabulation;
 	}
 	bool hasChildren = false;
 	for (const auto& json : children) {
@@ -136,41 +132,41 @@ std::string JSON::arrayAsString(unsigned tabulation, int indent) const {
 		if (hasChildren) {
 			if (newLines) {
 				out << ",\n";
-				for (unsigned i = 0; i < tabulation * indent; ++i)
-					out << " ";
+				for (unsigned i = 0; i < indent; ++i)
+					out << tabulation;
 			}
 			else
 				out << ", ";
 		}
 		hasChildren = true;
 		switch (json.type) {
-			case Primitives::STRING:
-				out << '"' + json.asString(tabulation, indent) + '"';
-				break;
-			default:
-				out << json.asString(tabulation, indent);
-				break;
+		case Primitives::STRING:
+			out << '"' + json._asString(tabulation, indent, replaceEscapeSequences) + '"';
+			break;
+		default:
+			out << json._asString(tabulation, indent, replaceEscapeSequences);
+			break;
 		}
 	}
 	if (hasChildren) {
 		if (newLines)
 			out << "\n";
-		for (unsigned i = 0; i < tabulation * (indent - 1); ++i)
-			out << " ";
+		for (unsigned i = 0; i < indent - 1; ++i)
+			out << tabulation;
 	}
 	out << "]";
 	return out.str();
 }
 
-std::string JSON::objectAsString(unsigned tabulation, int indent) const {
-	bool newLines = tabulation > 0;
+std::string JSON::_objectAsString(std::string tabulation, int indent, bool replaceEscapeSequences) const {
+	bool newLines = tabulation.length() > 0;
 	std::stringstream out;
 	out << "{";
 	if (children.size()) {
 		if (newLines)
 			out << "\n";
-		for (unsigned i = 0; i < tabulation * indent; ++i)
-			out << " ";
+		for (unsigned i = 0; i < indent; ++i)
+			out << tabulation;
 	}
 	bool hasChildren = false;
 	for (const auto& propertName : properties) {
@@ -181,8 +177,8 @@ std::string JSON::objectAsString(unsigned tabulation, int indent) const {
 		if (hasChildren) {
 			if (newLines) {
 				out << ",\n";
-				for (unsigned i = 0; i < tabulation * indent; ++i)
-					out << " ";
+				for (unsigned i = 0; i < indent; ++i)
+					out << tabulation;
 			}
 			else
 				out << ", ";
@@ -190,18 +186,18 @@ std::string JSON::objectAsString(unsigned tabulation, int indent) const {
 		hasChildren = true;
 		switch (json.type) {
 		case Primitives::STRING:
-			out << '"' + propertName + "\": " + '"' + json.asString(tabulation, indent) + '"';
+			out << '"' + propertName + "\": " + '"' + json._asString(tabulation, indent, replaceEscapeSequences) + '"';
 			break;
 		default:
-			out << '"' + propertName + "\": " + json.asString(tabulation, indent);
+			out << '"' + propertName + "\": " + json._asString(tabulation, indent, replaceEscapeSequences);
 			break;
 		}
 	}
 	if (hasChildren) {
 		if (newLines)
 			out << "\n";
-		for (unsigned i = 0; i < tabulation * (indent - 1); ++i)
-			out << " ";
+		for (unsigned i = 0; i < indent - 1; ++i)
+			out << tabulation;
 	}
 	out << "}";
 	return out.str();
@@ -212,7 +208,7 @@ bool JSON::asBool() const {
 		return stod(self);
 	}
 	catch (...) {}
-	return self != "{}" && self != "[]" && self != "" && self != "undefined" && self != "null" && self != "false";
+	return !(self == "{}" || self == "[]" || self == "" || self == "undefined" || self == "null" || self == "false");
 };
 
 int JSON::asInt() const {
@@ -221,7 +217,14 @@ int JSON::asInt() const {
 
 double JSON::asDouble() const {
 	return stod(self);
-};
+}
+std::string JSON::asString() const {
+	return asString("", false);
+}
+std::string JSON::asString(bool replaceEscapeSequences) const {
+	return asString("", replaceEscapeSequences);
+}
+;
 
 void JSON::operator=(const std::string& other) {
 	*this = JSON(other);
@@ -250,46 +253,81 @@ bool JSON::isNumber() const {
 	return true;
 }
 
-std::string JSON::asString(unsigned tabulation, int indent) const {
+std::string JSON::_asString(std::string tabulation, int indent, bool replaceEscapeSequences) const {
 	switch (type) {
-		case Primitives::ARRAY:
-			return arrayAsString(tabulation, indent + 1);
-		case Primitives::OBJECT:
-			return objectAsString(tabulation, indent + 1);
-		case Primitives::STRING:
-		case Primitives::NUMBER:
-		default:
-			return self;
+	case Primitives::ARRAY:
+		return _arrayAsString(tabulation, indent + 1, replaceEscapeSequences);
+	case Primitives::OBJECT:
+		return _objectAsString(tabulation, indent + 1, replaceEscapeSequences);
+	case Primitives::STRING:
+	case Primitives::NUMBER:
+	default:
+		return replaceEscapeSequences ? this->replaceEscapeSequences() : self;
 	}
+}
+
+std::string JSON::replaceEscapeSequences() const {
+	std::string s;
+	s.reserve(self.length());
+	int i = 0;
+	while (i < self.length()) {
+		char c = self[i++];
+		if (c == '\\') {
+			if (i == s.length())
+				throw JSONException("Invalid escape sequence");
+			char escapeSequence = self[i++];
+			switch (escapeSequence) {
+			case 't':
+				c = '\t';
+				break;
+			case 'n':
+				c = '\n';
+				break;
+			case 'b':
+				c = '\b';
+				break;
+			case 'r':
+				c = '\r';
+				break;
+			case '\\':
+				c = '\\';
+				break;
+			default:
+				throw JSONException("Invalid escape sequence");
+			}
+		}
+		s += c;
+	}
+	return s;
 }
 
 void JSON::parse(const std::string& str) {
 	index = 1;
 	switch (self[0]) {
-		case '{':
-			setType(Primitives::OBJECT);
-			parseJSON();
-			break;
-		case '[':
-			setType(Primitives::ARRAY);
-			parseArray();
-			break;
-		case '\'':
-		case '"':
-			if (self.length() == 1)
-				throw JSONException("Bad string");
-			self.erase(0, 1);
-			if (self[self.length() - 1] == '\'' || self[self.length() - 1] == '"')
-				self.erase(self.length() - 1);
-			setSelf(self);
+	case '{':
+		setType(Primitives::OBJECT);
+		parseJSON();
+		break;
+	case '[':
+		setType(Primitives::ARRAY);
+		parseArray();
+		break;
+	case '\'':
+	case '"':
+		if (self.length() == 1)
+			throw JSONException("Bad string");
+		self.erase(0, 1);
+		if (self[self.length() - 1] == '\'' || self[self.length() - 1] == '"')
+			self.erase(self.length() - 1);
+		setSelf(self);
+		setType(Primitives::STRING);
+		break;
+	default:
+		if (isNumber())
+			setType(Primitives::NUMBER);
+		else
 			setType(Primitives::STRING);
-			break;
-		default:
-			if (isNumber())
-				setType(Primitives::NUMBER);
-			else
-				setType(Primitives::STRING);
-			break;
+		break;
 	}
 }
 
@@ -415,11 +453,11 @@ JSON JSON::readNumber() {
 	while (index < self.length()) {
 		char c = self[index];
 		switch (c) {
-			case ',':
-			case ' ':
-			case ']':
-			case '}':
-				inNum = false;
+		case ',':
+		case ' ':
+		case ']':
+		case '}':
+			inNum = false;
 		}
 		if (!inNum)
 			break;
@@ -437,29 +475,28 @@ std::string JSON::parseJSONOrArray() {
 	std::stringstream buffer;
 	std::vector<char> stack;
 	while (index <= self.length()) {
-		char c = self[index];
-		++index;
+		char c = self[index++];
 		buffer << c;
 		switch (c) {
-			case '{':
-			case '[':
+		case '{':
+		case '[':
+			stack.push_back(c);
+			break;
+		case '}':
+			if (stack.back() == '{')
+				stack.pop_back();
+			break;
+		case ']':
+			if (stack.back() == '[')
+				stack.pop_back();
+			break;
+		case '\'':
+		case '"':
+			if (stack.back() == '\'' || stack.back() == '"')
+				stack.pop_back();
+			else
 				stack.push_back(c);
-				break;
-			case '}':
-				if (stack.back() == '{')
-					stack.pop_back();
-				break;
-			case ']':
-				if (stack.back() == '[')
-					stack.pop_back();
-				break;
-			case '\'':
-			case '"':
-				if (stack.back() == '\'' || stack.back() == '"')
-					stack.pop_back();
-				else
-					stack.push_back(c);
-				break;
+			break;
 		}
 		if (stack.size() == 0)
 			break;

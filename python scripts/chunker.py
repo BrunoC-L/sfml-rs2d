@@ -1,4 +1,4 @@
-from constants import CHUNKS
+from constants import CHUNKS, MAP_SIZE_CHUNKS
 
 '''
 This script  is the basis for the game data
@@ -14,9 +14,13 @@ def main(args):
     args = [a.lower() for a in args]
     verbose = not 'silence' in args
     esttime = not 'notime' in args
-
     texture = not 'notext' in args
     walls   = not 'nowall' in args
+
+    print(f'verbose: {verbose}')
+    print(f'esttime: {esttime}')
+    print(f'texture: {texture}')
+    print(f'walls: {walls}')
 
     ops = []
     l = len(CHUNKS)
@@ -44,7 +48,7 @@ def main(args):
 
     if esttime:
         from timeLogger import TimeLogger
-        with TimeLogger(l, 29 * 25, 'chunk'): operate()
+        with TimeLogger(l, MAP_SIZE_CHUNKS["x"] * MAP_SIZE_CHUNKS["y"], 'chunk'): operate()
     else:
         operate()
 

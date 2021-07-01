@@ -2,12 +2,13 @@
 #include "abstractMeasures.h"
 #include "abstractPlayer.h"
 #include "abstractRenderWindow.h"
+#include "session.h"
 
 Minimap::Minimap(ServiceProvider* provider, AbstractRenderWindow* window) : Service(provider), window(window) {
     acquire();
     shape = sf::CircleShape(AbstractMeasures::minimapRadius);
     shape.setPosition(measures->getRightBannerStartingX() + (AbstractMeasures::banners().x - 2 * AbstractMeasures::minimapRadius / measures->stretch.x) / 2, 0);
-    minimap.loadFromFile("../../../assets/mapnoraids.jpg");
+    minimap.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/mapnoraids.jpg");
     shape.setTexture(&minimap);
     playerCircle = sf::CircleShape(2);
     playerCircle.setPosition(shape.getPosition().x + AbstractMeasures::minimapRadius - 2, AbstractMeasures::minimapRadius - 2);
@@ -20,7 +21,7 @@ void Minimap::update() {
         return;
     lastPos = pos;
     float r = AbstractMeasures::minimapRadius;
-    shape.setTextureRect(sf::IntRect(pos.x * AbstractMeasures::pixelsPerTileOnMap - r, pos.y * AbstractMeasures::pixelsPerTileOnMap - r, 2 * r, 2 * r));
+    shape.setTextureRect(sf::IntRect(pos.x * PIXELS_PER_TILE_ON_MAP - r, pos.y * PIXELS_PER_TILE_ON_MAP - r, 2 * r, 2 * r));
 }
 
 void Minimap::draw() const {

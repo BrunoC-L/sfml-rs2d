@@ -26,10 +26,8 @@ Chat::Chat(ServiceProvider* provider) : Service(provider) {
 		if (!gameData->userIsLoggedIn())
 			return;
 		JSON message;
-		message["type"] = "chat";
-		message["data"] = JSON();
-		message["data"]["message"] = currentlyTyped;
-		socket->send(message);
+		message["message"] = currentlyTyped;
+		socket->send("chat", message);
 		currentlyTyped = "";
 	});
 

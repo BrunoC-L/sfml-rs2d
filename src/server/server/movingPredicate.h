@@ -7,14 +7,14 @@
 class MovingPredicate {
 public:
     static bool canMoveFromTo(VTile a, VTile b, AbstractMap* map) {
-        VChunk ca = VChunk(int(a.x / TilesPerChunk), int(a.y / TilesPerChunk));
-        VChunk cb = VChunk(int(b.x / TilesPerChunk), int(b.y / TilesPerChunk));
+        VChunk ca = VChunk(int(a.x / TILES_PER_CHUNK), int(a.y / TILES_PER_CHUNK));
+        VChunk cb = VChunk(int(b.x / TILES_PER_CHUNK), int(b.y / TILES_PER_CHUNK));
         std::shared_ptr<Chunk> tileAChunk = map->getChunk(ca);
         std::shared_ptr<Chunk> tileBChunk = map->getChunk(cb);
         if (!tileAChunk || !tileBChunk)
             return false;
-        Tile* ta = tileAChunk->tiles[int(a.x - ca.x * TilesPerChunk)][int(a.y - ca.y * TilesPerChunk)];
-        Tile* tb = tileBChunk->tiles[int(b.x - cb.x * TilesPerChunk)][int(b.y - cb.y * TilesPerChunk)];
+        Tile* ta = tileAChunk->tiles[int(a.x - ca.x * TILES_PER_CHUNK)][int(a.y - ca.y * TILES_PER_CHUNK)];
+        Tile* tb = tileBChunk->tiles[int(b.x - cb.x * TILES_PER_CHUNK)][int(b.y - cb.y * TILES_PER_CHUNK)];
         return ta->canMoveFrom(*tb);
     }
 

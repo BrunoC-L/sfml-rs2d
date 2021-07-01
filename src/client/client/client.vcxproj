@@ -146,7 +146,6 @@
     <ClInclude Include="abstractCamera.h" />
     <ClInclude Include="abstractChat.h" />
     <ClInclude Include="abstractGameDataService.h" />
-    <ClInclude Include="abstractInventory.h" />
     <ClInclude Include="abstractMap.h" />
     <ClInclude Include="abstractMeasures.h" />
     <ClInclude Include="abstractPlayer.h" />
@@ -175,9 +174,9 @@
     <ClInclude Include="hoverableComponent.h" />
     <ClInclude Include="innerRightBanner.h" />
     <ClInclude Include="logoutInnerBanner.h" />
+    <ClInclude Include="mapUpdatedChunksEvent.h" />
     <ClInclude Include="objectInteractions.h" />
     <ClInclude Include="interactionClickEvent.h" />
-    <ClInclude Include="inventory.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="closeEvent.h" />
     <ClInclude Include="services.h" />
@@ -228,7 +227,6 @@
     <ClCompile Include="gameDataService.cpp" />
     <ClCompile Include="GameTickProgress.cpp" />
     <ClCompile Include="hoverableComponent.cpp" />
-    <ClCompile Include="inventory.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="logoutInnerBanner.cpp" />
     <ClCompile Include="map.cpp" />

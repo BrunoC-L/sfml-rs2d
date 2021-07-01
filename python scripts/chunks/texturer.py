@@ -1,5 +1,5 @@
 from PIL import Image
-from constants import PPT, FAC, TPC, TILES, PIXELS
+from constants import PPT, ORIGINAL_MAP_PIXELS_PER_TILE, TPC, TILES, PIXELS
 
 '''
 This script will open the world map and generate a file for each chunk
@@ -13,8 +13,14 @@ def texturer(cx, cy):
         output = Image.new('RGB', (TPC * PPT, TPC * PPT))
         pixout = output.load()
         for x, y in TILES:
+            inputImageTilePx = ORIGINAL_MAP_PIXELS_PER_TILE * (TPC * cx + x)
+            inputImageTilePy = ORIGINAL_MAP_PIXELS_PER_TILE * (TPC * cy + y)
             for i, j in PIXELS:
+                pxValue = pixin[
+                    inputImageTilePx + (i * ORIGINAL_MAP_PIXELS_PER_TILE // PPT),
+                    inputImageTilePy + (j * ORIGINAL_MAP_PIXELS_PER_TILE // PPT),
+                ]
+
                 px, py = (PPT * x + i, PPT * y + j)
-                pxo, pyo = ((PPT * (TPC * cx + x) + i) // FAC, (PPT * (TPC * cy + y) + j) // FAC)
-                pixout[px, py] = pixin[pxo, pyo]
-        output.save(f"../assets/textures/chunks/{cx}-{cy}-0.png")
+                pixout[px, py] = pxValue
+        output.save(f"../assets/textures-{PPT}/chunks-{TPC}/{cx}-{cy}-0.png")

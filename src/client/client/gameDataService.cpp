@@ -1,10 +1,11 @@
 #include "gameDataService.h"
 #include "constants.h"
 #include "chunk.h"
+#include "session.h"
 
 GameDataService::GameDataService(ServiceProvider* provider, GameTickProgress* tracker) : Service(provider), tracker(tracker) {
     provider->set(GAMEDATA, this);
-	std::ifstream name2textureIndex("../../../resource/objects/objectName2texture.txt");
+	std::ifstream name2textureIndex(getSession().get("RS2D_HOME").asString() + "/resource/objects/objectName2texture.txt");
 	if (!name2textureIndex.is_open())
 		return;
 	std::string nameOfTexture;
@@ -28,11 +29,11 @@ void GameDataService::init() {
 			data.get("cy").asInt(),
 			data.get("cz").asInt()
 		);
-		int* objects = new int[AbstractMeasures::TilesPerChunk * AbstractMeasures::TilesPerChunk]();
+		int* objects = new int[TILES_PER_CHUNK * TILES_PER_CHUNK]();
 		std::vector<std::pair<VTile, ObjectInteractions>> v;
 		for (const auto& object : data.get("objects").getChildren())
 			for (const auto& e : parseObject(object, chunk)) {
-				objects[int(AbstractMeasures::TilesPerChunk * e.first.x + e.first.y)] = e.second.first;
+				objects[int(TILES_PER_CHUNK * e.first.x + e.first.y)] = e.second.first;
 				v.push_back({ e.first, e.second.second });
 			}
 		objectsReceived.push_back({ chunk, {objects, v} });
@@ -104,13 +105,13 @@ void GameDataService::storePositions(const JSON& json) {
 
 std::vector<std::pair<VTile, std::pair<int, ObjectInteractions>>> GameDataService::parseObject(const JSON& object, VChunk chunk) {
 	std::vector<std::pair<VTile, std::pair<int, ObjectInteractions>>> res;
-	int x = object.get("x").asInt() % int(AbstractMeasures::TilesPerChunk);
-	int y = object.get("y").asInt() % int(AbstractMeasures::TilesPerChunk);
+	int x = object.get("x").asInt() % int(TILES_PER_CHUNK);
+	int y = object.get("y").asInt() % int(TILES_PER_CHUNK);
 	std::vector<std::string> interactions;
 	for (const auto& i : object.get("interactions").getChildren())
 		interactions.push_back(i.asString());
 	interactions.push_back("Examine");
-	ObjectInteractions oi(VTile(AbstractMeasures::TilesPerChunk * chunk.x + x, AbstractMeasures::TilesPerChunk * chunk.y + y), object.get("name").asString(), interactions, object.get("state").asInt());
+	ObjectInteractions oi(VTile(TILES_PER_CHUNK * chunk.x + x, TILES_PER_CHUNK * chunk.y + y), object.get("name").asString(), interactions, object.get("state").asInt());
 	int sizeX = object.get("size").getChildren()[0].asInt();
 	int sizeY = object.get("size").getChildren()[1].asInt();
 	std::string fileName = object.get("fileName").asString();

@@ -138,9 +138,6 @@
     <ClCompile Include="rock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="random.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="json-socket-server.h">
@@ -274,9 +271,6 @@
     </ClInclude>
     <ClInclude Include="objectStateChangedEvent.h">
       <Filter>Source Files\events</Filter>
-    </ClInclude>
-    <ClInclude Include="random.h">
-      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="scheduleTaskEvent.h">
       <Filter>Source Files\events</Filter>

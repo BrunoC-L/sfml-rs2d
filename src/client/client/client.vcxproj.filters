@@ -31,9 +31,6 @@
     <Filter Include="Source Files\services\measures">
       <UniqueIdentifier>{432315eb-9c44-48ff-a0a8-0061becf1b77}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\services\inventory">
-      <UniqueIdentifier>{315c2993-1012-488c-b1ce-7355192beaf6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\services\player">
       <UniqueIdentifier>{6910f3aa-4993-4d61-87bf-8436f003ad03}</UniqueIdentifier>
     </Filter>
@@ -143,12 +140,6 @@
     </ClInclude>
     <ClInclude Include="abstractMeasures.h">
       <Filter>Source Files\services\measures</Filter>
-    </ClInclude>
-    <ClInclude Include="inventory.h">
-      <Filter>Source Files\services\inventory</Filter>
-    </ClInclude>
-    <ClInclude Include="abstractInventory.h">
-      <Filter>Source Files\services\inventory</Filter>
     </ClInclude>
     <ClInclude Include="abstractMap.h">
       <Filter>Source Files\services\map</Filter>
@@ -327,6 +318,9 @@
     <ClInclude Include="logoutInnerBanner.h">
       <Filter>Source Files\UI\rightBanner\innerRightBanners\logout</Filter>
     </ClInclude>
+    <ClInclude Include="mapUpdatedChunksEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="chunk.cpp">
@@ -340,9 +334,6 @@
     </ClCompile>
     <ClCompile Include="minimap.cpp">
       <Filter>Source Files\UI\rightBanner\minimap</Filter>
-    </ClCompile>
-    <ClCompile Include="inventory.cpp">
-      <Filter>Source Files\services\inventory</Filter>
     </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>Source Files\services\player</Filter>

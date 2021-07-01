@@ -30,7 +30,7 @@ void PlayerActionService::init() {
         oldPositions[ev.user->index] = ev.position;
         movementCompleteCallbacks[ev.user->index] = nullptr;
         interactionInterruptionCallbacks[ev.user->index] = nullptr;
-        VChunk chunk(int(ev.position.x / TilesPerChunk), int(ev.position.y / TilesPerChunk));
+        VChunk chunk(int(ev.position.x / TILES_PER_CHUNK), int(ev.position.y / TILES_PER_CHUNK));
         usersByChunk[chunk.x][chunk.y].push_back(ev.user);
         PlayerPositionChangeEvent(ev.user, ev.position, ev.position, VTile()).emit();
         PlayerChunkChangeEvent(ev.user, chunk, chunk, VChunk()).emit();
@@ -38,7 +38,7 @@ void PlayerActionService::init() {
 
     logoutObserver.set([&](LogoutEvent& ev) {
         VTile position = pathPositions[ev.user->index].position;
-        VChunk vchunk(int(position.x / TilesPerChunk), int(position.y / TilesPerChunk));
+        VChunk vchunk(int(position.x / TILES_PER_CHUNK), int(position.y / TILES_PER_CHUNK));
         auto& chunk = usersByChunk[vchunk.x][vchunk.y];
         chunk.erase(std::find(chunk.begin(), chunk.end(), ev.user));
     });
@@ -93,7 +93,7 @@ void PlayerActionService::updatePlayerPositions() {
                 s = nullptr;
             }
         }
-        positions[int(userPosition.x / TilesPerChunk)][int(userPosition.y / TilesPerChunk)].push_back({ user, userPosition });
+        positions[int(userPosition.x / TILES_PER_CHUNK)][int(userPosition.y / TILES_PER_CHUNK)].push_back({ user, userPosition });
     }
 }
 
@@ -156,7 +156,7 @@ void PlayerActionService::checkForTileAndChunkChanges() {
             for (const auto& user : chunk) {
                 VTile position = pathPositions[user->index].position;
                 if (position != oldPositions[user->index]) {
-                    VChunk newChunk(int(position.x / TilesPerChunk), int(position.y / TilesPerChunk));
+                    VChunk newChunk(int(position.x / TILES_PER_CHUNK), int(position.y / TILES_PER_CHUNK));
                     PlayerPositionChangeEvent(user, position, oldPositions[user->index], position - oldPositions[user->index]).emit();
                     oldPositions[user->index] = position;
                     if (newChunk != oldChunk) {
