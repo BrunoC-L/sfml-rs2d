@@ -132,6 +132,7 @@ TEST(clicking_on_resources_received_from_server_sends_correct_interaction_curren
 
 	try {
 		EXPECT_TRUE(testWorked);
+		EXPECT_FALSE(testFailed);
 		app.stop();
 		t.join();
 	}
