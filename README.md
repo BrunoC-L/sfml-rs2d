@@ -1,6 +1,6 @@
 # sfml-rs2d
 
-Non commercial Runescape 2D version Made with C++/[SFML](https://www.sfml-dev.org/). Some assets are property of [Jagex](https://www.jagex.com/en-GB/). [Dev vlogs](https://www.youtube.com/user/thelatestartosrs/videos). [todo list on Trello](https://trello.com/b/duAZFbKg/rs2d).
+Non commercial Runescape 2D version Made with C++/[SFML](https://www.sfml-dev.org/). Some assets are property of [Jagex](https://www.jagex.com/en-GB/). [Dev vlogs](https://www.youtube.com/user/thelatestartosrs/videos).
 
 To run the client and server locally:
 
