@@ -305,27 +305,27 @@ void SFRenderWindow::draw() {
 	clear();
 	if (gameData->userIsLoggedIn()) {
 		update();
-		auto playerPositions = gameData->getPlayerPositions();
-		auto getTransform = [&](const VTile& relativePos, const VChunk& chunkOffset) {
-			const float scale = measures->zoom;
-			VTile offsetTiles = VTile(chunkOffset.x * TILES_PER_CHUNK, chunkOffset.y * TILES_PER_CHUNK) - relativePos;
-			const auto offset = VPixel(PIXELS_PER_TILE * offsetTiles.x * scale, PIXELS_PER_TILE * offsetTiles.y * scale);
-			const VTile scalingDiff = measures->getInnerWindowSizeTile() * VTile(1 - scale, 1 - scale);
-			const VPixel scalingDiffPx = VPixel(PIXELS_PER_TILE * scalingDiff.x, PIXELS_PER_TILE * scalingDiff.y) / 2;
-			const auto finalOffset = offset + scalingDiffPx;
-
-			sf::Transform transform;
-			const sf::Vector2f middleOfInnerWindow(
-				measures->getInnerWindowSizeTile().x * PIXELS_PER_TILE / 2,
-				measures->getInnerWindowSizeTile().y * PIXELS_PER_TILE / 2
-			);
-			transform.scale(sf::Vector2f(1 / measures->stretch.x, 1 / measures->stretch.y));
-			transform.rotate(measures->angle, middleOfInnerWindow);
-			transform.translate(sf::Vector2f(finalOffset.x, finalOffset.y));
-			transform.scale(scale, scale);
-			return transform;
-		};
 		if (map->ready()) {
+			auto playerPositions = gameData->getPlayerPositions();
+			auto getTransform = [&](const VTile& relativePos, const VChunk& chunkOffset) {
+				const float scale = measures->zoom;
+				VTile offsetTiles = VTile(chunkOffset.x * TILES_PER_CHUNK, chunkOffset.y * TILES_PER_CHUNK) - relativePos;
+				const auto offset = VPixel(PIXELS_PER_TILE * offsetTiles.x * scale, PIXELS_PER_TILE * offsetTiles.y * scale);
+				const VTile scalingDiff = measures->getInnerWindowSizeTile() * VTile(1 - scale, 1 - scale);
+				const VPixel scalingDiffPx = VPixel(PIXELS_PER_TILE * scalingDiff.x, PIXELS_PER_TILE * scalingDiff.y) / 2;
+				const auto finalOffset = offset + scalingDiffPx;
+
+				sf::Transform transform;
+				const sf::Vector2f middleOfInnerWindow(
+					measures->getInnerWindowSizeTile().x * PIXELS_PER_TILE / 2,
+					measures->getInnerWindowSizeTile().y * PIXELS_PER_TILE / 2
+				);
+				transform.scale(sf::Vector2f(1 / measures->stretch.x, 1 / measures->stretch.y));
+				transform.rotate(measures->angle, middleOfInnerWindow);
+				transform.translate(sf::Vector2f(finalOffset.x, finalOffset.y));
+				transform.scale(scale, scale);
+				return transform;
+			};
 			const VTile pos = camera->getPosition();
 			VTile relativePos(
 				pos.x - map->getCenterChunk().x * TILES_PER_CHUNK - measures->getInnerWindowSizeTile().x / 2,
@@ -336,8 +336,6 @@ void SFRenderWindow::draw() {
 				for (int i = 0; i < 2 * CHUNK_RADIUS + 1; ++i)
 					for (int j = 0; j < 2 * CHUNK_RADIUS + 1; ++j) {
 						auto& chunk = map->getLoaded(i, j);
-						if (chunk.deleted)
-							return;
 						sf::Transform transform = getTransform(relativePos + VTile(0.5, 0.5), VChunk(i, j) - VChunk(CHUNK_RADIUS, CHUNK_RADIUS));
 						draw(&chunk.map, transform);
 						draw(&chunk.objectMap, transform);

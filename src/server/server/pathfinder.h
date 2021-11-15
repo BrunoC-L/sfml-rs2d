@@ -37,9 +37,8 @@ private:
 
 		int step = 0;
 
-		while (queue.size() && (step++) < 10000) {
-			current = queue[0];
-			queue.erase(queue.begin());
+		while (queue.size() && step < 10000) {
+			current = queue[step++];
 			for (auto target : b) {
 				auto distance = MovingPredicate::distance(current, target);
 				if (distance < bestDistance) {

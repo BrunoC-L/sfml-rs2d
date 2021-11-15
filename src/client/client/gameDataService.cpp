@@ -31,6 +31,7 @@ void GameDataService::init() {
 		);
 		int* objects = new int[TILES_PER_CHUNK * TILES_PER_CHUNK]();
 		std::vector<std::pair<VTile, ObjectInteractions>> v;
+		//v.reserve(data.get("size").asInt()); // TODO add this!
 		for (const auto& object : data.get("objects").getChildren())
 			for (const auto& e : parseObject(object, chunk)) {
 				objects[int(TILES_PER_CHUNK * e.first.x + e.first.y)] = e.second.first;
@@ -91,10 +92,9 @@ std::pair<int*, std::vector<std::pair<VTile, ObjectInteractions>>> GameDataServi
 }
 
 void GameDataService::clearObjectsCache() {
-	for (int i = objectsReceived.size() - 1; i >= 0; --i) {
-		delete[] objectsReceived[i].second.first;
-		objectsReceived.erase(objectsReceived.begin() + i);
-	}
+	for (auto& objectReceived : objectsReceived)
+		delete[] objectReceived.second.first;
+	objectsReceived = {};
 }
 
 void GameDataService::storePositions(const JSON& json) {

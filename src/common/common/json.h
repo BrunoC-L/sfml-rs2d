@@ -36,12 +36,11 @@ private:
 	JSON getInactive(std::string propertyName);
 	std::string propertyName;
 	std::vector<std::string> properties;
-	std::unordered_map<std::string, unsigned> indices;
+	std::vector<JSON> children;
 	void setType(Primitives type);
 	void setSelf(std::string str);
 	void assertType(Primitives type) const;
 	bool isNumber() const;
-	std::vector<JSON> children;
 public:
 
 	JSON();
@@ -58,6 +57,7 @@ public:
 	const std::vector<JSON>& getChildren() const;
 	const std::string& getName() const;
 
+	std::vector<std::string>::const_iterator find(const std::string& propertyName) const;
 	bool has(const std::string& propertyName) const;
 	const JSON& get(const std::string& propertyName) const;
 	const JSON& get(int x) const;

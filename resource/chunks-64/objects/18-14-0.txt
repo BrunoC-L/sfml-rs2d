@@ -19,3 +19,6 @@
 26-51:['Copper Rock']
 29-51:['Copper Rock']
 30-52:['Copper Rock']
+26-51:['Copper Rock']
+29-51:['Copper Rock']
+30-52:['Copper Rock']

@@ -4,15 +4,17 @@
         "server" : "C:/Users/Bruno/Desktop/rs2d/logs/server",
         "client" : "C:/Users/Bruno/Desktop/rs2d/logs/client"
     },
+
     "PixelsPerTile":  4,
     "OriginalMapPixelsPerTile": 4,
     "TilesPerChunk": 64,
-    "ObjectFileWidthHeightItems": 16,
     "MapSize": {
         "x": 1856,
         "y": 1600
     },
+
+    "ObjectFileWidthHeightItems": 16,
     "MaxPlayersOnline": 2000,
     "MilliSecondsPerTick": 600,
-    "ChunkRadius": 0
+    "ChunkRadius": 2
 }

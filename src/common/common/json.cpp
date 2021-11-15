@@ -24,7 +24,6 @@ JSON::JSON(const std::string& json, std::string propertyName) {
 
 JSON::JSON(JSON&& other) {
 	std::swap(children, other.children);
-	std::swap(indices, other.indices);
 	std::swap(self, other.self);
 	std::swap(properties, other.properties);
 	type = other.type;
@@ -33,7 +32,6 @@ JSON::JSON(JSON&& other) {
 
 void JSON::operator=(const JSON& other) {
 	children = other.children;
-	indices = other.indices;
 	self = other.self;
 	properties = other.properties;
 	type = other.type;
@@ -49,21 +47,23 @@ JSON JSON::getInactive(std::string propertyName) {
 
 JSON& JSON::operator[](const std::string& propertyName) {
 	assertType(Primitives::OBJECT);
-	if (!has(propertyName)) {
+	auto it = find(propertyName);
+	int index = it - properties.begin();
+	if (it == properties.end()) {
 		children.emplace_back(std::move(getInactive(propertyName)));
-		indices.insert(make_pair(propertyName, children.size() - 1));
 		properties.push_back(propertyName);
 	}
-	JSON& child = children[indices.at(propertyName)];
+	JSON& child = children[index];
 	child.propertyName = propertyName;
 	return child;
 };
 
 const JSON& JSON::get(const std::string& propertyName) const {
 	assertType(Primitives::OBJECT);
-	if (!has(propertyName))
+	auto it = find(propertyName);
+	if (it == properties.end())
 		throw JSONException("Missing property, can't provide const reference");
-	auto index = indices.at(propertyName);
+	int index = it - properties.begin();
 	return children[index];
 }
 
@@ -88,8 +88,12 @@ const std::string& JSON::getName() const {
 	return propertyName;
 }
 
+std::vector<std::string>::const_iterator JSON::find(const std::string& propertyName) const {
+	return std::find(properties.begin(), properties.end(), propertyName);
+}
+
 bool JSON::has(const std::string& propertyName) const {
-	return indices.find(propertyName) != indices.end();
+	return find(propertyName) != properties.end();
 }
 
 const JSON& JSON::get(int x) const {
@@ -169,8 +173,9 @@ std::string JSON::_objectAsString(std::string tabulation, int indent, bool repla
 			out << tabulation;
 	}
 	bool hasChildren = false;
-	for (const auto& propertName : properties) {
-		auto index = indices.at(propertName);
+	auto beg = properties.begin();
+	for (const auto& propertyName : properties) {
+		auto index = find(propertyName) - beg;
 		const JSON& json = children[index];
 		if (!json.defined)
 			continue;
@@ -186,10 +191,10 @@ std::string JSON::_objectAsString(std::string tabulation, int indent, bool repla
 		hasChildren = true;
 		switch (json.type) {
 		case Primitives::STRING:
-			out << '"' + propertName + "\": " + '"' + json._asString(tabulation, indent, replaceEscapeSequences) + '"';
+			out << '"' + propertyName + "\": " + '"' + json._asString(tabulation, indent, replaceEscapeSequences) + '"';
 			break;
 		default:
-			out << '"' + propertName + "\": " + json._asString(tabulation, indent, replaceEscapeSequences);
+			out << '"' + propertyName + "\": " + json._asString(tabulation, indent, replaceEscapeSequences);
 			break;
 		}
 	}
@@ -255,14 +260,14 @@ bool JSON::isNumber() const {
 
 std::string JSON::_asString(std::string tabulation, int indent, bool replaceEscapeSequences) const {
 	switch (type) {
-	case Primitives::ARRAY:
-		return _arrayAsString(tabulation, indent + 1, replaceEscapeSequences);
-	case Primitives::OBJECT:
-		return _objectAsString(tabulation, indent + 1, replaceEscapeSequences);
-	case Primitives::STRING:
-	case Primitives::NUMBER:
-	default:
-		return replaceEscapeSequences ? this->replaceEscapeSequences() : self;
+		case Primitives::ARRAY:
+			return _arrayAsString(tabulation, indent + 1, replaceEscapeSequences);
+		case Primitives::OBJECT:
+			return _objectAsString(tabulation, indent + 1, replaceEscapeSequences);
+		case Primitives::STRING:
+		case Primitives::NUMBER:
+		default:
+			return replaceEscapeSequences ? this->replaceEscapeSequences() : self;
 	}
 }
 
@@ -277,23 +282,23 @@ std::string JSON::replaceEscapeSequences() const {
 				throw JSONException("Invalid escape sequence");
 			char escapeSequence = self[i++];
 			switch (escapeSequence) {
-			case 't':
-				c = '\t';
-				break;
-			case 'n':
-				c = '\n';
-				break;
-			case 'b':
-				c = '\b';
-				break;
-			case 'r':
-				c = '\r';
-				break;
-			case '\\':
-				c = '\\';
-				break;
-			default:
-				throw JSONException("Invalid escape sequence");
+				case 't':
+					c = '\t';
+					break;
+				case 'n':
+					c = '\n';
+					break;
+				case 'b':
+					c = '\b';
+					break;
+				case 'r':
+					c = '\r';
+					break;
+				case '\\':
+					c = '\\';
+					break;
+				default:
+					throw JSONException("Invalid escape sequence");
 			}
 		}
 		s += c;
@@ -391,11 +396,10 @@ void JSON::parseJSON() {
 			}
 			break;
 		}
-		if (indices.find(pn) != indices.end())
+		if (find(pn) != properties.end())
 			throw JSONException("Duplicated property name " + pn);
 		children.emplace_back(buffer.str(), pn);
 		properties.push_back(pn);
-		indices.insert(make_pair(pn, children.size() - 1));
 		parseSpaces();
 		if (self[index] == '}')
 			break;
@@ -478,25 +482,25 @@ std::string JSON::parseJSONOrArray() {
 		char c = self[index++];
 		buffer << c;
 		switch (c) {
-		case '{':
-		case '[':
-			stack.push_back(c);
-			break;
-		case '}':
-			if (stack.back() == '{')
-				stack.pop_back();
-			break;
-		case ']':
-			if (stack.back() == '[')
-				stack.pop_back();
-			break;
-		case '\'':
-		case '"':
-			if (stack.back() == '\'' || stack.back() == '"')
-				stack.pop_back();
-			else
+			case '{':
+			case '[':
 				stack.push_back(c);
-			break;
+				break;
+			case '}':
+				if (stack.back() == '{')
+					stack.pop_back();
+				break;
+			case ']':
+				if (stack.back() == '[')
+					stack.pop_back();
+				break;
+			case '\'':
+			case '"':
+				if (stack.back() == '\'' || stack.back() == '"')
+					stack.pop_back();
+				else
+					stack.push_back(c);
+				break;
 		}
 		if (stack.size() == 0)
 			break;

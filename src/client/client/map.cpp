@@ -51,7 +51,6 @@ void Map::update() {
 	if (!difference.x && !difference.y && !difference.z)
 		return;
 	updateChunks(difference, newChunk);
-	centerChunk = newChunk;
 }
 
 void Map::updateChunks(const VChunk& difference, const VChunk& tempCenter) {
@@ -66,6 +65,7 @@ void Map::updateChunks(const VChunk& difference, const VChunk& tempCenter) {
 	std::lock_guard<std::mutex> lock(mutex);
 	std::swap(loaded, newChunks);
 	gameData->clearObjectsCache();
+	centerChunk = tempCenter;
 	MapUpdatedChunksEvent().emit();
 }
 

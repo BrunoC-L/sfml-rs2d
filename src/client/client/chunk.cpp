@@ -43,7 +43,6 @@ std::string Chunk::getGroundTexturesetFileName() const {
 }
 
 Chunk::~Chunk() {
-    deleted = true;
     delete[] objects;
 }
 
