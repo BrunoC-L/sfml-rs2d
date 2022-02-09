@@ -3,6 +3,7 @@
 #include <mutex>
 #include <filesystem>
 #include "session.h"
+#include "getenv.h"
 
 std::unordered_map<std::string, std::mutex> mutices = {};
 
@@ -39,6 +40,15 @@ std::function<void(const std::string& text)> logger(std::string filename, bool a
 
 std::function<void(const std::string& text)> defaultFolderLogger(std::string basepath, std::string filename, bool addNewLines) {
 	auto path = basepath + "/" + getSession().get("name").asString();
+	while (true) {
+		auto replaceAt = path.find("${");
+		if (replaceAt == std::string::npos)
+			break;
+		auto replaceTo = path.find("}");
+		auto env = path.substr(replaceAt + 2, replaceTo - replaceAt - 2);
+		auto value = mygetenv(env);
+		path = path.replace(replaceAt, replaceTo + 1 - replaceAt, value);
+	}
 	std::filesystem::create_directories(path);
 	return logger(path + "/" + filename, addNewLines);
 }
