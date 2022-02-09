@@ -1,8 +1,8 @@
 {
     "dbconnectionstring" : "DRIVER=SQL Server;SERVER=localhost\\SQLEXPRESS;Trusted_Connection=Yes;",
     "logs": {
-        "server" : "C:/Users/Bruno/Desktop/rs2d/logs/server",
-        "client" : "C:/Users/Bruno/Desktop/rs2d/logs/client"
+        "server" : "C:/Users/Antouene/Desktop/rs2d/logs/server",
+        "client" : "C:/Users/Antouene/Desktop/rs2d/logs/client"
     },
 
     "PixelsPerTile":  4,
