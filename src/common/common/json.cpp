@@ -92,10 +92,6 @@ std::vector<std::string>::const_iterator JSON::find(const std::string& propertyN
 	return std::find(properties.begin(), properties.end(), propertyName);
 }
 
-bool JSON::has(const std::string& propertyName) const {
-	return find(propertyName) != properties.end();
-}
-
 const JSON& JSON::get(int x) const {
 	assertType(Primitives::ARRAY);
 	return children[x];
@@ -260,14 +256,14 @@ bool JSON::isNumber() const {
 
 std::string JSON::_asString(std::string tabulation, int indent, bool replaceEscapeSequences) const {
 	switch (type) {
-		case Primitives::ARRAY:
-			return _arrayAsString(tabulation, indent + 1, replaceEscapeSequences);
-		case Primitives::OBJECT:
-			return _objectAsString(tabulation, indent + 1, replaceEscapeSequences);
-		case Primitives::STRING:
-		case Primitives::NUMBER:
-		default:
-			return replaceEscapeSequences ? this->replaceEscapeSequences() : self;
+	case Primitives::ARRAY:
+		return _arrayAsString(tabulation, indent + 1, replaceEscapeSequences);
+	case Primitives::OBJECT:
+		return _objectAsString(tabulation, indent + 1, replaceEscapeSequences);
+	case Primitives::STRING:
+	case Primitives::NUMBER:
+	default:
+		return replaceEscapeSequences ? this->replaceEscapeSequences() : self;
 	}
 }
 
@@ -282,23 +278,23 @@ std::string JSON::replaceEscapeSequences() const {
 				throw JSONException("Invalid escape sequence");
 			char escapeSequence = self[i++];
 			switch (escapeSequence) {
-				case 't':
-					c = '\t';
-					break;
-				case 'n':
-					c = '\n';
-					break;
-				case 'b':
-					c = '\b';
-					break;
-				case 'r':
-					c = '\r';
-					break;
-				case '\\':
-					c = '\\';
-					break;
-				default:
-					throw JSONException("Invalid escape sequence");
+			case 't':
+				c = '\t';
+				break;
+			case 'n':
+				c = '\n';
+				break;
+			case 'b':
+				c = '\b';
+				break;
+			case 'r':
+				c = '\r';
+				break;
+			case '\\':
+				c = '\\';
+				break;
+			default:
+				throw JSONException("Invalid escape sequence");
 			}
 		}
 		s += c;
@@ -482,25 +478,25 @@ std::string JSON::parseJSONOrArray() {
 		char c = self[index++];
 		buffer << c;
 		switch (c) {
-			case '{':
-			case '[':
+		case '{':
+		case '[':
+			stack.push_back(c);
+			break;
+		case '}':
+			if (stack.back() == '{')
+				stack.pop_back();
+			break;
+		case ']':
+			if (stack.back() == '[')
+				stack.pop_back();
+			break;
+		case '\'':
+		case '"':
+			if (stack.back() == '\'' || stack.back() == '"')
+				stack.pop_back();
+			else
 				stack.push_back(c);
-				break;
-			case '}':
-				if (stack.back() == '{')
-					stack.pop_back();
-				break;
-			case ']':
-				if (stack.back() == '[')
-					stack.pop_back();
-				break;
-			case '\'':
-			case '"':
-				if (stack.back() == '\'' || stack.back() == '"')
-					stack.pop_back();
-				else
-					stack.push_back(c);
-				break;
+			break;
 		}
 		if (stack.size() == 0)
 			break;

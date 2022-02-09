@@ -17,12 +17,12 @@ void Socket::onMessage(const std::string& message) {
             data = std::make_shared<const JSON>(std::move(json["data"]));
             std::exchange(json["data"], {});
         }
-        catch (std::exception e) {
+        catch (std::exception& e) {
             std::cout << "Failed to create JSON from server message"<< std::endl << e.what() << std::endl;
         }
         receive(type, data);
     }
-    catch (std::exception e) {
+    catch (std::exception& e) {
         std::cout << "Failed to take actions upon reception of " << type << std::endl << e.what() << std::endl;
     }
 }

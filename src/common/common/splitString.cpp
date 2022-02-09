@@ -1,9 +1,9 @@
 #include "pch.h"
-#include "splitstring.h"
+#include "splitString.h"
 
 std::vector<std::string> split(const std::string& s, const std::string& divider) {
     if (divider.length() == 0)
-        throw std::exception("Tried splitting with empty divider");
+        throw std::runtime_error("Tried splitting with empty divider");
     std::string remainder = s;
     std::vector<std::string> v = {};
     int index = 0;

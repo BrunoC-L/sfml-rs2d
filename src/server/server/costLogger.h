@@ -13,7 +13,7 @@ public:
 	CostLogger(std::string fileName) {
 		out.open(fileName, std::ios::app);
 		if (!out.is_open())
-			throw std::exception();
+			throw std::runtime_error("Couldn't open file: " + fileName);
 		begin = std::chrono::steady_clock::now();
 		struct tm newtime;
 		time_t now = time(0);

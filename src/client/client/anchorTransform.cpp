@@ -17,7 +17,7 @@ void AnchorTransform::update() {
 	transform = t;
 }
 
-const sf::Transform& AnchorTransform::getTransform() const {
+const sf::Transform AnchorTransform::getTransform() const {
 	return transform;
 }
 

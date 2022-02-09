@@ -4,10 +4,9 @@
 #include <vector>
 #include <unordered_map>
 
-class JSONException : public std::exception {
+class JSONException : public std::runtime_error {
 public:
-	JSONException(std::string msg) : std::exception(msg.c_str()) {}
-	JSONException() : std::exception() {}
+	JSONException(std::string msg) : std::runtime_error(msg) {}
 };
 
 enum class Primitives { STRING, NUMBER, ARRAY, OBJECT };
@@ -58,7 +57,6 @@ public:
 	const std::string& getName() const;
 
 	std::vector<std::string>::const_iterator find(const std::string& propertyName) const;
-	bool has(const std::string& propertyName) const;
 	const JSON& get(const std::string& propertyName) const;
 	const JSON& get(int x) const;
 	JSON& operator[](const std::string& propertyName);

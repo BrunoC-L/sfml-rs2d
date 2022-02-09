@@ -4,7 +4,7 @@ AnchoredOffsetTransform::AnchoredOffsetTransform(const AnchorTransform& anchorTr
 
 }
 
-const sf::Transform& AnchoredOffsetTransform::getTransform() const {
+const sf::Transform AnchoredOffsetTransform::getTransform() const {
 	sf::Transform t(anchorTransform.getTransform());
 	t.translate(offset.x, offset.y);
 	return t;

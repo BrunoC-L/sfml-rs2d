@@ -45,7 +45,7 @@ void UserService::init() {
 
                 dbService->queryLoginDataByUserId(id, [&, user, userData, packet, tempsalt](SelectQueryResult qr) mutable {
                     if (qr.size() == 0)
-                        throw std::exception("Found user matching username but missing LoginData entry in DB");
+                        throw std::runtime_error("Found user matching username but missing LoginData entry in DB");
                     auto userHash = packet.passwordHashWithBothSalts;
                     auto expectedHash = picosha2::hash256_hex_string(tempsalt + qr[0]["hash"].asString());
                     if (userHash != expectedHash)
@@ -85,7 +85,7 @@ void UserService::init() {
             dbService->syncNonSelectQuery("insert into player (username) values ('" + packet.username + "');");
             dbService->selectQuery("select id from player where username = '" + packet.username + "';", [&, permSalt, pwHashWithPermSalt](SelectQueryResult qr) {
                 if (qr.size() == 0)
-                    throw std::exception("Just created user but missing in DB");
+                    throw std::runtime_error("Just created user but missing in DB");
                 auto id = qr[0]["id"].asString();
                 dbService->nonSelectQuery("insert into logindata values(" + id + ", '" + permSalt + "', '" + pwHashWithPermSalt + "');");
             });

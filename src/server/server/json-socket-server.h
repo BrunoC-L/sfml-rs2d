@@ -48,7 +48,7 @@ public:
 			JSON data = json["data"];
 			receive(type, qm.socket, data);
 		}
-		catch (std::exception e) {
+		catch (std::exception& e) {
 			onError(e, qm);
 		}
 	}

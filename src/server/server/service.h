@@ -1,7 +1,11 @@
 #pragma once
 #include "abstractServices.h"
-#include "ServiceProvider.h"
+#include "serviceProvider.h"
 #include "services.h"
+
+#ifdef __APPLE__
+#define _ASSERT assert
+#endif // __APPLE__
 
 class Service {
 protected:

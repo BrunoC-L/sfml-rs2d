@@ -27,7 +27,7 @@ std::shared_ptr<Object> ObjectFactory::create(std::string filename, JSON object,
 }
 
 std::shared_ptr<Object> ObjectFactory::_create(std::string filename, JSON object, Tile* tile) {
-	if (object.has("type")) {
+	if (object.find("type") != object.getProperties().end()) {
 		auto type = string_crc32(object.get("type").asString());
 		switch (type) {
 			case _Trees:
@@ -36,11 +36,11 @@ std::shared_ptr<Object> ObjectFactory::_create(std::string filename, JSON object
 				return std::make_shared<Rock>(std::move(filename), std::move(object), tile);
 		}
 	}
-	int exactType = string_crc32(filename);
+	unsigned exactType = string_crc32(filename);
 	switch (exactType) {
 		case _Tree:
 		case _Copper_Rock:
 		default:
-			throw std::exception();
+			throw std::runtime_error("Bad crc32");
 	}
 }

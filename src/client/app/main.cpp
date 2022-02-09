@@ -1,6 +1,19 @@
 #include "main.h"
 
 int main(int argc, char* argv[]) {
+
+	/*auto onMessageClient = [](const std::string& msg) {
+		std::cout << msg << std::endl;
+	};
+	using namespace std::chrono_literals;
+	std::this_thread::sleep_for(1000ms);
+	TCPSocket socket("localhost", 38838, []() { std::cout << "socket disconnected\n"; }, onMessageClient);
+	socket.connect();
+	while (true) {
+		std::this_thread::sleep_for(1000ms);
+		socket.send("test");
+	}*/
+
 	JSON args;
 	for (int i = 1; i < argc; ++i) {
 		std::string s(argv[i]);
@@ -10,11 +23,11 @@ int main(int argc, char* argv[]) {
 		args[key] = value;
 
 		if (keyValue.size() > 2)
-			throw std::exception(("split argument '" + s + "' into more than 2 parts\n").c_str());
+			throw std::runtime_error("split argument '" + s + "' into more than 2 parts\n");
 		if (key.length() == 0)
-			throw std::exception(("Key was none for argument '" + s + "'\n").c_str());
+			throw std::runtime_error("Key was none for argument '" + s + "'\n");
 		if (value.length() == 0)
-			throw std::exception(("Value was none for argument '" + s + "'\n").c_str());
+			throw std::runtime_error("Value was none for argument '" + s + "'\n");
 	}
 
 	auto local = args["local"].asBool();

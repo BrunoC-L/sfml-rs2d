@@ -21,12 +21,10 @@ namespace editor {
 	}
 
 	void FileEditor::save() {
-		auto s = getChangesFileName(false);
-		auto g = getChangesFileName(true);
 		std::ofstream changesWriter(getChangesFileName(false), std::ios::out); // create changes file
 		auto v = changesWriter.is_open();
 		changesWriter.close();
-		std::remove(getChangesFileName(true).c_str()); // remove changes done file
+		std::remove(getChangesFileName(true).c_str()); // remove changes done file as we are about to invalidate it
 		JSON content;
 		content["wall"] = std::to_string(wall);
 		for (int i = 0; i < SIZE; ++i) {

@@ -48,7 +48,8 @@ def main(args):
 
     if esttime:
         from timeLogger import TimeLogger
-        with TimeLogger(l, MAP_SIZE_CHUNKS["x"] * MAP_SIZE_CHUNKS["y"], 'chunk'): operate()
+        with TimeLogger(l, MAP_SIZE_CHUNKS["x"] * MAP_SIZE_CHUNKS["y"], 'chunk'):
+            operate()
     else:
         operate()
 

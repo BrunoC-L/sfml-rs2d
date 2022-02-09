@@ -1,0 +1,75 @@
+db init
+
+DB Thread: 6848
+
+6848 begin of while
+6848 waiting on cv
+6848 done waiting on cv: sq = 1, nsq = 0, connected = 1, didqueryonconect = 0
+6848 doing query on conect
+6848 executing create database rs2d; use rs2d; SET IMPLICIT_TRANSACTIONS ON;
+6848 query info
+6848 end of while
+6848 begin of while
+6848 waiting on cv
+6848 done waiting on cv: sq = 1, nsq = 0, connected = 1, didqueryonconect = 1
+6848 executing select name from sysobjects where xtype = 'U';; commit;
+6848 query sucess
+6848 end of while
+6848 begin of while
+6848 waiting on cv
+6848 done waiting on cv: sq = 1, nsq = 0, connected = 1, didqueryonconect = 1
+6848 executing select * from sysobjects where xtype = 'U' and name = 'version';; commit;
+6848 query sucess
+6848 end of while
+6848 begin of while
+6848 waiting on cv
+6848 done waiting on cv: sq = 1, nsq = 0, connected = 1, didqueryonconect = 1
+6848 executing select version from version;; commit;
+6848 query sucess
+6848 end of while
+6848 begin of while
+6848 waiting on cv
+DB Thread: 7216
+
+7216 begin of while
+7216 waiting on cv
+DB Thread: 31020
+
+7216 done waiting on cv: sq = 0, nsq = 0, connected = 1, didqueryonconect = 0
+7216 doing query on conect
+7216 executing create database rs2d; use rs2d; SET IMPLICIT_TRANSACTIONS ON;
+7216 query info
+7216 end of while
+7216 begin of while
+7216 waiting on cv
+31020 begin of while
+31020 waiting on cv
+DB Thread: 1532
+
+31020 done waiting on cv: sq = 0, nsq = 0, connected = 1, didqueryonconect = 0
+31020 doing query on conect
+31020 executing create database rs2d; use rs2d; SET IMPLICIT_TRANSACTIONS ON;
+31020 query info
+31020 end of while
+31020 begin of while
+31020 waiting on cv
+1532 begin of while
+1532 waiting on cv
+DB Thread: 20312
+
+1532 done waiting on cv: sq = 0, nsq = 0, connected = 1, didqueryonconect = 0
+1532 doing query on conect
+1532 executing create database rs2d; use rs2d; SET IMPLICIT_TRANSACTIONS ON;
+1532 query info
+1532 end of while
+1532 begin of while
+1532 waiting on cv
+20312 begin of while
+20312 waiting on cv
+20312 done waiting on cv: sq = 0, nsq = 0, connected = 1, didqueryonconect = 0
+20312 doing query on conect
+20312 executing create database rs2d; use rs2d; SET IMPLICIT_TRANSACTIONS ON;
+20312 query info
+20312 end of while
+20312 begin of while
+20312 waiting on cv
