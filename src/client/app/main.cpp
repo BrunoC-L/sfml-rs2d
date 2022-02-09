@@ -23,11 +23,11 @@ int main(int argc, char* argv[]) {
 		args[key] = value;
 
 		if (keyValue.size() > 2)
-			throw std::exception(("split argument '" + s + "' into more than 2 parts\n").c_str());
+			throw std::runtime_error("split argument '" + s + "' into more than 2 parts\n");
 		if (key.length() == 0)
-			throw std::exception(("Key was none for argument '" + s + "'\n").c_str());
+			throw std::runtime_error("Key was none for argument '" + s + "'\n");
 		if (value.length() == 0)
-			throw std::exception(("Value was none for argument '" + s + "'\n").c_str());
+			throw std::runtime_error("Value was none for argument '" + s + "'\n");
 	}
 
 	auto local = args["local"].asBool();

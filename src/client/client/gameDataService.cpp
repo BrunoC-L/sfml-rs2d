@@ -75,7 +75,7 @@ const bool& GameDataService::userIsLoggedIn() {
 
 std::vector<playerIdAndPosition> GameDataService::getPlayerPositions() {
 	if (playerPositions == nullptr)
-		throw std::exception("Asking for positions before login");
+		throw std::runtime_error("Asking for positions before login");
     return playerPositions->getPlayerPositions(tracker->getTickFraction());
 }
 
@@ -99,7 +99,7 @@ void GameDataService::clearObjectsCache() {
 
 void GameDataService::storePositions(const JSON& json) {
 	if (playerPositions == nullptr)
-		throw std::exception("Giving positions before login");
+		throw std::runtime_error("Giving positions before login");
     playerPositions->update(json);
 }
 

@@ -115,7 +115,7 @@ TEST(clicking_on_resources_received_from_server_sends_correct_interaction_curren
 				break;
 			default:
 				testFailed = true;
-				throw std::exception();
+				throw std::runtime_error("Test Failed");
 		}
 	};
 
@@ -136,7 +136,7 @@ TEST(clicking_on_resources_received_from_server_sends_correct_interaction_curren
 		app.stop();
 		t.join();
 	}
-	catch (std::exception e) {
+	catch (std::exception& e) {
 		std::cout << e.what();
 		EXPECT_TRUE(false);
 	}

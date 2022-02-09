@@ -50,7 +50,7 @@ void Chat::init() {
 		messages.push_back(
 			ChatMessage(
 				{
-					{ json->has("sender") ? json->get("sender").asString() + ": " : "", Color::BLACK},
+					{ json->find("sender") != json->getProperties().end() ? json->get("sender").asString() + ": " : "", Color::BLACK},
 					{json->get("message").asString(), Color::BLUE }
 				},
 				ChatMessageType::PlayerMessage

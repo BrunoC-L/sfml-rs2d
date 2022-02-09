@@ -14,7 +14,7 @@ void log(std::string filename, const std::string& text) {
 	std::lock_guard<std::mutex> lock(mutices[filename]);
 	std::ofstream out(filename, std::ios::app);
 	if (!out.is_open()) {
-		throw std::exception("Folder missing\n");
+		throw std::runtime_error("Folder missing\n");
 	}
 	log(out, text);
 	out.close();

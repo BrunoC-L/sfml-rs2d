@@ -73,7 +73,7 @@ TEST(player_position_updates_on_socket_receive_positions, TestName) {
 	try {
 		app.stop();
 	}
-	catch (std::exception e) {
+	catch (std::exception& e) {
 		std::cout << e.what();
 		EXPECT_EQ(1, 0);
 	}
