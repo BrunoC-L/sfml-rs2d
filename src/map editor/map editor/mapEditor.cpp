@@ -239,8 +239,8 @@ void MapEditor::loadTexture() {
 			chunks[x][y].setTexture(&map);
 			chunks[x][y].setTextureRect(
 				sf::IntRect(
-					sf::Vector2i(x * TILES_PER_CHUNK * PIXELS_PER_TILE_ON_IMAGE, y * TILES_PER_CHUNK * PIXELS_PER_TILE_ON_IMAGE),
-					sf::Vector2i(TILES_PER_CHUNK * PIXELS_PER_TILE_ON_IMAGE, TILES_PER_CHUNK * PIXELS_PER_TILE_ON_IMAGE)
+					sf::Vector2i(x * TILES_PER_CHUNK * PIXELS_PER_TILE_ON_MAP, y * TILES_PER_CHUNK * PIXELS_PER_TILE_ON_MAP),
+					sf::Vector2i(TILES_PER_CHUNK * PIXELS_PER_TILE_ON_MAP, TILES_PER_CHUNK * PIXELS_PER_TILE_ON_MAP)
 				)
 			);
 			chunks[x][y].setSize(
@@ -268,7 +268,8 @@ void MapEditor::save() {
 void MapEditor::load(std::pair<std::string, bool> key) {
 	std::cout << "Loading " << key.first << std::endl;
 	sf::Texture* texture = new sf::Texture();
-	texture->loadFromFile("../../../assets/textures/" + key.first + ".png");
+	if (!texture->loadFromFile("../../../assets/textures-32/" + key.first + ".png"))
+		throw std::exception(("Failed to open ../../../assets/textures-32/" + key.first + ".png").c_str());
 	std::unordered_map<std::string, int> name2texture;
 	std::unordered_map<std::string, int> name2count;
 	if (!key.second) {
@@ -346,6 +347,6 @@ void MapEditor::load(std::pair<std::string, bool> key) {
 }
 
 std::string MapEditor::getFileName(std::string key, int x, int y, int z) const {
-	return "../../../resource/chunks/" + key + "/" +
+	return "../../../resource/chunks-64/" + key + "/" +
 		std::to_string(x) + "-" + std::to_string(y) + "-" + std::to_string(z) + ".txt";
 }

@@ -57,7 +57,7 @@ public:
 
     void start() {
         if (listener.listen(port) != sf::TcpSocket::Done)
-            throw std::exception(("Could not listen to port " + std::to_string(port)).c_str());
+            throw std::runtime_error("Could not listen to port " + std::to_string(port));
 
         stopped = false;
 

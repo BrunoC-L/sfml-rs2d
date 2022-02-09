@@ -49,7 +49,7 @@ public:
                 if (tickScheduler->shouldTick() && running)
                     TickEvent().emit();
             }
-            catch (std::exception e) {
+            catch (std::exception& e) {
                 std::cout << "Tick Thread Error: " << e.what() << std::endl;
             }
         }

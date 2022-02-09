@@ -5,14 +5,14 @@
 
 class Service {
 public:
-	ServiceProvider* provider;
-	AbstractCamera* camera;
-	AbstractChat* chat;
-	AbstractMap* map;
-	AbstractMeasures* measures;
-	AbstractPlayer* player;
-	AbstractSocket* socket;
-	AbstractGameDataService* gameData;
+	ServiceProvider* provider = nullptr;
+	AbstractCamera* camera = nullptr;
+	AbstractChat* chat = nullptr;
+	AbstractMap* map = nullptr;
+	AbstractMeasures* measures = nullptr;
+	AbstractPlayer* player = nullptr;
+	AbstractSocket* socket = nullptr;
+	AbstractGameDataService* gameData = nullptr;
 
 	Service(ServiceProvider* provider) : provider(provider) { }
 

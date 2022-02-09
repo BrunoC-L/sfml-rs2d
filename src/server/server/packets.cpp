@@ -2,11 +2,11 @@
 
 std::string sanitizeString(std::string arg) {
 	if (arg.length() == 0)
-		throw std::exception("blocked potential injection");
+		throw std::runtime_error("blocked potential injection");
 	for (auto& c : arg) {
 		if (isalnum(c) || (c == ' ') || (c == '-') || (c == '_'))
 			continue;
-		throw std::exception("blocked potential injection");
+		throw std::runtime_error("blocked potential injection");
 	}
 	return arg;
 }

@@ -9,7 +9,11 @@ JSON session;
 std::string strtime() {
 	struct tm newtime;
 	time_t now = time(0);
+#ifdef __APPLE__
+	// errrr
+#else // __APPLE__
 	localtime_s(&newtime, &now);
+#endif // __APPLE__
 	char buffer[80];
 	const auto* ptr = &newtime;
 	strftime(buffer, sizeof(buffer), "%d-%m-%Y-%H-%M-%S", ptr);

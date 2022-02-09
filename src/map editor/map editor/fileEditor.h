@@ -4,10 +4,6 @@
 #include <fstream>
 #include "units.h"
 
-const int TILES_PER_CHUNK = 64;
-const int PIXELS_PER_TILE = 32;
-const int PIXELS_PER_TILE_ON_IMAGE = 4;
-
 namespace editor {
 	class FileEditor {
 	public:

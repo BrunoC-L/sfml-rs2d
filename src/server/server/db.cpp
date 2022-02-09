@@ -9,6 +9,10 @@
 #include <codecvt>
 #include <locale>
 
+#ifdef __APPLE__
+#define _ASSERT assert
+#endif // __APPLE__
+
 DB::DB(ServiceProvider* provider, int nThreads) : Service(provider), nThreads(nThreads) {
 	provider->set(DATABASE, this);
 }
@@ -75,7 +79,7 @@ void DB::connect(int n) {
 
 		while (!dbthread.second)
 			if (*failed)
-				throw std::exception("DB failed to start\n");
+				throw std::runtime_error("DB failed to start\n");
 	}
 }
 
@@ -95,7 +99,7 @@ void DB::createDB() {
 void DB::checkVersion() {
 	bool versionTableMissing = syncSelectQuery("select * from sysobjects where xtype = 'U' and name = 'version';").size() == 0;
 	if (versionTableMissing)
-		throw std::exception("Found tables in database but missing version table");
+		throw std::runtime_error("Found tables in database but missing version table");
 	auto versions = syncSelectQuery("select version from version;");
 	auto version = versions[0]["version"].asString();
 	if (version != this->version)
@@ -103,7 +107,7 @@ void DB::checkVersion() {
 }
 
 void DB::updateVersion(std::string version) {
-	throw std::exception("Not implemented exception");
+	throw std::runtime_error("Not implemented exception");
 }
 
 void DB::selectQuery(std::string s, std::function<void(SelectQueryResult)> f) {

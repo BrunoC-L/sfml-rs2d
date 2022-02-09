@@ -35,7 +35,6 @@ public:
 	virtual const std::vector<VTile>& getInteractibleTiles() override;
 	virtual VTile size() override;
 	virtual const std::vector<std::string>& getInteractions() override;
-	virtual void interact(const std::shared_ptr<User>& user, int objectState, const std::string& interaction) = 0;
 	virtual const std::string& getName() override;
 	virtual void setState(int state) override;
 };

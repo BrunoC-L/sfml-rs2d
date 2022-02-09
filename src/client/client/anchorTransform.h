@@ -15,7 +15,7 @@ private:
 public:
 	AnchorTransform(VPixel anchor);
 	void setMeasures(AbstractMeasures* m);
-	virtual const sf::Transform& getTransform() const;
+	virtual const sf::Transform getTransform() const;
 	virtual VPixel getPosition() const;
 };
 

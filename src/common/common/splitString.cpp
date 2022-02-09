@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "splitstring.h"
+#include "splitString.h"
 
 std::vector<std::string> split(const std::string& s, const std::string& divider) {
     if (divider.length() == 0)

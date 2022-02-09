@@ -1,6 +1,6 @@
 #include "mapEditor.h"
 
 int main() {
-	MapEditor app;
-	app.run();
+	MapEditor* app = new MapEditor();
+	app->run();
 }

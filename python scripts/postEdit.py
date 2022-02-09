@@ -11,7 +11,7 @@ The UI from the Editor Program in src/map editor, there is a file that stores
 the name of each file that has been modified since this script was last ran.
 The editor script uses data from /resource/editor/data/ that data is organised
 by chunk but separated in 1 file per tile, it is better for the editor but
-I couldn't see my server loading 29 * 25 * 64 * 64 files
+I couldn't see my server loading 29 * 25 * 64 * 64 files (TPC=64)
 
 editor takes data by tile and reorganise it into type then chunk file
 ex: assets/walls/*.txt files, same for monsters, etc. those are faster to read for the

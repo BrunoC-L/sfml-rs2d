@@ -5,6 +5,10 @@
 #include "logger.h"
 #include "session.h"
 
+#ifdef __APPLE__
+#define _ASSERT assert
+#endif // __APPLE__
+
 void db(
     const WCHAR* connectionString,
     std::mutex& queryLock,
@@ -142,7 +146,7 @@ void db(
         OnExit _([&, called, q]() {
             log(tid + " end of while");
             if (!*called)
-                throw std::exception(("Callback never called after query: " + q).c_str());
+                throw std::runtime_error("Callback never called after query: " + q);
         });
 
         RETCODE     RetCode;
@@ -156,7 +160,7 @@ void db(
                 std::string info = getMessage(hStmt, SQL_HANDLE_STMT, RetCode);
                 infoForLog = info;
                 if (SELECT)
-                    throw std::exception((info + " encountered during select: '" + sq.first + "'\n").c_str());
+                    throw std::runtime_error(info + " encountered during select: '" + sq.first + "'\n");
                 else {
                     *called = true;
                     nsq.second(info);
@@ -199,7 +203,7 @@ void db(
                 infoForLog = "query error";
                 std::string err = getMessage(hStmt, SQL_HANDLE_STMT, RetCode);
                 if (SELECT)
-                    throw std::exception((err + " encountered during select: '" + sq.first + "'\n").c_str());
+                    throw std::runtime_error(err + " encountered during select: '" + sq.first + "'\n");
                 else {
                     *called = true;
                     std::cout << err << std::endl;
@@ -249,7 +253,7 @@ std::vector<std::string> getTitles(HSTMT hStmt, BINDING* pBinding) {
     }
     return titles;
 Exit:
-    throw std::exception("Failed to get titles for query\n");
+    throw std::runtime_error("Failed to get titles for query\n");
 }
 
 SelectQueryResult getResults(HSTMT hStmt, SQLSMALLINT cCols) {

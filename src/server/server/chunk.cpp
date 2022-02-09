@@ -25,7 +25,7 @@ void Chunk::loadWalls() {
     std::string fileName = getFileName("walls");
     std::ifstream file(fileName);
 	if (!file.is_open())
-		throw std::exception();
+		throw std::runtime_error("Couldn't open file: " + fileName);
 
 	int* grid = new int[int(TILES_PER_CHUNK) * int(TILES_PER_CHUNK)]();
 
@@ -66,7 +66,7 @@ void Chunk::loadObjects() {
 	std::string fileName = getFileName("objects");
 	std::ifstream file(fileName);
 	if (!file.is_open())
-		throw std::exception();
+		throw std::runtime_error("Couldn't open file: " + fileName);
 	std::string line;
 	while (std::getline(file, line)) {
 		std::vector<std::string> content = split(line, ":");
@@ -78,7 +78,7 @@ void Chunk::loadObjects() {
 			std::string objectFileName = getObjectFileNameWithPath(objectName);
 			std::ifstream objectFile(objectFileName);
 			if (!objectFile.is_open())
-				throw std::exception();
+				throw std::runtime_error("Couldn't open file: " + fileName);
 			std::string fileStr;
 			std::istreambuf_iterator<char> inputIt(objectFile), emptyInputIt;
 			std::back_insert_iterator<std::string> stringInsert(fileStr);

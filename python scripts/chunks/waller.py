@@ -131,7 +131,7 @@ def waller(cx, cy):
                 neighbor = walls[TPC * (x - 1) + y]
                 if neighbor &  EAST:
                     w |=  WEST
-            if x < 63:
+            if x < TPC - 1:
                 neighbor = walls[TPC * (x + 1) + y]
                 if neighbor &  WEST:
                     w |=  EAST
@@ -139,7 +139,7 @@ def waller(cx, cy):
                 neighbor = walls[TPC * x + (y - 1)]
                 if neighbor & SOUTH:
                     w |= NORTH
-            if y < 63:
+            if y < TPC - 1:
                 neighbor = walls[TPC * x + (y + 1)]
                 if neighbor & NORTH:
                     w |= SOUTH
