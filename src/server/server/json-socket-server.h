@@ -2,38 +2,39 @@
 #include "socket-server.h"
 #include "json.h"
 #include "print.h"
+#include "socket.h"
 
 struct QueueMessage {
-	std::shared_ptr<sf::TcpSocket> socket;
+	std::shared_ptr<Socket> socket;
 	std::string message;
 };
 
 class JsonSocketServer {
 public:
 	SocketServer server;
-	std::unordered_map<std::string, std::vector<std::function<void(std::shared_ptr<sf::TcpSocket>, JSON&)>>> callbacks;
+	std::unordered_map<std::string, std::vector<std::function<void(std::shared_ptr<Socket>, JSON&)>>> callbacks;
 	std::vector<QueueMessage> messageQueue;
 	std::mutex waiter;
 	std::condition_variable cv;
 	std::mutex queueMutex;
 	std::thread logicThread;
 	bool stopped = false;
-	std::function<void(std::exception&, QueueMessage)> onError;
+	std::function<void(std::exception&, std::shared_ptr<Socket>)> onError;
 
 	JsonSocketServer(
 		unsigned port,
-		std::function<void(std::exception&, QueueMessage)> onError,
-		std::function<void(std::shared_ptr<sf::TcpSocket>)> onConnect,
-		std::function<void(std::shared_ptr<sf::TcpSocket>)> onDisconnect
+		std::function<void(std::exception&, std::shared_ptr<Socket>)> onError,
+		std::function<void(std::shared_ptr<Socket>)> onConnect,
+		std::function<void(std::shared_ptr<Socket>)> onDisconnect
 	) :
-		server(port, [&](std::shared_ptr<sf::TcpSocket> socket, std::string msg) { queue(socket, msg); }, onConnect, onDisconnect), onError(onError)
+		server(port, [&](std::shared_ptr<Socket> socket, std::string msg) { queue(socket, msg); }, onConnect, onDisconnect), onError(onError)
 	{ }
 
-	void on(std::string msgType, std::function<void(std::shared_ptr<sf::TcpSocket>, JSON&)> callback) {
+	void on(std::string msgType, std::function<void(std::shared_ptr<Socket>, JSON&)> callback) {
 		callbacks[msgType].push_back(callback);
 	}
 
-	void queue(std::shared_ptr<sf::TcpSocket> socket, std::string msg) {
+	void queue(std::shared_ptr<Socket> socket, std::string msg) {
 		{
 			std::lock_guard<std::mutex> lock(queueMutex);
 			messageQueue.push_back({ socket, msg });
@@ -49,11 +50,11 @@ public:
 			receive(type, qm.socket, data);
 		}
 		catch (std::exception& e) {
-			onError(e, qm);
+			onError(e, qm.socket);
 		}
 	}
 
-	void receive(std::string msgType, std::shared_ptr<sf::TcpSocket> socket, JSON json) {
+	void receive(std::string msgType, std::shared_ptr<Socket> socket, JSON json) {
 		for (auto callback : callbacks[msgType])
 			callback(socket, json);
 	}

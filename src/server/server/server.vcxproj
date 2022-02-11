@@ -81,6 +81,7 @@
     <ClInclude Include="serverServiceProvider.h" />
     <ClInclude Include="services.h" />
     <ClInclude Include="socket-server.h" />
+    <ClInclude Include="socket.h" />
     <ClInclude Include="socketServer.h" />
     <ClInclude Include="subscribeToInteractionInterruption.h" />
     <ClInclude Include="taskScheduler.h" />
@@ -89,6 +90,7 @@
     <ClInclude Include="tree.h" />
     <ClInclude Include="user.h" />
     <ClInclude Include="userService.h" />
+    <ClInclude Include="websocketppserver.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\common\common\common.vcxproj">
@@ -168,7 +170,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\SFML-2.5.1\include;..\..\common\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\SFML-2.5.1\include;C:\Users\Bruno\Desktop\prog\src\c++\websocketpp;C:\Users\Bruno\Desktop\boost_1_77_0;..\..\common\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

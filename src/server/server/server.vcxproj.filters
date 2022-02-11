@@ -287,6 +287,12 @@
     <ClInclude Include="gameMessageEvent.h">
       <Filter>Source Files\events</Filter>
     </ClInclude>
+    <ClInclude Include="websocketppserver.h">
+      <Filter>Source Files\services\socketServer</Filter>
+    </ClInclude>
+    <ClInclude Include="socket.h">
+      <Filter>Source Files\services\socketServer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

@@ -2,11 +2,13 @@
 #include "abstractSocketServer.h"
 #include "service.h"
 #include "json-socket-server.h"
+#include "websocketppserver.h"
 
 class SocketServerService : public AbstractSocketServer, public Service {
-	std::unique_ptr<JsonSocketServer> server;
-	std::unordered_map<std::shared_ptr<sf::TcpSocket>, std::shared_ptr<User>> socketToUser;
-	std::unordered_map<std::shared_ptr<User>, std::shared_ptr<sf::TcpSocket>> userToSocket;
+	std::unique_ptr<JsonSocketServer> socketServer;
+	std::unique_ptr<JSONWebSocketServer> webSocketServer;
+	std::unordered_map<std::shared_ptr<Socket>, std::shared_ptr<User>> socketToUser;
+	std::unordered_map<std::shared_ptr<User>, std::shared_ptr<Socket>> userToSocket;
 public:
 	SocketServerService(ServiceProvider* provider, unsigned port);
 	virtual void on(std::string msgType, std::function<void(std::shared_ptr<User>, JSON&)> callback, bool loggedInRequired) override;

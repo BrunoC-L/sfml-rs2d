@@ -3,11 +3,11 @@
 
 SocketServerService::SocketServerService(ServiceProvider* provider, unsigned port) : Service(provider) {
     provider->set(SERVER, this);
-    auto onError = [&](std::exception& e, QueueMessage qm) {
+    auto onError = [&](std::exception& e, std::shared_ptr<Socket> socket) {
         std::cout << e.what() << std::endl;
     };
 
-    auto onDisconnect = [&](std::shared_ptr<sf::TcpSocket> socket) {
+    auto onDisconnect = [&](std::shared_ptr<Socket> socket) {
         std::shared_ptr<User> user = socketToUser[socket];
         if (user->isLoggedIn)
             LogoutEvent(user).emit();
@@ -16,28 +16,36 @@ SocketServerService::SocketServerService(ServiceProvider* provider, unsigned por
         std::cout << socket << " disconnected\n";
     };
 
-    auto onConnect = [&](std::shared_ptr<sf::TcpSocket> socket) {
+    auto onConnect = [&](std::shared_ptr<Socket> socket) {
         std::cout << socket << " connected\n";
         auto user = std::make_shared<User>();
         socketToUser[socket] = user;
         userToSocket[user] = socket;
     };
 
-    server = std::make_unique<JsonSocketServer>(port, onError, onConnect, onDisconnect);
+    std::cout << "port for socket server: " << port << "\n";
+    socketServer    = std::make_unique<JsonSocketServer>   (port, onError, onConnect, onDisconnect);
+    std::cout << "port for websocket server: " << port + 1 << "\n";
+    webSocketServer = std::make_unique<JSONWebSocketServer>(port + 1, onError, onConnect, onDisconnect);
 }
 
 void SocketServerService::on(std::string msgType, std::function<void(std::shared_ptr<User>, JSON&)> callback, bool loggedInRequired) {
-    server->on(
+    auto callback2 = [&, callback, loggedInRequired](std::shared_ptr<Socket> socket, JSON& json) {
+        auto user = socketToUser[socket];
+        if (!user)
+            return; // terrible patch
+        if (user->isLoggedIn && loggedInRequired || !loggedInRequired)
+            callback(user, json);
+        else
+            socket->disconnect();
+    };
+    socketServer->on(
         msgType,
-        [&, callback, loggedInRequired](std::shared_ptr<sf::TcpSocket> socket, JSON& json) {
-            auto user = socketToUser[socket];
-            if (!user)
-                return; // terrible patch
-            if (user->isLoggedIn && loggedInRequired || !loggedInRequired)
-                callback(user, json);
-            else
-                socket->disconnect();
-        }
+        callback2
+    );
+    webSocketServer->on(
+        msgType,
+        callback2
     );
 }
 
@@ -46,18 +54,19 @@ void SocketServerService::send(std::shared_ptr<User> user, JSON& msg) {
     if (!socket)
         return;
     auto str = msg.asString() + messageEnd;
-    socket->send(str.c_str(), str.length());
+    socket->send(str);
 }
 
 void SocketServerService::send(std::shared_ptr<User> user, std::string type, JSON& data) {
     auto socket = userToSocket[user];
     auto str = "{'type': '" + type + "', 'data': " + data.asString() + "}" + messageEnd;
-    socket->send(str.c_str(), str.length());
+    socket->send(str);
 }
 
 void SocketServerService::init() {
     acquire();
-    server->start();
+    socketServer->start();
+    webSocketServer->start();
 }
 
 void SocketServerService::stop() {
