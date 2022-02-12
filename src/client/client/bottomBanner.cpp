@@ -59,12 +59,3 @@ void BottomBanner::draw() const {
         }
     }
 }
-
-void BottomBanner::click(MouseEvent& ev) {
-
-}
-
-bool BottomBanner::mouseIsInRect(MouseEvent& ev) {
-    int pxFromBottomBorder = window->getSize().y - ev.pos.y;
-    return pxFromBottomBorder <= AbstractMeasures::bottomBannerHeight;
-}

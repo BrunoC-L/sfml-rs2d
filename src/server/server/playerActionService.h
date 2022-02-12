@@ -24,11 +24,11 @@ class PlayerActionService : public AbstractPlayerActionService, public Service {
 	std::vector<std::pair<std::shared_ptr<User>, VTile>> positions[29][25];
 	std::vector<std::vector<std::vector<std::shared_ptr<User>>>> usersByChunk;
 
-	EventObserver<LoginEvent> loginObserver;
-	EventObserver<LogoutEvent> logoutObserver;
-	EventObserver<TickEvent> tickObserver;
-	EventObserver<GoToObjectRequest> goToObjectObserver;
-	EventObserver<SubscribeToInteractionInterruptionEvent> interruptionSubscriptionObserver;
+	LoginEvent::Observer loginObserver;
+	LogoutEvent::Observer logoutObserver;
+	TickEvent::Observer tickObserver;
+	GoToObjectRequestEvent::Observer goToObjectObserver;
+	SubscribeToInteractionInterruptionEvent::Observer interruptionSubscriptionObserver;
 
 	void updatePlayerPositions();
 	void sendPlayerPositions();

@@ -25,7 +25,7 @@ protected:
 	virtual void giveExperience(const std::shared_ptr<User>& user);
 	std::vector<ObjectState> states;
 	std::vector<std::pair<int, std::shared_ptr<User>>> interactors;
-	EventObserver<TickEvent> tickObserver;
+	TickEvent::Observer tickObserver;
 	void tick();
 	virtual void tick(int i, const std::shared_ptr<User>& user) = 0;
 	JSON json;

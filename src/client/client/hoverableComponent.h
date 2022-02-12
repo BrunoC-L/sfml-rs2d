@@ -7,7 +7,7 @@ class HoverableComponent : public Component {
 protected:
 	std::function<void()> onHover;
 	std::function<void()> offHover;
-	EventObserver<MouseMoveEvent> moveObserver;
+	MouseMoveEvent::Observer moveObserver;
 	bool hovered;
 public:
 	HoverableComponent(std::function<void()> onHover, std::function<void()> offHover, const AnchorTransform& aot, VPixel size);

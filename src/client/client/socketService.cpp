@@ -28,7 +28,7 @@ void Socket::onMessage(const std::string& message) {
 }
 
 void Socket::onDisconnect() {
-    LogoutEvent().emit();
+    EVENT(LogoutEvent).emit();
 }
 
 void Socket::init() {

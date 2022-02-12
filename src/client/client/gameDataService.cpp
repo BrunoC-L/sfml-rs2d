@@ -55,7 +55,7 @@ void GameDataService::init() {
 			}
 	});
 
-	loginObserver.set([&](LoginEvent& ev) {
+	loginObserver.set([&](const LoginEvent::Data& ev) {
 		loggedIn = true;
 		// Temporal link with the player subscription...
 		// maybe add an event called when the player receives login
@@ -63,7 +63,7 @@ void GameDataService::init() {
 		playerPositions = std::make_unique<PlayerPositions>(player);
 	});
 
-	logoutObserver.set([&](LogoutEvent& ev) {
+	logoutObserver.set([&](const LogoutEvent::Data& ev) {
 		loggedIn = false;
 		playerPositions.reset();
 	});

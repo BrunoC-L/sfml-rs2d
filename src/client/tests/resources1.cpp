@@ -59,7 +59,7 @@ TEST(clicking_on_resources_received_from_server_sends_correct_interaction_curren
 	object["fileName"] = "Tree";
 	std::string resourceName = "Tree";
 	object["name"] = resourceName;
-	EventObserver<MapUpdatedChunksEvent> obv;
+	MapUpdatedChunksEvent::Observer obv;
 
 	socket._send = [&](const std::string& type, const JSON& json) {};
 
@@ -95,7 +95,7 @@ TEST(clicking_on_resources_received_from_server_sends_correct_interaction_curren
 							)
 						);
 
-				obv.set([&](MapUpdatedChunksEvent& ev) {
+				obv.set([&](const MapUpdatedChunksEvent::Data& ev) {
 					receivedMapUpdateEvent = true;
 				});
 				for (int i = 0; i < 2000 && !receivedMapUpdateEvent; ++i) {
@@ -120,11 +120,11 @@ TEST(clicking_on_resources_received_from_server_sends_correct_interaction_curren
 	};
 
 	for (const auto key : "username")
-		LetterKeyPressedEvent(key, false).emit();
-	EnterKeyPressedEvent().emit();
+		EVENT(LetterKeyPressedEvent, key, false).emit();
+	EVENT(EnterKeyPressedEvent).emit();
 	for (const auto key : "password")
-		LetterKeyPressedEvent(key, false).emit();
-	EnterKeyPressedEvent().emit();
+		EVENT(LetterKeyPressedEvent, key, false).emit();
+	EVENT(EnterKeyPressedEvent).emit();
 	for (int i = 0; i < 5000 && !testWorked && !testFailed; ++i) {
 		using namespace std::chrono_literals;
 		std::this_thread::sleep_for(1ms);

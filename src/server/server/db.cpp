@@ -29,16 +29,16 @@ void DB::init() {
 		checkVersion();
 	std::cout << "Database is up to date\n";
 	connect(nThreads - 1);
-	logoutObserver.set([&](LogoutEvent& ev) {
+	logoutObserver.set([&](const LogoutEvent::Data& ev) {
 		ids[ev.user->index] = -1;
 	});
-	loginObserver.set([&](LoginEvent& ev) {
+	loginObserver.set([&](const LoginEvent::Data& ev) {
 		auto qr = syncSelectQuery("select id from player where username = '" + ev.user->ign + "'");
 		_ASSERT(qr.size() == 1);
 		auto id = qr[0]["id"].asInt();
 		ids[ev.user->index] = id;
 	});
-	playerMoveEventObserver.set([&](PlayerMoveEvent& ev) {
+	playerMoveEventObserver.set([&](const PlayerMoveEvent::Data& ev) {
 		saveUserPosition(*ev.user, ev.position);
 	});
 }

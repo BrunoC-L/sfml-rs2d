@@ -47,7 +47,7 @@ public:
         while (running) {
 //            try {
                 if (tickScheduler->shouldTick() && running)
-                    TickEvent().emit();
+                   EVENT(TickEvent).emit();
 //            }
 //            catch (std::exception& e) {
 //                std::cout << "Tick Thread Error: " << e.what() << std::endl;

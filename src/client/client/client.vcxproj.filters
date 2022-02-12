@@ -183,9 +183,6 @@
     <ClInclude Include="NPC.h">
       <Filter>Source Files\NPC</Filter>
     </ClInclude>
-    <ClInclude Include="mouseEvent.h">
-      <Filter>Source Files\events\mouseEvents</Filter>
-    </ClInclude>
     <ClInclude Include="service.h">
       <Filter>Source Files\services\base</Filter>
     </ClInclude>

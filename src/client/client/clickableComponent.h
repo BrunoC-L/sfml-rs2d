@@ -6,7 +6,7 @@
 class ClickableComponent : public Component {
 protected:
 	std::function<void()> onClick;
-	EventObserver<MouseLeftClickEvent> clickObserver;
+	MouseLeftClickEvent::Observer clickObserver;
 public:
 	ClickableComponent(std::function<void()> onClick, const AnchorTransform& aot, VPixel size);
 };

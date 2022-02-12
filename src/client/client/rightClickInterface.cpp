@@ -13,7 +13,7 @@ RightClickInterface::RightClickInterface(ServiceProvider* provider, AbstractRend
     text.setFillColor(sf::Color::Red);
     text.setCharacterSize(16);
     resetText();
-    rightClickTileObserver.set([&](RightClickTileEvent& ev) {
+    rightClickTileObserver.set([&](const RightClickTileEvent::Data& ev) {
         if (active)
             return;
         active = true;
@@ -38,16 +38,6 @@ void RightClickInterface::resetText() {
     text.setString("Choose Option");
 }
 
-bool RightClickInterface::mouseIsInRect(MouseEvent& ev) {
-    auto delta = getDeltaClick(ev);
-    return delta.x < rect.getSize().x && delta.y < rect.getSize().y && delta.x >= 0 && delta.y >= 0;
-}
-
-VPixel RightClickInterface::getDeltaClick(MouseEvent& ev) {
-    auto rectPos = rect.getPosition();
-    return VPixel(ev.pos.x - rectPos.x, ev.pos.y - rectPos.y);
-}
-
 void RightClickInterface::draw() {
     if (!active)
         return;
@@ -57,25 +47,6 @@ void RightClickInterface::draw() {
     transform.scale(sf::Vector2f(1 / scale.x, 1 / scale.y));
     window->draw(&rect, transform);
     window->draw(text, transform);
-}
-
-void RightClickInterface::click(MouseEvent& ev) {
-    active = false;
-    if (!interactions.size())
-        return;
-    auto dy = getDeltaClick(ev).y - 16;
-    int interactionIndex = dy / 16;
-    if (dy < 0 || interactionIndex >= interactions.size())
-        return;
-    auto interaction = interactions[interactionIndex];
-    JSON data;
-    data["x"] = std::to_string(interaction.tile.x);
-    data["y"] = std::to_string(interaction.tile.y);
-    data["object"] = "{}";
-    data["object"]["state"] = std::to_string(interaction.objectState);
-    data["object"]["interaction"] = interaction.interactions[0];
-    data["object"]["objectName"] = interaction.objectName;
-    socket->send("interact", data);
 }
 
 void RightClickInterface::addInteractions(ObjectInteractions interactions) {

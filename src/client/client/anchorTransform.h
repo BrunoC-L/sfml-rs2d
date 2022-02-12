@@ -10,7 +10,7 @@ private:
 	sf::Transform transform;
 	AbstractMeasures* measures;
 	VPixel anchor;
-	EventObserver<ResizeEvent> resizeObserver;
+	ResizeEvent::Observer resizeObserver;
 	void update();
 public:
 	AnchorTransform(VPixel anchor);

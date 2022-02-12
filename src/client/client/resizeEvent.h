@@ -1,16 +1,7 @@
 #pragma once
 #include "event.h"
 
-#undef  TYPE
-#undef  PARENTS
-#undef  MEMBERS
-#undef  PARAMETERS
-#undef  MEMBERS_SET
-#undef  MEMBERS_INITALIZER_LIST
-#define TYPE ResizeEvent
-#define PARENTS : public Event
-#define MEMBERS
-#define PARAMETERS
-#define MEMBERS_SET
+struct ResizeEventData {
 
-EVENT_CLASS(TYPE, PARENTS, MEMBERS, PARAMETERS, MEMBERS_SET)
+};
+using ResizeEvent = Event<ResizeEventData>;

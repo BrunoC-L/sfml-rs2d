@@ -3,7 +3,6 @@
 #include "units.h"
 #include "abstractMeasures.h"
 #include "abstractPlayer.h"
-#include "mouseEvent.h"
 #include "minimap.h"
 #include "item.h"
 #include "service.h"
@@ -83,7 +82,31 @@ private:
 public:
     RightBanner(ServiceProvider* provider, AbstractRenderWindow* window);
     void draw();
-    bool mouseIsInRect(MouseEvent& ev);
-    void click(MouseEvent& ev);
+    template <class MouseEvent>
+    bool mouseIsInRect(const MouseEvent& ev) {
+        int pxFromRightBorder = window->getSize().x - ev.pos.x;
+        return pxFromRightBorder <= AbstractMeasures::rightBannerWidth;
+    }
+    void click(const MouseLeftClickEvent::Data& ev) {
+        constexpr auto offsetx = AbstractMeasures::minimapRadius + (AbstractMeasures::rightBannerWidth - 2 * AbstractMeasures::minimapRadius) / 2;
+        VPixel middleOfMinimap(window->getSize().x - offsetx, AbstractMeasures::minimapRadius);
+        VPixel vpxFromMiddleOfMinimap = ev.pos - middleOfMinimap;
+        constexpr auto r2 = AbstractMeasures::minimapRadius * AbstractMeasures::minimapRadius;
+        auto d2 = vpxFromMiddleOfMinimap.x * vpxFromMiddleOfMinimap.x + vpxFromMiddleOfMinimap.y * vpxFromMiddleOfMinimap.y;
+        bool clickIsOnMinimap = r2 >= d2;
+        if (clickIsOnMinimap) {
+            const float radius = pow(d2, 0.5f);
+            const float angle = (vpxFromMiddleOfMinimap.x == 0 ?
+                (vpxFromMiddleOfMinimap.y > 0 ? 90 : -90) :
+                (vpxFromMiddleOfMinimap.x > 0 ? 0 : 3.1415926536f) +
+                atan(vpxFromMiddleOfMinimap.y / vpxFromMiddleOfMinimap.x)) -
+                measures->angle / 180 * 3.1415926536f;
+            VPixel rotatedDelta = VPixel(cos(angle), sin(angle)) * radius;
+            vpxFromMiddleOfMinimap = rotatedDelta;
+
+            VTile position = player->getPosition() + vpxFromMiddleOfMinimap / PIXELS_PER_TILE_ON_MAP;
+            WalkClickEvent(position).emit();
+        }
+    }
     void update();
 };

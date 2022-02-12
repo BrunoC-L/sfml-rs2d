@@ -10,37 +10,38 @@ void Player::init() {
     acquire();
     position = VTile();
     intPosition = VTile();
-    walkObserver.set([&](WalkClickEvent& ev) {
+    walkObserver.set([&](const WalkClickEvent::Data& ev) {
         walk(ev.pos);
     });
 
-    loginObserver.set([&](LoginEvent& ev) {
+    loginObserver.set([&](const LoginEvent::Data& ev) {
         auto& data = ev.json;
-        auto id = data["id"];
+        auto id = data.get("id");
         setID(id.asInt());
-        JSON x = data["position"]["x"], y = data["position"]["y"];
-        player->setIntPosition(VTile(x.asInt(), y.asInt()));
-        player->setPosition(VTile(data["position"]["x"].asInt(), data["position"]["y"].asInt()));
+        JSON x_ = data.get("position").get("x"), y_ = data.get("position").get("y");
+        int x = x_.asInt(), y = y_.asInt();
+        player->setIntPosition(VTile(x, y));
+        player->setPosition(VTile(x, y));
     });
 
-    tabObserver.set([&](TabKeyPressedEvent& ev) {
+    tabObserver.set([&](const TabKeyPressedEvent& ev) {
         loginData.typingUsername = !loginData.typingUsername;
     });
 
-    enterObserver.set([&](EnterKeyPressedEvent& ev) {
+    enterObserver.set([&](const EnterKeyPressedEvent::Data& ev) {
         if (!loginData.typingUsername)
             login();
         loginData.typingUsername = !loginData.typingUsername;
     });
 
-    backspaceObserver.set([&](BackspaceKeyPressedEvent& ev) {
+    backspaceObserver.set([&](const BackspaceKeyPressedEvent::Data& ev) {
         if (loginData.typingUsername)
             loginData.username = loginData.username.substr(0, loginData.username.length() - 1);
         else
             loginData.password = loginData.password.substr(0, loginData.password.length() - 1);
     });
 
-    letterObserver.set([&](LetterKeyPressedEvent& ev) {
+    letterObserver.set([&](const LetterKeyPressedEvent::Data& ev) {
         if (loginData.typingUsername)
             loginData.username += ev.letter;
         else

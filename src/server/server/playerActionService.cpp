@@ -20,35 +20,35 @@ void PlayerActionService::init() {
 
     server->on("walk", onWalk, true);
 
-    tickObserver.set([&](TickEvent& ev) {
+    tickObserver.set([&](const TickEventData& ev) {
             onGameTick();
         }
     );
 
-    loginObserver.set([&](LoginEvent& ev) {
+    loginObserver.set([&](const LoginEventData& ev) {
         pathPositions[ev.user->index] = { {}, ev.position };
         oldPositions[ev.user->index] = ev.position;
         movementCompleteCallbacks[ev.user->index] = nullptr;
         interactionInterruptionCallbacks[ev.user->index] = nullptr;
         VChunk chunk(int(ev.position.x / TILES_PER_CHUNK), int(ev.position.y / TILES_PER_CHUNK));
         usersByChunk[chunk.x][chunk.y].push_back(ev.user);
-        PlayerPositionChangeEvent(ev.user, ev.position, ev.position, VTile()).emit();
-        PlayerChunkChangeEvent(ev.user, chunk, chunk, VChunk()).emit();
+        EVENT(PlayerPositionChangeEvent, ev.user, ev.position, ev.position, VTile()).emit();
+        EVENT(PlayerChunkChangeEvent, ev.user, chunk, chunk, VChunk()).emit();
     });
 
-    logoutObserver.set([&](LogoutEvent& ev) {
+    logoutObserver.set([&](const LogoutEventData& ev) {
         VTile position = pathPositions[ev.user->index].position;
         VChunk vchunk(int(position.x / TILES_PER_CHUNK), int(position.y / TILES_PER_CHUNK));
         auto& chunk = usersByChunk[vchunk.x][vchunk.y];
         chunk.erase(std::find(chunk.begin(), chunk.end(), ev.user));
     });
 
-    goToObjectObserver.set([&](GoToObjectRequest& ev) {
+    goToObjectObserver.set([&](const GoToObjectRequestEventData& ev) {
         walk(ev.user, ev.object->getInteractibleTiles());
         movementCompleteCallbacks[ev.user->index] = ev.callback;
     });
 
-    interruptionSubscriptionObserver.set([&](SubscribeToInteractionInterruptionEvent& ev) {
+    interruptionSubscriptionObserver.set([&](const SubscribeToInteractionInterruptionEventData& ev) {
         interactionInterruptionCallbacks[ev.user->index] = ev.callback;
     });
 }
@@ -84,7 +84,7 @@ void PlayerActionService::updatePlayerPositions() {
         if (pathPosition.path.size()) {
             userPosition = pathPosition.path[0];
             pathPosition.path.erase(pathPosition.path.begin());
-            PlayerMoveEvent(user, userPosition).emit();
+            EVENT(PlayerMoveEvent, user, userPosition ).emit();
         }
         else {
             auto& s = movementCompleteCallbacks[user->index];
@@ -154,11 +154,11 @@ void PlayerActionService::checkForTileAndChunkChanges() {
                 VTile position = pathPositions[user->index].position;
                 if (position != oldPositions[user->index]) {
                     VChunk newChunk(int(position.x / TILES_PER_CHUNK), int(position.y / TILES_PER_CHUNK));
-                    PlayerPositionChangeEvent(user, position, oldPositions[user->index], position - oldPositions[user->index]).emit();
+                    EVENT(PlayerPositionChangeEvent, user, position, oldPositions[user->index], position - oldPositions[user->index]).emit();
                     oldPositions[user->index] = position;
                     if (newChunk != oldChunk) {
                         toUpdate.push_back({ &user, {oldChunk, newChunk} });
-                        PlayerChunkChangeEvent(user, newChunk, oldChunk, newChunk - oldChunk).emit();
+                        EVENT(PlayerChunkChangeEvent, user, newChunk, oldChunk, newChunk - oldChunk).emit();
                     }
                 }
             }

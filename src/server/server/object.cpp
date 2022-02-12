@@ -3,7 +3,7 @@
 #include "objectStateChangedEvent.h"
 
 Object::Object(std::string fileName, Tile* tile) : fileName(fileName), tile(tile), id(-1), state(0) {
-	ObjectCreatedEvent(this).emit();
+	EVENT(ObjectCreatedEvent, this).emit();
 }
 
 const JSON& Object::asJSON() {
@@ -43,5 +43,5 @@ int Object::getState() {
 
 void Object::setState(int state) {
 	this->state = state;
-	ObjectStateChangedEvent(this).emit();
+	EVENT(ObjectStateChangedEvent, this).emit();
 }

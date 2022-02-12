@@ -4,7 +4,7 @@
 
 UserService::UserService(ServiceProvider* provider) : Service(provider) {
 	provider->set(USER, this);
-    gameMessageObserver.set([&](GameMessageEvent& ev) {
+    gameMessageObserver.set([&](const GameMessageEvent::Data& ev) {
         JSON data;
         data["message"] = ev.message;
         server->send(ev.user, "chat", data);
@@ -66,8 +66,7 @@ void UserService::init() {
                     data["position"]["x"] = std::to_string(posx);
                     data["position"]["y"] = std::to_string(posy);
                     server->send(user, "login", data);
-                    auto ev = LoginEvent(user, VTile(posx, posy));
-                    ev.emit();
+                    EVENT(LoginEvent, user, VTile(posx, posy)).emit();
                     iteratableUsers.push_back(user);
                 });
             }
@@ -113,7 +112,7 @@ void UserService::init() {
     };
 
     server->on("salts request", onSaltsRequest, false);
-    logoutObserver.set([&](LogoutEvent& ev) {
+    logoutObserver.set([&](const LogoutEvent::Data& ev) {
         logout(ev.user);
     });
 

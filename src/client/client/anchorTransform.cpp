@@ -23,7 +23,7 @@ const sf::Transform AnchorTransform::getTransform() const {
 
 void AnchorTransform::setMeasures(AbstractMeasures* m) {
 	this->measures = m;
-	resizeObserver.set([&](ResizeEvent& ev) {
+	resizeObserver.set([&](const ResizeEvent::Data& ev) {
 		update();
 	});
 	update();

@@ -29,7 +29,7 @@ SFRenderWindow::SFRenderWindow(
 	prayersTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/prayers.png");
 	magicTabButtonTexture.loadFromFile(getSession().get("RS2D_HOME").asString() + "/assets/buttons/tabButtons/magic.png");
 
-	leftClickObserver.set([&](MouseLeftClickEvent& ev) {
+	leftClickObserver.set([&](const MouseLeftClickEvent::Data& ev) {
 		if (gameData->userIsLoggedIn()) {
 			bool clickedOnRightClickInterface = rightClickInterface->active && rightClickInterface->mouseIsInRect(ev);
 			if (clickedOnRightClickInterface) {
@@ -76,7 +76,7 @@ SFRenderWindow::SFRenderWindow(
 		}
 	});
 
-	rightClickObserver.set([&](MouseRightClickEvent& ev) {
+	rightClickObserver.set([&](const MouseRightClickEvent::Data& ev) {
 		if (gameData->userIsLoggedIn()) {
 			if (!rightClickInterface->active || !rightClickInterface->mouseIsInRect(ev)) {
 				rightClickInterface->setPosition(ev.pos);
@@ -88,7 +88,7 @@ SFRenderWindow::SFRenderWindow(
 		}
 	});
 
-	middleClickObserver.set([&](MouseMiddleClickEvent& ev) {
+	middleClickObserver.set([&](const MouseMiddleClickEvent::Data& ev) {
 		if (gameData->userIsLoggedIn()) {
 			auto clickedOnRightClickInterface = rightClickInterface->active && rightClickInterface->mouseIsInRect(ev);
 			if (clickedOnRightClickInterface)
@@ -103,7 +103,7 @@ SFRenderWindow::SFRenderWindow(
 		}
 	});
 
-	mouseMoveObserver.set([&](MouseMoveEvent& ev) {
+	mouseMoveObserver.set([&](const MouseMoveEvent::Data& ev) {
 		if (gameData->userIsLoggedIn()) {
 			// add top left indicator of what your mouse is over + left click option + options.length
 			if (rightClickInterface->active && !rightClickInterface->mouseIsInRect(ev)) {
@@ -112,11 +112,11 @@ SFRenderWindow::SFRenderWindow(
 		}
 	});
 
-	resizeObserver.set([&](ResizeEvent& ev) {
+	resizeObserver.set([&](const ResizeEvent::Data& ev) {
 		updateWindowSize();
 	});
 	
-	loginObserver.set([&](LoginEvent& ev) {
+	loginObserver.set([&](const LoginEvent::Data& ev) {
 		rightBanner = std::make_shared<RightBanner>(this->provider, this);
 		bottomBanner = std::make_shared<BottomBanner>(this->provider, this);
 		rightClickInterface = std::make_shared<RightClickInterface>(this->provider, this);
@@ -124,7 +124,7 @@ SFRenderWindow::SFRenderWindow(
 		loginButton = nullptr;*/
 	});
 
-	logoutObserver.set([&](LogoutEvent& ev) {
+	logoutObserver.set([&](const LogoutEvent::Data& ev) {
 		rightBanner = nullptr;
 		bottomBanner = nullptr;
 		rightClickInterface = nullptr;
@@ -240,42 +240,42 @@ void SFRenderWindow::clear() {
 
 void SFRenderWindow::display() {
 	window.display();
-	FrameEvent().emit();
+	EVENT(FrameEvent).emit();
 }
 
 void SFRenderWindow::events() {
 	sf::Event event;
 	while (window.pollEvent(event))
 		if (event.type == sf::Event::Closed) {
-			CloseEvent().emit();
+			EVENT(CloseEvent).emit();
 		}
 		else if (event.type == sf::Event::KeyPressed)
 			switch (event.text.unicode) {
 				case 71:
-					LeftArrowKeyPressedEvent().emit();
+					EVENT(LeftArrowKeyPressedEvent).emit();
 					break;
 				case 72:
-					RightArrowKeyPressedEvent().emit();
+					EVENT(RightArrowKeyPressedEvent).emit();
 					break;
 				case 58:
-					EnterKeyPressedEvent().emit();
+					EVENT(EnterKeyPressedEvent).emit();
 					break;
 				case 59:
-					BackspaceKeyPressedEvent().emit();
+					EVENT(BackspaceKeyPressedEvent).emit();
 					break;
 				case 60:
-					TabKeyPressedEvent().emit();
+					EVENT(TabKeyPressedEvent).emit();
 					break;
 				default:
 					int code = event.text.unicode;
 					bool isLetter = code < 26;
 					if (isLetter) {
-						LetterKeyPressedEvent(char(97 + code), false).emit();
+						EVENT(LetterKeyPressedEvent, char(97 + code), false).emit();
 						break;
 					}
 					bool isNumber = code < 36;
 					if (isNumber) {
-						LetterKeyPressedEvent(char(22 + code), false).emit();
+						EVENT(LetterKeyPressedEvent, char(22 + code), false).emit();
 						break;
 					}
 			}
@@ -283,22 +283,22 @@ void SFRenderWindow::events() {
 			switch (event.mouseButton.button) {
 			default:
 			case Left:
-				MouseLeftClickEvent(VPixel(event.mouseButton.x, event.mouseButton.y)).emit();
+				EVENT(MouseLeftClickEvent, VPixel(event.mouseButton.x, event.mouseButton.y)).emit();
 				break;
 			case Right:
-				MouseRightClickEvent(VPixel(event.mouseButton.x, event.mouseButton.y)).emit();
+				EVENT(MouseRightClickEvent, VPixel(event.mouseButton.x, event.mouseButton.y)).emit();
 				break;
 			case Middle:
-				MouseMiddleClickEvent(VPixel(event.mouseButton.x, event.mouseButton.y)).emit();
+				EVENT(MouseMiddleClickEvent, VPixel(event.mouseButton.x, event.mouseButton.y)).emit();
 				break;
 			}
 		}
 		else if (event.type == sf::Event::Resized)
-			ResizeEvent().emit();
+			EVENT(ResizeEvent).emit();
 		else if (event.type == sf::Event::MouseWheelMoved)
-			MouseWheelEvent(VPixel(event.mouseWheel.x, event.mouseWheel.y), event.mouseWheel.delta).emit();
+			EVENT(MouseWheelEvent, VPixel(event.mouseWheel.x, event.mouseWheel.y), event.mouseWheel.delta).emit();
 		else if (event.type == sf::Event::MouseMoved)
-			MouseMoveEvent(VPixel(event.mouseMove.x, event.mouseMove.y)).emit();
+			EVENT(MouseMoveEvent, VPixel(event.mouseMove.x, event.mouseMove.y)).emit();
 }
 
 void SFRenderWindow::draw() {

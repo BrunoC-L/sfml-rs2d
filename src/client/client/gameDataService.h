@@ -9,8 +9,8 @@ class GameDataService : public Service, public AbstractGameDataService {
 	bool loggedIn = false;
 	GameTickProgress* tracker;
 	std::unique_ptr<PlayerPositions> playerPositions;
-	EventObserver<LoginEvent> loginObserver;
-	EventObserver<LogoutEvent> logoutObserver;
+	LoginEvent::Observer loginObserver;
+	LogoutEvent::Observer logoutObserver;
 	std::vector<std::pair<VChunk, std::pair<int*, std::vector<std::pair<VTile, ObjectInteractions>>>>> objectsReceived;
 	void storePositions(const JSON& json);
 	std::vector<std::pair<VTile, std::pair<int, ObjectInteractions>>> parseObject(const JSON& object, VChunk chunk);

@@ -2,11 +2,11 @@
 
 ObjectService::ObjectService(ServiceProvider* provider) : Service(provider) {
 	provider->set(OBJECTS, this);
-	positionChangeObserver.set([&](PlayerChunkChangeEvent& ev) {
+	positionChangeObserver.set([&](const PlayerChunkChangeEvent::Data& ev) {
 		statePlayerChunk(ev);
 	});
 
-	tickObserver.set([&](TickEvent& ev) {
+	tickObserver.set([&](const TickEvent::Data& ev) {
 		for (const auto& user : userService->getAllUsers())
 			updatePlayerChunk(user);
 		for (int x = 0; x < 29; ++x)
@@ -14,12 +14,12 @@ ObjectService::ObjectService(ServiceProvider* provider) : Service(provider) {
 				changes[x][y] = {};
 	});
 
-	objectCreatedObserver.set([&](ObjectCreatedEvent& ev) {
+	objectCreatedObserver.set([&](const ObjectCreatedEvent::Data& ev) {
 		VTile position = ev.object->getTile()->position;
 		objects[int(position.x / TILES_PER_CHUNK)][int(position.y / TILES_PER_CHUNK)].push_back(ev.object);
 	});
 
-	objectChangedObserver.set([&](ObjectStateChangedEvent& ev) {
+	objectChangedObserver.set([&](const ObjectStateChangedEvent::Data& ev) {
 		VTile position = ev.object->getTile()->position;
 		changes[int(position.x / TILES_PER_CHUNK)][int(position.y / TILES_PER_CHUNK)].push_back(ev.object);
 	});
@@ -58,7 +58,7 @@ void ObjectService::updatePlayerChunk(const std::shared_ptr<User>& user) {
 		}
 }
 
-void ObjectService::statePlayerChunk(PlayerChunkChangeEvent& ev) {
+void ObjectService::statePlayerChunk(const PlayerChunkChangeEvent::Data& ev) {
 	for (int dx = -CHUNK_RADIUS; dx <= CHUNK_RADIUS; ++dx)
 		for (int dy = -CHUNK_RADIUS; dy <= CHUNK_RADIUS; ++dy) {
 			int dcx = ev.newChunk.x + dx, dcy = ev.newChunk.y + dy;

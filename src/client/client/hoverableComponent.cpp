@@ -6,7 +6,7 @@ HoverableComponent::HoverableComponent(
 	const AnchorTransform& aot,
 	VPixel size
 ) : onHover(onHover), offHover(offHover), Component(aot, size) {
-	moveObserver.set([&](MouseEvent& ev) {
+	moveObserver.set([&](const MouseMoveEvent::Data& ev) {
 		auto rect = getRect();
 		if (ev.pos.x >= rect.first.x && ev.pos.x <= rect.second.x && ev.pos.y >= rect.first.y && ev.pos.y <= rect.second.y) {
 			if (!hovered) {

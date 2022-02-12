@@ -27,9 +27,9 @@ protected:
 	std::string version = "1";
 	int ids[MAX_PLAYERS_ONLINE];
 
-	EventObserver<LoginEvent> loginObserver;
-	EventObserver<LogoutEvent> logoutObserver;
-	EventObserver<PlayerMoveEvent> playerMoveEventObserver;
+	LoginEvent::Observer loginObserver;
+	LogoutEvent::Observer logoutObserver;
+	PlayerMoveEvent::Observer playerMoveEventObserver;
 
 	void createDB();
 	void checkVersion();

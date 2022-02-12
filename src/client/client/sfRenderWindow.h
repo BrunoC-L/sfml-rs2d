@@ -15,11 +15,11 @@
 #include "login.h"
 
 class SFRenderWindow : public AbstractRenderWindow, public Service {
-	EventObserver<MouseLeftClickEvent> leftClickObserver;
-	EventObserver<MouseRightClickEvent> rightClickObserver;
-	EventObserver<MouseMiddleClickEvent> middleClickObserver;
-	EventObserver<MouseMoveEvent> mouseMoveObserver;
-	EventObserver<ResizeEvent> resizeObserver;
+	MouseLeftClickEvent::Observer leftClickObserver;
+	MouseRightClickEvent::Observer rightClickObserver;
+	MouseMiddleClickEvent::Observer middleClickObserver;
+	MouseMoveEvent::Observer mouseMoveObserver;
+	ResizeEvent::Observer resizeObserver;
 	VPixelToVTileConverter converter;
 	std::shared_ptr<RightBanner> rightBanner;
 	std::shared_ptr<BottomBanner> bottomBanner;
@@ -34,8 +34,8 @@ class SFRenderWindow : public AbstractRenderWindow, public Service {
 	std::shared_ptr<Button> signUpButton;
 	std::shared_ptr<Button> loginButton;
 
-	EventObserver<LoginEvent>  loginObserver;
-	EventObserver<LogoutEvent> logoutObserver;
+	LoginEvent::Observer  loginObserver;
+	LogoutEvent::Observer logoutObserver;
 public:
 	SFRenderWindow(ServiceProvider* provider, sf::RenderWindow& window);
 	void init();

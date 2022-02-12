@@ -11,12 +11,12 @@ class UserService : public AbstractUserService, public Service {
 protected:
 	std::mutex usersMutex;
 	std::map<std::shared_ptr<User>, std::string> tempSaltByUser;
-	EventObserver<LogoutEvent> logoutObserver;
+	LogoutEvent::Observer logoutObserver;
 	std::shared_ptr<User> users[MAX_PLAYERS_ONLINE];
 	std::vector<int> availableIndices;
 	std::vector<std::shared_ptr<User>> iteratableUsers;
 	virtual void logout(const std::shared_ptr<User>& user);
-	EventObserver<GameMessageEvent> gameMessageObserver;
+	GameMessageEvent::Observer gameMessageObserver;
 public:
 	UserService(ServiceProvider* provider);
 	virtual void init() override;

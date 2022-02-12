@@ -7,11 +7,11 @@
 class Chat : public AbstractChat, public Service {
 	std::vector<ChatMessage> messages;
 	std::string currentlyTyped;
-	EventObserver<LetterKeyPressedEvent> keyObserver;
-	EventObserver<SpaceKeyPressedEvent> spaceObserver;
-	EventObserver<EnterKeyPressedEvent> enterObserver;
-	EventObserver<BackspaceKeyPressedEvent> backspaceObserver;
-	EventObserver<LoginEvent> loginObserver;
+	LetterKeyPressedEvent::Observer keyObserver;
+	SpaceKeyPressedEvent::Observer spaceObserver;
+	EnterKeyPressedEvent::Observer enterObserver;
+	BackspaceKeyPressedEvent::Observer backspaceObserver;
+	LoginEvent::Observer loginObserver;
 
 public:
 	Chat(ServiceProvider* provider);

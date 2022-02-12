@@ -21,12 +21,12 @@ protected:
     void walk(VTile pos);
 	LoginData loginData;
 	virtual std::pair<std::string, std::string> getCredentials(std::string tempsalt, std::string permsalt) const override;
-	EventObserver<WalkClickEvent> walkObserver;
-	EventObserver<LoginEvent> loginObserver;
-	EventObserver<LetterKeyPressedEvent> letterObserver;
-	EventObserver<BackspaceKeyPressedEvent> backspaceObserver;
-	EventObserver<TabKeyPressedEvent> tabObserver;
-	EventObserver<EnterKeyPressedEvent> enterObserver;
+	WalkClickEvent::Observer walkObserver;
+	LoginEvent::Observer loginObserver;
+	LetterKeyPressedEvent::Observer letterObserver;
+	BackspaceKeyPressedEvent::Observer backspaceObserver;
+	TabKeyPressedEvent::Observer tabObserver;
+	EnterKeyPressedEvent::Observer enterObserver;
 public:
     Player(ServiceProvider* provider);
     void init();

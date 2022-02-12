@@ -18,7 +18,7 @@ class App : public Service {
 public:
     AbstractRenderWindow* renderWindow;
     bool stopping = false;
-    EventObserver<CloseEvent> closeObserver;
+    CloseEvent::Observer closeObserver;
 
     App(
         ServiceProvider* provider,
@@ -28,7 +28,7 @@ public:
     }
 
     void init() {
-        closeObserver.set([&](CloseEvent& ev) {
+        closeObserver.set([&](const CloseEvent::Data& ev) {
             {
                 std::ostringstream ss;
                 ss << "Stopping app" << std::endl;

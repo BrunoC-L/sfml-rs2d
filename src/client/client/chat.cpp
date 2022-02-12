@@ -10,19 +10,19 @@ Chat::Chat(ServiceProvider* provider) : Service(provider) {
 	messages.push_back(ChatMessage({ {"This is PERFECT", Color::RED } }, ChatMessageType::GameMessage));
 	messages.push_back(ChatMessage({ {"This is PERFECT", Color::RED } }, ChatMessageType::GameMessage));*/
 
-	keyObserver.set([&](LetterKeyPressedEvent& ev) {
+	keyObserver.set([&](const LetterKeyPressedEvent::Data& ev) {
 		if (!gameData->userIsLoggedIn())
 			return;
 		currentlyTyped += ev.letter;
 	});
 
-	spaceObserver.set([&](SpaceKeyPressedEvent& ev) {
+	spaceObserver.set([&](const SpaceKeyPressedEvent::Data& ev) {
 		if (!gameData->userIsLoggedIn())
 			return;
 		currentlyTyped += ' ';
 	});
 
-	enterObserver.set([&](EnterKeyPressedEvent& ev) {
+	enterObserver.set([&](const EnterKeyPressedEvent::Data& ev) {
 		if (!gameData->userIsLoggedIn())
 			return;
 		JSON message;
@@ -31,13 +31,13 @@ Chat::Chat(ServiceProvider* provider) : Service(provider) {
 		currentlyTyped = "";
 	});
 
-	backspaceObserver.set([&](BackspaceKeyPressedEvent& ev) {
+	backspaceObserver.set([&](const BackspaceKeyPressedEvent::Data& ev) {
 		if (!gameData->userIsLoggedIn())
 			return;
 		currentlyTyped = currentlyTyped.substr(0, currentlyTyped.length() - 1);
 	});
 
-	loginObserver.set([&](LoginEvent& ev) {
+	loginObserver.set([&](const LoginEvent::Data& ev) {
 		currentlyTyped = "";
 		messages = {};
 	});

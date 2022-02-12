@@ -34,6 +34,6 @@ void Tree::tick(int i, const std::shared_ptr<User>& user) {
 		return;
 	if (rollPercent(30)) {
 		setState(1);
-		ScheduleTaskEvent(randint(4, 6), [&]() { setState(0); }).emit();
+		EVENT(ScheduleTaskEvent, randint(4, 6), [&]() { setState(0); }).emit();
 	}
 }

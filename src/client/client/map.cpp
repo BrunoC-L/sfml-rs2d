@@ -10,11 +10,11 @@ Map::Map(ServiceProvider* provider) : Service(provider) {
 	auto fileName = getSession().get("RS2D_HOME").asString() + "/assets/" + TEXTURES_FOLDER + "/objects.png";
 	objectTileset.loadFromFile(fileName);
 
-	loginObserver.set([&](LoginEvent& ev) {
+	loginObserver.set([&](const LoginEvent::Data& ev) {
 		doUpdates();
 	});
 
-	logoutObserver.set([&](LogoutEvent& ev) {
+	logoutObserver.set([&](const LogoutEvent::Data& ev) {
 		stopUpdates();
 	});
 };
@@ -41,7 +41,7 @@ void Map::load() {
 	for (int i = 0; i < diameter; ++i)
 		for (int j = 0; j < diameter; ++j)
 			loaded[i][j] = std::make_shared<Chunk>(centerChunk + VChunk(i, j) - VChunk(CHUNK_RADIUS, CHUNK_RADIUS), &objectTileset, gameData);
-	MapUpdatedChunksEvent().emit();
+	EVENT(MapUpdatedChunksEvent).emit();
 }
 
 void Map::update() {
@@ -66,7 +66,7 @@ void Map::updateChunks(const VChunk& difference, const VChunk& tempCenter) {
 	std::swap(loaded, newChunks);
 	gameData->clearObjectsCache();
 	centerChunk = tempCenter;
-	MapUpdatedChunksEvent().emit();
+	EVENT(MapUpdatedChunksEvent).emit();
 }
 
 void Map::doUpdates() {

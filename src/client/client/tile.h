@@ -4,7 +4,6 @@
 #include "NPC.h"
 #include "units.h"
 #include "abstractPlayer.h"
-#include "mouseEvent.h"
 #include "mouseMiddleClickEvent.h"
 #include "mouseLeftClickEvent.h"
 #include "mouseRightClickEvent.h"

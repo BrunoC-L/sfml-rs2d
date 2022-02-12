@@ -8,8 +8,8 @@
 class TaskScheduler : public Service, public AbstractTaskScheduler {
 private:
 	std::vector<std::vector<std::function<void()>>> subscribers = {};
-	EventObserver<TickEvent> tickObserver;
-	EventObserver<ScheduleTaskEvent> scheduleObserver;
+	TickEvent::Observer tickObserver;
+	ScheduleTaskEvent::Observer scheduleObserver;
 public:
 	TaskScheduler(ServiceProvider* provider);
 	virtual void callInTicks(int nTicks, std::function<void()> subscriber) override;

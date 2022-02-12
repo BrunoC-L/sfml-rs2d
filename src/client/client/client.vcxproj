@@ -191,7 +191,6 @@
     <ClInclude Include="map.h" />
     <ClInclude Include="measures.h" />
     <ClInclude Include="minimap.h" />
-    <ClInclude Include="mouseEvent.h" />
     <ClInclude Include="mouseLeftClickEvent.h" />
     <ClInclude Include="mouseMiddleClickEvent.h" />
     <ClInclude Include="mouseMoveEvent.h" />

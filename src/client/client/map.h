@@ -12,8 +12,8 @@ class Map: public AbstractMap, public Service {
     bool shouldStop = false;
     VChunk centerChunk;
     std::vector<std::vector<std::shared_ptr<Chunk>>> loaded;
-    EventObserver<LoginEvent> loginObserver;
-    EventObserver<LogoutEvent> logoutObserver;
+    LoginEvent::Observer loginObserver;
+    LogoutEvent::Observer logoutObserver;
     std::mutex mutex;
     sf::Texture objectTileset;
     bool initializing = false;

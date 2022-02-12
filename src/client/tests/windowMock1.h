@@ -22,7 +22,7 @@ public:
 	virtual void draw(VTile pos, double angle, const sf::Sprite& s) {};
 	virtual void draw(TileMap* tilemap, const sf::Transform& t) {};
 	virtual void draw() {
-		FrameEvent().emit();
+		EVENT(FrameEvent).emit();
 	};
 	virtual void update() {};
 	virtual void init() {

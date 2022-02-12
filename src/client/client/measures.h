@@ -5,9 +5,9 @@
 #include "chunk.h"
 
 class Measures : public AbstractMeasures, public Service {
-	EventObserver<LeftArrowKeyPressedEvent> leftObserver;
-	EventObserver<RightArrowKeyPressedEvent> rightObserver;
-	EventObserver<MouseWheelEvent> mouseWheelObserver;
+	LeftArrowKeyPressedEvent::Observer leftObserver;
+	RightArrowKeyPressedEvent::Observer rightObserver;
+	MouseWheelEvent::Observer mouseWheelObserver;
 public:
 	Measures(ServiceProvider* provider) : Service(provider) {
 		provider->set(MEASURES, this);

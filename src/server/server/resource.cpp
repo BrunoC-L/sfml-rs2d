@@ -21,21 +21,21 @@ void Resource::build() {
 void Resource::collect(const std::shared_ptr<User>& user) {
 	if (state != 0)
 		return;
-	GoToObjectRequest(user, this, [user, this]() {
+	GoToObjectRequestEvent(GoToObjectRequestEventData{ user, this, [user, this]() {
 		interactors.push_back({ 0, user });
 		if (!tickObserver.isSet())
-			tickObserver.set([&](TickEvent& ev) { tick(); });
-	}).emit();
-	SubscribeToInteractionInterruptionEvent(user, [&]() {
+			tickObserver.set([&](const TickEventData& ev) { tick(); });
+	}}).emit();
+	SubscribeToInteractionInterruptionEvent(SubscribeToInteractionInterruptionEventData{ user, [&]() {
 		auto it = std::find(interactors.begin(), interactors.end(), std::pair<int, std::shared_ptr<User>>(0, user));
 		if (it != interactors.end())
 			interactors.erase(it);
-	}).emit();
+	}}).emit();
 }
 
 void Resource::examine(const std::shared_ptr<User>& user) {
 	auto& object = states[state];
-	GameMessageEvent(user, object.examine).emit();
+	GameMessageEvent(GameMessageEventData{ user, object.examine }).emit();
 }
 
 bool Resource::requirementsMet(const std::shared_ptr<User>& user) {
