@@ -29,7 +29,7 @@ void UserService::init() {
         availableIndices.push_back(i);
     }
 
-    auto onLogin = [&](std::shared_ptr<User> user, JSON& json) {
+    auto onLogin = [&](std::shared_ptr<User> user, const JSON& json) {
         auto packet = LoginPacket(json);
         auto tempsalt = tempSaltByUser[user];
 
@@ -75,7 +75,7 @@ void UserService::init() {
     };
     server->on("login", onLogin, false);
 
-    auto onSignUp = [&](std::shared_ptr<User> user, JSON& json) {
+    auto onSignUp = [&](std::shared_ptr<User> user, const JSON& json) {
         auto packet = SignUpPacket(json);
         auto permSalt = randomString64();
         auto pwHashWithPermSalt = picosha2::hash256_hex_string(permSalt + packet.passwordHash);
@@ -93,7 +93,7 @@ void UserService::init() {
     };
     server->on("sign up", onSignUp, false);
 
-    auto onSaltsRequest = [&](std::shared_ptr<User> user, JSON& json) {
+    auto onSaltsRequest = [&](std::shared_ptr<User> user, const JSON& json) {
         auto packet = SaltsRequestPacket(json);
         // select * from logindata where id = (select id from player where username = 'j')
         dbService->selectLogindataWithUsername(packet.username, [&, user](SelectQueryResult qr) {
@@ -101,16 +101,14 @@ void UserService::init() {
                 return; // no user matches, TODO alert client
             auto permSalt = qr[0]["salt"].asString();
             auto tempSalt = randomString64();
-            JSON json;
-            json["type"] = "'salts'";
-            json["data"] = JSON();
-            json["data"]["permsalt"] = permSalt;
-            json["data"]["tempsalt"] = tempSalt;
+            JSON data;
+            data["permsalt"] = permSalt;
+            data["tempsalt"] = tempSalt;
             tempSaltByUser[user] = tempSalt;
             scheduler->callInTicks(5, [&, user]() {
                 tempSaltByUser.erase(user);
             });
-            server->send(user, json);
+            server->send(user, "salts", data);
         });
     };
 
@@ -119,14 +117,12 @@ void UserService::init() {
         logout(ev.user);
     });
 
-    server->on("chat", [&](std::shared_ptr<User> user, JSON& json) {
-        JSON reply;
-        reply["type"] = "chat";
-        reply["data"] = JSON();
-        reply["data"]["message"] = json["message"];
-        reply["data"]["sender"] = user->ign;
+    server->on("chat", [&](std::shared_ptr<User> user, const JSON& json) {
+        JSON data;
+        data["message"] = json.get("message");
+        data["sender"] = user->ign;
         for (const auto& user : getAllUsers())
-            server->send(user, reply);
+            server->send(user, "chat", data);
     }, true);
 }
 

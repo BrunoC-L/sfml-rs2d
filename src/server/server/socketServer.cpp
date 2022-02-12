@@ -29,8 +29,8 @@ SocketServerService::SocketServerService(ServiceProvider* provider, unsigned por
     webSocketServer = std::make_unique<JSONWebSocketServer>(port + 1, onError, onConnect, onDisconnect);
 }
 
-void SocketServerService::on(std::string msgType, std::function<void(std::shared_ptr<User>, JSON&)> callback, bool loggedInRequired) {
-    auto callback2 = [&, callback, loggedInRequired](std::shared_ptr<Socket> socket, JSON& json) {
+void SocketServerService::on(std::string msgType, std::function<void(std::shared_ptr<User>, const JSON&)> callback, bool loggedInRequired) {
+    auto callback2 = [&, callback, loggedInRequired](std::shared_ptr<Socket> socket, const JSON& json) {
         auto user = socketToUser[socket];
         if (!user)
             return; // terrible patch
@@ -49,17 +49,17 @@ void SocketServerService::on(std::string msgType, std::function<void(std::shared
     );
 }
 
-void SocketServerService::send(std::shared_ptr<User> user, JSON& msg) {
-    auto socket = userToSocket[user];
-    if (!socket)
-        return;
-    auto str = msg.asString() + messageEnd;
-    socket->send(str);
-}
+//void SocketServerService::send(std::shared_ptr<User> user, const JSON& msg) {
+//    auto socket = userToSocket[user];
+//    if (!socket)
+//        return;
+//    auto str = msg.asString() + messageEnd;
+//    socket->send(str);
+//}
 
-void SocketServerService::send(std::shared_ptr<User> user, std::string type, JSON& data) {
+void SocketServerService::send(std::shared_ptr<User> user, std::string type, const JSON& data) {
     auto socket = userToSocket[user];
-    auto str = "{\"type\": \"" + type + "\", \"data\": " + data.asString() + "}" + messageEnd;
+    auto str = "{\"type\": \"" + type + "\", \"data\": " + data.asString() + "}";
     socket->send(str);
 }
 

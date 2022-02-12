@@ -8,6 +8,7 @@ Object::Object(std::string fileName, Tile* tile) : fileName(fileName), tile(tile
 
 const JSON& Object::asJSON() {
 	if (!upToDate) {
+		upToDate = true;
 		repr = JSON();
 		repr["fileName"] = fileName;
 		repr["name"] = getName();

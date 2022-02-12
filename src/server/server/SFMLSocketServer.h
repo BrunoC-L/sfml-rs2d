@@ -10,7 +10,8 @@
 #include "print.h"
 #include "socket.h"
 
-const std::string messageEnd = "|END|";
+constexpr auto messageEnd = "|END|";
+constexpr size_t messageEndLen = 5;
 
 class SFMLSocket : public Socket {
 protected:
@@ -23,6 +24,7 @@ public:
 
     virtual void send(const std::string& msg) override {
         socket->send(msg.c_str(), msg.length());
+        socket->send(messageEnd, messageEndLen);
     }
 
     sf::TcpSocket& getSFMLIMPL() {
@@ -61,7 +63,7 @@ private:
         int index = 0;
         while ((index = socket->buffer.find(messageEnd)) != -1) {
             onMessage(socket->socket, socket->buffer.substr(0, index));
-            socket->buffer = socket->buffer.substr(index + messageEnd.length());
+            socket->buffer = socket->buffer.substr(index + messageEndLen);
         }
         return true;
     }

@@ -12,7 +12,7 @@ struct QueueMessage {
 class JSONSFMLSocketServer {
 public:
 	SFMLSocketServer server;
-	std::unordered_map<std::string, std::vector<std::function<void(std::shared_ptr<Socket>, JSON&)>>> callbacks;
+	std::unordered_map<std::string, std::vector<std::function<void(std::shared_ptr<Socket>, const JSON&)>>> callbacks;
 	std::vector<QueueMessage> messageQueue;
 	std::mutex waiter;
 	std::condition_variable cv;
@@ -30,7 +30,7 @@ public:
 		server(port, [&](std::shared_ptr<Socket> socket, std::string msg) { queue(socket, msg); }, onConnect, onDisconnect), onError(onError)
 	{ }
 
-	void on(std::string msgType, std::function<void(std::shared_ptr<Socket>, JSON&)> callback) {
+	void on(std::string msgType, std::function<void(std::shared_ptr<Socket>, const JSON&)> callback) {
 		callbacks[msgType].push_back(callback);
 	}
 

@@ -11,21 +11,21 @@ std::string sanitizeString(std::string arg) {
 	return arg;
 }
 
-WalkPacket::WalkPacket(JSON& data) {
-	x = data["x"].asInt();
-	y = data["y"].asInt();
+WalkPacket::WalkPacket(const JSON& data) {
+	x = data.get("x").asInt();
+	y = data.get("y").asInt();
 }
 
-LoginPacket::LoginPacket(JSON& data) {
-	username = sanitizeString(data["username"].asString());
-	passwordHashWithBothSalts = sanitizeString(data["passwordHash"].asString());
+LoginPacket::LoginPacket(const JSON& data) {
+	username = sanitizeString(data.get("username").asString());
+	passwordHashWithBothSalts = sanitizeString(data.get("passwordHash").asString());
 }
 
-SignUpPacket::SignUpPacket(JSON& data) {
-	username = sanitizeString(data["username"].asString());
-	passwordHash = sanitizeString(data["passwordHash"].asString());
+SignUpPacket::SignUpPacket(const JSON& data) {
+	username = sanitizeString(data.get("username").asString());
+	passwordHash = sanitizeString(data.get("passwordHash").asString());
 }
 
-SaltsRequestPacket::SaltsRequestPacket(JSON& data) {
-	username = sanitizeString(data["username"].asString());
+SaltsRequestPacket::SaltsRequestPacket(const JSON& data) {
+	username = sanitizeString(data.get("username").asString());
 }

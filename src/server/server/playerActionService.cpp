@@ -13,7 +13,7 @@ PlayerActionService::PlayerActionService(ServiceProvider* provider) : Service(pr
 void PlayerActionService::init() {
     acquire();
 
-    auto onWalk = [&](std::shared_ptr<User> user, JSON& data) {
+    auto onWalk = [&](std::shared_ptr<User> user, const JSON& data) {
         auto packet = WalkPacket(data);
         walk(user, packet);
     };
@@ -125,26 +125,23 @@ void PlayerActionService::sendPlayerPositions() {
         for (int cy = 0; cy < 25; ++cy) {
             if (!positions[cx][cy].size())
                 continue;
-            JSON packet;
-            packet["type"] = "positions";
-            packet["data"] = "[]";
+            JSON data("[]");
             for (int dx = -CHUNK_RADIUS; dx <= CHUNK_RADIUS; ++dx)
                 for (int dy = -CHUNK_RADIUS; dy <= CHUNK_RADIUS; ++dy) {
                     int dcx = cx + dx, dcy = cy + dy;
                     if (dcx > 0 && dcx < 29 && dcy > 0 && dcy < 25)
                         for (auto& json : chunks[dcx][dcy])
-                            packet["data"].push(std::move(json));
+                            data.push(std::move(json));
                 }
             for (const auto& userPos : positions[cx][cy])
-                server->send(userPos.first, packet);
+                server->send(userPos.first, "positions", data);
         }
 }
 
 void PlayerActionService::sendGameTick() {
-    JSON msg;
-    msg["type"] = "tick";
+    JSON data;
     for (auto user : userService->getAllUsers())
-        server->send(user, msg);
+        server->send(user, "tick", data);
 }
 
 void PlayerActionService::checkForTileAndChunkChanges() {

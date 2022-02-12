@@ -27,11 +27,11 @@ ObjectService::ObjectService(ServiceProvider* provider) : Service(provider) {
 
 void ObjectService::init() {
 	acquire();
-	server->on("interact", [&](std::shared_ptr<User> user, JSON& json) {
-		VTile tile(json["x"].asInt(), json["y"].asInt());
-		int objectState = json["object"]["state"].asInt();
-		std::string interaction = json["object"]["interaction"].asString();
-		std::string objectName = json["object"]["objectName"].asString();
+	server->on("interact", [&](std::shared_ptr<User> user, const JSON& json) {
+		VTile tile(json.get("x").asInt(), json.get("y").asInt());
+		int objectState = json.get("object").get("state").asInt();
+		std::string interaction = json.get("object").get("interaction").asString();
+		std::string objectName = json.get("object").get("objectName").asString();
 		interact(user, tile, objectState, interaction, objectName);
 	}, true);
 }
@@ -68,27 +68,23 @@ void ObjectService::statePlayerChunk(PlayerChunkChangeEvent& ev) {
 }
 
 void ObjectService::sendUpdates(const std::shared_ptr<User>& user, VChunk chunk) {
-	JSON msg;
-	msg["type"] = "objectUpdates";
-	msg["data"] = JSON();
-	msg["data"]["cx"] = std::to_string(chunk.x);
-	msg["data"]["cy"] = std::to_string(chunk.y);
-	msg["data"]["cz"] = std::to_string(chunk.z);
-	msg["data"]["objects"] = "[]";
+	JSON data;
+	data["cx"] = std::to_string(chunk.x);
+	data["cy"] = std::to_string(chunk.y);
+	data["cz"] = std::to_string(chunk.z);
+	data["objects"] = "[]";
 	for (Object* obj : changes[int(chunk.x)][int(chunk.y)])
-		msg["data"]["objects"].push(obj->asJSON());
-	server->send(user, msg);
+		data["objects"].push(obj->asJSON());
+	server->send(user, "objectUpdates", data);
 }
 
 void ObjectService::sendChunkState(const std::shared_ptr<User>& user, VChunk chunk) {
-	JSON msg;
-	msg["type"] = "objectStates";
-	msg["data"] = JSON();
-	msg["data"]["cx"] = std::to_string(chunk.x);
-	msg["data"]["cy"] = std::to_string(chunk.y);
-	msg["data"]["cz"] = std::to_string(chunk.z);
-	msg["data"]["objects"] = "[]";
+	JSON data;
+	data["cx"] = std::to_string(chunk.x);
+	data["cy"] = std::to_string(chunk.y);
+	data["cz"] = std::to_string(chunk.z);
+	data["objects"] = "[]";
 	for (Object* obj : objects[int(chunk.x)][int(chunk.y)])
-		msg["data"]["objects"].push(obj->asJSON());
-	server->send(user, msg);
+		data["objects"].push(obj->asJSON());
+	server->send(user, "objectStates", data);
 }

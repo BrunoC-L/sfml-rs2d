@@ -103,7 +103,7 @@ public:
 class JSONWebSocketServer : public WebSocketServer {
 protected:
     std::function<void(std::exception&, std::shared_ptr<Socket>)> onError;
-    std::unordered_map<std::string, std::vector<std::function<void(std::shared_ptr<Socket>, JSON&)>>> callbacks;
+    std::unordered_map<std::string, std::vector<std::function<void(std::shared_ptr<Socket>, const JSON&)>>> callbacks;
     std::function<void(std::shared_ptr<Socket>)> onConnect;
     std::function<void(std::shared_ptr<Socket>)> onDisconnect;
     std::vector<std::shared_ptr<websocketpp::connection<websocketpp::config::asio>>> connections;
@@ -147,7 +147,7 @@ public:
         }
     }
 
-    void on(std::string msgType, std::function<void(std::shared_ptr<Socket>, JSON&)> callback) {
+    void on(std::string msgType, std::function<void(std::shared_ptr<Socket>, const JSON&)> callback) {
         callbacks[msgType].push_back(callback);
     }
 

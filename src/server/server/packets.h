@@ -7,25 +7,25 @@ class WalkPacket {
 public:
 	int x;
 	int y;
-	WalkPacket(JSON& data);
+	WalkPacket(const JSON& data);
 };
 
 class LoginPacket {
 public:
 	std::string username;
 	std::string passwordHashWithBothSalts;
-	LoginPacket(JSON& data);
+	LoginPacket(const JSON& data);
 };
 
 class SignUpPacket {
 public:
 	std::string username;
 	std::string passwordHash;
-	SignUpPacket(JSON& data);
+	SignUpPacket(const JSON& data);
 };
 
 class SaltsRequestPacket {
 public:
 	std::string username;
-	SaltsRequestPacket(JSON& data);
+	SaltsRequestPacket(const JSON& data);
 };
