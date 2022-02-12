@@ -130,6 +130,10 @@ void UserService::init() {
     }, true);
 }
 
+#ifdef __APPLE__
+#define _ASSERT assert
+#endif // __APPLE__
+
 void UserService::logout(const std::shared_ptr<User>& user) {
     _ASSERT(user->isLoggedIn);
     users[user->index].reset();

@@ -13,7 +13,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-//#define IN_MEMORY_DATABASE
+#define IN_MEMORY_DATABASE
+
 
 #ifdef IN_MEMORY_DATABASE
 #include "inMemoryDB.h"

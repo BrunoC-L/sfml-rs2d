@@ -34,7 +34,7 @@ void SocketServerService::on(std::string msgType, std::function<void(std::shared
         auto user = socketToUser[socket];
         if (!user)
             return; // terrible patch
-        if (user->isLoggedIn && loggedInRequired || !loggedInRequired)
+        if ((user->isLoggedIn && loggedInRequired) || !loggedInRequired)
             callback(user, json);
         else
             socket->disconnect();

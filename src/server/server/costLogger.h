@@ -17,7 +17,13 @@ public:
 		begin = std::chrono::steady_clock::now();
 		struct tm newtime;
 		time_t now = time(0);
-		localtime_s(&newtime, &now);
+#ifdef __APPLE__
+        struct tm* newtimemac = localtime(&now);
+        newtime = *newtimemac;
+        delete newtimemac;
+#else // __APPLE__
+    localtime_s(&newtime, &now);
+#endif // __APPLE__
 		char buffer[80];
 		const auto* ptr = &newtime;
 		strftime(buffer, sizeof(buffer), "%d-%m-%Y %H:%M:%S", ptr);

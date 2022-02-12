@@ -15,7 +15,6 @@
 		F49356EF27B743E000ED0C5C /* server.vcxproj in Resources */ = {isa = PBXBuildFile; fileRef = F49356B227B743DF00ED0C5C /* server.vcxproj */; };
 		F49356F027B743E000ED0C5C /* map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F49356B527B743DF00ED0C5C /* map.cpp */; };
 		F49356F127B743E000ED0C5C /* server.vcxproj.filters in Resources */ = {isa = PBXBuildFile; fileRef = F49356B727B743DF00ED0C5C /* server.vcxproj.filters */; };
-		F49356F227B743E000ED0C5C /* db.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F49356B827B743DF00ED0C5C /* db.cpp */; };
 		F49356F327B743E000ED0C5C /* playerWalkAction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F49356BD27B743DF00ED0C5C /* playerWalkAction.cpp */; };
 		F49356F527B743E000ED0C5C /* tree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F49356C527B743DF00ED0C5C /* tree.cpp */; };
 		F49356F627B743E000ED0C5C /* cpp.hint in Resources */ = {isa = PBXBuildFile; fileRef = F49356C927B743DF00ED0C5C /* cpp.hint */; };
@@ -32,6 +31,43 @@
 		F493570627B7447400ED0C5C /* app.vcxproj in Resources */ = {isa = PBXBuildFile; fileRef = F493570227B7447400ED0C5C /* app.vcxproj */; };
 		F493570727B7447400ED0C5C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F493570327B7447400ED0C5C /* main.cpp */; };
 		F493572B27B7471900ED0C5C /* server-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F493572A27B7471900ED0C5C /* server-Info.plist */; };
+		F493572E27B74DD100ED0C5C /* inMemoryDB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F493572C27B74DD100ED0C5C /* inMemoryDB.cpp */; };
+		F493576F27B7547200ED0C5C /* units.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F493573127B7547200ED0C5C /* units.cpp */; };
+		F493577027B7547200ED0C5C /* getenv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F493573227B7547200ED0C5C /* getenv.cpp */; };
+		F493577127B7547200ED0C5C /* common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F493573327B7547200ED0C5C /* common.cpp */; };
+		F493577227B7547200ED0C5C /* splitString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F493573427B7547200ED0C5C /* splitString.cpp */; };
+		F493577327B7547200ED0C5C /* common.log in Resources */ = {isa = PBXBuildFile; fileRef = F493573D27B7547200ED0C5C /* common.log */; };
+		F493577427B7547200ED0C5C /* session.obj in Resources */ = {isa = PBXBuildFile; fileRef = F493573E27B7547200ED0C5C /* session.obj */; };
+		F493577527B7547200ED0C5C /* pch.obj in Resources */ = {isa = PBXBuildFile; fileRef = F493573F27B7547200ED0C5C /* pch.obj */; };
+		F493577627B7547200ED0C5C /* json.obj in Resources */ = {isa = PBXBuildFile; fileRef = F493574027B7547200ED0C5C /* json.obj */; };
+		F493577727B7547200ED0C5C /* common.pdb in Resources */ = {isa = PBXBuildFile; fileRef = F493574127B7547200ED0C5C /* common.pdb */; };
+		F493577827B7547200ED0C5C /* logger.obj in Resources */ = {isa = PBXBuildFile; fileRef = F493574227B7547200ED0C5C /* logger.obj */; };
+		F493577927B7547200ED0C5C /* splitString.obj in Resources */ = {isa = PBXBuildFile; fileRef = F493574327B7547200ED0C5C /* splitString.obj */; };
+		F493577A27B7547200ED0C5C /* common.obj in Resources */ = {isa = PBXBuildFile; fileRef = F493574427B7547200ED0C5C /* common.obj */; };
+		F493577B27B7547200ED0C5C /* units.obj in Resources */ = {isa = PBXBuildFile; fileRef = F493574527B7547200ED0C5C /* units.obj */; };
+		F493577C27B7547200ED0C5C /* common.idb in Resources */ = {isa = PBXBuildFile; fileRef = F493574627B7547200ED0C5C /* common.idb */; };
+		F493577D27B7547200ED0C5C /* getenv.obj in Resources */ = {isa = PBXBuildFile; fileRef = F493574827B7547200ED0C5C /* getenv.obj */; };
+		F493577E27B7547200ED0C5C /* common.vcxproj.FileListAbsolute.txt in Resources */ = {isa = PBXBuildFile; fileRef = F493574927B7547200ED0C5C /* common.vcxproj.FileListAbsolute.txt */; };
+		F493577F27B7547200ED0C5C /* print.obj in Resources */ = {isa = PBXBuildFile; fileRef = F493574A27B7547200ED0C5C /* print.obj */; };
+		F493578027B7547200ED0C5C /* random.obj in Resources */ = {isa = PBXBuildFile; fileRef = F493574B27B7547200ED0C5C /* random.obj */; };
+		F493578127B7547200ED0C5C /* common.Build.CppClean.log in Resources */ = {isa = PBXBuildFile; fileRef = F493574C27B7547200ED0C5C /* common.Build.CppClean.log */; };
+		F493578227B7547200ED0C5C /* CL.read.1.tlog in Resources */ = {isa = PBXBuildFile; fileRef = F493574E27B7547200ED0C5C /* CL.read.1.tlog */; };
+		F493578327B7547200ED0C5C /* Lib.command.1.tlog in Resources */ = {isa = PBXBuildFile; fileRef = F493574F27B7547200ED0C5C /* Lib.command.1.tlog */; };
+		F493578427B7547200ED0C5C /* CL.command.1.tlog in Resources */ = {isa = PBXBuildFile; fileRef = F493575027B7547200ED0C5C /* CL.command.1.tlog */; };
+		F493578527B7547200ED0C5C /* Lib-link.read.1.tlog in Resources */ = {isa = PBXBuildFile; fileRef = F493575127B7547200ED0C5C /* Lib-link.read.1.tlog */; };
+		F493578627B7547200ED0C5C /* common.lastbuildstate in Resources */ = {isa = PBXBuildFile; fileRef = F493575227B7547200ED0C5C /* common.lastbuildstate */; };
+		F493578727B7547200ED0C5C /* Lib-link.write.1.tlog in Resources */ = {isa = PBXBuildFile; fileRef = F493575327B7547200ED0C5C /* Lib-link.write.1.tlog */; };
+		F493578827B7547200ED0C5C /* CL.write.1.tlog in Resources */ = {isa = PBXBuildFile; fileRef = F493575427B7547200ED0C5C /* CL.write.1.tlog */; };
+		F493578927B7547200ED0C5C /* random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F493575527B7547200ED0C5C /* random.cpp */; };
+		F493578A27B7547200ED0C5C /* print.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F493575627B7547200ED0C5C /* print.cpp */; };
+		F493578B27B7547200ED0C5C /* common.vcxproj.filters in Resources */ = {isa = PBXBuildFile; fileRef = F493575B27B7547200ED0C5C /* common.vcxproj.filters */; };
+		F493578C27B7547200ED0C5C /* session.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F493575E27B7547200ED0C5C /* session.cpp */; };
+		F493578D27B7547200ED0C5C /* pch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F493575F27B7547200ED0C5C /* pch.cpp */; };
+		F493578E27B7547200ED0C5C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = F493576027B7547200ED0C5C /* .gitignore */; };
+		F493578F27B7547200ED0C5C /* desktop.ini in Resources */ = {isa = PBXBuildFile; fileRef = F493576327B7547200ED0C5C /* desktop.ini */; };
+		F493579027B7547200ED0C5C /* logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F493576427B7547200ED0C5C /* logger.cpp */; };
+		F493579127B7547200ED0C5C /* common.vcxproj in Resources */ = {isa = PBXBuildFile; fileRef = F493576A27B7547200ED0C5C /* common.vcxproj */; };
+		F493579227B7547200ED0C5C /* json.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F493576B27B7547200ED0C5C /* json.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -102,7 +138,6 @@
 		F49356E227B743E000ED0C5C /* abstractDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = abstractDB.h; sourceTree = "<group>"; };
 		F49356E327B743E000ED0C5C /* user.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = user.cpp; sourceTree = "<group>"; };
 		F49356E427B743E000ED0C5C /* rock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = rock.cpp; sourceTree = "<group>"; };
-		F49356E527B743E000ED0C5C /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
 		F49356E627B743E000ED0C5C /* playerChunkChangeEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = playerChunkChangeEvent.h; sourceTree = "<group>"; };
 		F49356E727B743E000ED0C5C /* json-socket-server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "json-socket-server.h"; sourceTree = "<group>"; };
 		F49356E827B743E000ED0C5C /* abstractTaskScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = abstractTaskScheduler.h; sourceTree = "<group>"; };
@@ -112,6 +147,68 @@
 		F493570227B7447400ED0C5C /* app.vcxproj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = app.vcxproj; sourceTree = "<group>"; };
 		F493570327B7447400ED0C5C /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		F493572A27B7471900ED0C5C /* server-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "server-Info.plist"; sourceTree = "<group>"; };
+		F493572C27B74DD100ED0C5C /* inMemoryDB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = inMemoryDB.cpp; sourceTree = "<group>"; };
+		F493572D27B74DD100ED0C5C /* inMemoryDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inMemoryDB.h; sourceTree = "<group>"; };
+		F493573127B7547200ED0C5C /* units.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = units.cpp; sourceTree = "<group>"; };
+		F493573227B7547200ED0C5C /* getenv.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = getenv.cpp; sourceTree = "<group>"; };
+		F493573327B7547200ED0C5C /* common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = common.cpp; sourceTree = "<group>"; };
+		F493573427B7547200ED0C5C /* splitString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = splitString.cpp; sourceTree = "<group>"; };
+		F493573527B7547200ED0C5C /* abstractService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = abstractService.h; sourceTree = "<group>"; };
+		F493573627B7547200ED0C5C /* pch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pch.h; sourceTree = "<group>"; };
+		F493573727B7547200ED0C5C /* splitString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = splitString.h; sourceTree = "<group>"; };
+		F493573827B7547200ED0C5C /* clamp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clamp.h; sourceTree = "<group>"; };
+		F493573927B7547200ED0C5C /* onExit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = onExit.h; sourceTree = "<group>"; };
+		F493573A27B7547200ED0C5C /* event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = event.h; sourceTree = "<group>"; };
+		F493573D27B7547200ED0C5C /* common.log */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = common.log; sourceTree = "<group>"; };
+		F493573E27B7547200ED0C5C /* session.obj */ = {isa = PBXFileReference; lastKnownFileType = file; path = session.obj; sourceTree = "<group>"; };
+		F493573F27B7547200ED0C5C /* pch.obj */ = {isa = PBXFileReference; lastKnownFileType = file; path = pch.obj; sourceTree = "<group>"; };
+		F493574027B7547200ED0C5C /* json.obj */ = {isa = PBXFileReference; lastKnownFileType = file; path = json.obj; sourceTree = "<group>"; };
+		F493574127B7547200ED0C5C /* common.pdb */ = {isa = PBXFileReference; lastKnownFileType = file; path = common.pdb; sourceTree = "<group>"; };
+		F493574227B7547200ED0C5C /* logger.obj */ = {isa = PBXFileReference; lastKnownFileType = file; path = logger.obj; sourceTree = "<group>"; };
+		F493574327B7547200ED0C5C /* splitString.obj */ = {isa = PBXFileReference; lastKnownFileType = file; path = splitString.obj; sourceTree = "<group>"; };
+		F493574427B7547200ED0C5C /* common.obj */ = {isa = PBXFileReference; lastKnownFileType = file; path = common.obj; sourceTree = "<group>"; };
+		F493574527B7547200ED0C5C /* units.obj */ = {isa = PBXFileReference; lastKnownFileType = file; path = units.obj; sourceTree = "<group>"; };
+		F493574627B7547200ED0C5C /* common.idb */ = {isa = PBXFileReference; lastKnownFileType = file; path = common.idb; sourceTree = "<group>"; };
+		F493574727B7547200ED0C5C /* common.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.pch; sourceTree = "<group>"; };
+		F493574827B7547200ED0C5C /* getenv.obj */ = {isa = PBXFileReference; lastKnownFileType = file; path = getenv.obj; sourceTree = "<group>"; };
+		F493574927B7547200ED0C5C /* common.vcxproj.FileListAbsolute.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = common.vcxproj.FileListAbsolute.txt; sourceTree = "<group>"; };
+		F493574A27B7547200ED0C5C /* print.obj */ = {isa = PBXFileReference; lastKnownFileType = file; path = print.obj; sourceTree = "<group>"; };
+		F493574B27B7547200ED0C5C /* random.obj */ = {isa = PBXFileReference; lastKnownFileType = file; path = random.obj; sourceTree = "<group>"; };
+		F493574C27B7547200ED0C5C /* common.Build.CppClean.log */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = common.Build.CppClean.log; sourceTree = "<group>"; };
+		F493574E27B7547200ED0C5C /* CL.read.1.tlog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CL.read.1.tlog; sourceTree = "<group>"; };
+		F493574F27B7547200ED0C5C /* Lib.command.1.tlog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Lib.command.1.tlog; sourceTree = "<group>"; };
+		F493575027B7547200ED0C5C /* CL.command.1.tlog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CL.command.1.tlog; sourceTree = "<group>"; };
+		F493575127B7547200ED0C5C /* Lib-link.read.1.tlog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Lib-link.read.1.tlog"; sourceTree = "<group>"; };
+		F493575227B7547200ED0C5C /* common.lastbuildstate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = common.lastbuildstate; sourceTree = "<group>"; };
+		F493575327B7547200ED0C5C /* Lib-link.write.1.tlog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Lib-link.write.1.tlog"; sourceTree = "<group>"; };
+		F493575427B7547200ED0C5C /* CL.write.1.tlog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CL.write.1.tlog; sourceTree = "<group>"; };
+		F493575527B7547200ED0C5C /* random.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = random.cpp; sourceTree = "<group>"; };
+		F493575627B7547200ED0C5C /* print.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = print.cpp; sourceTree = "<group>"; };
+		F493575727B7547200ED0C5C /* sha256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sha256.h; sourceTree = "<group>"; };
+		F493575827B7547200ED0C5C /* crc_table.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crc_table.h; sourceTree = "<group>"; };
+		F493575927B7547200ED0C5C /* timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = timer.h; sourceTree = "<group>"; };
+		F493575A27B7547200ED0C5C /* constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
+		F493575B27B7547200ED0C5C /* common.vcxproj.filters */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = common.vcxproj.filters; sourceTree = "<group>"; };
+		F493575C27B7547200ED0C5C /* char_array_crc32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = char_array_crc32.h; sourceTree = "<group>"; };
+		F493575D27B7547200ED0C5C /* session.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = session.h; sourceTree = "<group>"; };
+		F493575E27B7547200ED0C5C /* session.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = session.cpp; sourceTree = "<group>"; };
+		F493575F27B7547200ED0C5C /* pch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pch.cpp; sourceTree = "<group>"; };
+		F493576027B7547200ED0C5C /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		F493576127B7547200ED0C5C /* json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
+		F493576227B7547200ED0C5C /* print.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = print.h; sourceTree = "<group>"; };
+		F493576327B7547200ED0C5C /* desktop.ini */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = desktop.ini; sourceTree = "<group>"; };
+		F493576427B7547200ED0C5C /* logger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = logger.cpp; sourceTree = "<group>"; };
+		F493576527B7547200ED0C5C /* framework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = framework.h; sourceTree = "<group>"; };
+		F493576627B7547200ED0C5C /* string_crc32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = string_crc32.h; sourceTree = "<group>"; };
+		F493576727B7547200ED0C5C /* tickScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tickScheduler.h; sourceTree = "<group>"; };
+		F493576827B7547200ED0C5C /* logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = logger.h; sourceTree = "<group>"; };
+		F493576927B7547200ED0C5C /* serviceProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = serviceProvider.h; sourceTree = "<group>"; };
+		F493576A27B7547200ED0C5C /* common.vcxproj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = common.vcxproj; sourceTree = "<group>"; };
+		F493576B27B7547200ED0C5C /* json.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = json.cpp; sourceTree = "<group>"; };
+		F493576C27B7547200ED0C5C /* units.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = units.h; sourceTree = "<group>"; };
+		F493576D27B7547200ED0C5C /* getenv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = getenv.h; sourceTree = "<group>"; };
+		F493576E27B7547200ED0C5C /* random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = random.h; sourceTree = "<group>"; };
+		F493579327B755B900ED0C5C /* server.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = server.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +225,7 @@
 		F493567F27B7437500ED0C5C = {
 			isa = PBXGroup;
 			children = (
+				F493573027B7547200ED0C5C /* common */,
 				F49356FF27B7447400ED0C5C /* app */,
 				F493568B27B7437500ED0C5C /* server */,
 				F493568A27B7437500ED0C5C /* Products */,
@@ -145,6 +243,7 @@
 		F493568B27B7437500ED0C5C /* server */ = {
 			isa = PBXGroup;
 			children = (
+				F493579327B755B900ED0C5C /* server.entitlements */,
 				F493572A27B7471900ED0C5C /* server-Info.plist */,
 				F49356E227B743E000ED0C5C /* abstractDB.h */,
 				F49356B127B743DF00ED0C5C /* abstractMap.h */,
@@ -163,10 +262,11 @@
 				F49356A327B743DF00ED0C5C /* db.h */,
 				F49356A527B743DF00ED0C5C /* gameMessageEvent.h */,
 				F49356C827B743DF00ED0C5C /* goToObjectRequestEvent.h */,
+				F493572C27B74DD100ED0C5C /* inMemoryDB.cpp */,
+				F493572D27B74DD100ED0C5C /* inMemoryDB.h */,
 				F49356E727B743E000ED0C5C /* json-socket-server.h */,
 				F49356BE27B743DF00ED0C5C /* loginEvent.h */,
 				F49356A827B743DF00ED0C5C /* logoutEvent.h */,
-				F49356E527B743E000ED0C5C /* main.h */,
 				F49356B527B743DF00ED0C5C /* map.cpp */,
 				F49356D127B743DF00ED0C5C /* map.h */,
 				F49356E027B743E000ED0C5C /* movingPredicate.h */,
@@ -232,6 +332,97 @@
 			path = app;
 			sourceTree = "<group>";
 		};
+		F493573027B7547200ED0C5C /* common */ = {
+			isa = PBXGroup;
+			children = (
+				F493573127B7547200ED0C5C /* units.cpp */,
+				F493573227B7547200ED0C5C /* getenv.cpp */,
+				F493573327B7547200ED0C5C /* common.cpp */,
+				F493573427B7547200ED0C5C /* splitString.cpp */,
+				F493573527B7547200ED0C5C /* abstractService.h */,
+				F493573627B7547200ED0C5C /* pch.h */,
+				F493573727B7547200ED0C5C /* splitString.h */,
+				F493573827B7547200ED0C5C /* clamp.h */,
+				F493573927B7547200ED0C5C /* onExit.h */,
+				F493573A27B7547200ED0C5C /* event.h */,
+				F493573B27B7547200ED0C5C /* x64 */,
+				F493575527B7547200ED0C5C /* random.cpp */,
+				F493575627B7547200ED0C5C /* print.cpp */,
+				F493575727B7547200ED0C5C /* sha256.h */,
+				F493575827B7547200ED0C5C /* crc_table.h */,
+				F493575927B7547200ED0C5C /* timer.h */,
+				F493575A27B7547200ED0C5C /* constants.h */,
+				F493575B27B7547200ED0C5C /* common.vcxproj.filters */,
+				F493575C27B7547200ED0C5C /* char_array_crc32.h */,
+				F493575D27B7547200ED0C5C /* session.h */,
+				F493575E27B7547200ED0C5C /* session.cpp */,
+				F493575F27B7547200ED0C5C /* pch.cpp */,
+				F493576027B7547200ED0C5C /* .gitignore */,
+				F493576127B7547200ED0C5C /* json.h */,
+				F493576227B7547200ED0C5C /* print.h */,
+				F493576327B7547200ED0C5C /* desktop.ini */,
+				F493576427B7547200ED0C5C /* logger.cpp */,
+				F493576527B7547200ED0C5C /* framework.h */,
+				F493576627B7547200ED0C5C /* string_crc32.h */,
+				F493576727B7547200ED0C5C /* tickScheduler.h */,
+				F493576827B7547200ED0C5C /* logger.h */,
+				F493576927B7547200ED0C5C /* serviceProvider.h */,
+				F493576A27B7547200ED0C5C /* common.vcxproj */,
+				F493576B27B7547200ED0C5C /* json.cpp */,
+				F493576C27B7547200ED0C5C /* units.h */,
+				F493576D27B7547200ED0C5C /* getenv.h */,
+				F493576E27B7547200ED0C5C /* random.h */,
+			);
+			name = common;
+			path = ../common/common;
+			sourceTree = "<group>";
+		};
+		F493573B27B7547200ED0C5C /* x64 */ = {
+			isa = PBXGroup;
+			children = (
+				F493573C27B7547200ED0C5C /* Debug */,
+			);
+			path = x64;
+			sourceTree = "<group>";
+		};
+		F493573C27B7547200ED0C5C /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				F493573D27B7547200ED0C5C /* common.log */,
+				F493573E27B7547200ED0C5C /* session.obj */,
+				F493573F27B7547200ED0C5C /* pch.obj */,
+				F493574027B7547200ED0C5C /* json.obj */,
+				F493574127B7547200ED0C5C /* common.pdb */,
+				F493574227B7547200ED0C5C /* logger.obj */,
+				F493574327B7547200ED0C5C /* splitString.obj */,
+				F493574427B7547200ED0C5C /* common.obj */,
+				F493574527B7547200ED0C5C /* units.obj */,
+				F493574627B7547200ED0C5C /* common.idb */,
+				F493574727B7547200ED0C5C /* common.pch */,
+				F493574827B7547200ED0C5C /* getenv.obj */,
+				F493574927B7547200ED0C5C /* common.vcxproj.FileListAbsolute.txt */,
+				F493574A27B7547200ED0C5C /* print.obj */,
+				F493574B27B7547200ED0C5C /* random.obj */,
+				F493574C27B7547200ED0C5C /* common.Build.CppClean.log */,
+				F493574D27B7547200ED0C5C /* common.tlog */,
+			);
+			path = Debug;
+			sourceTree = "<group>";
+		};
+		F493574D27B7547200ED0C5C /* common.tlog */ = {
+			isa = PBXGroup;
+			children = (
+				F493574E27B7547200ED0C5C /* CL.read.1.tlog */,
+				F493574F27B7547200ED0C5C /* Lib.command.1.tlog */,
+				F493575027B7547200ED0C5C /* CL.command.1.tlog */,
+				F493575127B7547200ED0C5C /* Lib-link.read.1.tlog */,
+				F493575227B7547200ED0C5C /* common.lastbuildstate */,
+				F493575327B7547200ED0C5C /* Lib-link.write.1.tlog */,
+				F493575427B7547200ED0C5C /* CL.write.1.tlog */,
+			);
+			path = common.tlog;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -291,13 +482,39 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F493578127B7547200ED0C5C /* common.Build.CppClean.log in Resources */,
+				F493577627B7547200ED0C5C /* json.obj in Resources */,
+				F493577927B7547200ED0C5C /* splitString.obj in Resources */,
+				F493578527B7547200ED0C5C /* Lib-link.read.1.tlog in Resources */,
+				F493578227B7547200ED0C5C /* CL.read.1.tlog in Resources */,
 				F493570427B7447400ED0C5C /* app.vcxproj.user in Resources */,
+				F493577827B7547200ED0C5C /* logger.obj in Resources */,
+				F493578727B7547200ED0C5C /* Lib-link.write.1.tlog in Resources */,
+				F493577527B7547200ED0C5C /* pch.obj in Resources */,
+				F493577C27B7547200ED0C5C /* common.idb in Resources */,
+				F493577B27B7547200ED0C5C /* units.obj in Resources */,
+				F493577F27B7547200ED0C5C /* print.obj in Resources */,
+				F493578E27B7547200ED0C5C /* .gitignore in Resources */,
+				F493577E27B7547200ED0C5C /* common.vcxproj.FileListAbsolute.txt in Resources */,
+				F493578027B7547200ED0C5C /* random.obj in Resources */,
 				F493570527B7447400ED0C5C /* app.vcxproj.filters in Resources */,
+				F493578427B7547200ED0C5C /* CL.command.1.tlog in Resources */,
 				F493572B27B7471900ED0C5C /* server-Info.plist in Resources */,
+				F493577327B7547200ED0C5C /* common.log in Resources */,
+				F493578F27B7547200ED0C5C /* desktop.ini in Resources */,
 				F493570627B7447400ED0C5C /* app.vcxproj in Resources */,
+				F493577427B7547200ED0C5C /* session.obj in Resources */,
+				F493578327B7547200ED0C5C /* Lib.command.1.tlog in Resources */,
 				F49356F627B743E000ED0C5C /* cpp.hint in Resources */,
+				F493578627B7547200ED0C5C /* common.lastbuildstate in Resources */,
 				F49356F127B743E000ED0C5C /* server.vcxproj.filters in Resources */,
+				F493578827B7547200ED0C5C /* CL.write.1.tlog in Resources */,
 				F49356EF27B743E000ED0C5C /* server.vcxproj in Resources */,
+				F493579127B7547200ED0C5C /* common.vcxproj in Resources */,
+				F493577727B7547200ED0C5C /* common.pdb in Resources */,
+				F493577D27B7547200ED0C5C /* getenv.obj in Resources */,
+				F493578B27B7547200ED0C5C /* common.vcxproj.filters in Resources */,
+				F493577A27B7547200ED0C5C /* common.obj in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,7 +536,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# This shell script simply copies required SFML dylibs/frameworks into the application bundle frameworks folder.\n# If you're using static libraries (which is not recommended) you should remove this script from your project.\n\n# SETTINGS\nSFML_DEPENDENCIES_INSTALL_PREFIX=\"/Users/SFML/Desktop/packaging/tmp/install/Library/Frameworks\"\nCMAKE_INSTALL_FRAMEWORK_PREFIX=\"/Users/SFML/Desktop/packaging/tmp/install/Library/Frameworks\"\nCMAKE_INSTALL_LIB_PREFIX=\"/Users/SFML/Desktop/packaging/tmp/install/Library/Frameworks/lib\"\nFRAMEWORKS_FULL_PATH=\"$BUILT_PRODUCTS_DIR/$FRAMEWORKS_FOLDER_PATH/\"\n\n# Are we building a project that uses frameworks or dylibs?\ncase \"$SFML_BINARY_TYPE\" in\n    DYLIBS)\n        frameworks=\"false\"\n        ;;\n    *)\n        frameworks=\"true\"\n        ;;\nesac\n\n# Echoes to stderr\nerror () # $* message to display\n{\n    echo $* 1>&2\n    exit 2\n}\n\nassert () # $1 is a boolean, $2...N is an error message\n{\n    if [ $# -lt 2 ]\n    then\n        error \"Internal error in assert: not enough args\"\n    fi\n\n    if [ $1 -ne 0 ]\n    then\n        shift\n        error \"$*\"\n    fi\n}\n\nforce_remove () # $@ is some paths\n{\n    test $# -ge 1\n    assert $? \"force_remove() requires at least one parameter\"\n    rm -fr $@\n    assert $? \"couldn't remove $@\"\n}\n\ncopy () # $1 is a source, $2 is a destination\n{\n    test $# -eq 2\n    assert $? \"copy() requires two parameters\"\n    ditto \"$1\" \"$2\"\n    assert $? \"couldn't copy $1 to $2\"\n}\n\nrequire () # $1 is a SFML module like 'system' or 'audio'\n{\n    dest=\"$BUILT_PRODUCTS_DIR/$FRAMEWORKS_FOLDER_PATH/\"\n\n    if [ -z \"$1\" ]\n    then\n        error \"require() requires one parameter!\"\n    else\n        # clean potentially old stuff\n        force_remove \"$dest/libsfml-$1\"*\n        force_remove \"$dest/sfml-$1.framework\"\n\n        # copy SFML libraries\n        if [ \"$frameworks\" = \"true\" ]\n        then\n            source=\"$CMAKE_INSTALL_FRAMEWORK_PREFIX/sfml-$1.framework\"\n            target=\"sfml-$1.framework\"\n        elif [ \"$SFML_LINK_DYLIBS_SUFFIX\" = \"-d\" ]\n        then\n            source=\"$CMAKE_INSTALL_LIB_PREFIX/libsfml-$1-d.dylib\"\n            target=\"`readlink $source`\"\n        else\n            source=\"$CMAKE_INSTALL_LIB_PREFIX/libsfml-$1.dylib\"\n            target=\"`readlink $source`\"\n        fi\n\n        copy \"$source\" \"$dest/$target\"\n\n        # copy extra dependencies\n        if [ \"$1\" = \"audio\" ]\n        then\n            # copy \"FLAC\" \"ogg\" \"vorbis\" \"vorbisenc\" \"vorbisfile\" \"OpenAL\" frameworks too\n            for f in \"FLAC\" \"ogg\" \"vorbis\" \"vorbisenc\" \"vorbisfile\" \"OpenAL\"\n            do\n                copy \"$SFML_DEPENDENCIES_INSTALL_PREFIX/$f.framework\" \"$dest/$f.framework\"\n            done\n        elif [ \"$1\" = \"graphics\" ]\n        then\n            copy \"$SFML_DEPENDENCIES_INSTALL_PREFIX/freetype.framework\" \"$dest/freetype.framework\"\n        fi\n    fi\n}\n\nif [ -n \"$SFML_SYSTEM\" ]\nthen\n    require \"system\"\nfi\n\nif [ -n \"$SFML_AUDIO\" ]\nthen\n    require \"audio\"\nfi\n\nif [ -n \"$SFML_NETWORK\" ]\nthen\n    require \"network\"\nfi\n\nif [ -n \"$SFML_WINDOW\" ]\nthen\n    require \"window\"\nfi\n\nif [ -n \"$SFML_GRAPHICS\" ]\nthen\n    require \"graphics\"\nfi\n\n                ";
+			shellScript = "# This shell script simply copies required SFML dylibs/frameworks into the application bundle frameworks folder.\n# If you're using static libraries (which is not recommended) you should remove this script from your project.\n\n# SETTINGS\nSFML_DEPENDENCIES_INSTALL_PREFIX=\"/Library/Frameworks\"\nCMAKE_INSTALL_FRAMEWORK_PREFIX=\"/Library/Frameworks\"\nCMAKE_INSTALL_LIB_PREFIX=\"/usr/local/lib\"\nFRAMEWORKS_FULL_PATH=\"$BUILT_PRODUCTS_DIR/$FRAMEWORKS_FOLDER_PATH/\"\n\n# Are we building a project that uses frameworks or dylibs?\ncase \"$SFML_BINARY_TYPE\" in\n    DYLIBS)\n        frameworks=\"false\"\n        ;;\n    *)\n        frameworks=\"true\"\n        ;;\nesac\n\n# Echoes to stderr\nerror () # $* message to display\n{\n    echo $* 1>&2\n    exit 2\n}\n\nassert () # $1 is a boolean, $2...N is an error message\n{\n    if [ $# -lt 2 ]\n    then\n        error \"Internal error in assert: not enough args\"\n    fi\n\n    if [ $1 -ne 0 ]\n    then\n        shift\n        error \"$*\"\n    fi\n}\n\nforce_remove () # $@ is some paths\n{\n    test $# -ge 1\n    assert $? \"force_remove() requires at least one parameter\"\n    rm -fr $@\n    assert $? \"couldn't remove $@\"\n}\n\ncopy () # $1 is a source, $2 is a destination\n{\n    test $# -eq 2\n    assert $? \"copy() requires two parameters\"\n    ditto \"$1\" \"$2\"\n    assert $? \"couldn't copy $1 to $2\"\n}\n\nrequire () # $1 is a SFML module like 'system' or 'audio'\n{\n    dest=\"$BUILT_PRODUCTS_DIR/$FRAMEWORKS_FOLDER_PATH/\"\n\n    if [ -z \"$1\" ]\n    then\n        error \"require() requires one parameter!\"\n    else\n        # clean potentially old stuff\n        force_remove \"$dest/libsfml-$1\"*\n        force_remove \"$dest/sfml-$1.framework\"\n\n        # copy SFML libraries\n        if [ \"$frameworks\" = \"true\" ]\n        then\n            source=\"$CMAKE_INSTALL_FRAMEWORK_PREFIX/sfml-$1.framework\"\n            target=\"sfml-$1.framework\"\n        elif [ \"$SFML_LINK_DYLIBS_SUFFIX\" = \"-d\" ]\n        then\n            source=\"$CMAKE_INSTALL_LIB_PREFIX/libsfml-$1-d.dylib\"\n            target=\"`readlink $source`\"\n        else\n            source=\"$CMAKE_INSTALL_LIB_PREFIX/libsfml-$1.dylib\"\n            target=\"`readlink $source`\"\n        fi\n\n        copy \"$source\" \"$dest/$target\"\n\n        # copy extra dependencies\n        if [ \"$1\" = \"audio\" ]\n        then\n            # copy \"FLAC\" \"ogg\" \"vorbis\" \"vorbisenc\" \"vorbisfile\" \"OpenAL\" frameworks too\n            for f in \"FLAC\" \"ogg\" \"vorbis\" \"vorbisenc\" \"vorbisfile\" \"OpenAL\"\n            do\n                copy \"$SFML_DEPENDENCIES_INSTALL_PREFIX/$f.framework\" \"$dest/$f.framework\"\n            done\n        elif [ \"$1\" = \"graphics\" ]\n        then\n            copy \"$SFML_DEPENDENCIES_INSTALL_PREFIX/freetype.framework\" \"$dest/freetype.framework\"\n        fi\n    fi\n}\n\nif [ -n \"$SFML_SYSTEM\" ]\nthen\n    require \"system\"\nfi\n\nif [ -n \"$SFML_AUDIO\" ]\nthen\n    require \"audio\"\nfi\n\nif [ -n \"$SFML_NETWORK\" ]\nthen\n    require \"network\"\nfi\n\nif [ -n \"$SFML_WINDOW\" ]\nthen\n    require \"window\"\nfi\n\nif [ -n \"$SFML_GRAPHICS\" ]\nthen\n    require \"graphics\"\nfi\n\n                \n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -328,24 +545,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F49356F227B743E000ED0C5C /* db.cpp in Sources */,
+				F493576F27B7547200ED0C5C /* units.cpp in Sources */,
+				F493577127B7547200ED0C5C /* common.cpp in Sources */,
 				F49356F027B743E000ED0C5C /* map.cpp in Sources */,
 				F49356F727B743E000ED0C5C /* resource.cpp in Sources */,
 				F49356FD27B743E000ED0C5C /* rock.cpp in Sources */,
 				F49356F527B743E000ED0C5C /* tree.cpp in Sources */,
+				F493572E27B74DD100ED0C5C /* inMemoryDB.cpp in Sources */,
 				F49356EA27B743E000ED0C5C /* tile.cpp in Sources */,
 				F49356FB27B743E000ED0C5C /* taskScheduler.cpp in Sources */,
 				F49356F827B743E000ED0C5C /* objectService.cpp in Sources */,
 				F49356FE27B743E000ED0C5C /* socketServer.cpp in Sources */,
+				F493579227B7547200ED0C5C /* json.cpp in Sources */,
+				F493578C27B7547200ED0C5C /* session.cpp in Sources */,
 				F49356FC27B743E000ED0C5C /* user.cpp in Sources */,
 				F49356FA27B743E000ED0C5C /* packets.cpp in Sources */,
+				F493577027B7547200ED0C5C /* getenv.cpp in Sources */,
 				F49356EC27B743E000ED0C5C /* userService.cpp in Sources */,
 				F493570727B7447400ED0C5C /* main.cpp in Sources */,
 				F49356EB27B743E000ED0C5C /* objectFactory.cpp in Sources */,
+				F493578927B7547200ED0C5C /* random.cpp in Sources */,
+				F493577227B7547200ED0C5C /* splitString.cpp in Sources */,
 				F49356ED27B743E000ED0C5C /* chunk.cpp in Sources */,
+				F493579027B7547200ED0C5C /* logger.cpp in Sources */,
 				F49356EE27B743E000ED0C5C /* object.cpp in Sources */,
 				F49356F927B743E000ED0C5C /* playerActionService.cpp in Sources */,
 				F49356F327B743E000ED0C5C /* playerWalkAction.cpp in Sources */,
+				F493578A27B7547200ED0C5C /* print.cpp in Sources */,
+				F493578D27B7547200ED0C5C /* pch.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,21 +672,24 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CODE_SIGN_ENTITLEMENTS = server/server.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A3E5NJZ7MX;
 				ENABLE_HARDENED_RUNTIME = YES;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include/,
 					"$(inherited)",
-					"../common/**",
 					../../../boost_1_77_0,
 					../../../websocketpp,
+					../common/common/,
 				);
 				INFOPLIST_FILE = "server/server-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.2;
+				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.server;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 			};
 			name = Debug;
 		};
@@ -468,21 +698,24 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CODE_SIGN_ENTITLEMENTS = server/server.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A3E5NJZ7MX;
 				ENABLE_HARDENED_RUNTIME = YES;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include/,
 					"$(inherited)",
-					"../common/**",
 					../../../boost_1_77_0,
 					../../../websocketpp,
+					../common/common/,
 				);
 				INFOPLIST_FILE = "server/server-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.2;
+				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.server;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 			};
 			name = Release;
 		};

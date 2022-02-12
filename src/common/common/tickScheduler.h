@@ -33,6 +33,8 @@ public:
 	BoolTickScheduler() : shouldtick(false) { }
 
 	bool shouldTick() {
-		return shouldtick ^ (shouldtick = false);
+        auto previous = shouldtick;
+        shouldtick = false;
+		return shouldtick ^ previous;
 	}
 };

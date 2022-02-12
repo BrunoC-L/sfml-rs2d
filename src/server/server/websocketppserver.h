@@ -72,7 +72,11 @@ public:
     WebSocket(server* m_endpoint, websocketpp::connection_hdl hdl) : m_endpoint(m_endpoint), hdl(hdl) {}
 
     virtual void send(const std::string& msg) {
-        m_endpoint->send(hdl, msg, websocketpp::frame::opcode::TEXT);
+        if(hdl.expired()) {
+            disconnect();
+        } else {
+            m_endpoint->send(hdl, msg, websocketpp::frame::opcode::TEXT);
+        }
     }
 
     virtual void disconnect() override {

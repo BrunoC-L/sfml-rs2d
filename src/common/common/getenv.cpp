@@ -17,6 +17,6 @@ std::string mygetenv(const std::string& env) {
     if (buf == nullptr)
         throw std::runtime_error(("No environment variable set for '" + env + "'").c_str());
     knownEnv[env] = buf;
-    delete buf;
+    //delete buf;
     return knownEnv[env];
 }

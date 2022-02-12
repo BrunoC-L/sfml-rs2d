@@ -1,3 +1,5 @@
+#ifndef __APPLE__
+
 #include <windows.h>
 #include <sql.h>
 #include <sqlext.h>
@@ -59,3 +61,5 @@ void db(
     std::string queryOnConnect,
     std::mutex& initLock
 );
+
+#endif //__APPLE__

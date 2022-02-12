@@ -1,5 +1,6 @@
 #include "chunk.h"
 #include "json.h"
+#include "session.h"
 
 Chunk::Chunk(const VChunk& pos, ObjectFactory& objectFactory) : chunkpos(pos), objectFactory(objectFactory) {
     loadWalls();
@@ -13,12 +14,13 @@ Chunk::~Chunk() {
 }
 
 std::string Chunk::getFileName(const std::string& type) const {
-	return "../../../resource/" + CHUNKS_FOLDER + "/" + type + "/" +
+    auto session = getSession();
+	return getSession().get("RS2D_HOME").asString() + "/resource/" + CHUNKS_FOLDER + "/" + type + "/" +
 		std::to_string((int)chunkpos.x) + "-" + std::to_string((int)chunkpos.y) + "-" + std::to_string((int)chunkpos.z) + ".txt";
 }
 
 std::string Chunk::getObjectFileNameWithPath(const std::string& objectFileName) const {
-	return "../../../resource/objects/list/" + objectFileName + "/object.json";
+	return  getSession().get("RS2D_HOME").asString() + "/resource/objects/list/" + objectFileName + "/object.json";
 }
 
 void Chunk::loadWalls() {

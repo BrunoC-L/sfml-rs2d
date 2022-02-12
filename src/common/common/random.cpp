@@ -1,5 +1,9 @@
 #include "random.h"
 
+#ifdef __APPLE__
+#define _ASSERT assert
+#endif // __APPLE__
+
 int randint(int a, int b) {
 	_ASSERT(a < b);
 	return rand() % (b - a) + a;

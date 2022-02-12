@@ -10,9 +10,11 @@ std::string strtime() {
 	struct tm newtime;
 	time_t now = time(0);
 #ifdef __APPLE__
-	// errrr
+        struct tm* newtimemac = localtime(&now);
+        newtime = *newtimemac;
+        delete newtimemac;
 #else // __APPLE__
-	localtime_s(&newtime, &now);
+    localtime_s(&newtime, &now);
 #endif // __APPLE__
 	char buffer[80];
 	const auto* ptr = &newtime;
