@@ -1,5 +1,5 @@
 #pragma once
-#include "socket-server.h"
+#include "SFMLSocketServer.h"
 #include "json.h"
 #include "print.h"
 #include "socket.h"
@@ -9,9 +9,9 @@ struct QueueMessage {
 	std::string message;
 };
 
-class JsonSocketServer {
+class JSONSFMLSocketServer {
 public:
-	SocketServer server;
+	SFMLSocketServer server;
 	std::unordered_map<std::string, std::vector<std::function<void(std::shared_ptr<Socket>, JSON&)>>> callbacks;
 	std::vector<QueueMessage> messageQueue;
 	std::mutex waiter;
@@ -21,7 +21,7 @@ public:
 	bool stopped = false;
 	std::function<void(std::exception&, std::shared_ptr<Socket>)> onError;
 
-	JsonSocketServer(
+	JSONSFMLSocketServer(
 		unsigned port,
 		std::function<void(std::exception&, std::shared_ptr<Socket>)> onError,
 		std::function<void(std::shared_ptr<Socket>)> onConnect,

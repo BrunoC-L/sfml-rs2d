@@ -1,6 +1,6 @@
 #pragma once
 #include <thread>
-#include "json-socket-server.h"
+#include "JSONSFMLSocketServer.h"
 #include "json.h"
 #include "units.h"
 #include "abstractServices.h"

@@ -5,9 +5,11 @@
 #include "logoutEvent.h"
 #include "constants.h"
 #include "gameMessageEvent.h"
+#include <mutex>
 
 class UserService : public AbstractUserService, public Service {
-private:
+protected:
+	std::mutex usersMutex;
 	std::map<std::shared_ptr<User>, std::string> tempSaltByUser;
 	EventObserver<LogoutEvent> logoutObserver;
 	std::shared_ptr<User> users[MAX_PLAYERS_ONLINE];

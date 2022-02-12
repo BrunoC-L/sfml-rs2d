@@ -143,12 +143,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="json-socket-server.h">
-      <Filter>Source Files\socket-server</Filter>
-    </ClInclude>
-    <ClInclude Include="socket-server.h">
-      <Filter>Source Files\socket-server</Filter>
-    </ClInclude>
     <ClInclude Include="abstractMap.h">
       <Filter>Source Files\services\map</Filter>
     </ClInclude>
@@ -295,6 +289,12 @@
     </ClInclude>
     <ClInclude Include="inMemoryDB.h">
       <Filter>Source Files\services\db</Filter>
+    </ClInclude>
+    <ClInclude Include="JSONSFMLSocketServer.h">
+      <Filter>Source Files\socket-server</Filter>
+    </ClInclude>
+    <ClInclude Include="SFMLSocketServer.h">
+      <Filter>Source Files\socket-server</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

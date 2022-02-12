@@ -24,7 +24,7 @@ SocketServerService::SocketServerService(ServiceProvider* provider, unsigned por
     };
 
     std::cout << "port for socket server: " << port << "\n";
-    socketServer    = std::make_unique<JsonSocketServer>   (port, onError, onConnect, onDisconnect);
+    socketServer    = std::make_unique<JSONSFMLSocketServer>   (port, onError, onConnect, onDisconnect);
     std::cout << "port for websocket server: " << port + 1 << "\n";
     webSocketServer = std::make_unique<JSONWebSocketServer>(port + 1, onError, onConnect, onDisconnect);
 }

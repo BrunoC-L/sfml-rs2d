@@ -135,6 +135,7 @@ void UserService::init() {
 #endif // __APPLE__
 
 void UserService::logout(const std::shared_ptr<User>& user) {
+    std::lock_guard<std::mutex> lg(usersMutex);
     _ASSERT(user->isLoggedIn);
     users[user->index].reset();
     iteratableUsers.erase(std::find(iteratableUsers.begin(), iteratableUsers.end(), user));
@@ -146,5 +147,6 @@ const std::shared_ptr<User>& UserService::getUserByIndex(int index) {
 }
 
 const std::vector<std::shared_ptr<User>>& UserService::getAllUsers() {
+    std::lock_guard<std::mutex> lg(usersMutex);
     return iteratableUsers;
 }

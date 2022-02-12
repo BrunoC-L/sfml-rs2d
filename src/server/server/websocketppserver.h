@@ -69,9 +69,9 @@ public:
 
 class WebSocket : public Socket, public std::enable_shared_from_this<Socket> {
     server* m_endpoint;
-    websocketpp::connection_hdl hdl;
     std::function<void(std::shared_ptr<Socket>)> onDisconnect;
 public:
+    websocketpp::connection_hdl hdl;
     WebSocket(
         server* m_endpoint,
         websocketpp::connection_hdl hdl,
@@ -94,14 +94,9 @@ public:
     virtual void disconnect() override {
         auto con = m_endpoint->get_con_from_hdl(hdl);
         auto state = con->get_state();
-        if (state == websocketpp::session::state::value::connecting || state == websocketpp::session::state::value::open) {
+        if (state == websocketpp::session::state::value::connecting || state == websocketpp::session::state::value::open)
             m_endpoint->close(hdl, 0, ":(");
-            onDisconnect(shared_from_this());
-        }
-    }
-
-    virtual sf::TcpSocket& getSFMLIMPL() {
-        throw std::runtime_error("WebSocket cant getSFMLIMPL");
+        onDisconnect(shared_from_this());
     }
 };
 
@@ -135,17 +130,15 @@ public:
         unsigned index = connections.size();
         if (it == connections.end()) {
             connections.push_back(con); // todo sorted insert
-            auto ws = std::make_shared<WebSocket>(&m_endpoint, hdl, onDisconnect);
+            auto ws = std::make_shared<WebSocket>(&m_endpoint, hdl, [&](std::shared_ptr<Socket> sk) { disconnect(sk); });
             sockets.push_back(ws);
             onConnect(ws);
         } else
             index = it - connections.begin();
         try {
             std::string payload = msg->get_payload();
-            //std::cout << payload << "\n";
             JSON json(msg->get_payload());
             std::string type = json["type"].asString();
-            //std::cout << type << "\n";
             JSON data = json["data"];
             receive(type, sockets.at(index), data);
         }
@@ -161,5 +154,11 @@ public:
     void receive(std::string msgType, std::shared_ptr<Socket> socket, JSON json) {
         for (auto callback : callbacks[msgType])
             callback(socket, json);
+    }
+
+    void disconnect(std::shared_ptr<Socket> sk) {
+        std::_Erase_remove(connections, m_endpoint.get_con_from_hdl(dynamic_cast<WebSocket*>(sk.get())->hdl) );
+        std::_Erase_remove(sockets, sk);
+        onDisconnect(sk);
     }
 };

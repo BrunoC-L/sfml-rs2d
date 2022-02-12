@@ -36,7 +36,7 @@ struct SocketTuple {
     std::mutex mutex;
 };
 
-class SocketServer {
+class SFMLSocketServer {
 private:
     sf::TcpListener listener;
     std::mutex selectorMutex;
@@ -67,7 +67,7 @@ private:
     }
 public:
     std::vector<std::shared_ptr<SocketTuple>> sockets;
-    SocketServer(
+    SFMLSocketServer(
         unsigned port,
         std::function<void(std::shared_ptr<Socket>, std::string)> onMessage,
         std::function<void(std::shared_ptr<Socket>)> onConnect,

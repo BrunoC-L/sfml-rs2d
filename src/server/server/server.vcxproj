@@ -57,7 +57,7 @@
     <ClInclude Include="goToObjectRequestEvent.h" />
     <ClInclude Include="inMemoryDB.h" />
     <ClInclude Include="rock.h" />
-    <ClInclude Include="json-socket-server.h" />
+    <ClInclude Include="JSONSFMLSocketServer.h" />
     <ClInclude Include="loginEvent.h" />
     <ClInclude Include="logoutEvent.h" />
     <ClInclude Include="map.h" />
@@ -81,7 +81,7 @@
     <ClInclude Include="scheduleTaskEvent.h" />
     <ClInclude Include="serverServiceProvider.h" />
     <ClInclude Include="services.h" />
-    <ClInclude Include="socket-server.h" />
+    <ClInclude Include="SFMLSocketServer.h" />
     <ClInclude Include="socket.h" />
     <ClInclude Include="socketServer.h" />
     <ClInclude Include="subscribeToInteractionInterruption.h" />
