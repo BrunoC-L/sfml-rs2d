@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="chunk.cpp" />
     <ClCompile Include="db.cpp" />
+    <ClCompile Include="inMemoryDB.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="objectFactory.cpp" />
@@ -54,11 +55,11 @@
     <ClInclude Include="db.h" />
     <ClInclude Include="gameMessageEvent.h" />
     <ClInclude Include="goToObjectRequestEvent.h" />
+    <ClInclude Include="inMemoryDB.h" />
     <ClInclude Include="rock.h" />
     <ClInclude Include="json-socket-server.h" />
     <ClInclude Include="loginEvent.h" />
     <ClInclude Include="logoutEvent.h" />
-    <ClInclude Include="main.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="movingPredicate.h" />
     <ClInclude Include="object.h" />

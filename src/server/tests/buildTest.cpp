@@ -1,5 +1,16 @@
 #include "pch.h"
-#include "main.h"
+#include "map.h"
+#include "db.h"
+#include "inMemoryDB.h"
+#include "userService.h"
+#include "socketServer.h"
+#include "playerActionService.h"
+#include "app.h"
+#include "tickScheduler.h"
+#include "taskScheduler.h"
+#include "objectFactory.h"
+#include "serverServiceProvider.h"
+#include "objectService.h"
 #include "OnExit.h"
 
 TEST(App_builds, TestName) {

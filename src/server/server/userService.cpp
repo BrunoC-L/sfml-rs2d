@@ -79,15 +79,15 @@ void UserService::init() {
         auto packet = SignUpPacket(json);
         auto permSalt = randomString64();
         auto pwHashWithPermSalt = picosha2::hash256_hex_string(permSalt + packet.passwordHash);
-        dbService->selectQuery("select id from player where username = '" + packet.username + "';", [&, packet, permSalt, pwHashWithPermSalt](SelectQueryResult qr) {
-            if (qr.size() != 0)
+        dbService->selectIdFromPlayerWhereUsernameEquals(packet.username, [&, packet, permSalt, pwHashWithPermSalt](SelectQueryResult qr1) {
+            if (qr1.size() != 0)
                 return; // account already exists!
-            dbService->syncNonSelectQuery("insert into player (username) values ('" + packet.username + "');");
-            dbService->selectQuery("select id from player where username = '" + packet.username + "';", [&, permSalt, pwHashWithPermSalt](SelectQueryResult qr) {
-                if (qr.size() == 0)
-                    throw std::runtime_error("Just created user but missing in DB");
-                auto id = qr[0]["id"].asString();
-                dbService->nonSelectQuery("insert into logindata values(" + id + ", '" + permSalt + "', '" + pwHashWithPermSalt + "');");
+            dbService->createPlayerWithUsername(packet.username);
+            dbService->selectIdFromPlayerWhereUsernameEquals(packet.username, [&, permSalt, pwHashWithPermSalt](SelectQueryResult qr2) {
+                if (qr2.size() == 0)
+                    throw std::runtime_error("Just created user but missing in DB, username = " + packet.username);
+                auto id = qr2[0]["id"].asString();
+                dbService->insertLoginDataIdPermSaltpwHashPermSalt(id, permSalt, pwHashWithPermSalt);
             });
         });
     };
@@ -95,7 +95,8 @@ void UserService::init() {
 
     auto onSaltsRequest = [&](std::shared_ptr<User> user, JSON& json) {
         auto packet = SaltsRequestPacket(json);
-        dbService->selectQuery("declare @id int set @id = (select id from player where username = '" + packet.username + "'); select * from logindata where id = @id", [&, user](SelectQueryResult qr) {
+        // select * from logindata where id = (select id from player where username = 'j')
+        dbService->selectLogindataWithUsername(packet.username, [&, user](SelectQueryResult qr) {
             if (qr.size() == 0)
                 return; // no user matches, TODO alert client
             auto permSalt = qr[0]["salt"].asString();

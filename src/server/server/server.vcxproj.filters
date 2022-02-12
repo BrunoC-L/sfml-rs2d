@@ -136,7 +136,10 @@
       <Filter>Source Files\objects\resources</Filter>
     </ClCompile>
     <ClCompile Include="rock.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\objects\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="inMemoryDB.cpp">
+      <Filter>Source Files\services\db</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -205,9 +208,6 @@
     </ClInclude>
     <ClInclude Include="pathfinder.h">
       <Filter>Source Files\other\pathfind</Filter>
-    </ClInclude>
-    <ClInclude Include="main.h">
-      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="taskScheduler.h">
       <Filter>Source Files\services\taskScheduler</Filter>
@@ -292,6 +292,9 @@
     </ClInclude>
     <ClInclude Include="socket.h">
       <Filter>Source Files\services\socketServer</Filter>
+    </ClInclude>
+    <ClInclude Include="inMemoryDB.h">
+      <Filter>Source Files\services\db</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
