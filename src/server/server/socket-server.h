@@ -25,7 +25,7 @@ public:
         socket->send(msg.c_str(), msg.length());
     }
 
-    virtual sf::TcpSocket& getSFMLIMPL() override {
+    sf::TcpSocket& getSFMLIMPL() {
         return *socket.get();
     }
 };
@@ -54,7 +54,7 @@ private:
         const int maxSize = 1024;
         char buffer[maxSize] = { 0 };
         size_t receivedSize = 0;
-        sf::Socket::Status socketStatus = socket->socket->getSFMLIMPL().receive(buffer, maxSize, receivedSize);
+        sf::Socket::Status socketStatus = dynamic_cast<SFMLSocket*>(socket->socket.get())->getSFMLIMPL().receive(buffer, maxSize, receivedSize);
         if (socketStatus == sf::Socket::Disconnected)
             return false;
         socket->buffer += std::string(buffer).substr(0, receivedSize);
@@ -97,7 +97,7 @@ public:
                     st->socket = std::make_shared<SFMLSocket>(std::move(client));
                     st->buffer = "";
                     sockets.push_back(st);
-                    selector.add(st->socket->getSFMLIMPL());
+                    selector.add(dynamic_cast<SFMLSocket*>(st->socket.get())->getSFMLIMPL());
                     onConnect(st->socket);
                 }
                 {
@@ -122,13 +122,14 @@ public:
                         continue;
                     for (unsigned i = 0; i < sockets.size(); ++i) {
                         auto& socket = sockets[i];
-                        if (!selector.isReady(socket->socket->getSFMLIMPL()))
+                        auto cast = dynamic_cast<SFMLSocket*>(socket->socket.get());
+                        if (!selector.isReady(cast->getSFMLIMPL()))
                             continue;
                         if (receive(socket))
                             continue;
                         std::lock_guard<std::mutex> lock(selectorMutex);
                         onDisconnect(socket->socket);
-                        selector.remove(socket->socket->getSFMLIMPL());
+                        selector.remove(cast->getSFMLIMPL());
                         sockets.erase(sockets.begin() + i);
                     }
                 }

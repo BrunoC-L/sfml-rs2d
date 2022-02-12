@@ -178,6 +178,27 @@ void DB::queryLoginDataByUserId(int id, std::function<void(SelectQueryResult)> f
 	selectQuery(s, f);
 }
 
+
+void DB::selectIdFromPlayerWhereUsernameEquals(std::string username, std::function<void(SelectQueryResult)> f) {
+	std::string s = "select id from player where username = '" + username + "';";
+	selectQuery(s, f);
+}
+
+void DB::createPlayerWithUsername(std::string username) {
+	std::string s = "insert into player (username) values ('" + username + "');";
+	syncNonSelectQuery(s);
+}
+
+void DB::insertLoginDataIdPermSaltpwHashPermSalt(std::string id, std::string permSalt, std::string hash) {
+	std::string s = "insert into logindata values(" + id + ", '" + permSalt + "', '" + hash + "');";
+	syncNonSelectQuery(s);
+}
+
+void DB::selectLogindataWithUsername(std::string username, std::function<void(SelectQueryResult)> f) {
+	std::string s = "select * from logindata where id = (select id from player where username = '" + username + "')";
+	selectQuery(s, f);
+}
+
 void DB::stop() {
 	for (auto& dbthread : dbThreadPool)
 		dbthread.second = false;
