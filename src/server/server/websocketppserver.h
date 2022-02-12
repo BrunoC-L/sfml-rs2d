@@ -37,7 +37,9 @@ protected:
 public:
     WebSocketServer(unsigned port) : port(port) {
         //m_endpoint.set_error_channels(websocketpp::log::elevel::all);
-        m_endpoint.set_access_channels(websocketpp::log::alevel::all ^ websocketpp::log::alevel::frame_payload);
+        //m_endpoint.set_access_channels(websocketpp::log::alevel::all ^ websocketpp::log::alevel::frame_payload);
+        m_endpoint.set_error_channels(websocketpp::log::elevel::none);
+        m_endpoint.set_access_channels(websocketpp::log::alevel::none);
 
         m_endpoint.init_asio();
 
@@ -65,22 +67,37 @@ public:
 #include "json.h"
 #include <SFML/Network.hpp>
 
-class WebSocket : public Socket {
+class WebSocket : public Socket, public std::enable_shared_from_this<Socket> {
     server* m_endpoint;
     websocketpp::connection_hdl hdl;
+    std::function<void(std::shared_ptr<Socket>)> onDisconnect;
 public:
-    WebSocket(server* m_endpoint, websocketpp::connection_hdl hdl) : m_endpoint(m_endpoint), hdl(hdl) {}
+    WebSocket(
+        server* m_endpoint,
+        websocketpp::connection_hdl hdl,
+        std::function<void(std::shared_ptr<Socket>)> onDisconnect
+    ) : 
+        m_endpoint(m_endpoint),
+        hdl(hdl),
+        onDisconnect(onDisconnect) {}
 
     virtual void send(const std::string& msg) {
-        if(hdl.expired()) {
-            disconnect();
-        } else {
+        auto con = m_endpoint->get_con_from_hdl(hdl);
+        auto state = con->get_state();
+        if(state == websocketpp::session::state::value::open) {
             m_endpoint->send(hdl, msg, websocketpp::frame::opcode::TEXT);
+        } else {
+            disconnect();
         }
     }
 
     virtual void disconnect() override {
-        m_endpoint->close(hdl, 0, ":(");
+        auto con = m_endpoint->get_con_from_hdl(hdl);
+        auto state = con->get_state();
+        if (state == websocketpp::session::state::value::connecting || state == websocketpp::session::state::value::open) {
+            m_endpoint->close(hdl, 0, ":(");
+            onDisconnect(shared_from_this());
+        }
     }
 
     virtual sf::TcpSocket& getSFMLIMPL() {
@@ -118,7 +135,7 @@ public:
         unsigned index = connections.size();
         if (it == connections.end()) {
             connections.push_back(con); // todo sorted insert
-            auto ws = std::make_shared<WebSocket>(&m_endpoint, hdl);
+            auto ws = std::make_shared<WebSocket>(&m_endpoint, hdl, onDisconnect);
             sockets.push_back(ws);
             onConnect(ws);
         } else

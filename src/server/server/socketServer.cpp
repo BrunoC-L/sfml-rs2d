@@ -59,7 +59,7 @@ void SocketServerService::send(std::shared_ptr<User> user, JSON& msg) {
 
 void SocketServerService::send(std::shared_ptr<User> user, std::string type, JSON& data) {
     auto socket = userToSocket[user];
-    auto str = "{'type': '" + type + "', 'data': " + data.asString() + "}" + messageEnd;
+    auto str = "{\"type\": \"" + type + "\", \"data\": " + data.asString() + "}" + messageEnd;
     socket->send(str);
 }
 
