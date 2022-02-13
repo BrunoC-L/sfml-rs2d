@@ -39,7 +39,7 @@ void Rock::prospect(const std::shared_ptr<User>& user) {
 	GoToObjectRequestEvent(GoToObjectRequestEventData{ user, this, [user, this]() {
 		interactors.push_back({ 1, user });
 		if (!tickObserver.isSet())
-			tickObserver.set([&](const TickEventData& ev) { Resource::tick(); });
+			tickObserver.set([&](const TickEvent::Data& ev) { Resource::tick(); });
 	} }).emit();
 	SubscribeToInteractionInterruptionEvent(SubscribeToInteractionInterruptionEventData{ user, [&]() {
 		auto it = std::find(interactors.begin(), interactors.end(), std::pair<int, std::shared_ptr<User>>(1, user));

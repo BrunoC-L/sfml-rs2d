@@ -24,7 +24,7 @@ void Resource::collect(const std::shared_ptr<User>& user) {
 	GoToObjectRequestEvent(GoToObjectRequestEventData{ user, this, [user, this]() {
 		interactors.push_back({ 0, user });
 		if (!tickObserver.isSet())
-			tickObserver.set([&](const TickEventData& ev) { tick(); });
+			tickObserver.set([&](const TickEvent::Data& ev) { tick(); });
 	}}).emit();
 	SubscribeToInteractionInterruptionEvent(SubscribeToInteractionInterruptionEventData{ user, [&]() {
 		auto it = std::find(interactors.begin(), interactors.end(), std::pair<int, std::shared_ptr<User>>(0, user));

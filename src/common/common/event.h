@@ -7,10 +7,16 @@ namespace detail {
 	namespace moredetail {
 		template <class Datatype>
 		class EventObserver {
+			bool _isSet = false;
 		public:
+			bool isSet() { return _isSet; }
 			std::function<void(const Datatype&)> f;
 			EventObserver(std::function<void(const Datatype&)> f) {
 				this->f = f;
+				_isSet = true;
+			}
+			void reset() {
+				_isSet = false;
 			}
 		};
 	}
@@ -37,7 +43,7 @@ namespace detail {
 			set(f);
 		}
 		~EventObserver() {
-			if (observer)
+			if (_isSet)
 				unsubscribe();
 		}
 		void set(std::function<void(const Datatype&)> f) {
@@ -68,10 +74,10 @@ namespace detail {
 		}
 		void emit(const Datatype& data) {
 			for (const auto& obv : subscribers)
-				if (std::find(unsubscribers.begin(), unsubscribers.end(), obv) == unsubscribers.end())
+				if (obv->isSet())
 					obv->f(data);
 			for (const auto& obv : unsubscribers)
-				subscribers.erase(std::find(subscribers.begin(), subscribers.end(), obv));
+				std::_Erase_remove(subscribers, obv);
 			unsubscribers = {};
 		}
 
