@@ -77,7 +77,7 @@ namespace detail {
 				if (obv->isSet())
 					obv->f(data);
 			for (const auto& obv : unsubscribers)
-				std::_Erase_remove(subscribers, obv);
+                subscribers.erase(std::find(subscribers.begin(), subscribers.end(), obv));
 			unsubscribers = {};
 		}
 
