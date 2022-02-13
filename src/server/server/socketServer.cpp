@@ -1,5 +1,6 @@
 #include "socketServer.h"
 #include "logoutEvent.h"
+#include "logger.h"
 
 SocketServerService::SocketServerService(ServiceProvider* provider, unsigned port) : Service(provider) {
     provider->set(SERVER, this);
@@ -13,24 +14,24 @@ SocketServerService::SocketServerService(ServiceProvider* provider, unsigned por
             LogoutEvent(user).emit();
         socketToUser.erase(socket);
         userToSocket.erase(user);
-        std::cout << socket << " disconnected\n";
+        Logging::Server::log_default(std::to_string((int)socket.get()) + " disconnected\n");
     };
 
     auto onConnect = [&](std::shared_ptr<Socket> socket) {
-        std::cout << socket << " connected\n";
+        Logging::Server::log_default(std::to_string((int)socket.get()) + " connected");
         auto user = std::make_shared<User>();
         socketToUser[socket] = user;
         userToSocket[user] = socket;
     };
 
-    std::cout << "port for socket server: " << port << "\n";
-    socketServer    = std::make_unique<JSONSFMLSocketServer>   (port, onError, onConnect, onDisconnect);
+    std::cout << "port for socket server: "    << port     << "\n";
     std::cout << "port for websocket server: " << port + 1 << "\n";
-    webSocketServer = std::make_unique<JSONWebSocketServer>(port + 1, onError, onConnect, onDisconnect);
+    socketServer    = std::make_unique<JSONSFMLSocketServer>(port    , onError, onConnect, onDisconnect);
+    webSocketServer = std::make_unique<JSONWebSocketServer>( port + 1, onError, onConnect, onDisconnect);
 }
 
 void SocketServerService::on(std::string msgType, std::function<void(std::shared_ptr<User>, const JSON&)> callback, bool loggedInRequired) {
-    auto callback2 = [&, callback, loggedInRequired](std::shared_ptr<Socket> socket, const JSON& json) {
+    auto permissionSafeCallback = [&, callback, loggedInRequired](std::shared_ptr<Socket> socket, const JSON& json) {
         auto user = socketToUser[socket];
         if (!user)
             return; // terrible patch
@@ -39,26 +40,14 @@ void SocketServerService::on(std::string msgType, std::function<void(std::shared
         else
             socket->disconnect();
     };
-    socketServer->on(
-        msgType,
-        callback2
-    );
-    webSocketServer->on(
-        msgType,
-        callback2
-    );
+    socketServer->on(msgType, permissionSafeCallback);
+    webSocketServer->on(msgType, permissionSafeCallback);
 }
-
-//void SocketServerService::send(std::shared_ptr<User> user, const JSON& msg) {
-//    auto socket = userToSocket[user];
-//    if (!socket)
-//        return;
-//    auto str = msg.asString() + messageEnd;
-//    socket->send(str);
-//}
 
 void SocketServerService::send(std::shared_ptr<User> user, std::string type, const JSON& data) {
     auto socket = userToSocket[user];
+    if (!socket)
+        return;
     auto str = "{\"type\": \"" + type + "\", \"data\": " + data.asString() + "}";
     socket->send(str);
 }
@@ -70,5 +59,6 @@ void SocketServerService::init() {
 }
 
 void SocketServerService::stop() {
-    server->stop();
+    socketServer->stop();
+    webSocketServer->stop();
 }

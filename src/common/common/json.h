@@ -52,6 +52,7 @@ public:
 	void operator=(const std::string& other);
 
 	unsigned size() const;
+	void reserve(int size);
 	const std::vector<std::string>& getProperties() const;
 	const std::vector<JSON>& getChildren() const;
 	const std::string& getName() const;

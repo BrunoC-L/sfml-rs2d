@@ -20,7 +20,7 @@ void db(
     std::string queryOnConnect,
     std::mutex& initLock
 ) {
-    auto log = defaultFolderLogger(getSession().get("logs").get("server").asString(), "db.txt", true);
+    auto log = Logging::defaultFolderLogger(getSession().get("logs").get("server").asString(), "db.txt", true);
     std::stringstream ss;
     ss << std::this_thread::get_id();
     auto tid = ss.str();

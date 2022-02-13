@@ -1,6 +1,7 @@
 #include "userService.h"
 #include "sha256.h"
 #include "loginEvent.h"
+#include "logger.h"
 
 UserService::UserService(ServiceProvider* provider) : Service(provider) {
 	provider->set(USER, this);
@@ -54,20 +55,23 @@ void UserService::init() {
                     std::string ign = userData["username"].asString();
                     int posx = userData["posx"].asInt();
                     int posy = userData["posy"].asInt();
-                    for (const auto& user : iteratableUsers)
-                        if (user->ign == ign)
-                            return; // TODO alert client that his account is already logged in
-                    auto index = availableIndices.back();
-                    availableIndices.erase(availableIndices.end() - 1);
-                    user->activate(index, packet.username);
                     JSON data;
-                    data["id"] = std::to_string(index);
                     data["position"] = JSON();
                     data["position"]["x"] = std::to_string(posx);
                     data["position"]["y"] = std::to_string(posy);
+                    {
+                        std::lock_guard<std::mutex> lg(usersMutex);
+                        for (const auto& user : iteratableUsers)
+                            if (user->ign == ign)
+                                return; // TODO alert client that his account is already logged in
+                        auto index = availableIndices.back();
+                        availableIndices.erase(availableIndices.end() - 1);
+                        user->activate(index, packet.username);
+                        data["id"] = std::to_string(index);
+                        iteratableUsers.push_back(user);
+                    }
                     server->send(user, "login", data);
                     EVENT(LoginEvent, user, VTile(posx, posy)).emit();
-                    iteratableUsers.push_back(user);
                 });
             }
         );
@@ -134,10 +138,13 @@ void UserService::logout(const std::shared_ptr<User>& user) {
     _ASSERT(user->isLoggedIn);
     users[user->index].reset();
     iteratableUsers.erase(std::find(iteratableUsers.begin(), iteratableUsers.end(), user));
+    Logging::Server::log_default(std::to_string(iteratableUsers.size()) + " users online");
     availableIndices.push_back(user->index);
+    Logging::Server::log_default("unlocking");
 }
 
 const std::shared_ptr<User>& UserService::getUserByIndex(int index) {
+    std::lock_guard<std::mutex> lg(usersMutex);
     return users[index];
 }
 

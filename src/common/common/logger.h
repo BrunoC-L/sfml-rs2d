@@ -5,11 +5,18 @@
 #include <sstream>
 #include <functional>
 
-//void log(std::ofstream& out, const std::string& text);
-//void log(std::ofstream& out, const std::stringstream& text);
-void log(std::string filename, const std::string& text);
-void log(std::string filename, const std::stringstream& text);
-std::function<void(const std::string& text)> logger(std::string filename, bool addNewLines);
-std::function<void(const std::string& text)> defaultFolderLogger(std::string basepath, std::string filename, bool addNewLines);
-std::function<void(const std::string& text)> clientDefaultFolderLogger(std::string filename, bool addNewLines);
-std::function<void(const std::string& text)> serverDefaultFolderLogger(std::string filename, bool addNewLines);
+namespace Logging {
+	void log(const std::string& filename, const std::string& text);
+	void log(const std::string& filename, const std::stringstream& text);
+	std::function<void(const std::string&)> logger(const std::string& filename, bool addNewLines);
+	std::function<void(const std::string&)> defaultFolderLogger(const std::string& basepath, const std::string& filename, bool addNewLines);
+	std::function<void(const std::string&)> clientDefaultFolderLogger(const std::string& filename, bool addNewLines);
+	std::function<void(const std::string&)> serverDefaultFolderLogger(const std::string& filename, bool addNewLines);
+
+	namespace Server {
+		void log_default(const std::string&);
+	}
+	namespace Client {
+		void log_default(const std::string&);
+	}
+}

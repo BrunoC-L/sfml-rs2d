@@ -27,6 +27,7 @@
 #include <websocketpp/config/asio_no_tls.hpp>
 #include <websocketpp/server.hpp>
 #include <functional>
+#include "json.h"
 
 typedef websocketpp::server<websocketpp::config::asio> server;
 
@@ -56,16 +57,11 @@ public:
         m_endpoint.start_accept();
         m_endpoint.run();
     }
-};
-//
-//int main() {
-//    WebSocketServer s(9002);
-//    s.run();
-//    return 0;
-//}
 
-#include "json.h"
-#include <SFML/Network.hpp>
+    virtual void stop() {
+        m_endpoint.stop();
+    }
+};
 
 class WebSocket : public Socket, public std::enable_shared_from_this<Socket> {
     server* m_endpoint;
@@ -117,11 +113,16 @@ public:
         std::function<void(std::shared_ptr<Socket>)> onDisconnect
     ) :
         WebSocketServer(port), onConnect(onConnect), onDisconnect(onDisconnect), onError(onError)
-    {
-    }
+    { }
 
     void start() {
         runner = std::thread([&]() { run(); });
+    }
+
+    void stop() {
+        WebSocketServer::stop();
+        if (runner.joinable())
+            runner.join();
     }
 
     virtual void handler(websocketpp::connection_hdl hdl, server::message_ptr msg) override {
@@ -143,7 +144,8 @@ public:
             receive(type, sockets.at(index), data);
         }
         catch (std::exception& e) {
-            onError(e, sockets.at(index));
+            std::shared_ptr<Socket> sk = sockets.at(index);
+            onError(e, sk);
         }
     }
 
@@ -157,8 +159,8 @@ public:
     }
 
     void disconnect(std::shared_ptr<Socket> sk) {
-        std::_Erase_remove(connections, m_endpoint.get_con_from_hdl(dynamic_cast<WebSocket*>(sk.get())->hdl) );
-        std::_Erase_remove(sockets, sk);
+        connections.erase(std::find(connections.begin(), connections.end(), m_endpoint.get_con_from_hdl(dynamic_cast<WebSocket*>(sk.get())->hdl)));
+        sockets.erase(std::find(sockets.begin(), sockets.end(), sk));
         onDisconnect(sk);
     }
 };

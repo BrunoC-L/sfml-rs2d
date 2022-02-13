@@ -40,8 +40,6 @@ void InMemoryDB::createPlayerWithUsername(std::string username) {
     size_t playerId = playerTable.size();
     std::pair<int,int> spawn = {1172, 869};
     playerTable.emplace_back("{'id':" + std::to_string(playerId) + ",'username':'" + username + "', 'posx': " + std::to_string(spawn.first) + ", 'posy': " + std::to_string(spawn.second) + "}");
-    std::cout<<std::endl;
-    return;
 }
 
 void InMemoryDB::insertLoginDataIdPermSaltpwHashPermSalt(std::string id, std::string permSalt, std::string hash) {

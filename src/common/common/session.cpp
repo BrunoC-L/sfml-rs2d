@@ -32,6 +32,7 @@ JSON& getEditableSession() {
 		if (!readEntireFile)
 			throw std::runtime_error("Why the hell does config.json have more than 3999 characters?");
 		session = std::move(JSON(buf));
+		session.reserve(15);
 		session["name"] = strtime();
 		session["RS2D_HOME"] = env;
 	}

@@ -18,7 +18,7 @@ DB::DB(ServiceProvider* provider, int nThreads) : Service(provider), nThreads(nT
 }
 
 void DB::init() {
-	defaultFolderLogger(getSession().get("logs").get("server").asString(), "db.txt", true)("db init\n");
+	Logging::defaultFolderLogger(getSession().get("logs").get("server").asString(), "db.txt", true)("db init\n");
 	acquire();
 	dbThreadPool.reserve(nThreads);
 	connect(1);
@@ -54,7 +54,7 @@ void DB::connect(int n) {
 		auto& dbthread = dbThreadPool.back();
 		std::shared_ptr<bool> failed = std::make_shared<bool>(false);
 		dbthread.second = false;
-		auto log = defaultFolderLogger(session.get("logs").get("server").asString(), "db.txt", true);
+		auto log = Logging::defaultFolderLogger(session.get("logs").get("server").asString(), "db.txt", true);
 		dbthread.first = std::thread(
 			[&, failed, log]() {
 				OnExit e([&, failed]() {

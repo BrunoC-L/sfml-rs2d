@@ -6,6 +6,7 @@
 #include "constants.h"
 #include "gameMessageEvent.h"
 #include <mutex>
+#include <atomic>
 
 class UserService : public AbstractUserService, public Service {
 protected:

@@ -2,12 +2,13 @@
 #include <unordered_map>
 #include <stdexcept>
 
-std::unordered_map<std::string, std::string> knownEnv;
+std::vector<std::string> knownEnvKeys;
+std::vector<std::string> knownEnvValues;
 
 std::string mygetenv(const std::string& env) {
-    auto it = knownEnv.find(env);
-    if (it != knownEnv.end())
-        return it->second;
+    auto it = std::find(knownEnvKeys.begin(), knownEnvKeys.end(), env);
+    if (it != knownEnvKeys.end())
+        return knownEnvValues.at(it - knownEnvKeys.begin());
     char* buf = nullptr;
 #ifdef __APPLE__
     buf = getenv(env.c_str());
@@ -16,7 +17,7 @@ std::string mygetenv(const std::string& env) {
 #endif // __APPLE__
     if (buf == nullptr)
         throw std::runtime_error(("No environment variable set for '" + env + "'").c_str());
-    knownEnv[env] = buf;
-    //delete buf;
-    return knownEnv[env];
+    knownEnvKeys.push_back(env);
+    knownEnvValues.push_back(buf);
+    return buf;
 }

@@ -42,7 +42,7 @@ JSON JSON::getInactive(std::string propertyName) {
 	JSON json;
 	json.defined = false;
 	json.propertyName = propertyName;
-	return std::move(json);
+	return json;
 }
 
 JSON& JSON::operator[](const std::string& propertyName) {
@@ -50,7 +50,8 @@ JSON& JSON::operator[](const std::string& propertyName) {
 	auto it = find(propertyName);
 	int index = it - properties.begin();
 	if (it == properties.end()) {
-		children.emplace_back(std::move(getInactive(propertyName)));
+		JSON inactive(getInactive(propertyName));
+		children.emplace_back(std::move(inactive));
 		properties.push_back(propertyName);
 	}
 	JSON& child = children[index];
@@ -469,6 +470,11 @@ JSON JSON::readNumber() {
 
 JSON JSON::readJSONOrArray() {
 	return JSON(parseJSONOrArray());
+}
+
+void JSON::reserve(int size) {
+	properties.reserve(size);
+	children.reserve(size);
 }
 
 std::string JSON::parseJSONOrArray() {

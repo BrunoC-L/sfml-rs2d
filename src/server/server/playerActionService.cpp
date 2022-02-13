@@ -4,6 +4,7 @@
 #include "session.h"
 #include "playerPositionChangeEvent.h"
 #include "playerChunkChangeEvent.h"
+#include "logger.h"
 
 PlayerActionService::PlayerActionService(ServiceProvider* provider) : Service(provider) {
 	provider->set(PLAYERACTION, this);
@@ -40,7 +41,10 @@ void PlayerActionService::init() {
         VTile position = pathPositions[ev.user->index].position;
         VChunk vchunk(int(position.x / TILES_PER_CHUNK), int(position.y / TILES_PER_CHUNK));
         auto& chunk = usersByChunk[vchunk.x][vchunk.y];
-        chunk.erase(std::find(chunk.begin(), chunk.end(), ev.user));
+        Logging::Server::log_default(std::string("N playersinchunk = ") + std::to_string(chunk.size()));
+        auto it = std::find(chunk.begin(), chunk.end(), ev.user);
+        if (it != chunk.end()) // should only happen if the socket disconnects while we handle his login request
+            chunk.erase(it);
     });
 
     goToObjectObserver.set([&](const GoToObjectRequestEvent::Data& ev) {
@@ -105,7 +109,6 @@ void PlayerActionService::onGameTick() {
 }
 
 void PlayerActionService::sendPlayerPositions() {
-    auto path = getSession().get("logs").get("server").asString();
     std::vector<JSON> chunks[29][25];
     for (int cx = 0; cx < 29; ++cx)
         for (int cy = 0; cy < 25; ++cy) {
