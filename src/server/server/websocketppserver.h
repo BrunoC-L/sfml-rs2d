@@ -157,8 +157,8 @@ public:
     }
 
     void disconnect(std::shared_ptr<Socket> sk) {
-        std::_Erase_remove(connections, m_endpoint.get_con_from_hdl(dynamic_cast<WebSocket*>(sk.get())->hdl) );
-        std::_Erase_remove(sockets, sk);
+        connections.erase(std::find(connections.begin(), connections.end(), m_endpoint.get_con_from_hdl(dynamic_cast<WebSocket*>(sk.get())->hdl)));
+        sockets.erase(std::find(sockets.begin(), sockets.end(), sk));
         onDisconnect(sk);
     }
 };

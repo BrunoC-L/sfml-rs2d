@@ -138,6 +138,7 @@ void UserService::logout(const std::shared_ptr<User>& user) {
 }
 
 const std::shared_ptr<User>& UserService::getUserByIndex(int index) {
+    std::lock_guard<std::mutex> lg(usersMutex);
     return users[index];
 }
 

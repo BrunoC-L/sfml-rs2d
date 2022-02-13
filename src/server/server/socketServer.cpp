@@ -59,6 +59,7 @@ void SocketServerService::on(std::string msgType, std::function<void(std::shared
 
 void SocketServerService::send(std::shared_ptr<User> user, std::string type, const JSON& data) {
     auto socket = userToSocket[user];
+    if(!socket) return;
     auto str = "{\"type\": \"" + type + "\", \"data\": " + data.asString() + "}";
     socket->send(str);
 }
