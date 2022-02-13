@@ -20,12 +20,12 @@ void PlayerActionService::init() {
 
     server->on("walk", onWalk, true);
 
-    tickObserver.set([&](const TickEventData& ev) {
+    tickObserver.set([&](const TickEvent::Data& ev) {
             onGameTick();
         }
     );
 
-    loginObserver.set([&](const LoginEventData& ev) {
+    loginObserver.set([&](const LoginEvent::Data& ev) {
         pathPositions[ev.user->index] = { {}, ev.position };
         oldPositions[ev.user->index] = ev.position;
         movementCompleteCallbacks[ev.user->index] = nullptr;
@@ -36,19 +36,19 @@ void PlayerActionService::init() {
         EVENT(PlayerChunkChangeEvent, ev.user, chunk, chunk, VChunk()).emit();
     });
 
-    logoutObserver.set([&](const LogoutEventData& ev) {
+    logoutObserver.set([&](const LogoutEvent::Data& ev) {
         VTile position = pathPositions[ev.user->index].position;
         VChunk vchunk(int(position.x / TILES_PER_CHUNK), int(position.y / TILES_PER_CHUNK));
         auto& chunk = usersByChunk[vchunk.x][vchunk.y];
         chunk.erase(std::find(chunk.begin(), chunk.end(), ev.user));
     });
 
-    goToObjectObserver.set([&](const GoToObjectRequestEventData& ev) {
+    goToObjectObserver.set([&](const GoToObjectRequestEvent::Data& ev) {
         walk(ev.user, ev.object->getInteractibleTiles());
         movementCompleteCallbacks[ev.user->index] = ev.callback;
     });
 
-    interruptionSubscriptionObserver.set([&](const SubscribeToInteractionInterruptionEventData& ev) {
+    interruptionSubscriptionObserver.set([&](const SubscribeToInteractionInterruptionEvent::Data& ev) {
         interactionInterruptionCallbacks[ev.user->index] = ev.callback;
     });
 }
