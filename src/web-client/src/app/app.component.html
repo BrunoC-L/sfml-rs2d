@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="!loggedIn">
   <input type="text" [(ngModel)]="username">
   <input type="text" [(ngModel)]="password">
 
@@ -6,4 +6,7 @@
 
   <button (click)="signUp()">SU</button>
   <button (click)="login()">LI</button>
+</div>
+<div *ngIf="loggedIn">
+  <canvas #gameScene height=""></canvas>
 </div>
