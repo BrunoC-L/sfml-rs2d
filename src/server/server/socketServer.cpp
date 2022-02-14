@@ -11,7 +11,7 @@ SocketServerService::SocketServerService(ServiceProvider* provider, unsigned por
     auto onDisconnect = [&](std::shared_ptr<Socket> socket) {
         std::shared_ptr<User> user = socketToUser[socket];
         if (user->isLoggedIn)
-            LogoutEvent(user).emit();
+            EVENT(LogoutEvent, user).emit();
         socketToUser.erase(socket);
         userToSocket.erase(user);
         Logging::Server::log_default(std::to_string((int)socket.get()) + " disconnected\n");

@@ -95,11 +95,6 @@ namespace detail {
 	detail::EventEmitter<Datatype>  Emitter<Datatype>::emitter;
 }
 
-template<class Datatype, class... Args>
-Datatype make_data(Args&&... u) {
-	return Datatype{ std::forward<Args...>(u...) };
-}
-
 template <typename Datatype>
 class Event {
 public:
@@ -107,10 +102,9 @@ public:
 	using Data = Datatype;
 	void emit() {
 		detail::Emitter<Datatype>::emitter.emit(data);
-	}
+ 	}
 	const Datatype data;
-	template <typename... Args>
-	Event(Args&&... args) : data(make_data<Datatype>(args...)) {}
+	Event(Datatype data) : data(data) {}
 };
 
 #define EVENT(T, ...) T(T::Data{__VA_ARGS__})

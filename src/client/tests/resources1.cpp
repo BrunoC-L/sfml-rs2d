@@ -105,8 +105,8 @@ TEST(clicking_on_resources_received_from_server_sends_correct_interaction_curren
 				if (!receivedMapUpdateEvent)
 					testFailed = true;
 				else {
-					MouseRightClickEvent(AbstractMeasures::startingInnerScreenSize() / 2).emit();
-					MouseLeftClickEvent(AbstractMeasures::startingInnerScreenSize() / 2 + VPixel(25, 25)).emit();
+					EVENT(MouseRightClickEvent, AbstractMeasures::startingInnerScreenSize() / 2).emit();
+					EVENT(MouseLeftClickEvent, AbstractMeasures::startingInnerScreenSize() / 2 + VPixel(25, 25)).emit();
 				}
 				break;
 			case 2: // when client sends interact

@@ -105,7 +105,7 @@ public:
             vpxFromMiddleOfMinimap = rotatedDelta;
 
             VTile position = player->getPosition() + vpxFromMiddleOfMinimap / PIXELS_PER_TILE_ON_MAP;
-            WalkClickEvent(position).emit();
+            EVENT(WalkClickEvent, position).emit();
         }
     }
     void update();

@@ -62,7 +62,7 @@ public:
     }
 
 	void start() {
-        auto log = clientDefaultFolderLogger("app.txt", true);
+        auto log = Logging::clientDefaultFolderLogger("app.txt", true);
         log("Starting frames");
         while (renderWindow->isOpen() && !stopping) {
             log("Frame events");

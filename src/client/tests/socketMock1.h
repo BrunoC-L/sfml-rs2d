@@ -13,7 +13,7 @@ public:
 	virtual void init() {
 		on("login",
 			[&](std::shared_ptr<const JSON> data) {
-				LoginEvent(*data).emit();
+				EVENT(LoginEvent, *data).emit();
 			}
 		);
 	}

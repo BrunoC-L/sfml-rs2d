@@ -37,8 +37,6 @@ protected:
     server m_endpoint;
 public:
     WebSocketServer(unsigned port) : port(port) {
-        //m_endpoint.set_error_channels(websocketpp::log::elevel::all);
-        //m_endpoint.set_access_channels(websocketpp::log::alevel::all ^ websocketpp::log::alevel::frame_payload);
         m_endpoint.set_error_channels(websocketpp::log::elevel::none);
         m_endpoint.set_access_channels(websocketpp::log::alevel::none);
 

@@ -25,7 +25,7 @@ void Map::init() {
 }
 
 void Map::load() {
-	auto log = clientDefaultFolderLogger("map.txt", true);
+	auto log = Logging::clientDefaultFolderLogger("map.txt", true);
 	log("acquiring map mutex");
 	std::lock_guard<std::mutex> lock(mutex);
 	isLoaded = true;
@@ -72,7 +72,7 @@ void Map::updateChunks(const VChunk& difference, const VChunk& tempCenter) {
 void Map::doUpdates() {
 	initializing = true;
 	shouldStop = false;
-	auto log = clientDefaultFolderLogger("map.txt", true);
+	auto log = Logging::clientDefaultFolderLogger("map.txt", true);
 	log("starting update thread");
 	updateThread = std::thread(
 		[&, log]() {
@@ -99,7 +99,7 @@ void Map::doUpdates() {
 }
 
 void Map::stopUpdates() {
-	auto log = clientDefaultFolderLogger("map.txt", true);
+	auto log = Logging::clientDefaultFolderLogger("map.txt", true);
 	log("stopping map updates");
 	this->shouldStop = true;
 	while (initializing);

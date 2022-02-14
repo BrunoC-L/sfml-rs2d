@@ -29,7 +29,7 @@ void GameDataService::init() {
 			data.get("cy").asInt(),
 			data.get("cz").asInt()
 		);
-		int* objects = new int[TILES_PER_CHUNK * TILES_PER_CHUNK]();
+		int* objects = new int[TILES_PER_CHUNK * TILES_PER_CHUNK](); // mem leak :) ?
 		std::vector<std::pair<VTile, ObjectInteractions>> v;
 		//v.reserve(data.get("size").asInt()); // TODO add this!
 		for (const auto& object : data.get("objects").getChildren())
@@ -47,11 +47,11 @@ void GameDataService::init() {
 			data.get("cy").asInt(),
 			data.get("cz").asInt()
 		);
-		std::vector<std::pair<VTile, ObjectInteractions>> v;
 		for (const auto& object : data.get("objects").getChildren())
 			for (auto& e : parseObject(object, chunk)) {
 				map->getChunk(chunk).objectMap.update(e.first, e.second.first);
 				map->updateInteractions(chunk, e.first, &e.second.second);
+				std::cout << "texture " << e.second.first << "\n";
 			}
 	});
 

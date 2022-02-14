@@ -36,7 +36,7 @@ void Socket::init() {
 
     on("login",
         [&](const std::shared_ptr<const JSON>& data) {
-            LoginEvent(*data).emit();
+            EVENT(LoginEvent, *data).emit();
         }
     );
 

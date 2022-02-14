@@ -43,5 +43,6 @@ int Object::getState() {
 
 void Object::setState(int state) {
 	this->state = state;
+	upToDate = false;
 	EVENT(ObjectStateChangedEvent, this).emit();
 }

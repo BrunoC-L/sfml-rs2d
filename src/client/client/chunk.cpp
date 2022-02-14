@@ -49,7 +49,8 @@ Chunk::~Chunk() {
 int* Chunk::getObjectsPtr() {
     return objects;
 }
-
+#include "print.h"
 void Chunk::updateInteractions(VTile tile, ObjectInteractions* interactions) {
+    print("update\n");
     tiles[int(tile.x)][int(tile.y)]->addInteractions(*interactions);
 }
