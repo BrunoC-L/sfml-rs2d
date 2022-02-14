@@ -42,13 +42,12 @@ TEST(player_position_updates_on_socket_receive_positions, TestName) {
 
 	JSON hello;
 	int id = 7;
-	hello["type"] = "login";
-	hello["data"] = JSON();
-	hello["data"]["position"] = JSON();
-	hello["data"]["position"]["x"] = std::to_string(close.x);
-	hello["data"]["position"]["y"] = std::to_string(close.y);
-	hello["data"]["id"] = std::to_string(id);
-	socket.mockReceiveFromServer(hello);
+	JSON login;
+	login["position"] = JSON();
+	login["position"]["x"] = std::to_string(close.x);
+	login["position"]["y"] = std::to_string(close.y);
+	login["id"] = std::to_string(id);
+	socket.mockReceiveFromServer("login", login);
 	EXPECT_EQ(player.getID(), id);
 	EXPECT_EQ(player.getPosition(), close);
 	EXPECT_EQ(player.getIntPosition(), close);
@@ -61,10 +60,7 @@ TEST(player_position_updates_on_socket_receive_positions, TestName) {
 	playerPos["x"] = std::to_string(close.x);
 	playerPos["y"] = std::to_string(close.y);
 	data.push(playerPos);
-	JSON json;
-	json["data"] = data;
-	json["type"] = "positions";
-	socket.mockReceiveFromServer(json);
+	socket.mockReceiveFromServer("positions", data);
 	
 	VTile playerIntPos = player.getIntPosition();
 	bool eq = playerIntPos == close;
@@ -99,7 +95,7 @@ TEST(PlayerPositions_updates_as_expected, TestName) {
 	gameData.init();
 	socket.init();
 
-	socket.mockReceiveFromServer(JSON("{'type':'login', 'data':{'id':3, 'position':{'x':123,'y':456}}}"));
+	socket.mockReceiveFromServer("login",  JSON("{'id':3, 'position':{'x':123,'y':456}}"));
 
 	PlayerPositions p(&player);
 	p.update(JSON("[]"));

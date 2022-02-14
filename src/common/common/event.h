@@ -31,9 +31,9 @@ namespace detail {
 			_isSet = true;
 		}
 		void unsubscribe() {
+			observer->reset();
 			Emitter<Datatype>::emitter.unsubscribe(observer);
 			_isSet = false;
-			observer.reset();
 		}
 		bool _isSet = false;
 		std::shared_ptr<detail::moredetail::EventObserver<Datatype>> observer;
