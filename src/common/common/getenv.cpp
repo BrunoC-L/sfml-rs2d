@@ -1,6 +1,6 @@
 #include "getenv.h"
-#include <stdexcept>
 #include <vector>
+#include <stdexcept>
 
 std::vector<std::string> knownEnvKeys;
 std::vector<std::string> knownEnvValues;

@@ -115,7 +115,6 @@
 		F49356CA27B743DF00ED0C5C /* playerMoveEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = playerMoveEvent.h; sourceTree = "<group>"; };
 		F49356CB27B743DF00ED0C5C /* scheduleTaskEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scheduleTaskEvent.h; sourceTree = "<group>"; };
 		F49356CD27B743DF00ED0C5C /* resource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = resource.cpp; sourceTree = "<group>"; };
-		F49356CE27B743DF00ED0C5C /* socket-server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "socket-server.h"; sourceTree = "<group>"; };
 		F49356CF27B743DF00ED0C5C /* objectService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = objectService.cpp; sourceTree = "<group>"; };
 		F49356D027B743DF00ED0C5C /* tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tile.h; sourceTree = "<group>"; };
 		F49356D127B743DF00ED0C5C /* map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = map.h; sourceTree = "<group>"; };
@@ -139,7 +138,6 @@
 		F49356E327B743E000ED0C5C /* user.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = user.cpp; sourceTree = "<group>"; };
 		F49356E427B743E000ED0C5C /* rock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = rock.cpp; sourceTree = "<group>"; };
 		F49356E627B743E000ED0C5C /* playerChunkChangeEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = playerChunkChangeEvent.h; sourceTree = "<group>"; };
-		F49356E727B743E000ED0C5C /* json-socket-server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "json-socket-server.h"; sourceTree = "<group>"; };
 		F49356E827B743E000ED0C5C /* abstractTaskScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = abstractTaskScheduler.h; sourceTree = "<group>"; };
 		F49356E927B743E000ED0C5C /* socketServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = socketServer.cpp; sourceTree = "<group>"; };
 		F493570027B7447400ED0C5C /* app.vcxproj.user */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = app.vcxproj.user; sourceTree = "<group>"; };
@@ -264,7 +262,6 @@
 				F49356C827B743DF00ED0C5C /* goToObjectRequestEvent.h */,
 				F493572C27B74DD100ED0C5C /* inMemoryDB.cpp */,
 				F493572D27B74DD100ED0C5C /* inMemoryDB.h */,
-				F49356E727B743E000ED0C5C /* json-socket-server.h */,
 				F49356BE27B743DF00ED0C5C /* loginEvent.h */,
 				F49356A827B743DF00ED0C5C /* logoutEvent.h */,
 				F49356B527B743DF00ED0C5C /* map.cpp */,
@@ -300,7 +297,6 @@
 				F49356C427B743DF00ED0C5C /* serverServiceProvider.h */,
 				F49356B627B743DF00ED0C5C /* service.h */,
 				F49356AE27B743DF00ED0C5C /* services.h */,
-				F49356CE27B743DF00ED0C5C /* socket-server.h */,
 				F49356DC27B743E000ED0C5C /* socket.h */,
 				F49356E927B743E000ED0C5C /* socketServer.cpp */,
 				F49356BB27B743DF00ED0C5C /* socketServer.h */,
@@ -671,7 +667,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = server/server.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A3E5NJZ7MX;
@@ -697,7 +693,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = server/server.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A3E5NJZ7MX;

@@ -2,7 +2,7 @@
 This file was automatically generated, please do not modify manually, see "python scripts/constants.py"
 */
 #define MAX_PLAYERS_ONLINE 2000
-#define MSPT 600
+#define MSPT 60
 #define CHUNK_RADIUS 2
 #define PIXELS_PER_TILE 4
 #define PIXELS_PER_TILE_ON_MAP 4
