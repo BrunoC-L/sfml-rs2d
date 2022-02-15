@@ -14,11 +14,11 @@ SocketServerService::SocketServerService(ServiceProvider* provider, unsigned por
             EVENT(LogoutEvent, user).emit();
         socketToUser.erase(socket);
         userToSocket.erase(user);
-        Logging::Server::log_default(std::to_string((int)socket.get()) + " disconnected\n");
+        Logging::Server::log_default(std::to_string((long long)socket.get()) + " disconnected\n");
     };
 
     auto onConnect = [&](std::shared_ptr<Socket> socket) {
-        Logging::Server::log_default(std::to_string((int)socket.get()) + " connected");
+        Logging::Server::log_default(std::to_string((long long)socket.get()) + " connected");
         auto user = std::make_shared<User>();
         socketToUser[socket] = user;
         userToSocket[user] = socket;

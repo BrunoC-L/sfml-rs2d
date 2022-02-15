@@ -1,6 +1,7 @@
 #include "logger.h"
 #include <unordered_map>
 #include <mutex>
+#include <thread>
 #include <filesystem>
 #include "session.h"
 #include "getenv.h"
