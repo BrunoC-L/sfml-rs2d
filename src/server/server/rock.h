@@ -4,7 +4,7 @@
 class Rock : public Resource {
 protected:
 	virtual void prospect(const std::shared_ptr<User>& user);
-	virtual void tick(int i, const std::shared_ptr<User>& user) override;
+	virtual void tick(Interactor i) override;
 	std::string prospects[2];
 public:
 	Rock(std::string&& fileName, JSON&& json, Tile* tile) : Resource(std::move(fileName), std::move(json), tile) {}

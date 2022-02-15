@@ -23,17 +23,14 @@ void Tree::interact(const std::shared_ptr<User>& user, int objectState, const st
 		return;
 
 	if (interaction == "Examine")
-		return examine(user);
-
-	if (state == 0 && interaction == "Chop")
+		examine(user);
+	else if (state == States::UP && interaction == "Chop")
 		collect(user);
 }
 
-void Tree::tick(int i, const std::shared_ptr<User>& user) {
-	if (state == 1)
-		return;
-	if (rollPercent(30)) {
-		setState(1);
+void Tree::tick(Interactor i) {
+	if (state == States::UP && rollPercent(30)) { // 30% chance to cut the tree
+		setState(States::DOWN);
 		EVENT(ScheduleTaskEvent, randint(4, 6), [&]() { setState(0); }).emit();
 	}
 }

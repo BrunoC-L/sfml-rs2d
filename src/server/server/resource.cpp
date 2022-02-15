@@ -21,16 +21,16 @@ void Resource::build() {
 void Resource::collect(const std::shared_ptr<User>& user) {
 	if (state != 0)
 		return;
-	GoToObjectRequestEvent(GoToObjectRequestEventData{ user, this, [user, this]() {
+	EVENT(GoToObjectRequestEvent, user, this, [user, this]() {
 		interactors.push_back({ 0, user });
 		if (!tickObserver.isSet())
 			tickObserver.set([&](const TickEvent::Data& ev) { tick(); });
-	}}).emit();
-	SubscribeToInteractionInterruptionEvent(SubscribeToInteractionInterruptionEventData{ user, [&]() {
-		auto it = std::find(interactors.begin(), interactors.end(), std::pair<int, std::shared_ptr<User>>(0, user));
+	}).emit();
+	EVENT(SubscribeToInteractionInterruptionEvent, user, [&]() {
+		/*auto it = std::find(interactors.begin(), interactors.end(), [&](const Interactor& i) { return i.user == user; });
 		if (it != interactors.end())
-			interactors.erase(it);
-	}}).emit();
+			interactors.erase(it);*/
+	}).emit();
 }
 
 void Resource::examine(const std::shared_ptr<User>& user) {
@@ -82,5 +82,5 @@ void Resource::tick() {
 	if (!interactors.size())
 		tickObserver.unset();
 	for (auto& i : interactors)
-		tick(i.first, i.second);
+		tick(i);
 }

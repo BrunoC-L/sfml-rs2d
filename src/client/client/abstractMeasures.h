@@ -18,7 +18,7 @@ public:
 	}
 
 	static VPixel startingInnerScreenSize() {
-		return VPixel(startingInnerScreenSizeTile() * PIXELS_PER_TILE);
+		return VPixel(startingInnerScreenSizeTile() * 32);
 	}
 
 	static VPixel banners() {
@@ -26,8 +26,8 @@ public:
 	}
 
 	static VPixel startingScreenSize() {
-		return VPixel(startingInnerScreenSizeTile().x * PIXELS_PER_TILE,
-			startingInnerScreenSizeTile().y * PIXELS_PER_TILE) + banners();
+		return VPixel(startingInnerScreenSizeTile().x * 32,
+			startingInnerScreenSizeTile().y * 32) + banners();
 	}
 
 	VPixel stretch = VPixel(1, 1);

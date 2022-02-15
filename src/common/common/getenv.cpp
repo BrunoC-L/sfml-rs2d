@@ -1,6 +1,6 @@
 #include "getenv.h"
-#include <unordered_map>
 #include <stdexcept>
+#include <vector>
 
 std::vector<std::string> knownEnvKeys;
 std::vector<std::string> knownEnvValues;

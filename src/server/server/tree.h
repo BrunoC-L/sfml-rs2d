@@ -3,7 +3,8 @@
 
 class Tree : public Resource {
 protected:
-	virtual void tick(int i, const std::shared_ptr<User>& user) override;
+	enum States { UP, DOWN };
+	virtual void tick(Interactor i) override;
 public:
 	Tree(std::string&& fileName, JSON&& json, Tile* tile) : Resource(std::move(fileName), std::move(json), tile) {}
 	virtual void build() override;

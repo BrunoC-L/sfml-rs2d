@@ -42,14 +42,14 @@ void Rock::prospect(const std::shared_ptr<User>& user) {
 			tickObserver.set([&](const TickEvent::Data& ev) { Resource::tick(); });
 	} }).emit();
 	SubscribeToInteractionInterruptionEvent(SubscribeToInteractionInterruptionEventData{ user, [&]() {
-		auto it = std::find(interactors.begin(), interactors.end(), std::pair<int, std::shared_ptr<User>>(1, user));
+		/*auto it = std::find(interactors.begin(), interactors.end(), [&](const Interactor& i) { return i.user == user; });
 		if (it != interactors.end())
-			interactors.erase(it);
+			interactors.erase(it);*/
 	} }).emit();
 }
 
-void Rock::tick(int interactionId, const std::shared_ptr<User>& user) {
-	if (interactionId == 0) {
+void Rock::tick(Interactor i) {
+	if (i.interactionindex == 0) {
 		if (state == 1)
 			return;
 		if (rollPercent(30)) {
@@ -58,16 +58,14 @@ void Rock::tick(int interactionId, const std::shared_ptr<User>& user) {
 		}
 	}
 	else {
-		GameMessageEvent(GameMessageEventData{ user, prospects[state] }).emit();
-		auto it = std::find(interactors.begin(), interactors.end(), std::pair<int, std::shared_ptr<User>>(1, user));
+		EVENT(GameMessageEvent, i.user, prospects[state]).emit();
+		/*auto it = std::find(interactors.begin(), interactors.end(), i);
 		if (it != interactors.end())
-			interactors.erase(it);
+			interactors.erase(it);*/
 	}
 }
 
 void Rock::setState(int state) {
-	std::vector<std::pair<int, std::shared_ptr<User>>> out;
-	std::copy_if(interactors.begin(), interactors.end(), std::back_inserter(out), [&](const std::pair<int, std::shared_ptr<User>>& pair) { return pair.first == 1; });
-	interactors = out;
+	interactors = {};
 	Object::setState(state);
 }

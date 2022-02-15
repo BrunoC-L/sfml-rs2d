@@ -17,6 +17,11 @@ struct ObjectState {
 	bool calculatedInteractibleTiles;
 };
 
+struct Interactor {
+	int interactionindex;
+	std::shared_ptr<User> user;
+};
+
 class Resource : public Object {
 protected:
 	virtual void collect(const std::shared_ptr<User>& user);
@@ -24,10 +29,10 @@ protected:
 	virtual bool requirementsMet(const std::shared_ptr<User>& user);
 	virtual void giveExperience(const std::shared_ptr<User>& user);
 	std::vector<ObjectState> states;
-	std::vector<std::pair<int, std::shared_ptr<User>>> interactors;
+	std::vector<Interactor> interactors;
 	TickEvent::Observer tickObserver;
 	void tick();
-	virtual void tick(int i, const std::shared_ptr<User>& user) = 0;
+	virtual void tick(Interactor) = 0;
 	JSON json;
 public:
 	Resource(std::string&& fileName, JSON&& json, Tile* tile);

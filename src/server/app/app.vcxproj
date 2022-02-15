@@ -93,7 +93,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\server;..\..\..\SFML-2.5.1\include;..\..\common\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Bruno\Desktop\prog\src\c++\websocketpp;C:\Users\Bruno\Desktop\boost_1_77_0;..\server;..\..\..\SFML-2.5.1\include;..\..\common\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
