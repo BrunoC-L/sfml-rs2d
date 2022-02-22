@@ -1,10 +1,7 @@
-  <input type="text" [(ngModel)]="username">
-  <input type="text" [(ngModel)]="password">
+<input type="text" [(ngModel)]="username" />
+<input type="text" [(ngModel)]="password" />
 
-  <input type="text" [(ngModel)]="permSalt">
+<button (click)="signUp()">Sign Up</button>
+<button (click)="login()">Log In</button>
 
-  <button (click)="signUp()">Sign Up</button>
-  <button (click)="login()">Log In</button>
-
-  <canvas #gameScene height=""></canvas>
-
+<canvas #gameScene></canvas>

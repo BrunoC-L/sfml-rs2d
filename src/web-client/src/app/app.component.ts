@@ -5,15 +5,11 @@ import {
     HostListener,
     ViewChild,
 } from '@angular/core';
-import * as shajs from 'sha.js';
 import { SocketMessageTypes } from './enums/SocketMessageTypes';
 import { MessageLogInReceived } from './models/socketMessages/MessageLogInReceived';
-import { MessageLogInToSend } from './models/socketMessages/MessageLogInToSend';
 import { MessagePositionsReceived } from './models/socketMessages/MessagePositionsReceived';
-import { MessageSaltsReceived } from './models/socketMessages/MessageSaltsReceived';
-import { MessageSaltsRequestToSend } from './models/socketMessages/MessageSaltsRequestToSend';
-import { MessageSignUpToSend } from './models/socketMessages/MessageSignUpToSend';
 import { MessageWalkToSend } from './models/socketMessages/MessageWalkToSend';
+import { AuthService } from './services/auth/auth.service';
 import { SocketService } from './services/socket/socket.service';
 import { Vector } from './utils/math';
 
@@ -29,7 +25,6 @@ export class AppComponent implements AfterViewInit {
     loggedIn = false;
     username = 'simon';
     password = 'simon';
-    permSalt = undefined;
     tickTime = 0;
     prevPlayerPos = new Vector();
     playerPos = new Vector();
@@ -39,23 +34,20 @@ export class AppComponent implements AfterViewInit {
     ground?: HTMLImageElement;
     player?: HTMLImageElement;
 
-    constructor(private socketService: SocketService) {
-        socketService.on(SocketMessageTypes.SALTS, (data) =>
-            this.handleSaltsReceived(data)
-        );
-        socketService.on(SocketMessageTypes.LOGIN, (data) =>
-            this.handleLoginReceived(data)
-        );
+    constructor(private socketService: SocketService, private authService: AuthService) {
         socketService.on(SocketMessageTypes.POSITIONS, (data) =>
             this.handlePositionsReceived(data)
         );
+
+        this.authService.loginConfirmed.subscribe(
+            (playerData: MessageLogInReceived | undefined) => {
+                if (!playerData) return;
+                this.handleLoginConfirmed(playerData);
+            }
+        );
     }
 
-    handleSaltsReceived(salts: MessageSaltsReceived): void {
-        this.doLogin(salts);
-    }
-
-    handleLoginReceived(playerData: MessageLogInReceived): void {
+    handleLoginConfirmed(playerData: MessageLogInReceived): void {
         this.loggedIn = true;
         this.playerPos.setEqualTo(playerData.position);
         this.target.setEqualTo(this.playerPos);
@@ -75,34 +67,11 @@ export class AppComponent implements AfterViewInit {
     }
 
     signUp() {
-        const payload: MessageSignUpToSend = {
-            username: this.username,
-            passwordHash: new shajs.sha256().update(this.password).digest('hex'),
-        };
-        this.socketService.send(SocketMessageTypes.SIGN_UP, payload);
+        this.authService.signUp(this.username, this.password);
     }
 
     login() {
-        const payload: MessageSaltsRequestToSend = {
-            username: this.username,
-        };
-        this.socketService.send(SocketMessageTypes.SALTS_REQUEST, payload);
-    }
-
-    parseMessage(event: MessageEvent): any {
-        return JSON.parse(event.data.split('|')[0]);
-    }
-
-    doLogin(saltsData: MessageSaltsReceived) {
-        const hash1 = new shajs.sha256().update(this.password).digest('hex');
-        const hash2 = new shajs.sha256().update(saltsData.permsalt + hash1).digest('hex');
-        const hash3 = new shajs.sha256().update(saltsData.tempsalt + hash2).digest('hex');
-
-        const payload: MessageLogInToSend = {
-            username: this.username,
-            passwordHash: hash3,
-        };
-        this.socketService.send(SocketMessageTypes.LOGIN, payload);
+        this.authService.login(this.username, this.password);
     }
 
     setCanvasSize() {
