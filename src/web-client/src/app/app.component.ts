@@ -7,6 +7,13 @@ import {
 } from '@angular/core';
 import * as shajs from 'sha.js';
 import { SocketMessageTypes } from './enums/SocketMessageTypes';
+import { MessageLogInReceived } from './models/socketMessages/MessageLogInReceived';
+import { MessageLogInToSend } from './models/socketMessages/MessageLogInToSend';
+import { MessagePositionsReceived } from './models/socketMessages/MessagePositionsReceived';
+import { MessageSaltsReceived } from './models/socketMessages/MessageSaltsReceived';
+import { MessageSaltsRequestToSend } from './models/socketMessages/MessageSaltsRequestToSend';
+import { MessageSignUpToSend } from './models/socketMessages/MessageSignUpToSend';
+import { MessageWalkToSend } from './models/socketMessages/MessageWalkToSend';
 import { SocketService } from './services/socket/socket.service';
 import { Vector } from './utils/math';
 
@@ -44,19 +51,19 @@ export class AppComponent implements AfterViewInit {
         );
     }
 
-    handleSaltsReceived(salts: any): void {
+    handleSaltsReceived(salts: MessageSaltsReceived): void {
         this.doLogin(salts);
     }
 
-    handleLoginReceived(playerData: any): void {
+    handleLoginReceived(playerData: MessageLogInReceived): void {
         this.loggedIn = true;
-        this.playerPos.set(playerData.position.x, playerData.position.y);
-        this.target.set(this.playerPos.x, this.playerPos.y);
-        this.prevPlayerPos.set(this.playerPos.x, this.playerPos.y);
+        this.playerPos.setEqualTo(playerData.position);
+        this.target.setEqualTo(this.playerPos);
+        this.prevPlayerPos.setEqualTo(this.playerPos);
         this.doGameLoop();
     }
 
-    handlePositionsReceived(positions: any): void {
+    handlePositionsReceived(positions: MessagePositionsReceived): void {
         this.updatePlayerPos(positions);
     }
 
@@ -68,7 +75,7 @@ export class AppComponent implements AfterViewInit {
     }
 
     signUp() {
-        const payload = {
+        const payload: MessageSignUpToSend = {
             username: this.username,
             passwordHash: new shajs.sha256().update(this.password).digest('hex'),
         };
@@ -76,7 +83,7 @@ export class AppComponent implements AfterViewInit {
     }
 
     login() {
-        const payload = {
+        const payload: MessageSaltsRequestToSend = {
             username: this.username,
         };
         this.socketService.send(SocketMessageTypes.SALTS_REQUEST, payload);
@@ -86,12 +93,12 @@ export class AppComponent implements AfterViewInit {
         return JSON.parse(event.data.split('|')[0]);
     }
 
-    doLogin(data: any) {
+    doLogin(saltsData: MessageSaltsReceived) {
         const hash1 = new shajs.sha256().update(this.password).digest('hex');
-        const hash2 = new shajs.sha256().update(data.permsalt + hash1).digest('hex');
-        const hash3 = new shajs.sha256().update(data.tempsalt + hash2).digest('hex');
+        const hash2 = new shajs.sha256().update(saltsData.permsalt + hash1).digest('hex');
+        const hash3 = new shajs.sha256().update(saltsData.tempsalt + hash2).digest('hex');
 
-        const payload = {
+        const payload: MessageLogInToSend = {
             username: this.username,
             passwordHash: hash3,
         };
@@ -219,7 +226,7 @@ export class AppComponent implements AfterViewInit {
     handleMouseClick(event: any) {
         if (!this.loggedIn) return;
         const canvas = this.gameScene.nativeElement;
-        const payload = {
+        const payload: MessageWalkToSend = {
             x: this.playerPos.x + (event.layerX - canvas.width / 2) / PIXELS_PER_TILE,
             y: this.playerPos.y + (event.layerY - canvas.height / 2) / PIXELS_PER_TILE,
         };
@@ -227,9 +234,9 @@ export class AppComponent implements AfterViewInit {
         event.preventDefault();
     }
 
-    updatePlayerPos(data: any) {
+    updatePlayerPos(positions: MessagePositionsReceived) {
         this.tickTime = new Date().getTime();
         this.prevPlayerPos.setEqualTo(this.playerPos);
-        this.target.setEqualTo(data[0]);
+        this.target.setEqualTo(positions[0]);
     }
 }
