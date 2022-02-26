@@ -33,6 +33,7 @@ export class AppComponent implements AfterViewInit {
 
     ground?: HTMLImageElement;
     player?: HTMLImageElement;
+    groundLoaded = false;
 
     constructor(private socketService: SocketService, private authService: AuthService) {
         socketService.on(SocketMessageTypes.POSITIONS, (data) =>
@@ -138,7 +139,9 @@ export class AppComponent implements AfterViewInit {
         const cy = Math.floor(this.playerPos.y / 64);
         if (!this.ground || cx !== this.prevChunkPos.x || cy !== this.prevChunkPos.y) {
             const ground = new Image();
+            this.groundLoaded = false;
             ground.src = `assets/textures-32/chunks-64/${cx}-${cy}-0.png`;
+            ground.onload = () => { this.groundLoaded = true; }
             this.prevChunkPos.x = cx;
             this.prevChunkPos.y = cy;
             this.ground = ground;
@@ -150,7 +153,7 @@ export class AppComponent implements AfterViewInit {
     }
 
     async drawGround(ground: HTMLImageElement, px: number, py: number) {
-        if (ground.loading) return;
+        if (!this.groundLoaded) return;
         const canvas = this.gameScene.nativeElement;
         const ctx = canvas.getContext('2d')!;
         const img = await createImageBitmap(ground);

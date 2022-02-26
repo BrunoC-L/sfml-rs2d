@@ -37,14 +37,14 @@ void Rock::interact(const std::shared_ptr<User>& user, int objectState, const st
 
 void Rock::prospect(const std::shared_ptr<User>& user) {
 	GoToObjectRequestEvent(GoToObjectRequestEventData{ user, this, [user, this]() {
-		interactors.push_back({ 1, user });
+		interactors.push_back({ user, 1 });
 		if (!tickObserver.isSet())
 			tickObserver.set([&](const TickEvent::Data& ev) { Resource::tick(); });
 	} }).emit();
 	SubscribeToInteractionInterruptionEvent(SubscribeToInteractionInterruptionEventData{ user, [&]() {
-		/*auto it = std::find(interactors.begin(), interactors.end(), [&](const Interactor& i) { return i.user == user; });
+		auto it = std::find_if(interactors.begin(), interactors.end(), [&](const Interactor& i) { return i.user == user; });
 		if (it != interactors.end())
-			interactors.erase(it);*/
+			interactors.erase(it);
 	} }).emit();
 }
 
@@ -59,9 +59,9 @@ void Rock::tick(Interactor i) {
 	}
 	else {
 		EVENT(GameMessageEvent, i.user, prospects[state]).emit();
-		/*auto it = std::find(interactors.begin(), interactors.end(), i);
+		auto it = std::find_if(interactors.begin(), interactors.end(), [&](const Interactor& j) { return i.user == j.user; });
 		if (it != interactors.end())
-			interactors.erase(it);*/
+			interactors.erase(it);
 	}
 }
 

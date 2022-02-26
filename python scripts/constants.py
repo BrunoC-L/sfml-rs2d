@@ -32,3 +32,14 @@ with open('../src/common/common/constants.h', 'w+') as f:
     f.write(f'#define TILES_PER_CHUNK {TPC}\n')
     f.write(f'#define TEXTURES_FOLDER std::string("textures-{PPT}")\n')
     f.write(f'#define CHUNKS_FOLDER std::string("chunks-{TPC}")\n')
+
+with open('../src/web-client/src/app/utils/constants.ts', 'w+') as f:
+    f.write('/*\nThis file was automatically generated, please do not modify manually, see "python scripts/constants.py"\n*/\n')
+    f.write(f'export const MAX_PLAYERS_ONLINE = {CONFIG["MaxPlayersOnline"]};\n')
+    f.write(f'export const MSPT = {CONFIG["MilliSecondsPerTick"]};\n')
+    f.write(f'export const CHUNK_RADIUS = {CONFIG["ChunkRadius"]};\n')
+    f.write(f'export const PIXELS_PER_TILE = {PPT};\n')
+    f.write(f'export const PIXELS_PER_TILE_ON_MAP = {ORIGINAL_MAP_PIXELS_PER_TILE};\n')
+    f.write(f'export const TILES_PER_CHUNK = {TPC};\n')
+    f.write(f'export const TEXTURES_FOLDER = "textures-{PPT}";\n')
+    f.write(f'export const CHUNKS_FOLDER = "chunks-{TPC}";\n')
