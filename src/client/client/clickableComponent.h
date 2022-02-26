@@ -9,4 +9,8 @@ protected:
 	MouseLeftClickEvent::Observer clickObserver;
 public:
 	ClickableComponent(std::function<void()> onClick, const AnchorTransform& aot, VPixel size);
+	~ClickableComponent() {
+		std::cout << "bop\n";
+		return;
+	}
 };

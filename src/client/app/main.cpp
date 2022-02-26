@@ -1,19 +1,6 @@
 #include "main.h"
 
 int main(int argc, char* argv[]) {
-
-	/*auto onMessageClient = [](const std::string& msg) {
-		std::cout << msg << std::endl;
-	};
-	using namespace std::chrono_literals;
-	std::this_thread::sleep_for(1000ms);
-	TCPSocket socket("localhost", 38838, []() { std::cout << "socket disconnected\n"; }, onMessageClient);
-	socket.connect();
-	while (true) {
-		std::this_thread::sleep_for(1000ms);
-		socket.send("test");
-	}*/
-
 	JSON args;
 	for (int i = 1; i < argc; ++i) {
 		std::string s(argv[i]);

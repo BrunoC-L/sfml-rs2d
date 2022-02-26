@@ -65,7 +65,7 @@ namespace Logging {
 			os << "THREAD_ID: " << std::this_thread::get_id() << ": " << s << "\n";
 			std::string os_s(os.str());
 			do_log_default(os_s);
-			//print(os_s);
+			print(os_s);
 		}
 	}
 
@@ -76,7 +76,7 @@ namespace Logging {
 			os << "THREAD_ID: " << std::this_thread::get_id() << ": " << s << "\n";
 			std::string os_s(os.str());
 			do_log_default(os_s);
-			//print(os_s);
+			print(os_s);
 		}
 	}
 }

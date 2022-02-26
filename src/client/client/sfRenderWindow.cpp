@@ -36,16 +36,19 @@ SFRenderWindow::SFRenderWindow(
 				rightClickInterface->click(ev);
 				return;
 			}
+
 			bool clickedOnRightBanner = rightBanner->mouseIsInRect(ev);
 			if (clickedOnRightBanner) {
 				rightBanner->click(ev);
 				return;
 			}
+
 			bool clickedOnBottomBanner = bottomBanner->mouseIsInRect(ev);
 			if (clickedOnBottomBanner) {
 				bottomBanner->click(ev);
 				return;
 			}
+
 			VTile tileClicked = converter.getPositionInGame(ev.pos);
 			std::shared_ptr<Tile> t = map->getTileFromVTile(tileClicked);
 			if (t)
@@ -59,16 +62,19 @@ SFRenderWindow::SFRenderWindow(
 				abs.x < newUserButton[0][1] &&
 				abs.y > newUserButton[1][0] &&
 				abs.y < newUserButton[1][1];
+
 			if (clickedOnNewUser) {
 				player->signUp();
 				return;
 			}
+
 			int existingUserButton[2][2] = { {690, 942}, {495, 565} };
 			bool clickedOnExistingUser =
 				abs.x > existingUserButton[0][0] &&
 				abs.x < existingUserButton[0][1] &&
 				abs.y > existingUserButton[1][0] &&
 				abs.y < existingUserButton[1][1];
+
 			if (clickedOnExistingUser) {
 				player->login();
 				return;
@@ -120,8 +126,8 @@ SFRenderWindow::SFRenderWindow(
 		rightBanner = std::make_shared<RightBanner>(this->provider, this);
 		bottomBanner = std::make_shared<BottomBanner>(this->provider, this);
 		rightClickInterface = std::make_shared<RightClickInterface>(this->provider, this);
-		/*signUpButton = nullptr;
-		loginButton = nullptr;*/
+		signUpButton = nullptr;
+		loginButton = nullptr;
 	});
 
 	logoutObserver.set([&](const LogoutEvent::Data& ev) {
@@ -129,13 +135,13 @@ SFRenderWindow::SFRenderWindow(
 		bottomBanner = nullptr;
 		rightClickInterface = nullptr;
 
-		/*signUpButton = std::make_shared<Button>(AnchoredOffsetTransform(MiddleAnchorTransform, VPixel(-300, 0)), VPixel(200, 100), sf::Color::Yellow);
+		signUpButton = std::make_shared<Button>(std::make_shared<AnchoredOffsetTransform>(MiddleAnchorTransform, VPixel(-300, 0)), VPixel(200, 100), sf::Color::Yellow);
 		signUpButton->onClick([&]() { player->signUp(); });
 		signUpButton->text("Sign Up", sf::Color::Red);
 
-		loginButton = std::make_shared<Button>(AnchoredOffsetTransform(MiddleAnchorTransform, VPixel(100, 0)), VPixel(200, 100), sf::Color::Yellow);
+		loginButton = std::make_shared<Button>(std::make_shared<AnchoredOffsetTransform>(MiddleAnchorTransform, VPixel(100, 0)), VPixel(200, 100), sf::Color::Yellow);
 		loginButton->onClick([&]() { player->login(); });
-		loginButton->text("Login", sf::Color::Red);*/
+		loginButton->text("Login", sf::Color::Red);
 	});
 }
 
