@@ -39,6 +39,7 @@ export class SocketService {
 
     private onMessageReceived(event: MessageEvent) {
         const msg = this.parseMessage(event);
+        console.log(msg);
         const concernedObservers = this.observers.get(msg.type);
         concernedObservers?.forEach((callback) => callback(msg.data));
     }

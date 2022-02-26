@@ -82,11 +82,13 @@ private:
 public:
     RightBanner(ServiceProvider* provider, AbstractRenderWindow* window);
     void draw();
+
     template <class MouseEvent>
     bool mouseIsInRect(const MouseEvent& ev) {
         int pxFromRightBorder = window->getSize().x - ev.pos.x;
         return pxFromRightBorder <= AbstractMeasures::rightBannerWidth;
     }
+
     void click(const MouseLeftClickEvent::Data& ev) {
         constexpr auto offsetx = AbstractMeasures::minimapRadius + (AbstractMeasures::rightBannerWidth - 2 * AbstractMeasures::minimapRadius) / 2;
         VPixel middleOfMinimap(window->getSize().x - offsetx, AbstractMeasures::minimapRadius);
@@ -108,5 +110,6 @@ public:
             EVENT(WalkClickEvent, position).emit();
         }
     }
+
     void update();
 };

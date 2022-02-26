@@ -51,7 +51,7 @@ void GameDataService::init() {
 			for (auto& e : parseObject(object, chunk)) {
 				map->getChunk(chunk).objectMap.update(e.first, e.second.first);
 				map->updateInteractions(chunk, e.first, &e.second.second);
-				std::cout << "texture " << e.second.first << "\n";
+				//std::cout << "texture " << e.second.first << "\n";
 			}
 	});
 
