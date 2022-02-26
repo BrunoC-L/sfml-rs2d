@@ -22,7 +22,7 @@ void Resource::collect(const std::shared_ptr<User>& user) {
 	if (state != 0)
 		return;
 	EVENT(GoToObjectRequestEvent, user, this, [user, this]() {
-		interactors.push_back({ 0, user });
+		interactors.push_back({ user, 0 });
 		if (!tickObserver.isSet())
 			tickObserver.set([&](const TickEvent::Data& ev) { tick(); });
 	}).emit();

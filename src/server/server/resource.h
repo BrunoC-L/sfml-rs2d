@@ -18,8 +18,8 @@ struct ObjectState {
 };
 
 struct Interactor {
-	int interactionindex;
 	std::shared_ptr<User> user;
+	int interactionindex;
 };
 
 class Resource : public Object {
