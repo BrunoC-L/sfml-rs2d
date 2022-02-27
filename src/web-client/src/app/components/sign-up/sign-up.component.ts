@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class SignUpComponent {
     @Output() cancel = new EventEmitter();
+    @Output() accountCreated = new EventEmitter();
 
     signUpForm = this.formBuilder.group({
         username: 'simon',
@@ -20,5 +21,6 @@ export class SignUpComponent {
     trySignUp(): void {
         const { username, password } = this.signUpForm.value;
         this.authService.signUp(username, password);
+        this.accountCreated.emit();
     }
 }

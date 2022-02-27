@@ -6,7 +6,10 @@
                 <app-login (cancel)="returnToHomeScreen()"></app-login>
             </div>
             <div *ngSwitchCase="NavOptions.SIGN_UP">
-                <app-sign-up (cancel)="returnToHomeScreen()"></app-sign-up>
+                <app-sign-up
+                    (cancel)="returnToHomeScreen()"
+                    (accountCreated)="showLoginForm()"
+                ></app-sign-up>
             </div>
             <div *ngSwitchDefault>
                 <p class="highlighted">Welcome to RuneScape 2D!</p>
