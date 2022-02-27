@@ -1,8 +1,10 @@
 # sfml-rs2d
 
-Non commercial Runescape 2D version. Some assets are property of [Jagex](https://www.jagex.com/en-GB/). [Dev vlogs](https://www.youtube.com/user/thelatestartosrs/videos).
+Non commercial Runescape 2D version. Some assets are property of [Jagex](https://www.jagex.com/en-GB/).
 
-To run the client and server locally:
+[Dev vlogs](https://www.youtube.com/user/thelatestartosrs/videos).
+
+To run the client and server:
 
 1. Contact me if you need help, please use Visual Studio 2019
 2. Setup ODBC connection (OPTIONAL, can instead uncomment the in memory database option in server/app/main.cpp)
