@@ -64,8 +64,7 @@ TEST(clicking_on_resources_received_from_server_sends_correct_interaction_curren
 	socket._send = [&](const std::string& type, const JSON& json) {};
 
 	socket._send = [&](const std::string& type, const JSON& json) {
-		messagesReceived += 1;
-		switch (messagesReceived - 1) {
+		switch (messagesReceived++) {
 			case 0: // when client sends salts request
 				socket.mockReceiveFromServer("salts", JSON("{'tempsalt':'123','permsalt':'321'}"));
 				break;

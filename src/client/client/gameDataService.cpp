@@ -31,7 +31,7 @@ void GameDataService::init() {
 		);
 		int* objects = new int[TILES_PER_CHUNK * TILES_PER_CHUNK](); // mem leak :) ?
 		std::vector<std::pair<VTile, ObjectInteractions>> v;
-		//v.reserve(data.get("size").asInt()); // TODO add this!
+		//v.reserve(data.get("size").asInt());
 		for (const auto& object : data.get("objects").getChildren())
 			for (const auto& e : parseObject(object, chunk)) {
 				objects[int(TILES_PER_CHUNK * e.first.x + e.first.y)] = e.second.first;
@@ -51,7 +51,6 @@ void GameDataService::init() {
 			for (auto& e : parseObject(object, chunk)) {
 				map->getChunk(chunk).objectMap.update(e.first, e.second.first);
 				map->updateInteractions(chunk, e.first, &e.second.second);
-				//std::cout << "texture " << e.second.first << "\n";
 			}
 	});
 
@@ -107,7 +106,7 @@ std::vector<std::pair<VTile, std::pair<int, ObjectInteractions>>> GameDataServic
 	std::vector<std::pair<VTile, std::pair<int, ObjectInteractions>>> res;
 	int x = object.get("x").asInt() % int(TILES_PER_CHUNK);
 	int y = object.get("y").asInt() % int(TILES_PER_CHUNK);
-	std::vector<std::string> interactions(object.get("interactions").size());
+	std::vector<std::string> interactions;
 	for (const auto& i : object.get("interactions").getChildren())
 		interactions.push_back(i.asString());
 	interactions.push_back("Examine");
