@@ -11,7 +11,7 @@ To run the client and server:
     - Make sure you have SQL Server Running
     - look at example.txt in root for examples of connection strings
     - Add an environment variable `RS2D_HOME` pointing to the root of the repo without a '/' or '\' at the end <https://i.imgur.com/3xFRSLl.png>
-3. unzip dependencies
+3. unzip [dependencies](https://github.com/BrunoC-L/sfml-rs2d/tree/master/include)
 4. build the server
 5. run the server (if there is a DB error, it is most likely a problem with step 1! read the first few output lines for DB errors)
 6. build the client
