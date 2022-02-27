@@ -35,9 +35,9 @@ private:
 	std::unordered_set<std::string> displays;
 	std::vector<std::pair<std::string, bool>> keys;
 
-	EventObserver<ResizeEvent> resizeObserver;
-	EventObserver<MouseWheelEvent> wheelObserver;
-	EventObserver<MouseLeftClickEvent> leftClickObserver;
+	ResizeEvent::Observer resizeObserver;
+	MouseWheelEvent::Observer wheelObserver;
+	MouseLeftClickEvent::Observer leftClickObserver;
 
 	VPixel stretch = VPixel(1, 1);
 	float zoom = 1;

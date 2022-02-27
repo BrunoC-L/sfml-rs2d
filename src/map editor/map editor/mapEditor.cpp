@@ -7,7 +7,7 @@ MapEditor::MapEditor() : window(std::make_shared<sf::RenderWindow>(sf::VideoMode
 	setupButtons();
 	setupObservers();
 	se = std::make_shared<SearchEngine>(window, font, drawn, stretch);
-	ResizeEvent().emit();
+	EVENT(ResizeEvent).emit();
 }
 
 void MapEditor::run() {
@@ -58,30 +58,30 @@ void MapEditor::pollEvents() {
 		else if (event.type == sf::Event::KeyPressed)
 			switch (event.text.unicode) {
 			case 71:
-				LeftArrowKeyPressedEvent().emit();
+				EVENT(LeftArrowKeyPressedEvent).emit();
 				break;
 			case 72:
-				RightArrowKeyPressedEvent().emit();
+				EVENT(RightArrowKeyPressedEvent).emit();
 				break;
 			case 58:
-				EnterKeyPressedEvent().emit();
+				EVENT(EnterKeyPressedEvent).emit();
 				break;
 			case 59:
-				BackspaceKeyPressedEvent().emit();
+				EVENT(BackspaceKeyPressedEvent).emit();
 				break;
 			case 60:
-				TabKeyPressedEvent().emit();
+				EVENT(TabKeyPressedEvent).emit();
 				break;
 			default:
 				int code = event.text.unicode;
 				bool isLetter = code < 26;
 				if (isLetter) {
-					LetterKeyPressedEvent(char(97 + code), false).emit();
+					EVENT(LetterKeyPressedEvent, char(97 + code), false).emit();
 					break;
 				}
 				bool isNumber = code < 36;
 				if (isNumber) {
-					LetterKeyPressedEvent(char(22 + code), false).emit();
+					EVENT(LetterKeyPressedEvent, char(22 + code), false).emit();
 					break;
 				}
 			}
@@ -89,22 +89,22 @@ void MapEditor::pollEvents() {
 			switch (event.mouseButton.button) {
 			default:
 			case Left:
-				MouseLeftClickEvent(VPixel(event.mouseButton.x, event.mouseButton.y)).emit();
+				EVENT(MouseLeftClickEvent, VPixel(event.mouseButton.x, event.mouseButton.y)).emit();
 				break;
 			case Right:
-				MouseRightClickEvent(VPixel(event.mouseButton.x, event.mouseButton.y)).emit();
+				EVENT(MouseRightClickEvent, VPixel(event.mouseButton.x, event.mouseButton.y)).emit();
 				break;
 			case Middle:
-				MouseMiddleClickEvent(VPixel(event.mouseButton.x, event.mouseButton.y)).emit();
+				EVENT(MouseMiddleClickEvent, VPixel(event.mouseButton.x, event.mouseButton.y)).emit();
 				break;
 			}
 		}
 		else if (event.type == sf::Event::Resized)
-			ResizeEvent().emit();
+			EVENT(ResizeEvent).emit();
 		else if (event.type == sf::Event::MouseWheelMoved) 
-			MouseWheelEvent(VPixel(event.mouseWheel.x, event.mouseWheel.y), event.mouseWheel.delta).emit();
+			EVENT(MouseWheelEvent, VPixel(event.mouseWheel.x, event.mouseWheel.y), event.mouseWheel.delta).emit();
 		else if (event.type == sf::Event::MouseMoved)
-			MouseMoveEvent(VPixel(event.mouseMove.x, event.mouseMove.y)).emit();
+			EVENT(MouseMoveEvent, VPixel(event.mouseMove.x, event.mouseMove.y)).emit();
 }
 
 VPixel MapEditor::getSize() {
@@ -178,27 +178,28 @@ void MapEditor::setupMap() {
 }
 
 void MapEditor::setupObservers() {
-	resizeObserver.set([&](ResizeEvent& ev) {
+	resizeObserver.set([&](const ResizeEvent::Data& ev) {
 		float x = getSize().x / startingSize.x;
 		float y = getSize().y / startingSize.y;
 		stretch = VPixel(x, y);
 		drawn = false;
 	});
 
-	wheelObserver.set([&](MouseWheelEvent& ev) {
+	wheelObserver.set([&](const MouseWheelEvent::Data& ev) {
 		if (ev.pos.y > window->getSize().y - 300 * stretch.y)
 			return;
-		if (ev.delta == 0)
+		std::cout << "remember to fix this\n";
+		/*if (ev.delta == 0)
 			ev.delta = scroll;
 		else
-			scroll = ev.delta;
+			scroll = ev.delta;*/
 		zoom = zoom * (1 + ev.delta * 0.05f);
 		zoom = std::max(0.1f, zoom);
 		zoom = std::min(1000.f, zoom);
 		drawn = false;
 	});
 
-	leftClickObserver.set([&](const MouseLeftClickEvent& ev) {
+	leftClickObserver.set([&](const MouseLeftClickEvent::Data& ev) {
 		if (ev.pos.y > window->getSize().y - 300 * stretch.y)
 			return;
 		int left, right, top, bottom;

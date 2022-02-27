@@ -27,22 +27,22 @@ SearchEngine::SearchEngine(std::shared_ptr<sf::RenderWindow> window, sf::Font& f
 	banner = sf::RectangleShape(sf::Vector2f(window->getSize().x, bottomBannerHeight));
 	banner.setPosition(0, window->getSize().y - bottomBannerHeight);
 
-	letterObserver.set([&](LetterKeyPressedEvent& ev) {
+	letterObserver.set([&](const LetterKeyPressedEvent::Data& ev) {
 		currentSearch += std::tolower(ev.letter);
 		currentSearchText.setString(currentSearch);
 		drawn = false;
 	});
-	enterObserver.set([&](EnterKeyPressedEvent& ev) {
+	enterObserver.set([&](const EnterKeyPressedEvent::Data& ev) {
 		updateResults();
 		drawn = false;
 	});
-	backspaceObserver.set([&](BackspaceKeyPressedEvent& ev) {
+	backspaceObserver.set([&](const BackspaceKeyPressedEvent::Data& ev) {
 		if (!currentSearch.empty())
 			currentSearch.erase(std::prev(currentSearch.end()));
 		currentSearchText.setString(currentSearch);
 		drawn = false;
 	});
-	leftClickObserver.set([&](MouseLeftClickEvent& ev) {
+	leftClickObserver.set([&](const MouseLeftClickEvent::Data& ev) {
 		if (ev.pos.y <= this->window->getSize().y - 300 * stretch.y)
 			return;
 		auto scaled = (ev.pos - VPixel(0, this->window->getSize().y - 300 * stretch.y))/stretch;

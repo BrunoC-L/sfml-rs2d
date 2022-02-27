@@ -48,6 +48,8 @@
     <ClCompile Include="player positions.cpp">
       <Filter>tests\player positions</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="pch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="globalWindow.h">
@@ -65,5 +67,6 @@
     <ClInclude Include="socketMock2.h">
       <Filter>mocks\socket</Filter>
     </ClInclude>
+    <ClInclude Include="pch.h" />
   </ItemGroup>
 </Project>

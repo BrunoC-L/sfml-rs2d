@@ -10,17 +10,26 @@ const JSON& Object::asJSON() {
 	if (!upToDate) {
 		upToDate = true;
 		repr = JSON();
-		repr["fileName"] = fileName;
+		//repr["fileName"] = fileName;
 		repr["name"] = getName();
 		repr["state"] = std::to_string(getState());
 		repr["x"] = std::to_string(tile->position.x);
 		repr["y"] = std::to_string(tile->position.y);
+
 		repr["size"] = "[]";
+		repr["interactions"].reserve(2);
 		repr["size"].push(std::to_string(int(size().x)));
 		repr["size"].push(std::to_string(int(size().y)));
+
 		repr["interactions"] = "[]";
+		repr["interactions"].reserve(getInteractions().size());
 		for (const auto& i : getInteractions())
 			repr["interactions"].push(i);
+
+		repr["textures"] = "[]";
+		repr["textures"].reserve(getInteractions().size());
+		for (const auto& i : getInteractions())
+			repr["textures"].push(i);
 	}
 	return repr;
 }

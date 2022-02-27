@@ -107,16 +107,19 @@ std::vector<std::pair<VTile, std::pair<int, ObjectInteractions>>> GameDataServic
 	std::vector<std::pair<VTile, std::pair<int, ObjectInteractions>>> res;
 	int x = object.get("x").asInt() % int(TILES_PER_CHUNK);
 	int y = object.get("y").asInt() % int(TILES_PER_CHUNK);
-	std::vector<std::string> interactions;
+	std::vector<std::string> interactions(object.get("interactions").size());
 	for (const auto& i : object.get("interactions").getChildren())
 		interactions.push_back(i.asString());
 	interactions.push_back("Examine");
 	ObjectInteractions oi(VTile(TILES_PER_CHUNK * chunk.x + x, TILES_PER_CHUNK * chunk.y + y), object.get("name").asString(), interactions, object.get("state").asInt());
-	int sizeX = object.get("size").getChildren()[0].asInt();
-	int sizeY = object.get("size").getChildren()[1].asInt();
+
 	std::string fileName = object.get("fileName").asString();
 	std::string nameInFile = fileName + "-" + object.get("state").asString() + " 0-0";
 	int c = name2texture[nameInFile];
+
+	const auto& size = object.get("size").getChildren();
+	int sizeX = size[0].asInt();
+	int sizeY = size[1].asInt();
 	for (int dx = 0; dx < sizeX; ++dx)
 		for (int dy = 0; dy < sizeY; ++dy)
 			res.push_back({ VTile(x + dx, y + dy), { c + sizeY * dx + dy, oi} });

@@ -8,10 +8,10 @@
 
 class SearchEngine {
 private:
-	EventObserver<LetterKeyPressedEvent> letterObserver;
-	EventObserver<EnterKeyPressedEvent> enterObserver;
-	EventObserver<BackspaceKeyPressedEvent> backspaceObserver;
-	EventObserver<MouseLeftClickEvent> leftClickObserver;
+	LetterKeyPressedEvent::Observer letterObserver;
+	EnterKeyPressedEvent::Observer enterObserver;
+	BackspaceKeyPressedEvent::Observer backspaceObserver;
+	MouseLeftClickEvent::Observer leftClickObserver;
 	sf::RectangleShape banner;
 	int bottomBannerHeight = 300;
 	std::shared_ptr<sf::RenderWindow> window;
