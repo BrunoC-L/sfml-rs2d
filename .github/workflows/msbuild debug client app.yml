@@ -21,7 +21,7 @@ jobs:
     
     - name: Unzip-Dependencies
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: tar -xf %RS2D_HOME%/include/websocketpp.zip && move /Y websocketpp %RS2D_HOME%/include
+      run: tar -xf %RS2D_HOME%/include/SFML-2.5.1.zip && move /Y websocketpp %RS2D_HOME%/include
 
     - name: Build-App
       working-directory: ${{env.GITHUB_WORKSPACE}}
