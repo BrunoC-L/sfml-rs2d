@@ -1,0 +1,25 @@
+<div id="root">
+    <app-animated-background></app-animated-background>
+    <div id="homescreen-dialog">
+        <div [ngSwitch]="currentNavigation">
+            <div *ngSwitchCase="NavOptions.LOGIN">
+                <app-login (cancel)="returnToHomeScreen()"></app-login>
+            </div>
+            <div *ngSwitchCase="NavOptions.SIGN_UP">
+                <app-sign-up
+                    (cancel)="returnToHomeScreen()"
+                    (accountCreated)="showLoginForm()"
+                ></app-sign-up>
+            </div>
+            <div *ngSwitchDefault>
+                <p class="highlighted">Welcome to RuneScape 2D!</p>
+                <div>
+                    <button (click)="showSignUpForm()" class="stone-btn">New User</button>
+                    <button (click)="showLoginForm()" class="stone-btn">
+                        Existing User
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,11 +1,11 @@
 <p class="highlighted">Enter your username/email & password</p>
-<form [formGroup]="loginForm">
+<form [formGroup]="signUpForm">
     <label for="username">Username:</label>
     <input id="username" type="text" formControlName="username" />
     <label for="password">Password:</label>
     <input id="password" type="text" formControlName="password" />
 </form>
 <div>
-    <button (click)="tryLogin()" class="stone-btn">Login</button>
+    <button (click)="trySignUp()" class="stone-btn">Sign Up</button>
     <button (click)="cancel.emit()" class="stone-btn">Cancel</button>
 </div>

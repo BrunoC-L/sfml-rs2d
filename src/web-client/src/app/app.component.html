@@ -1,7 +1,2 @@
-<input type="text" [(ngModel)]="username" />
-<input type="text" [(ngModel)]="password" />
-
-<button (click)="signUp()">Sign Up</button>
-<button (click)="login()">Log In</button>
-
-<canvas #gameScene></canvas>
+<app-homescreen *ngIf="!loggedIn"></app-homescreen>
+<canvas [style.visibility]="loggedIn ? 'visible' : 'hidden'" #gameScene></canvas>

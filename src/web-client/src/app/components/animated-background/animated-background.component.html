@@ -1,0 +1,34 @@
+<!-- BACKGROUND -->
+<img
+    id="background-img"
+    src="/assets/login/background.png"
+    alt="login vanilla background"
+/>
+
+<!-- LEFT FIRES -->
+<img
+    class="fire-img-large left"
+    src="/assets/login/fire_large.gif"
+    alt="brazier fire large"
+/>
+<img
+    *ngFor="let offset of smallFireOffsets"
+    [style.left]="offset + '%'"
+    class="fire-img-small"
+    src="/assets/login/fire_small.gif"
+    alt="brazier fire small"
+/>
+
+<!-- RIGHT FIRES -->
+<img
+    class="fire-img-large right"
+    src="/assets/login/fire_large.gif"
+    alt="brazier fire large"
+/>
+<img
+    *ngFor="let offset of smallFireOffsets"
+    [style.right]="offset + '%'"
+    class="fire-img-small"
+    src="/assets/login/fire_small.gif"
+    alt="brazier fire small"
+/>

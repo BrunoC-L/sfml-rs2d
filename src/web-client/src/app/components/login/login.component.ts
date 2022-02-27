@@ -1,15 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
+    @Output() cancel = new EventEmitter();
 
-  constructor() { }
+    loginForm = this.formBuilder.group({
+        username: 'simon',
+        password: 'simon',
+    });
 
-  ngOnInit(): void {
-  }
+    constructor(private formBuilder: FormBuilder, private authService: AuthService) {}
 
+    tryLogin(): void {
+        const { username, password } = this.loginForm.value;
+        this.authService.login(username, password);
+    }
 }
