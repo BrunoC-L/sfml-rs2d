@@ -5,7 +5,7 @@
         "client" : "${RS2D_HOME}/logs/client"
     },
 
-    "PixelsPerTile":  32,
+    "PixelsPerTile":  4,
     "OriginalMapPixelsPerTile": 4,
     "TilesPerChunk": 64,
     "MapSize": {
