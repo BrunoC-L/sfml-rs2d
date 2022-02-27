@@ -21,8 +21,7 @@ jobs:
     
     - name: Unzip-Dependencies
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: cd D:/a/sfml-rs2d/sfml-rs2d/include && \
-           tar -xf SFML-2.5.1.zip
+      run: cd D:/a/sfml-rs2d/sfml-rs2d/include && tar -xf SFML-2.5.1.zip
 
     - name: Build-App
       working-directory: ${{env.GITHUB_WORKSPACE}}
