@@ -7,17 +7,22 @@ img {
     height: 100vh;
 }
 
-.fire {
+.fire-img-large {
     position: absolute;
     top: calc(53% - 100px);
     height: 100px;
     width: 12%;
+    &.left {
+        left: 0;
+    }
+    &.right {
+        right: 0;
+    }
 }
 
-#fire-img-1 {
-    left: 0;
-}
-
-#fire-img-2 {
-    right: 0;
+.fire-img-small {
+    position: absolute;
+    top: calc(53% - 128px);
+    height: 128px;
+    width: 5%;
 }

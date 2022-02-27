@@ -23,8 +23,6 @@ export class AppComponent implements AfterViewInit {
     @ViewChild('gameScene', { static: false }) gameScene!: ElementRef<HTMLCanvasElement>;
 
     loggedIn = false;
-    username = 'simon';
-    password = 'simon';
     tickTime = 0;
     prevPlayerPos = new Vector();
     playerPos = new Vector();
@@ -65,14 +63,6 @@ export class AppComponent implements AfterViewInit {
         this.gameScene.nativeElement.addEventListener('click', (event) => {
             this.handleMouseClick(event);
         });
-    }
-
-    signUp() {
-        this.authService.signUp(this.username, this.password);
-    }
-
-    login() {
-        this.authService.login(this.username, this.password);
     }
 
     setCanvasSize() {
@@ -141,7 +131,9 @@ export class AppComponent implements AfterViewInit {
             const ground = new Image();
             this.groundLoaded = false;
             ground.src = `assets/textures-32/chunks-64/${cx}-${cy}-0.png`;
-            ground.onload = () => { this.groundLoaded = true; }
+            ground.onload = () => {
+                this.groundLoaded = true;
+            };
             this.prevChunkPos.x = cx;
             this.prevChunkPos.y = cy;
             this.ground = ground;
