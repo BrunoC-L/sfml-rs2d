@@ -21,9 +21,7 @@ jobs:
     
     - name: Unzip-Dependencies
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: tar -xf %RS2D_HOME%/include/SFML-2.5.1.zip && move /Y SFML-2.5.1 %RS2D_HOME%/include && \
-           tar -xf %RS2D_HOME%/include/boost_1_77_0.zip && move /Y boost_1_77_0 %RS2D_HOME%/include && \
-           tar -xf %RS2D_HOME%/include/websocketpp.zip && move /Y websocketpp %RS2D_HOME%/include
+      run: cd D:/a/sfml-rs2d/sfml-rs2d/include && tar -xf SFML-2.5.1.zip && tar -xf boost_1_77_0.zip && tar -xf websocketpp.zip
 
     - name: Build-App
       working-directory: ${{env.GITHUB_WORKSPACE}}
