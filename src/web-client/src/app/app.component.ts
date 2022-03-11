@@ -9,9 +9,12 @@ import { SocketMessageTypes } from './enums/SocketMessageTypes';
 import { MessageLogInReceived } from './models/socketMessages/MessageLogInReceived';
 import { MessagePositionsReceived } from './models/socketMessages/MessagePositionsReceived';
 import { MessageWalkToSend } from './models/socketMessages/MessageWalkToSend';
+import { Texture } from './models/Texture';
+import { AssetsService } from './services/assets/assets.service';
 import { AuthService } from './services/auth/auth.service';
 import { SocketService } from './services/socket/socket.service';
 import { Vector } from './utils/math';
+import { TexturesPaths } from './utils/textures_paths';
 
 const PIXELS_PER_TILE = 32;
 @Component({
@@ -33,7 +36,11 @@ export class AppComponent implements AfterViewInit {
     player?: HTMLImageElement;
     groundLoaded = false;
 
-    constructor(private socketService: SocketService, private authService: AuthService) {
+    constructor(
+        private socketService: SocketService,
+        private authService: AuthService,
+        private assetsService: AssetsService
+    ) {
         socketService.on(SocketMessageTypes.POSITIONS, (data) =>
             this.handlePositionsReceived(data)
         );
@@ -83,7 +90,7 @@ export class AppComponent implements AfterViewInit {
     update() {
         if (!this.loggedIn) return;
         const current = new Date().getTime();
-        const tickRateMS = 60;
+        const tickRateMS = 600;
         const delta = (current - this.tickTime) / tickRateMS;
         this.playerPos.x = this.clamp(
             this.prevPlayerPos.x + (this.target.x - this.prevPlayerPos.x) * delta,
@@ -128,15 +135,15 @@ export class AppComponent implements AfterViewInit {
         const cx = Math.floor(this.playerPos.x / 64);
         const cy = Math.floor(this.playerPos.y / 64);
         if (!this.ground || cx !== this.prevChunkPos.x || cy !== this.prevChunkPos.y) {
-            const ground = new Image();
             this.groundLoaded = false;
-            ground.src = `assets/textures-32/chunks-64/${cx}-${cy}-0.png`;
-            ground.onload = () => {
-                this.groundLoaded = true;
-            };
+            this.assetsService
+                .get(TexturesPaths.getChunkPath(cx, cy))
+                .then((texture: Texture) => {
+                    this.groundLoaded = true;
+                    this.ground = texture.image;
+                });
             this.prevChunkPos.x = cx;
             this.prevChunkPos.y = cy;
-            this.ground = ground;
         } else {
             const px = this.playerPos.x - cx * 64;
             const py = this.playerPos.y - cy * 64;
@@ -163,9 +170,9 @@ export class AppComponent implements AfterViewInit {
 
     updatePlayerImage() {
         if (!this.player) {
-            const player = new Image();
-            player.src = `assets/player.png`;
-            this.player = player;
+            this.assetsService.get(TexturesPaths.PLAYER).then((texture: Texture) => {
+                this.player = texture.image;
+            });
         } else {
             this.drawPlayer(this.player);
         }
