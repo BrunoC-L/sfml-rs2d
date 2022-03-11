@@ -13,19 +13,22 @@ class Object {
 protected:
 	std::string fileName;
 	JSON repr;
+	JSON _textures;
 	const Tile* tile;
 	unsigned id;
 	std::string currentString;
 	bool upToDate = false;
 	int state;
+	virtual void updateRepresentation();
 public:
 	Object(std::string fileName, Tile* tile);
-	unsigned getId();
-	void setId(unsigned id);
+	/*unsigned getId();
+	void setId(unsigned id);*/
 	int getState();
 	virtual void setState(int state);
 	const Tile* getTile();
 	const JSON& asJSON();
+	const JSON& textures();
 
 	virtual void build() = 0;
 

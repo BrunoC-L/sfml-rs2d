@@ -5,14 +5,6 @@
 
 GameDataService::GameDataService(ServiceProvider* provider, GameTickProgress* tracker) : Service(provider), tracker(tracker) {
     provider->set(GAMEDATA, this);
-	std::ifstream name2textureIndex(getSession().get("RS2D_HOME").asString() + "/resource/objects/objectName2texture.txt");
-	if (!name2textureIndex.is_open())
-		return;
-	std::string nameOfTexture;
-	while (std::getline(name2textureIndex, nameOfTexture)) {
-		auto content = split(nameOfTexture, ":");
-		name2texture[content[0] + content[1]] = stoi(content[2]);
-	}
 }
 
 void GameDataService::init() {
@@ -112,15 +104,11 @@ std::vector<std::pair<VTile, std::pair<int, ObjectInteractions>>> GameDataServic
 	interactions.push_back("Examine");
 	ObjectInteractions oi(VTile(TILES_PER_CHUNK * chunk.x + x, TILES_PER_CHUNK * chunk.y + y), object.get("name").asString(), interactions, object.get("state").asInt());
 
-	std::string fileName = object.get("fileName").asString();
-	std::string nameInFile = fileName + "-" + object.get("state").asString() + " 0-0";
-	int c = name2texture[nameInFile];
-
 	const auto& size = object.get("size").getChildren();
 	int sizeX = size[0].asInt();
 	int sizeY = size[1].asInt();
 	for (int dx = 0; dx < sizeX; ++dx)
 		for (int dy = 0; dy < sizeY; ++dy)
-			res.push_back({ VTile(x + dx, y + dy), { c + sizeY * dx + dy, oi} });
+			res.push_back({ VTile(x + dx, y + dy), { object.get("textures").get(dx * sizeY + dy).asInt(), oi} });
 	return res;
 }

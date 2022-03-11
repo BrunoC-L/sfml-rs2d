@@ -1,9 +1,29 @@
 {
-    "type": "tree",
-    "size": 2,
-    "names": ["Tree", "Tree stump"],
-    "examines": [ "A commonly found tree.", "A tree stump, the tree will grow back soon"],
-    "level requirement": 1,
-    "lives": 1,
-    "reward": "Logs"
+	"type": "tree",
+	"size": 2,
+	"names": [
+		"Tree",
+		"Tree stump"
+	],
+	"examines": [
+		"A commonly found tree.",
+		"A tree stump, the tree will grow back soon"
+	],
+	"level requirement": 1,
+	"lives": 1,
+	"reward": "Logs",
+	"textures": [
+		[
+			3,
+			4,
+			5,
+			6
+		],
+		[
+			7,
+			8,
+			9,
+			10
+		]
+	]
 }

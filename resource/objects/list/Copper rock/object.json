@@ -1,8 +1,19 @@
 {
-    "type": "rock",
-    "prospects": ["This rock contains copper.", "This rock contained copper."],
-    "size": 1,
-    "level requirement": 1,
-    "lives": 1,
-    "reward": "Copper ore"
+	"type": "rock",
+	"prospects": [
+		"This rock contains copper.",
+		"This rock contained copper."
+	],
+	"size": 1,
+	"level requirement": 1,
+	"lives": 1,
+	"reward": "Copper ore",
+	"textures": [
+		[
+			1
+		],
+		[
+			2
+		]
+	]
 }

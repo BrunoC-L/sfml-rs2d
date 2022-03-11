@@ -7,6 +7,7 @@
 #include "movingPredicate.h"
 #include "random.h"
 #include "scheduleTaskEvent.h"
+#include "json.h"
 
 struct ObjectState {
 	std::string name;
@@ -15,6 +16,7 @@ struct ObjectState {
 	std::vector<VTile> interactibleTiles;
 	VTile size;
 	bool calculatedInteractibleTiles;
+	JSON textures;
 };
 
 struct Interactor {
@@ -34,9 +36,9 @@ protected:
 	void tick();
 	virtual void tick(Interactor) = 0;
 	JSON json;
+	virtual void updateRepresentation() override;
 public:
 	Resource(std::string&& fileName, JSON&& json, Tile* tile);
-	virtual void build() override;
 	virtual const std::vector<VTile>& getInteractibleTiles() override;
 	virtual VTile size() override;
 	virtual const std::vector<std::string>& getInteractions() override;

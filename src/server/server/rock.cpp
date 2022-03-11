@@ -9,13 +9,14 @@ void Rock::build() {
 	std::vector<std::string> interactions[2] = { { "Mine", "Prospect" }, { "Prospect" } };
 	prospects[0] = json.get("prospects").getChildren()[0].asString();
 	prospects[1] = json.get("prospects").getChildren()[1].asString();
-	for (int i = 0; i < 2; ++i) {
+	for (int i : {0, 1}) {
 		ObjectState state;
 		state.name = "Rock";
 		state.examine = "A rock.";
 		state.size = VTile(size, size);
 		state.interactions = std::move(interactions[i]);
 		state.calculatedInteractibleTiles = false;
+		state.textures = json.get("textures").get(i);
 		states.emplace_back(state);
 	}
 }

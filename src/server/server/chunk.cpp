@@ -76,16 +76,17 @@ void Chunk::loadObjects() {
 		const int tx = stoi(x_y[0]), ty = stoi(x_y[1]);
 		JSON json(content[1][0] == ' ' ? content[1].substr(1) : content[1]);
 		for (auto& objectFileNameJSON : json.getChildren()) {
-			std::string objectName = objectFileNameJSON.asString();
-			std::string objectFileName = getObjectFileNameWithPath(objectName);
-			std::ifstream objectFile(objectFileName);
+			std::string objectFileName = objectFileNameJSON.asString();
+			std::string objectFileNameFull = getObjectFileNameWithPath(objectFileName);
+			std::ifstream objectFile(objectFileNameFull);
 			if (!objectFile.is_open())
 				throw std::runtime_error("Couldn't open file: " + fileName);
-			std::string fileStr;
+			std::string fileJSONString;
+			fileJSONString.reserve(200);
 			std::istreambuf_iterator<char> inputIt(objectFile), emptyInputIt;
-			std::back_insert_iterator<std::string> stringInsert(fileStr);
+			std::back_insert_iterator<std::string> stringInsert(fileJSONString);
 			copy(inputIt, emptyInputIt, stringInsert);
-			tiles[tx][ty]->addObject(objectFactory.create(objectName, fileStr, tiles[tx][ty]));
+			tiles[tx][ty]->addObject(objectFactory.create(objectFileName, fileJSONString, tiles[tx][ty]));
 		}
 	}
 	file.close();

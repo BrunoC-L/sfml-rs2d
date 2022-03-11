@@ -6,13 +6,14 @@ void Tree::build() {
 	int requirement = json.get("level requirement").asInt();
 	int lives = json.get("lives").asInt();
 	std::vector<std::string> interactions[2] = { {"Chop"}, {} };
-	for (int i = 0; i < 2; ++i) {
+	for (int i : {0, 1}) {
 		ObjectState state;
 		state.name = json.get("names").getChildren()[i].asString();
 		state.examine = json.get("examines").getChildren()[i].asString();
 		state.size = VTile(size, size);
 		state.interactions = std::move(interactions[i]);
 		state.calculatedInteractibleTiles = false;
+		state.textures = json.get("textures").get(i);
 		states.emplace_back(state);
 	}
 }

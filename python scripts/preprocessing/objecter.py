@@ -27,10 +27,10 @@ def objecter(args):
     textureIndex = 1 # leave 0 transparent
     with open('../resource/objects/objectName2texture.txt', 'w+') as map:
         for object in objects:
-            with open(f'{objectsDir}/{object}/object.json', 'r') as f:
-                if verbose:
-                    print(object)
-                for dir in [dir for dir in listdir(f'{objectsDir}/{object}/img/') if path.isdir(f'{objectsDir}/{object}/img/{dir}')]:
+            texturesjsonarr = []
+            for dir in listdir(f'{objectsDir}/{object}/img/'):
+                if path.isdir(f'{objectsDir}/{object}/img/{dir}'):
+                    texturesjsonarr += [[]]
                     imageNames = listdir(f'{objectsDir}/{object}/img/{dir}')
                     for imageName in imageNames:
                         image = Image.open(f'{objectsDir}/{object}/img/{dir}/{imageName}')
@@ -40,7 +40,12 @@ def objecter(args):
                         textures.paste(image, (x_offset, y_offset))
                         x_y = imageName.split('.')[0] # 0-0.png -> 0-0
                         map.write(f'{object}-{dir}: {x_y}: {textureIndex}\n')
+                        texturesjsonarr[-1] += [textureIndex]
                         textureIndex += 1
+            objfilecontentbeforetextures = json.load(open(f'{objectsDir}/{object}/object.json', 'r'))
+            objfilecontentbeforetextures['textures'] = texturesjsonarr
+            with open(f'{objectsDir}/{object}/object.json', 'w+') as objfile:
+                objfile.write(json.dumps(objfilecontentbeforetextures, indent='\t') + "\n")
     textures.save(f'../assets/textures-{PPT}/objects.png', 'png')
 
 if __name__ == '__main__':
