@@ -45,11 +45,11 @@ void SocketServerService::on(std::string msgType, std::function<void(std::shared
 }
 
 void SocketServerService::send(std::shared_ptr<User> user, std::string type, const JSON& data) {
-    auto socket = userToSocket.at(user);
-    if (!socket)
+    auto socketit = userToSocket.find(user);
+    if (socketit == userToSocket.end())
         return;
     auto str = "{\"type\": \"" + type + "\", \"data\": " + data.asString() + "}";
-    socket->send(str);
+    socketit->second->send(str);
 }
 
 void SocketServerService::init() {
