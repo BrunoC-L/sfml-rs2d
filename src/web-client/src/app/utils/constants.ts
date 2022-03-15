@@ -7,5 +7,5 @@ export const CHUNK_RADIUS = 2;
 export const PIXELS_PER_TILE = 4;
 export const PIXELS_PER_TILE_ON_MAP = 4;
 export const TILES_PER_CHUNK = 64;
-export const TEXTURES_FOLDER = 'textures-32';
-export const CHUNKS_FOLDER = 'chunks-64';
+export const TEXTURES_FOLDER = "textures-4";
+export const CHUNKS_FOLDER = "chunks-64";

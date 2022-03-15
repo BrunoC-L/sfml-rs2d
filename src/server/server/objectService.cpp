@@ -7,8 +7,9 @@ ObjectService::ObjectService(ServiceProvider* provider) : Service(provider) {
 	});
 
 	tickObserver.set([&](const TickEvent::Data& ev) {
-		for (const auto& user : userService->getAllUsers())
-			updatePlayerChunk(user);
+		for (const auto user : userService->getAllUsers())
+			if (user)
+				updatePlayerChunk(user);
 		for (int x = 0; x < 29; ++x)
 			for (int y = 0; y < 25; ++y)
 				changes[x][y] = {};
