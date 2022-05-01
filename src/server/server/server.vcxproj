@@ -18,120 +18,38 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="chunk.cpp" />
-    <ClCompile Include="db.cpp" />
-    <ClCompile Include="inMemoryDB.cpp" />
-    <ClCompile Include="map.cpp" />
-    <ClCompile Include="object.cpp" />
-    <ClCompile Include="objectFactory.cpp" />
-    <ClCompile Include="odbc.cpp" />
-    <ClCompile Include="packets.cpp" />
-    <ClCompile Include="playerActionService.cpp" />
-    <ClCompile Include="playerWalkAction.cpp" />
-    <ClCompile Include="resource.cpp" />
-    <ClCompile Include="objectService.cpp" />
-    <ClCompile Include="rock.cpp" />
-    <ClCompile Include="service.h" />
-    <ClCompile Include="socketServer.cpp" />
-    <ClCompile Include="taskScheduler.cpp" />
-    <ClCompile Include="tile.cpp" />
-    <ClCompile Include="tree.cpp" />
-    <ClCompile Include="user.cpp" />
-    <ClCompile Include="userService.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="abstractDB.h" />
-    <ClInclude Include="abstractMap.h" />
-    <ClInclude Include="abstractPlayerActionService.h" />
-    <ClInclude Include="abstractObjectService.h" />
-    <ClInclude Include="abstractServices.h" />
-    <ClInclude Include="abstractSocketServer.h" />
-    <ClInclude Include="abstractTaskScheduler.h" />
-    <ClInclude Include="abstractUserService.h" />
-    <ClInclude Include="app.h" />
-    <ClInclude Include="chunk.h" />
-    <ClInclude Include="costLogger.h" />
-    <ClInclude Include="db.h" />
-    <ClInclude Include="gameMessageEvent.h" />
-    <ClInclude Include="goToObjectRequestEvent.h" />
-    <ClInclude Include="inMemoryDB.h" />
-    <ClInclude Include="rock.h" />
-    <ClInclude Include="JSONSFMLSocketServer.h" />
-    <ClInclude Include="loginEvent.h" />
-    <ClInclude Include="logoutEvent.h" />
-    <ClInclude Include="map.h" />
-    <ClInclude Include="movingPredicate.h" />
-    <ClInclude Include="object.h" />
-    <ClInclude Include="objectCreatedEvent.h" />
-    <ClInclude Include="objectFactory.h" />
-    <ClInclude Include="objectStateChangedEvent.h" />
-    <ClInclude Include="odbc.h" />
-    <ClInclude Include="packets.h" />
-    <ClInclude Include="pathfinder.h" />
-    <ClInclude Include="playerAction.h" />
-    <ClInclude Include="playerActionService.h" />
-    <ClInclude Include="playerChunkChangeEvent.h" />
-    <ClInclude Include="playerMoveEvent.h" />
-    <ClInclude Include="playerPositionChangeEvent.h" />
-    <ClInclude Include="playerWalkAction.h" />
-    <ClInclude Include="requestEvent.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="objectService.h" />
-    <ClInclude Include="scheduleTaskEvent.h" />
-    <ClInclude Include="serverServiceProvider.h" />
-    <ClInclude Include="services.h" />
-    <ClInclude Include="SFMLSocketServer.h" />
-    <ClInclude Include="socket.h" />
-    <ClInclude Include="socketServer.h" />
-    <ClInclude Include="subscribeToInteractionInterruption.h" />
-    <ClInclude Include="taskScheduler.h" />
-    <ClInclude Include="tickEvent.h" />
-    <ClInclude Include="tile.h" />
-    <ClInclude Include="tree.h" />
-    <ClInclude Include="user.h" />
-    <ClInclude Include="userService.h" />
-    <ClInclude Include="websocketppserver.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\common\common\common.vcxproj">
-      <Project>{1c7e8b8b-b052-4b7f-ac15-d687c038ba42}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="cpp.hint" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{538e3162-aaef-43c7-9fba-324f56273b1b}</ProjectGuid>
+    <ProjectGuid>{e645c70b-62dd-4f73-b15a-c13f6705ac07}</ProjectGuid>
     <RootNamespace>server</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>server</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -171,15 +89,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\include\SFML-2.5.1\include;..\..\..\include\websocketpp;..\..\..\include\boost_1_77_0;..\..\common\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\include\SFML-2.5.1\include;C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common;C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\include\websocketpp;C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\include\boost_1_77_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SFML_RS2D_HOME)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\include\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-network-d.lib;sfml-system-d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <Lib />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -203,13 +121,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\SFML-2.5.1\include;..\..\common\common\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sfml-system-d.lib;sfml-network-d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\SFML-2.5.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -228,6 +143,86 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="chunk.cpp" />
+    <ClCompile Include="db.cpp" />
+    <ClCompile Include="inMemoryDB.cpp" />
+    <ClCompile Include="map.cpp" />
+    <ClCompile Include="object.cpp" />
+    <ClCompile Include="objectFactory.cpp" />
+    <ClCompile Include="objectService.cpp" />
+    <ClCompile Include="odbc.cpp" />
+    <ClCompile Include="packets.cpp" />
+    <ClCompile Include="playerActionService.cpp" />
+    <ClCompile Include="playerWalkAction.cpp" />
+    <ClCompile Include="resource.cpp" />
+    <ClCompile Include="rock.cpp" />
+    <ClCompile Include="socketServer.cpp" />
+    <ClCompile Include="taskScheduler.cpp" />
+    <ClCompile Include="tile.cpp" />
+    <ClCompile Include="tree.cpp" />
+    <ClCompile Include="user.cpp" />
+    <ClCompile Include="userService.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="abstractDB.h" />
+    <ClInclude Include="abstractMap.h" />
+    <ClInclude Include="abstractObjectService.h" />
+    <ClInclude Include="abstractPlayerActionService.h" />
+    <ClInclude Include="abstractServices.h" />
+    <ClInclude Include="abstractSocketServer.h" />
+    <ClInclude Include="abstractTaskScheduler.h" />
+    <ClInclude Include="abstractUserService.h" />
+    <ClInclude Include="app.h" />
+    <ClInclude Include="chunk.h" />
+    <ClInclude Include="costLogger.h" />
+    <ClInclude Include="db.h" />
+    <ClInclude Include="gameMessageEvent.h" />
+    <ClInclude Include="goToObjectRequestEvent.h" />
+    <ClInclude Include="inMemoryDB.h" />
+    <ClInclude Include="JSONSFMLSocketServer.h" />
+    <ClInclude Include="loginEvent.h" />
+    <ClInclude Include="logoutEvent.h" />
+    <ClInclude Include="map.h" />
+    <ClInclude Include="movingPredicate.h" />
+    <ClInclude Include="object.h" />
+    <ClInclude Include="objectCreatedEvent.h" />
+    <ClInclude Include="objectFactory.h" />
+    <ClInclude Include="objectService.h" />
+    <ClInclude Include="objectStateChangedEvent.h" />
+    <ClInclude Include="odbc.h" />
+    <ClInclude Include="packets.h" />
+    <ClInclude Include="pathfinder.h" />
+    <ClInclude Include="playerAction.h" />
+    <ClInclude Include="playerActionService.h" />
+    <ClInclude Include="playerChunkChangeEvent.h" />
+    <ClInclude Include="playerMoveEvent.h" />
+    <ClInclude Include="playerPositionChangeEvent.h" />
+    <ClInclude Include="playerWalkAction.h" />
+    <ClInclude Include="requestEvent.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="rock.h" />
+    <ClInclude Include="scheduleTaskEvent.h" />
+    <ClInclude Include="serverServiceProvider.h" />
+    <ClInclude Include="service.h" />
+    <ClInclude Include="services.h" />
+    <ClInclude Include="SFMLSocketServer.h" />
+    <ClInclude Include="socket.h" />
+    <ClInclude Include="socketServer.h" />
+    <ClInclude Include="subscribeToInteractionInterruption.h" />
+    <ClInclude Include="taskScheduler.h" />
+    <ClInclude Include="tickEvent.h" />
+    <ClInclude Include="tile.h" />
+    <ClInclude Include="tree.h" />
+    <ClInclude Include="user.h" />
+    <ClInclude Include="userService.h" />
+    <ClInclude Include="websocketppserver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\common\common\common.vcxproj">
+      <Project>{9072d675-873c-4e9c-9f0e-05ea5a32d5c9}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

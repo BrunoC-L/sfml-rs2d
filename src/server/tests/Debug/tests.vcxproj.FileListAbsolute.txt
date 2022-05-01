@@ -1,0 +1,1 @@
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\tests\Debug\tests.vcxproj.CopyComplete

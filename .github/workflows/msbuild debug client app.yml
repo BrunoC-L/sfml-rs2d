@@ -3,7 +3,7 @@ name: MSBuild debug client.yml
 on: [push]
 
 env:
-  SOLUTION_FILE_PATH: ./src/client/
+  SOLUTION_FILE_PATH: ./src_vs_2019/client/
   BUILD_CONFIGURATION: Debug
   RS2D_HOME: D:\a\sfml-rs2d\sfml-rs2d
 jobs:
@@ -33,4 +33,4 @@ jobs:
       
     - name: Test
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: D:\a\sfml-rs2d\sfml-rs2d\src\client\Debug\tests.exe
+      run: D:\a\sfml-rs2d\sfml-rs2d\src_vs_2019\client\Debug\tests.exe

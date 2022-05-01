@@ -8,6 +8,8 @@
 #include <string>
 #include <codecvt>
 #include <locale>
+#include <atlbase.h>
+#include <atlconv.h>
 
 #ifdef __APPLE__
 #define _ASSERT assert
@@ -47,7 +49,7 @@ void DB::connect(int n) {
 	auto session = getSession();
 	auto dbcstr = session["dbconnectionstring"].asString("", true);
 	// https://riptutorial.com/cplusplus/example/4190/conversion-to-std--wstring
-	auto ws = std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t>().from_bytes(dbcstr);
+	auto ws = std::wstring(CA2W(dbcstr.c_str()));
 	const WCHAR* pwszConnStr = ws.c_str();
 	for (int i = 0; i < n; ++i) {
 		dbThreadPool.push_back({});

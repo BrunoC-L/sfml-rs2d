@@ -1,17 +1,17 @@
-﻿  pch.cpp
-  common.cpp
+﻿  common.cpp
   getenv.cpp
   json.cpp
 C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(51,12): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
-C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(66,12): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
-C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(76,24): warning C4267: 'return': conversion from 'size_t' to 'unsigned int', possible loss of data
-C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(129,26): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(139,28): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(158,26): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(172,26): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(185,28): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(204,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(67,12): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(77,1): warning C4267: 'return': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(126,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(136,28): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(155,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(169,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(182,28): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(201,26): warning C4018: '<': signed/unsigned mismatch
   logger.cpp
+  pch.cpp
   print.cpp
   random.cpp
   session.cpp
@@ -20,4 +20,4 @@ C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\splitString.cpp(
   units.cpp
 C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\units.cpp(29,24): warning C4244: 'return': conversion from 'float' to 'size_t', possible loss of data
   Generating Code...
-  common.vcxproj -> C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\map editor\x64\Debug\common.lib
+  common.vcxproj -> C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\x64\Debug\common.lib

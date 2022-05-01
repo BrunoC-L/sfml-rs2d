@@ -1,0 +1,154 @@
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(514,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Project1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  chunk.cpp
+  db.cpp
+  inMemoryDB.cpp
+  map.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\map.cpp(18,59): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\map.cpp(18,56): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\map.cpp(25,25): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\map.cpp(30,57): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\map.cpp(30,29): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\clamp.h(6,13): warning C4244: '=': conversion from 'U' to 'T', possible loss of data
+          with
+          [
+              U=int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\map.cpp(29): message : see reference to function template instantiation 'bool clamp<float,int,int>(T,U,V)' being compiled
+          with
+          [
+              T=float,
+              U=int,
+              V=int
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\clamp.h(10,13): warning C4244: '=': conversion from 'V' to 'T', possible loss of data
+          with
+          [
+              V=int
+          ]
+          and
+          [
+              T=float
+          ]
+  object.cpp
+  objectFactory.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\movingPredicate.h(10,59): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\movingPredicate.h(10,31): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\movingPredicate.h(11,59): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\movingPredicate.h(11,31): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+  objectService.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\objectService.cpp(32,56): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\objectService.cpp(32,33): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\objectService.cpp(52,62): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\objectService.cpp(52,24): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\objectService.cpp(56,12): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\objectService.cpp(56,38): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\objectService.cpp(58,35): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\objectService.cpp(58,30): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\objectService.cpp(65,12): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\objectService.cpp(65,38): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\objectService.cpp(67,41): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\objectService.cpp(67,36): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+  odbc.cpp
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xstring(2584,23): warning C4244: 'argument': conversion from 'wchar_t' to 'const _Elem', possible loss of data
+          with
+          [
+              _Elem=char
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xstring(2595): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xstring(2595): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xstring(2575): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xstring(2575): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\odbc.cpp(252): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ]
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\odbc.cpp(252): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ]
+  packets.cpp
+  playerActionService.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\movingPredicate.h(10,59): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\movingPredicate.h(10,31): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\movingPredicate.h(11,59): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\movingPredicate.h(11,31): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\playerActionService.cpp(34,63): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\playerActionService.cpp(34,25): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\playerActionService.cpp(35,27): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\playerActionService.cpp(35,36): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\playerActionService.cpp(42,61): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\playerActionService.cpp(42,26): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\playerActionService.cpp(43,42): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\playerActionService.cpp(43,52): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\playerActionService.cpp(65,40): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\playerActionService.cpp(65,30): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\playerActionService.cpp(154,32): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\playerActionService.cpp(154,29): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\playerActionService.cpp(159,75): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\playerActionService.cpp(159,40): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\playerActionService.cpp(174,44): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\playerActionService.cpp(174,56): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\playerActionService.cpp(176,30): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\playerActionService.cpp(176,42): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+  playerWalkAction.cpp
+  resource.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\movingPredicate.h(10,59): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\movingPredicate.h(10,31): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\movingPredicate.h(11,59): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\movingPredicate.h(11,31): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\resource.cpp(46,55): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\resource.cpp(46,52): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+  rock.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\movingPredicate.h(10,59): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\movingPredicate.h(10,31): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\movingPredicate.h(11,59): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\movingPredicate.h(11,31): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\rock.cpp(16,28): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\rock.cpp(16,22): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+  socketServer.cpp
+  taskScheduler.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\taskScheduler.cpp(18,13): warning C4018: '>': signed/unsigned mismatch
+  tile.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\tile.cpp(4,53): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\tile.cpp(4,50): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\tile.cpp(23,36): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\tile.cpp(23,21): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\tile.cpp(43,28): warning C4018: '<': signed/unsigned mismatch
+  tree.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\movingPredicate.h(10,59): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\movingPredicate.h(10,31): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\movingPredicate.h(11,59): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\movingPredicate.h(11,31): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\tree.cpp(13,28): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\tree.cpp(13,22): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+  user.cpp
+  userService.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\server\userService.cpp(74,21): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+  Generating Code...
+  server.vcxproj -> C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\Debug\server.lib

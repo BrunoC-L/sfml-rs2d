@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="build_test_1.cpp">
+      <Filter>tests\build</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="tests">
+      <UniqueIdentifier>{0e3b6616-7d75-47d6-a948-80106804142a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests\build">
+      <UniqueIdentifier>{ef0479d9-f18b-4911-a8a6-c8b27dddbb8c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

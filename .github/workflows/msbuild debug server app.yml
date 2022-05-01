@@ -4,8 +4,8 @@ on: [push]
 
 env:
   SOLUTION_FILE_PATH: ./src/server/
-
   BUILD_CONFIGURATION: Debug
+  RS2D_HOME: D:\a\sfml-rs2d\sfml-rs2d
 jobs:
   build:
     runs-on: windows-latest

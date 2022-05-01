@@ -1,0 +1,20 @@
+﻿  common.cpp
+  getenv.cpp
+  json.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(126,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(136,28): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(155,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(169,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(182,28): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(201,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\json.cpp(275,11): warning C4018: '<': signed/unsigned mismatch
+  logger.cpp
+  pch.cpp
+  print.cpp
+  random.cpp
+  session.cpp
+  splitString.cpp
+  units.cpp
+C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\common\common\units.cpp(29,24): warning C4244: 'return': conversion from 'float' to 'size_t', possible loss of data
+  Generating Code...
+  common.vcxproj -> C:\Users\Bruno\Desktop\prog\src\c++\sfml-rs2d\src\server\Debug\common.lib
