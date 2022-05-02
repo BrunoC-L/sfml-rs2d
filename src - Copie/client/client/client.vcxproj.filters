@@ -1,0 +1,411 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\services">
+      <UniqueIdentifier>{b4871edf-301d-4d83-bddd-953e94743d6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\chunk">
+      <UniqueIdentifier>{e7fe3bee-e377-4d4d-8efa-b2e4a679c891}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\events">
+      <UniqueIdentifier>{1024d189-6c0e-42a2-85ec-e78fe79111dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\item">
+      <UniqueIdentifier>{1bf47c90-f007-4d3b-8a29-0aa79f6640b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\services\map">
+      <UniqueIdentifier>{3c553b28-29e6-48b1-8640-a942de6bb79a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\services\measures">
+      <UniqueIdentifier>{432315eb-9c44-48ff-a0a8-0061becf1b77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\services\player">
+      <UniqueIdentifier>{6910f3aa-4993-4d61-87bf-8436f003ad03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\services\chat">
+      <UniqueIdentifier>{7e01eba8-578c-432e-a32b-ee5dd662fdd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\services\camera">
+      <UniqueIdentifier>{9340c107-0c1e-4f12-9766-0404435dd668}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\other">
+      <UniqueIdentifier>{6ee96341-c772-46a3-9838-9f29652eff7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tile">
+      <UniqueIdentifier>{2769d912-6d74-4ab8-b82d-cbb17fb55b3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{1009aa9b-30bc-4209-8ba0-a473b655b33f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\NPC">
+      <UniqueIdentifier>{5c4b5f25-46e7-4b11-b031-932dad45123d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\events\mouseEvents">
+      <UniqueIdentifier>{b9ad23bd-1596-49e3-8f5a-5d72f0b6edaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\services\base">
+      <UniqueIdentifier>{1b96a7bb-141f-4d02-aced-772828a104fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\services\socket">
+      <UniqueIdentifier>{b608cd00-48d9-47fd-8771-eb99e3db882e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\services\gameData">
+      <UniqueIdentifier>{e730577c-017a-4ddf-a587-b45b51334195}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\bottomBanner">
+      <UniqueIdentifier>{ce4234cc-9955-461d-8538-c54c0366fc71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\rightBanner">
+      <UniqueIdentifier>{e88fd10b-ed7f-456d-8ca9-d0aa2b76bb8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\rightBanner\minimap">
+      <UniqueIdentifier>{fda9d176-d832-4bfc-a159-9e0eae3f3068}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\rightClickInterface">
+      <UniqueIdentifier>{f746ce55-17fe-4024-a64f-580bcd3c6ee5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\renderWindow">
+      <UniqueIdentifier>{b273d6be-1734-4551-8d38-21de1a6d29dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\chat">
+      <UniqueIdentifier>{5bed2bec-b4a3-47f7-8f54-a406ac1bb1d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\other\gameTickProgress">
+      <UniqueIdentifier>{dde80dcd-c02e-4184-a5f2-53bf6fe68426}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\playerPositions">
+      <UniqueIdentifier>{d82b137e-50fe-4c9b-a6ae-0731e280d323}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\services\socket\socketState">
+      <UniqueIdentifier>{1de0d19a-0ba3-4b7a-9fcb-f0242cc7fec5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\services\socket\tcpSocket">
+      <UniqueIdentifier>{e527902b-2ebf-43d7-9036-c516ddd47af4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\GUIElements">
+      <UniqueIdentifier>{888a0899-15be-4f1e-8938-ffde1f4c6223}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\GUIElements\AnchorTransforms">
+      <UniqueIdentifier>{5e8f33c2-d393-4039-aaa8-9374720990e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\GUIElements\Button">
+      <UniqueIdentifier>{9ec5fecc-28bd-462b-b454-3b4b6fd4adff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\GUIElements\Components">
+      <UniqueIdentifier>{c8051aa9-b1d5-4241-b706-6a967b9a2a5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\font">
+      <UniqueIdentifier>{818a81ab-92b2-4731-bcda-3d72d46f4af4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\textures">
+      <UniqueIdentifier>{d068cac6-15c6-4ed2-8140-24df2c8d68d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\rightBanner\innerRightBanners">
+      <UniqueIdentifier>{1fa33b5c-3734-47d9-8866-a773c316cf5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\rightBanner\innerRightBanners\logout">
+      <UniqueIdentifier>{7c56a69a-4cdf-4047-98f3-2a61c4e2ce57}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="app.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chunk.h">
+      <Filter>Source Files\chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="item.h">
+      <Filter>Source Files\item</Filter>
+    </ClInclude>
+    <ClInclude Include="map.h">
+      <Filter>Source Files\services\map</Filter>
+    </ClInclude>
+    <ClInclude Include="minimap.h">
+      <Filter>Source Files\UI\rightBanner\minimap</Filter>
+    </ClInclude>
+    <ClInclude Include="measures.h">
+      <Filter>Source Files\services\measures</Filter>
+    </ClInclude>
+    <ClInclude Include="abstractMeasures.h">
+      <Filter>Source Files\services\measures</Filter>
+    </ClInclude>
+    <ClInclude Include="abstractMap.h">
+      <Filter>Source Files\services\map</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>Source Files\services\player</Filter>
+    </ClInclude>
+    <ClInclude Include="abstractPlayer.h">
+      <Filter>Source Files\services\player</Filter>
+    </ClInclude>
+    <ClInclude Include="abstractServices.h">
+      <Filter>Source Files\services\base</Filter>
+    </ClInclude>
+    <ClInclude Include="abstractChat.h">
+      <Filter>Source Files\services\chat</Filter>
+    </ClInclude>
+    <ClInclude Include="chat.h">
+      <Filter>Source Files\services\chat</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>Source Files\services\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="abstractCamera.h">
+      <Filter>Source Files\services\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="abstractRenderWindow.h">
+      <Filter>Source Files\UI\renderWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="sfRenderWindow.h">
+      <Filter>Source Files\UI\renderWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="VPixelToVTileConverter.h">
+      <Filter>Source Files\other</Filter>
+    </ClInclude>
+    <ClInclude Include="tile.h">
+      <Filter>Source Files\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="Tilemap.h">
+      <Filter>Source Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC.h">
+      <Filter>Source Files\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="service.h">
+      <Filter>Source Files\services\base</Filter>
+    </ClInclude>
+    <ClInclude Include="abstractSocket.h">
+      <Filter>Source Files\services\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="abstractGameDataService.h">
+      <Filter>Source Files\services\gameData</Filter>
+    </ClInclude>
+    <ClInclude Include="gameDataService.h">
+      <Filter>Source Files\services\gameData</Filter>
+    </ClInclude>
+    <ClInclude Include="bottomBanner.h">
+      <Filter>Source Files\UI\bottomBanner</Filter>
+    </ClInclude>
+    <ClInclude Include="rightBanner.h">
+      <Filter>Source Files\UI\rightBanner</Filter>
+    </ClInclude>
+    <ClInclude Include="rightClickInterface.h">
+      <Filter>Source Files\UI\rightClickInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="color.h">
+      <Filter>Source Files\other</Filter>
+    </ClInclude>
+    <ClInclude Include="chatMessage.h">
+      <Filter>Source Files\chat</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mouseWheelEvent.h">
+      <Filter>Source Files\events\mouseEvents</Filter>
+    </ClInclude>
+    <ClInclude Include="mouseRightClickEvent.h">
+      <Filter>Source Files\events\mouseEvents</Filter>
+    </ClInclude>
+    <ClInclude Include="mouseMoveEvent.h">
+      <Filter>Source Files\events\mouseEvents</Filter>
+    </ClInclude>
+    <ClInclude Include="mouseLeftClickEvent.h">
+      <Filter>Source Files\events\mouseEvents</Filter>
+    </ClInclude>
+    <ClInclude Include="mouseMiddleClickEvent.h">
+      <Filter>Source Files\events\mouseEvents</Filter>
+    </ClInclude>
+    <ClInclude Include="interactionClickEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="keyPressedEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="frameEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="resizeEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="rightClickTileEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="teleportEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="walkClickEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTickProgress.h">
+      <Filter>Source Files\other\gameTickProgress</Filter>
+    </ClInclude>
+    <ClInclude Include="login.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerPositions.h">
+      <Filter>Source Files\playerPositions</Filter>
+    </ClInclude>
+    <ClInclude Include="disconnectedState.h">
+      <Filter>Source Files\services\socket\socketState</Filter>
+    </ClInclude>
+    <ClInclude Include="socketState.h">
+      <Filter>Source Files\services\socket\socketState</Filter>
+    </ClInclude>
+    <ClInclude Include="connectedState.h">
+      <Filter>Source Files\services\socket\socketState</Filter>
+    </ClInclude>
+    <ClInclude Include="socketService.h">
+      <Filter>Source Files\services\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="tcpSocket.h">
+      <Filter>Source Files\services\socket\tcpSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="services.h">
+      <Filter>Source Files\services\base</Filter>
+    </ClInclude>
+    <ClInclude Include="clientServiceProvider.h">
+      <Filter>Source Files\services\base</Filter>
+    </ClInclude>
+    <ClInclude Include="closeEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+    <ClInclude Include="objectInteractions.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="anchorTransform.h">
+      <Filter>Source Files\UI\GUIElements\AnchorTransforms</Filter>
+    </ClInclude>
+    <ClInclude Include="anchoredOffsetTransform.h">
+      <Filter>Source Files\UI\GUIElements\AnchorTransforms</Filter>
+    </ClInclude>
+    <ClInclude Include="clickableComponent.h">
+      <Filter>Source Files\UI\GUIElements\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="component.h">
+      <Filter>Source Files\UI\GUIElements\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="hoverableComponent.h">
+      <Filter>Source Files\UI\GUIElements\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="button.h">
+      <Filter>Source Files\UI\GUIElements\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="font.h">
+      <Filter>Source Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="textures.h">
+      <Filter>Source Files\UI\textures</Filter>
+    </ClInclude>
+    <ClInclude Include="innerRightBanner.h">
+      <Filter>Source Files\UI\rightBanner\innerRightBanners</Filter>
+    </ClInclude>
+    <ClInclude Include="logoutInnerBanner.h">
+      <Filter>Source Files\UI\rightBanner\innerRightBanners\logout</Filter>
+    </ClInclude>
+    <ClInclude Include="mapUpdatedChunksEvent.h">
+      <Filter>Source Files\events</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="chunk.cpp">
+      <Filter>Source Files\chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="item.cpp">
+      <Filter>Source Files\item</Filter>
+    </ClCompile>
+    <ClCompile Include="map.cpp">
+      <Filter>Source Files\services\map</Filter>
+    </ClCompile>
+    <ClCompile Include="minimap.cpp">
+      <Filter>Source Files\UI\rightBanner\minimap</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>Source Files\services\player</Filter>
+    </ClCompile>
+    <ClCompile Include="chat.cpp">
+      <Filter>Source Files\services\chat</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>Source Files\services\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="sfRenderWindow.cpp">
+      <Filter>Source Files\UI\renderWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="tile.cpp">
+      <Filter>Source Files\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="gameDataService.cpp">
+      <Filter>Source Files\services\gameData</Filter>
+    </ClCompile>
+    <ClCompile Include="bottomBanner.cpp">
+      <Filter>Source Files\UI\bottomBanner</Filter>
+    </ClCompile>
+    <ClCompile Include="rightBanner.cpp">
+      <Filter>Source Files\UI\rightBanner</Filter>
+    </ClCompile>
+    <ClCompile Include="rightClickInterface.cpp">
+      <Filter>Source Files\UI\rightClickInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTickProgress.cpp">
+      <Filter>Source Files\other\gameTickProgress</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerPositions.cpp">
+      <Filter>Source Files\playerPositions</Filter>
+    </ClCompile>
+    <ClCompile Include="disconnectedState.cpp">
+      <Filter>Source Files\services\socket\socketState</Filter>
+    </ClCompile>
+    <ClCompile Include="connectedState.cpp">
+      <Filter>Source Files\services\socket\socketState</Filter>
+    </ClCompile>
+    <ClCompile Include="measures.cpp">
+      <Filter>Source Files\services\measures</Filter>
+    </ClCompile>
+    <ClCompile Include="socketService.cpp">
+      <Filter>Source Files\services\socket</Filter>
+    </ClCompile>
+    <ClCompile Include="tcpSocket.cpp">
+      <Filter>Source Files\services\socket\tcpSocket</Filter>
+    </ClCompile>
+    <ClCompile Include="anchorTransform.cpp">
+      <Filter>Source Files\UI\GUIElements\AnchorTransforms</Filter>
+    </ClCompile>
+    <ClCompile Include="anchoredOffsetTransform.cpp">
+      <Filter>Source Files\UI\GUIElements\AnchorTransforms</Filter>
+    </ClCompile>
+    <ClCompile Include="clickableComponent.cpp">
+      <Filter>Source Files\UI\GUIElements\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="hoverableComponent.cpp">
+      <Filter>Source Files\UI\GUIElements\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="button.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="font.cpp">
+      <Filter>Source Files\UI\font</Filter>
+    </ClCompile>
+    <ClCompile Include="textures.cpp">
+      <Filter>Source Files\UI\textures</Filter>
+    </ClCompile>
+    <ClCompile Include="logoutInnerBanner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="component.cpp">
+      <Filter>Source Files\UI\GUIElements\Components</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

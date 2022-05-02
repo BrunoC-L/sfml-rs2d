@@ -1,0 +1,2 @@
+<app-homescreen *ngIf="!loggedIn"></app-homescreen>
+<canvas [style.visibility]="loggedIn ? 'visible' : 'hidden'" #gameScene></canvas>

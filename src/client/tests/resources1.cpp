@@ -56,7 +56,7 @@ TEST(clicking_on_resources_received_from_server_sends_correct_interaction_curren
 	object["state"] = "0";
 	std::string bonk = "bonk";
 	object["interactions"] = "[" + bonk + "]";
-	object["fileName"] = "Tree";
+	object["textures"] = "[0,1,2,3]";
 	std::string resourceName = "Tree";
 	object["name"] = resourceName;
 	MapUpdatedChunksEvent::Observer obv;
