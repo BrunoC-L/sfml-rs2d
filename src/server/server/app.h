@@ -45,13 +45,13 @@ public:
             print(ss);
         }
         while (running) {
-//            try {
+            try {
                 if (tickScheduler->shouldTick() && running)
                    EVENT(TickEvent).emit();
-//            }
-//            catch (std::exception& e) {
-//                std::cout << "Tick Thread Error: " << e.what() << std::endl;
-//            }
+            }
+            catch (std::exception& e) {
+                std::cout << "Tick Thread Error: " << e.what() << std::endl;
+            }
         }
         {
             std::ostringstream ss;

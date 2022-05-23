@@ -195,7 +195,6 @@
     <ClCompile Include="random.cpp" />
     <ClCompile Include="session.cpp" />
     <ClCompile Include="splitString.cpp" />
-    <ClCompile Include="units.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

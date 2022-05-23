@@ -22,6 +22,7 @@ public:
 		int tsleep = tickTime - tms;
 		if (tsleep > 0)
 			std::this_thread::sleep_for(std::chrono::milliseconds(tsleep));
+		begin = std::chrono::steady_clock::now();
 		return true;
 	}
 };

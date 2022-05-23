@@ -1,0 +1,5 @@
+Browse.VC.db
+ipch/
+!.gitignore
+.suo
+Solution.VC.db

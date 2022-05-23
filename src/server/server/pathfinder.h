@@ -29,8 +29,8 @@ public:
 private:
 	static std::vector<VTile> _pathfind(VTile a, std::vector<VTile> b, AbstractMap* map) {
 		static Pathfinder instance;
-		std::unordered_map<VTile, VTile, VTileHash> parents;
-		std::unordered_set<VTile, VTileHash> seen;
+		std::unordered_map<VTile, VTile, VBaseHash> parents;
+		std::unordered_set<VTile, VBaseHash> seen;
 		std::vector<VTile> queue = {a};
 		VTile current, best;
 		float bestDistance = 1000;

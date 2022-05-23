@@ -102,6 +102,7 @@ void PlayerActionService::updatePlayerPositions() {
 }
 
 void PlayerActionService::onGameTick() {
+    std::cout << "TICK\n";
     updatePlayerPositions();
     sendPlayerPositions();
     sendGameTick();

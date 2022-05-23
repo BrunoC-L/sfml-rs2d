@@ -10,6 +10,7 @@ GameDataService::GameDataService(ServiceProvider* provider, GameTickProgress* tr
 void GameDataService::init() {
     acquire();
     socket->on("positions", [&](std::shared_ptr<const JSON> json) {
+		std::cout << "positions\n";
         storePositions(*json);
         tracker->onGameTick();
     });

@@ -14,6 +14,7 @@ std::vector<playerIdAndPosition> PlayerPositions::getPlayerPositions(double tick
 	std::vector<playerIdAndPosition> result;
 	for (const auto& p : compiledPositions) {
 		auto pos = weightedAverage(p.oldPosition, p.newPosition, tickFraction);
+		//std::cout << p.oldPosition << ", " << p.newPosition << ", " << tickFraction << ": " << pos << "\n";
 		result.emplace_back(p.playerID, pos);
 		if (p.playerID == playerId)
 			player->setPosition(pos);
@@ -22,6 +23,7 @@ std::vector<playerIdAndPosition> PlayerPositions::getPlayerPositions(double tick
 }
 
 void PlayerPositions::update(std::vector<playerIdAndPosition> newPositions) {
+	//std::cout << "updating\n";
 	std::lock_guard<std::mutex> lock(mutex);
 	data.first  = std::move(data.second);
 	data.second = std::make_unique<std::vector<playerIdAndPosition>>(newPositions);
@@ -44,6 +46,7 @@ void PlayerPositions::update(const JSON& json) {
 }
 
 void PlayerPositions::compile() {
+	//std::cout << "compiling\n";
 	compiledPositions = {};
 	auto& oldpositions = *(data.first.get()), newpositions = *(data.second.get());
 	int l1 = oldpositions.size(), l2 = newpositions.size();
